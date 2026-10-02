@@ -7,7 +7,7 @@
   var statusEl = document.getElementById('order-status');
   var done = document.getElementById('order-done');
   var NAMES = {
-    'website-basic': 'Website Basic (89 € netto, einmalig)', 'website-business': 'Website Business (179 € netto, einmalig)', 'website-premium': 'Website Premium (299 € netto, einmalig)',
+    'website-basic': 'Website Basic (390 € netto, einmalig)', 'website-business': 'Website Business (890 € netto, einmalig)', 'website-pflege': 'Yanqiva Pflege (ab 19 €/Monat netto)', 'website-premium': 'Website Premium (ab 1.690 € netto, einmalig, Festpreis-Angebot vorab)',
     report: 'Website-Report (149 € netto, einmalig)', monitoring: 'Monitoring (29 € netto pro Monat)', business: 'Business (79 € netto pro Monat)',
     agentur: 'Agentur (99 € netto pro Monat)', agentur_plus: 'Agentur Plus (249 € netto pro Monat)',
     'fix-google-fonts': 'Fix: Google Fonts lokal einbinden (149 € netto)', 'fix-erklaerung': 'Fix: Barrierefreiheitserklärung erstellen (99 € netto)',
