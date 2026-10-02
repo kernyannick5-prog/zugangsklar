@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /
+# VORLAUNCH – nach Impressum-Fix durch robots.launch.txt ersetzen

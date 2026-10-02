@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow"><!-- VORLAUNCH: entfernen, sobald echte Impressumsdaten drin sind -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Barrierefreiheits-Widgets und BFSG: Warum Overlays nicht reichen</title>
+<meta name="description" content="Overlay-Widgets versprechen Barrierefreiheit per Skript. Warum das nicht reicht, was die FTC gegen accessiBe entschied und was stattdessen hilft.">
+
+<link rel="canonical" href="https://zugangsklar.de/ratgeber/overlay-widgets-bfsg.html">
+<meta name="theme-color" content="#0B3D91">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="de_DE">
+<meta property="og:site_name" content="Zugangsklar">
+<meta property="og:title" content="Barrierefreiheits-Widgets und BFSG: Warum Overlays nicht reichen">
+<meta property="og:description" content="Overlay-Widgets versprechen Barrierefreiheit per Skript. Warum das nicht reicht, was die FTC gegen accessiBe entschied und was stattdessen hilft.">
+<meta property="og:url" content="https://zugangsklar.de/ratgeber/overlay-widgets-bfsg.html">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../css/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Barrierefreiheits-Widgets und das BFSG: Warum Overlays nicht reichen","description":"Overlay-Widgets versprechen Barrierefreiheit per Skript. Warum das nicht reicht, was die FTC gegen accessiBe entschied und was stattdessen hilft.","datePublished":"2026-10-02","dateModified":"2026-10-02","inLanguage":"de","mainEntityOfPage":"https://zugangsklar.de/ratgeber/overlay-widgets-bfsg.html","author":{"@type":"Organization","name":"Zugangsklar"},"publisher":{"@type":"Organization","name":"Zugangsklar","logo":{"@type":"ImageObject","url":"https://zugangsklar.de/favicon.svg"}}}</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Zum Inhalt springen</a>
+<header class="site-header">
+<div class="wrap header-inner">
+<a class="logo" href="../index.html" aria-label="zugangsklar – Startseite"><svg class="logo-mark" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="5" y="2.5" width="22" height="27" rx="2.5" fill="#fff" stroke="#0B3D91" stroke-width="3"/><path d="M10.5 16.5l4 4 7.5-9" fill="none" stroke="#0A7D32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="logo-word">zugangsklar</span></a>
+<nav aria-label="Hauptnavigation"><ul class="nav-list"><li><a href="../index.html#check">Schnellcheck</a></li><li><a href="../index.html#preise">Preise</a></li><li><a href="../ratgeber/index.html" aria-current="page">Ratgeber</a></li><li><a href="../agenturen.html">Agenturen</a></li><li><a class="btn btn-small" href="../bestellen.html">Report bestellen</a></li></ul></nav>
+</div>
+</header>
+<main id="main" tabindex="-1">
+<article class="article">
+<div class="wrap narrow">
+<p class="eyebrow">Ratgeber</p>
+<h1>Barrierefreiheits-Widgets und das BFSG: Warum Overlays nicht reichen</h1>
+<p class="article-meta">Veröffentlicht am <time datetime="2026-10-02">2. Oktober 2026</time> · Lesezeit ca. 5 Minuten</p>
+
+<p>Die Werbung klingt verlockend: Eine Zeile JavaScript einbauen, ein kleines Icon erscheint am Bildschirmrand, und der Shop sei „automatisch barrierefrei“. Für einen monatlichen Betrag zwischen 30 und 100 € soll das BFSG-Problem erledigt sein. Wir erklären, warum diese Rechnung nicht aufgeht.</p>
+
+<nav class="toc" aria-labelledby="toc-h">
+<h2 id="toc-h">Inhalt</h2>
+<ol>
+<li><a href="#was">Was ein Overlay ist</a></li>
+<li><a href="#warum">Warum es nicht reicht</a></li>
+<li><a href="#ftc">Die FTC-Entscheidung gegen accessiBe</a></li>
+<li><a href="#nutzer">Was Nutzer dazu sagen</a></li>
+<li><a href="#bfsg">Overlays und das BFSG</a></li>
+<li><a href="#stattdessen">Was stattdessen hilft</a></li>
+</ol>
+</nav>
+
+<h2 id="was">Was ein Overlay ist</h2>
+<p>Ein Overlay (auch Widget oder Plugin genannt) ist ein Skript, das beim Laden Ihrer Seite im Browser des Besuchers läuft. Es blendet eine Symbolleiste ein, mit der Besucher Schrift vergrößern, Kontraste ändern oder Animationen stoppen können. Zusätzlich versucht es, den Seiteninhalt im Hintergrund automatisch zu verändern, zum Beispiel fehlende Alternativtexte per Bilderkennung zu ergänzen oder ARIA-Attribute einzufügen.</p>
+<p>Bekannte Anbieter sind accessiBe, UserWay und AudioEye. Der Quelltext Ihres Shops bleibt dabei unverändert. Alle Korrekturen passieren erst im Browser, nachdem die Seite geladen ist.</p>
+
+<h2 id="warum">Warum es nicht reicht</h2>
+<h3>1. Viele Barrieren lassen sich nicht automatisch beheben</h3>
+<p>Ob ein Alternativtext zum Bild passt, ob eine Überschrift sinnvoll gegliedert ist oder ob ein Formular eine logische Reihenfolge hat, kann Software nur raten. Ein automatisch erzeugter Alternativtext wie „Bild von einem Mann in Jacke“ hilft niemandem, der wissen will, ob die Jacke wasserdicht ist.</p>
+<h3>2. Die Zusatzfunktionen existieren schon</h3>
+<p>Schrift vergrößern, Kontrast erhöhen, Animationen deaktivieren: Das können Browser und Betriebssysteme längst. Nutzer assistiver Technik haben dafür ihre eigenen, fein eingestellten Werkzeuge. Eine zusätzliche Ebene stört oft nur.</p>
+<h3>3. Das Overlay kann neue Barrieren schaffen</h3>
+<p>Das Skript greift in die Seite ein und kann dabei Tastaturbedienung, Fokusführung oder die Ansage durch den Screenreader beschädigen. Auch das Widget selbst muss barrierefrei sein. Das ist es nicht immer.</p>
+<h3>4. Es ist Pflicht des Anbieters der Dienstleistung</h3>
+<p>Das BFSG verpflichtet Sie, Ihre Dienstleistung barrierefrei anzubieten. Das Ergebnis zählt, nicht der Einsatz eines Werkzeugs. Ein Abmahner oder eine Behörde prüft Ihren Shop, nicht Ihr Abonnement.</p>
+<h3>5. Datenschutz und Leistung</h3>
+<p>Viele Overlays laden Skripte von Drittservern nach und setzen teils Cookies oder speichern Nutzereinstellungen. Das berührt Ihre Datenschutzpflichten und kostet Ladezeit.</p>
+
+<h2 id="ftc">Die FTC-Entscheidung gegen accessiBe</h2>
+<p>Im Januar 2025 hat die US-Handelsbehörde Federal Trade Commission (FTC) eine Strafe von 1 Mio. $ gegen accessiBe festgesetzt. Der Vorwurf: irreführende Werbung. Der Anbieter hatte behauptet, sein Produkt mache Websites zuverlässig konform mit den WCAG. Außerdem soll er bezahlte Bewertungen als unabhängige Berichte ausgegeben haben. Die FTC hielt fest, dass die Behauptungen nicht belegt waren.</p>
+<p>Das ist eine US-Entscheidung und gilt nicht in Deutschland. Sie zeigt aber, dass das Versprechen „automatisch konform“ nicht zu halten ist.</p>
+
+<h2 id="nutzer">Was Nutzer dazu sagen</h2>
+<p>Mehrere Verbände und Fachleute für Barrierefreiheit lehnen Overlays öffentlich ab, darunter Nutzer von Screenreadern. Die Kritik: Die Werkzeuge lösen Probleme, die niemand hat, und lassen die echten bestehen. Auf der Website overlayfactsheet.com haben viele Fachleute dazu eine ausführliche Stellungnahme unterzeichnet. Wenn Sie wissen möchten, wie Ihre Seite für Betroffene wirkt, hilft kein Widget, sondern ein Test mit echten Nutzern.</p>
+
+<h2 id="bfsg">Overlays und das BFSG</h2>
+<p>Das BFSG kennt keine Regel, nach der ein Overlay die Anforderungen erfüllt. Maßgeblich ist, ob Ihre Dienstleistung die Anforderungen erfüllt, die sich an der Norm EN 301 549 und damit an den WCAG orientieren. Wir sind keine Rechtsberater. Aber nach allem, was wir sehen, schützt ein Overlay weder zuverlässig vor Abmahnungen noch vor Bußgeldern der Marktüberwachung. Außerdem erkennen automatische Testwerkzeuge Overlays und weisen auf sie hin. Wer abmahnt, sieht also, dass Sie auf diese Lösung setzen, und prüft den Quelltext darunter.</p>
+<div class="callout">
+<p><strong>Faustregel:</strong> Wenn ein Anbieter „100 % konform“ oder „in 5 Minuten barrierefrei“ verspricht, ist Skepsis angebracht. Auch seriöse Werkzeuge finden nur etwa 30 bis 50 % der Barrieren, und der Rest erfordert Handarbeit.</p>
+</div>
+
+<h2>Häufige Einwände</h2>
+<h3>„Aber das Widget hat doch einen Barrierefreiheits-Score von 100 %.“</h3>
+<p>Solche Werte stammen meist von automatischen Tests, die nur einen Teil der Kriterien abdecken. Ein Score sagt nichts darüber aus, ob eine blinde Kundin Ihre Bestellung abschließen kann.</p>
+<h3>„Mein Entwickler hat keine Zeit für den Umbau.“</h3>
+<p>Das verstehen wir. Viele Fixes sind aber klein: Alternativtexte pflegen, Labels ergänzen, Farben anpassen. Beginnen Sie mit den kritischen Befunden. Zwei Tage gezielte Arbeit bringen meist mehr als jedes Abo.</p>
+<h3>„Der Anbieter garantiert Rechtssicherheit.“</h3>
+<p>Prüfen Sie das Kleingedruckte. Seriöse Anbieter schließen eine Haftung in den Geschäftsbedingungen aus oder beschränken sie. Rechtssicherheit kann ein Softwareprodukt ohnehin nicht liefern, weil sie von Ihrem konkreten Shop und der Beurteilung im Einzelfall abhängt.</p>
+<h3>„Kann ein Overlay wenigstens als Ergänzung dienen?“</h3>
+<p>Ja, als Komfortfunktion kann es für manche Besucher nützlich sein. Es ersetzt aber nie die Arbeit am Quelltext. Wenn Sie eines einsetzen, dann zusätzlich und nicht als Ersatz.</p>
+
+<h2 id="stattdessen">Was stattdessen hilft</h2>
+<ol>
+<li><strong>Quelltext reparieren.</strong> Alternativtexte pflegen, Labels setzen, Kontraste anpassen. Die meisten Fixes sind kleine Änderungen im Theme. Für Shopify finden Sie Beispiele im Ratgeber <a href="./shopify-barrierefrei.html">Shopify barrierefrei machen</a>.</li>
+<li><strong>Ein Theme wählen, das Barrierefreiheit ernst nimmt.</strong> Das spart später viel Arbeit.</li>
+<li><strong>Regelmäßig prüfen.</strong> Jedes Update und jede neue App kann neue Fehler bringen. Ein Rescan einmal im Monat erkennt sie früh.</li>
+<li><strong>Manuell testen.</strong> Bedienen Sie Ihren Shop mit der Tastatur und einem Screenreader. Das dauert eine Stunde und zeigt mehr als jedes Skript.</li>
+<li><strong>Ehrlich erklären.</strong> Eine <a href="../barrierefreiheitserklaerung-generator.html">Barrierefreiheitserklärung</a> mit bekannten Einschränkungen ist besser als ein Versprechen, das Sie nicht halten.</li>
+</ol>
+
+<h2>Und wenn bereits ein Overlay läuft?</h2>
+<p>Dann müssen Sie es nicht sofort entfernen, sollten sich aber nicht darauf verlassen. Lassen Sie prüfen, wie Ihr Shop ohne das Widget abschneidet. Unser <a href="../index.html#check">kostenloser Schnellcheck</a> erkennt installierte Overlays und zeigt Ihnen die Befunde im Quelltext. Für eine vollständige Liste mit Code-Fixes gibt es den <a href="../bestellen.html?produkt=report">BFSG-Report</a> für 149 € netto.</p>
+<p class="hint">Dieser Ratgeber ist keine Rechtsberatung. Für rechtliche Fragen wenden Sie sich an eine Anwältin oder einen Anwalt.</p>
+</div>
+</article>
+
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p class="footer-brand">zugangsklar</p>
+<p class="footer-note">BFSG-Check für Onlineshops. Konkrete Fehlerliste, konkrete Fixes, Festpreis.</p>
+<p class="footer-note">Zugangsklar bietet technische Prüfungen an und keine Rechtsberatung.</p>
+</div>
+<nav aria-label="Produkt und Wissen">
+<h2 class="footer-h">Produkt</h2>
+<ul>
+<li><a href="../index.html#check">Kostenloser Schnellcheck</a></li>
+<li><a href="../bestellen.html">Report bestellen</a></li>
+<li><a href="../agenturen.html">Für Agenturen</a></li>
+<li><a href="../barrierefreiheitserklaerung-generator.html">Erklärungs-Generator</a></li>
+<li><a href="../ratgeber/index.html">Ratgeber</a></li>
+</ul>
+</nav>
+<nav aria-label="Rechtliches">
+<h2 class="footer-h">Rechtliches</h2>
+<ul>
+<li><a href="../impressum.html">Impressum</a></li>
+<li><a href="../datenschutz.html">Datenschutz</a></li>
+<li><a href="../agb.html">AGB</a></li>
+<li><a href="../barrierefreiheit.html">Barrierefreiheitserklärung</a></li>
+<li><a href="../kontakt.html">Kontakt</a></li>
+</ul>
+</nav>
+</div>
+<div class="wrap"><p class="footer-copy">© 2026 Zugangsklar. Alle Preise zzgl. MwSt.</p></div>
+</footer>
+<script src="../js/config.js"></script>
+</body>
+</html>

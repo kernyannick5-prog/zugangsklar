@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow"><!-- VORLAUNCH: entfernen, sobald echte Impressumsdaten drin sind -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shopify barrierefrei machen: Häufige Fehler und Lösungen</title>
+<meta name="description" content="Die häufigsten Barrierefreiheits-Fehler in Shopify-Shops mit Liquid-Beispielen: Alternativtexte, Theme-Wahl, Formulare, Kontraste, Fokus.">
+
+<link rel="canonical" href="https://zugangsklar.de/ratgeber/shopify-barrierefrei.html">
+<meta name="theme-color" content="#0B3D91">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="de_DE">
+<meta property="og:site_name" content="Zugangsklar">
+<meta property="og:title" content="Shopify barrierefrei machen: Häufige Fehler und Lösungen">
+<meta property="og:description" content="Die häufigsten Barrierefreiheits-Fehler in Shopify-Shops mit Liquid-Beispielen: Alternativtexte, Theme-Wahl, Formulare, Kontraste, Fokus.">
+<meta property="og:url" content="https://zugangsklar.de/ratgeber/shopify-barrierefrei.html">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../css/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Shopify barrierefrei machen: Die häufigsten Fehler und wie Sie sie beheben","description":"Die häufigsten Barrierefreiheits-Fehler in Shopify-Shops mit Liquid-Beispielen: Alternativtexte, Theme-Wahl, Formulare, Kontraste, Fokus.","datePublished":"2026-10-02","dateModified":"2026-10-02","inLanguage":"de","mainEntityOfPage":"https://zugangsklar.de/ratgeber/shopify-barrierefrei.html","author":{"@type":"Organization","name":"Zugangsklar"},"publisher":{"@type":"Organization","name":"Zugangsklar","logo":{"@type":"ImageObject","url":"https://zugangsklar.de/favicon.svg"}}}</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Zum Inhalt springen</a>
+<header class="site-header">
+<div class="wrap header-inner">
+<a class="logo" href="../index.html" aria-label="zugangsklar – Startseite"><svg class="logo-mark" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="5" y="2.5" width="22" height="27" rx="2.5" fill="#fff" stroke="#0B3D91" stroke-width="3"/><path d="M10.5 16.5l4 4 7.5-9" fill="none" stroke="#0A7D32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="logo-word">zugangsklar</span></a>
+<nav aria-label="Hauptnavigation"><ul class="nav-list"><li><a href="../index.html#check">Schnellcheck</a></li><li><a href="../index.html#preise">Preise</a></li><li><a href="../ratgeber/index.html" aria-current="page">Ratgeber</a></li><li><a href="../agenturen.html">Agenturen</a></li><li><a class="btn btn-small" href="../bestellen.html">Report bestellen</a></li></ul></nav>
+</div>
+</header>
+<main id="main" tabindex="-1">
+<article class="article">
+<div class="wrap narrow">
+<p class="eyebrow">Ratgeber</p>
+<h1>Shopify barrierefrei machen: Die häufigsten Fehler und wie Sie sie beheben</h1>
+<p class="article-meta">Veröffentlicht am <time datetime="2026-10-02">2. Oktober 2026</time> · Lesezeit ca. 7 Minuten</p>
+
+<p>Shopify-Themes sind inzwischen deutlich besser als noch vor ein paar Jahren. Trotzdem finden wir in fast jedem Shop dieselben Probleme: fehlende Alternativtexte, Icon-Buttons ohne Namen, zu schwache Kontraste. Die gute Nachricht: Die meisten lassen sich ohne Agentur in wenigen Stunden beheben. Dieser Ratgeber zeigt, wie.</p>
+<p>Die Beispiele setzen Grundkenntnisse in Liquid voraus, der Template-Sprache von Shopify. Sichern Sie vor Änderungen immer Ihr Theme (<em>Onlineshop, Themes, Aktionen, Duplizieren</em>).</p>
+
+<nav class="toc" aria-labelledby="toc-h">
+<h2 id="toc-h">Inhalt</h2>
+<ol>
+<li><a href="#theme">Das richtige Theme wählen</a></li>
+<li><a href="#alt">Fehler 1: Bilder ohne Alternativtext</a></li>
+<li><a href="#buttons">Fehler 2: Icon-Buttons ohne Namen</a></li>
+<li><a href="#kontrast">Fehler 3: Zu schwache Kontraste</a></li>
+<li><a href="#formulare">Fehler 4: Formulare ohne Labels</a></li>
+<li><a href="#fokus">Fehler 5: Fokus unsichtbar</a></li>
+<li><a href="#apps">Fehler 6: Apps und Pop-ups</a></li>
+<li><a href="#pruefen">Ergebnis prüfen</a></li>
+</ol>
+</nav>
+
+<h2 id="theme">Das richtige Theme wählen</h2>
+<p>Die Wahl des Themes bestimmt, wie viel Arbeit Sie später haben. Shopifys kostenlose Themes wie <em>Dawn</em> und die darauf aufbauenden Themes sind laut Shopify auf Barrierefreiheit ausgelegt: Sie haben Sprunglinks, sichtbare Fokusrahmen und eine saubere Struktur. Bei Premium-Themes von Drittanbietern schwankt die Qualität stark. Prüfen Sie vor dem Kauf die Demo-Seite mit der Tastatur: Kommen Sie per Tab durch Menü, Filter und Warenkorb? Ist der Fokus sichtbar? Dann erst entscheiden.</p>
+<p>Je mehr Sie an einem Theme umbauen, desto eher bauen Sie Fehler ein. Halten Sie Anpassungen klein und prüfen Sie nach jeder Änderung.</p>
+
+<h2 id="alt">Fehler 1: Bilder ohne Alternativtext</h2>
+<p>Das ist in Shops der häufigste Befund. Produktbilder, Kollektionsbilder und Banner haben kein <code>alt</code>-Attribut oder einen Dateinamen als Text. Screenreader lesen dann „DSC_0412 Punkt J-P-G“ vor.</p>
+<h3>Im Admin beheben</h3>
+<p>Öffnen Sie ein Produkt, klicken Sie auf das Bild und wählen Sie <em>Alt-Text bearbeiten</em>. Beschreiben Sie, was zu sehen ist und was für den Kauf wichtig ist: „Wanderschuh Alpin, Leder, braun, Seitenansicht“. Nicht „Bild 1“ und kein Keyword-Stuffing. Bei Kollektionen und Blogbeiträgen gibt es dieselbe Funktion.</p>
+<h3>Im Theme beheben</h3>
+<p>Prüfen Sie, ob Ihr Theme den Alternativtext auch ausgibt. Gute Ausgabe in Liquid:</p>
+<pre tabindex="0" aria-label="Liquid-Codebeispiel"><code>{{ image | image_url: width: 800 | image_tag: alt: image.alt }}</code></pre>
+<p>Ist ein Bild rein dekorativ, etwa ein Trennmuster, geben Sie ein leeres Attribut aus:</p>
+<pre tabindex="0" aria-label="Liquid-Codebeispiel"><code>{{ section.settings.pattern | image_url: width: 400 | image_tag: alt: '' }}</code></pre>
+<p>Bei Produktbildern, die kein eigenes Alt haben, ist ein Fallback auf den Produkttitel besser als nichts:</p>
+<pre tabindex="0" aria-label="Liquid-Codebeispiel"><code>{%- assign alt_text = image.alt | default: product.title -%}
+{{ image | image_url: width: 800 | image_tag: alt: alt_text }}</code></pre>
+
+<h2 id="buttons">Fehler 2: Icon-Buttons ohne Namen</h2>
+<p>Warenkorb, Suche, Menü, Konto: Oft stecken hier nur SVG-Icons in einem Link oder Button. Ohne Text oder Namen liest ein Screenreader nur „Schaltfläche“ vor.</p>
+<pre tabindex="0" aria-label="HTML-Codebeispiel"><code>&lt;!-- vorher --&gt;
+&lt;a href="../{{ routes.cart_url }}"&gt;{% render 'icon-cart' %}&lt;/a&gt;
+
+&lt;!-- nachher --&gt;
+&lt;a href="../{{ routes.cart_url }}"&gt;
+  {% render 'icon-cart' %}
+  &lt;span class="visually-hidden"&gt;Warenkorb, {{ cart.item_count }} Artikel&lt;/span&gt;
+&lt;/a&gt;</code></pre>
+<p>Die Klasse <code>visually-hidden</code> verbirgt den Text optisch, lässt ihn aber für Screenreader lesbar. Die meisten Themes bringen sie mit. Das Icon selbst bekommt <code>aria-hidden="true"</code>.</p>
+
+<h2 id="kontrast">Fehler 3: Zu schwache Kontraste</h2>
+<p>Normaler Text braucht mindestens 4,5:1. Häufige Kandidaten: graue Streichpreise, helle Platzhaltertexte, Text auf Hero-Bildern, Buttons in Pastellfarben. Passen Sie die Farben im Theme-Editor unter <em>Theme-Einstellungen, Farben</em> an. Für Text auf Bildern hilft ein halbtransparentes Overlay. Der Wert in den Einstellungen reicht dann oft nicht aus, wenn das Bild wechselt. Kontrolle: Entwicklerwerkzeuge des Browsers, Farbwähler anklicken, Kontrastwert ablesen.</p>
+
+<h2 id="formulare">Fehler 4: Formulare ohne Labels</h2>
+<p>Newsletter-Felder und Suchfelder haben oft nur einen Platzhalter. Ergänzen Sie ein Label, notfalls unsichtbar:</p>
+<pre tabindex="0" aria-label="HTML-Codebeispiel"><code>&lt;label for="NewsletterForm-{{ section.id }}" class="visually-hidden"&gt;
+  E-Mail-Adresse
+&lt;/label&gt;
+&lt;input id="NewsletterForm-{{ section.id }}" type="email"
+       name="contact[email]" autocomplete="email" required&gt;</code></pre>
+<p>Ein sichtbares Label ist besser. Für Fehlermeldungen im Checkout sorgt Shopify selbst. Prüfen Sie aber Ihre eigenen Formulare, etwa Kontakt oder Rückruf, auf <code>aria-invalid</code> und eine Fehlermeldung, die dem Feld zugeordnet ist.</p>
+
+<h2 id="fokus">Fehler 5: Fokus unsichtbar</h2>
+<p>Suchen Sie im Theme (<em>Code bearbeiten, Dateien base.css oder theme.css</em>) nach <code>outline: none</code> oder <code>outline: 0</code>. Wo kein Ersatz folgt, ergänzen Sie:</p>
+<pre tabindex="0" aria-label="CSS-Codebeispiel"><code>:focus-visible {
+  outline: 3px solid #0B3D91;
+  outline-offset: 3px;
+}</code></pre>
+<p>Wählen Sie eine Farbe, die auf Ihrem Hintergrund mindestens 3:1 Kontrast hat. Prüfen Sie, dass der Rahmen nicht von einem mitlaufenden Header verdeckt wird.</p>
+
+<h2 id="apps">Fehler 6: Apps und Pop-ups</h2>
+<p>Jede App, die Inhalte ausgibt, bringt eigenen Code mit: Bewertungen, Pop-ups, Produktfinder, Cookie-Banner, Chat-Widgets. Hier liegen oft die schwersten Fehler, und Sie können sie nicht direkt ändern. Gehen Sie so vor:</p>
+<ul>
+<li>Testen Sie jedes Pop-up mit der Tastatur: Lässt es sich mit Esc schließen? Wandert der Fokus hinein und danach zurück?</li>
+<li>Entfernen Sie Apps, die Sie nicht brauchen.</li>
+<li>Fragen Sie beim Hersteller nach einer Erklärung zur Barrierefreiheit. Bei fehlender Antwort suchen Sie eine Alternative.</li>
+<li>Ein Barrierefreiheits-Overlay ist keine Lösung, wie unser Ratgeber <a href="./overlay-widgets-bfsg.html">zu Overlays</a> zeigt.</li>
+</ul>
+
+<h2>Bonus: Überschriften und Seitenstruktur</h2>
+<p>Viele Themes nutzen Überschriften als Designmittel. Auf der Startseite steht dann eine <code>h1</code> im Logo, danach folgen mehrere <code>h4</code> nur wegen der Schriftgröße. Screenreader-Nutzer navigieren aber über die Überschriften wie über ein Inhaltsverzeichnis. Halten Sie die Ebenen in der richtigen Reihenfolge ein und steuern Sie die Optik mit CSS-Klassen. Außerdem sollte der Hauptinhalt in einem <code>&lt;main&gt;</code>-Element liegen. Prüfen Sie in <code>layout/theme.liquid</code>, ob <code>{{ content_for_layout }}</code> darin eingebettet ist. Bei Dawn ist das der Fall, bei älteren Themes oft nicht.</p>
+<p>Ein Praxistipp: Öffnen Sie Ihre Startseite und drücken Sie in einem Screenreader die Taste für „nächste Überschrift“. Wenn Sie dabei Überschriften hören, die keinen Sinn ergeben, wissen Sie, wo Sie ansetzen müssen.</p>
+
+<h2 id="pruefen">Ergebnis prüfen</h2>
+<ol>
+<li>Prüfen Sie Ihre Startseite mit dem <a href="../index.html#check">kostenlosen Schnellcheck</a>.</li>
+<li>Bedienen Sie den Shop von der Startseite bis zur Bestellung nur mit der Tastatur.</li>
+<li>Gehen Sie unsere <a href="./bfsg-onlineshop-checkliste.html">Checkliste mit 15 Punkten</a> durch.</li>
+<li>Veröffentlichen Sie Ihre <a href="../barrierefreiheitserklaerung-generator.html">Barrierefreiheitserklärung</a>. In Shopify legen Sie dafür eine Seite unter <em>Onlineshop, Seiten</em> an und verlinken sie im Footer-Menü.</li>
+<li>Wiederholen Sie die Prüfung nach jedem Theme-Update und jeder neuen App.</li>
+</ol>
+<p>Wenn Sie nicht selbst suchen möchten, welche Stelle im Theme betroffen ist: Der <a href="../bestellen.html?produkt=report">BFSG-Report</a> (149 € netto) nennt je Befund die Stelle und einen Code-Fix für Shopify. Wenn Sie auch die Umsetzung abgeben möchten, <a href="../kontakt.html">fragen Sie uns an</a>.</p>
+<p class="hint">Automatische Tests finden etwa 30 bis 50 % der Barrieren. Dieser Ratgeber ist keine Rechtsberatung. Die Codebeispiele sind Vorlagen und müssen an Ihr Theme angepasst werden.</p>
+</div>
+</article>
+
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p class="footer-brand">zugangsklar</p>
+<p class="footer-note">BFSG-Check für Onlineshops. Konkrete Fehlerliste, konkrete Fixes, Festpreis.</p>
+<p class="footer-note">Zugangsklar bietet technische Prüfungen an und keine Rechtsberatung.</p>
+</div>
+<nav aria-label="Produkt und Wissen">
+<h2 class="footer-h">Produkt</h2>
+<ul>
+<li><a href="../index.html#check">Kostenloser Schnellcheck</a></li>
+<li><a href="../bestellen.html">Report bestellen</a></li>
+<li><a href="../agenturen.html">Für Agenturen</a></li>
+<li><a href="../barrierefreiheitserklaerung-generator.html">Erklärungs-Generator</a></li>
+<li><a href="../ratgeber/index.html">Ratgeber</a></li>
+</ul>
+</nav>
+<nav aria-label="Rechtliches">
+<h2 class="footer-h">Rechtliches</h2>
+<ul>
+<li><a href="../impressum.html">Impressum</a></li>
+<li><a href="../datenschutz.html">Datenschutz</a></li>
+<li><a href="../agb.html">AGB</a></li>
+<li><a href="../barrierefreiheit.html">Barrierefreiheitserklärung</a></li>
+<li><a href="../kontakt.html">Kontakt</a></li>
+</ul>
+</nav>
+</div>
+<div class="wrap"><p class="footer-copy">© 2026 Zugangsklar. Alle Preise zzgl. MwSt.</p></div>
+</footer>
+<script src="../js/config.js"></script>
+</body>
+</html>

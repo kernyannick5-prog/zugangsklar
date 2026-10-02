@@ -1,0 +1,105 @@
+{
+  "url": "https://www.beispiel-shop.de",
+  "finalUrl": "https://www.beispiel-shop.de/",
+  "checkedAt": "2026-10-02T09:41:12.000Z",
+  "system": "shopify",
+  "score": 58,
+  "summary": { "kritisch": 3, "hoch": 2, "mittel": 2, "bestanden": 11 },
+  "issues": [
+    {
+      "id": "image-alt",
+      "severity": "kritisch",
+      "title": "Bilder ohne Alternativtext",
+      "description": "Informative Bilder haben kein alt-Attribut. Screenreader lesen stattdessen den Dateinamen vor oder überspringen das Bild.",
+      "count": 23,
+      "examples": [
+        "<img src=\"//www.beispiel-shop.de/cdn/shop/files/DSC_0412_800x.jpg?v=1712\" class=\"product-card__image\">",
+        "<img src=\"//www.beispiel-shop.de/cdn/shop/files/banner-herbst.jpg?v=1698\" width=\"1600\" height=\"600\">"
+      ],
+      "wcag": "1.1.1"
+    },
+    {
+      "id": "label",
+      "severity": "kritisch",
+      "title": "Formularfelder ohne Beschriftung",
+      "description": "Das Suchfeld und das Newsletter-Feld haben kein zugehöriges Label. Nutzer von Sprachsteuerung und Screenreadern können sie nicht gezielt ansprechen.",
+      "count": 2,
+      "examples": [
+        "<input type=\"search\" name=\"q\" placeholder=\"Suchen\" class=\"search__input\">",
+        "<input type=\"email\" name=\"contact[email]\" placeholder=\"E-Mail-Adresse\">"
+      ],
+      "wcag": "1.3.1"
+    },
+    {
+      "id": "button-name",
+      "severity": "kritisch",
+      "title": "Buttons ohne Namen",
+      "description": "Der Warenkorb-Button und der Menü-Button enthalten nur ein Icon. Ihr Zweck wird nicht vorgelesen.",
+      "count": 2,
+      "examples": [
+        "<button class=\"header__icon cart-toggle\"><svg class=\"icon icon-cart\">…</svg></button>"
+      ],
+      "wcag": "4.1.2"
+    },
+    {
+      "id": "color-contrast",
+      "severity": "hoch",
+      "title": "Zu geringer Farbkontrast",
+      "description": "Hellgrauer Text auf weißem Hintergrund erreicht 2,6:1. Gefordert sind mindestens 4,5:1 für normalen Text.",
+      "count": 14,
+      "examples": [
+        "<span class=\"price__sale\" style=\"color:#aaa\">statt 49,90 €</span>",
+        "<p class=\"footer__small\">Preise inkl. MwSt. zzgl. Versand</p>"
+      ],
+      "wcag": "1.4.3"
+    },
+    {
+      "id": "link-name",
+      "severity": "hoch",
+      "title": "Links ohne erkennbaren Text",
+      "description": "Mehrere Links enthalten nur ein Bild ohne Alternativtext, zum Beispiel die Social-Media-Icons im Footer.",
+      "count": 5,
+      "examples": [
+        "<a href=\"https://instagram.com/beispielshop\"><svg class=\"icon\">…</svg></a>"
+      ],
+      "wcag": "2.4.4"
+    },
+    {
+      "id": "heading-order",
+      "severity": "mittel",
+      "title": "Überschriftenebenen übersprungen",
+      "description": "Auf der Startseite folgt auf eine h1 direkt eine h4. Die Gliederung ist für Screenreader-Nutzer nicht nachvollziehbar.",
+      "count": 6,
+      "examples": [
+        "<h4 class=\"collection-list__title\">Beliebte Kategorien</h4>"
+      ],
+      "wcag": "1.3.1"
+    },
+    {
+      "id": "landmark-one-main",
+      "severity": "mittel",
+      "title": "Kein main-Bereich vorhanden",
+      "description": "Die Seite hat kein main-Element. Screenreader-Nutzer können nicht direkt zum Hauptinhalt springen.",
+      "count": 1,
+      "examples": [
+        "<div id=\"MainContent\" class=\"content-for-layout\">…</div>"
+      ],
+      "wcag": "1.3.1"
+    }
+  ],
+  "passed": [
+    { "id": "html-has-lang", "title": "Seitensprache ist angegeben (lang-Attribut)" },
+    { "id": "document-title", "title": "Seite hat einen Titel" },
+    { "id": "meta-viewport", "title": "Zoomen ist nicht gesperrt" },
+    { "id": "valid-lang", "title": "Sprachangabe ist gültig" },
+    { "id": "duplicate-id", "title": "Keine doppelten IDs" },
+    { "id": "aria-valid-attr", "title": "ARIA-Attribute sind gültig" },
+    { "id": "aria-roles", "title": "ARIA-Rollen sind gültig" },
+    { "id": "list", "title": "Listen sind korrekt aufgebaut" },
+    { "id": "frame-title", "title": "Eingebettete Frames haben einen Titel" },
+    { "id": "bypass", "title": "Sprunglink zum Inhalt vorhanden" },
+    { "id": "tabindex", "title": "Kein tabindex größer als 0" }
+  ],
+  "overlayDetected": "accessiBe",
+  "note": "Der Schnellcheck prüft nur die Startseite mit automatischen Regeln. Automatische Tests finden etwa 30 bis 50 % der Barrieren. Tastaturbedienung, Verständlichkeit und Checkout prüft der vollständige Report mit einer manuellen Checkliste. Das Ergebnis ist keine Rechtsberatung."
+}
