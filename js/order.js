@@ -1,7 +1,7 @@
 /* Bestellformular: Lead senden, dann Zahlungslink (falls konfiguriert) oder Rechnungs-Fallback. */
 (function () {
   'use strict';
-  var ZK = window.ZK;
+  var YQ = window.YQ;
   var form = document.getElementById('order-form');
   if (!form) return;
   var statusEl = document.getElementById('order-status');
@@ -46,8 +46,8 @@
     var message = 'Produkt: ' + (NAMES[product] || product) + ' [' + product + ']' + '\nFirma: ' + f.firma.value.trim() + '\nHinweise: ' + (f.hinweise.value.trim() || '-');
     btn.disabled = true;
     statusEl.textContent = 'Bestellung wird gesendet …';
-    ZK.postJson('/api/lead', { email: email, url: url, consent: true, source: 'bestellung', message: message }).then(function () {
-      var link = ZK.PAYMENT_LINKS[product];
+    YQ.postJson('/api/lead', { email: email, url: url, consent: true, source: 'bestellung', message: message }).then(function () {
+      var link = YQ.PAYMENT_LINKS[product];
       if (link) {
         statusEl.textContent = 'Danke. Sie werden jetzt zur Zahlung weitergeleitet …';
         window.location.href = link + (link.indexOf('?') === -1 ? '?' : '&') + 'prefilled_email=' + encodeURIComponent(email);

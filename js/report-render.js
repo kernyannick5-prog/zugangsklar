@@ -2,7 +2,7 @@
    Genutzt von check.js (mit Lead-Gate) und dashboard.js (ohne Gate). Alle API-Texte nur per textContent (el()). */
 (function () {
   'use strict';
-  var ZK = window.ZK, el = ZK.el;
+  var YQ = window.YQ, el = YQ.el;
 
   var DISCLAIMER = 'Automatische Prüfung. Liefert Hinweise, keine Rechtsberatung und keine Garantie für Rechtskonformität.';
   // Emoji nur dekorativ (aria-hidden), die Bedeutung steht immer im Text.
@@ -135,7 +135,7 @@
     var f = el('form', { class: 'lead-form', id: 'lead-form-' + suffix },
       el('div', { class: 'field' }, el('label', { for: emailId }, 'E-Mail-Adresse'), el('input', { type: 'email', id: emailId, name: 'email', autocomplete: 'email', required: true, placeholder: 'name@firma.de' })),
       el('div', { class: 'field' }, el('label', { class: 'check-line', for: consentId }, el('input', { type: 'checkbox', id: consentId, name: 'consent', required: true }),
-        el('span', null, 'Ich willige ein, dass Zugangsklar mir das Ergebnis und einen Vorschlag zur Behebung per E-Mail sendet und meine Daten dafür speichert. Details in der ', el('a', { href: 'datenschutz.html' }, 'Datenschutzerklärung'), '. Widerruf jederzeit möglich.'))),
+        el('span', null, 'Ich willige ein, dass Yanqiva mir das Ergebnis und einen Vorschlag zur Behebung per E-Mail sendet und meine Daten dafür speichert. Details in der ', el('a', { href: 'datenschutz.html' }, 'Datenschutzerklärung'), '. Widerruf jederzeit möglich.'))),
       el('button', { type: 'submit', class: 'btn' }, 'Befunde freischalten'),
       el('p', { id: msgId, class: 'status-msg', role: 'status', 'aria-live': 'polite' }));
     f.addEventListener('submit', function (ev) {
@@ -317,9 +317,9 @@
       el('ul', { class: 'cta-list' },
         el('li', null, el('a', { class: 'btn', href: 'bestellen.html?produkt=report' + q }, 'Vollständigen Website-Report bestellen (149 €)')),
         el('li', null, el('a', { class: 'btn btn-secondary', href: 'bestellen.html?produkt=monitoring' + q }, 'Automatische Überwachung aktivieren (ab 29 €/Monat)')),
-        el('li', null, el('a', { class: 'btn btn-secondary', href: 'fix.html' }, 'Probleme beheben lassen (Zugangsklar Fix)'))),
+        el('li', null, el('a', { class: 'btn btn-secondary', href: 'fix.html' }, 'Probleme beheben lassen (Yanqiva Fix)'))),
       el('p', { class: 'hint' }, 'Alle Preise netto zzgl. MwSt.'));
   }
 
-  ZK.report = { render: render, normalize: normalize, scoreRing: scoreRing, catScores: catScores, sevBadge: sevBadge, scoreClass: scoreClass, scoreWord: scoreWord, clampScore: clampScore, SEV: SEV, CAT_TITLES: CAT_TITLES, CAT_ORDER: CAT_ORDER, DISCLAIMER: DISCLAIMER };
+  YQ.report = { render: render, normalize: normalize, scoreRing: scoreRing, catScores: catScores, sevBadge: sevBadge, scoreClass: scoreClass, scoreWord: scoreWord, clampScore: clampScore, SEV: SEV, CAT_TITLES: CAT_TITLES, CAT_ORDER: CAT_ORDER, DISCLAIMER: DISCLAIMER };
 })();

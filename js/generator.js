@@ -1,7 +1,7 @@
 /* Generator für die Barrierefreiheitserklärung. Läuft vollständig im Browser, nichts wird gesendet. */
 (function () {
   'use strict';
-  var ZK = window.ZK, el = ZK.el;
+  var YQ = window.YQ, el = YQ.el;
   var form = document.getElementById('gen-form');
   if (!form) return;
   var out = document.getElementById('gen-output');

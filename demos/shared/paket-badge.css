@@ -1,8 +1,8 @@
-/* Gemeinsame Kennzeichnung für alle Beispiel-Websites (Zugangsklar).
+/* Gemeinsame Kennzeichnung für alle Beispiel-Websites (Yanqiva).
    Schmale Leiste ganz oben im Dokument (nicht fixiert: verdeckt keine Inhalte, Cookie-Banner oder Chat-Widgets).
    Markup (direkt nach dem Skip-Link):
    <aside class="paket-badge" data-tier="business" aria-label="Hinweis zur Beispiel-Website">
-     <p class="paket-badge__text"><span class="paket-badge__dot" aria-hidden="true"></span>Beispiel-Website · Paket <strong>Business</strong> · erstellt von Zugangsklar</p>
+     <p class="paket-badge__text"><span class="paket-badge__dot" aria-hidden="true"></span>Beispiel-Website · Paket <strong>Business</strong> · erstellt von Yanqiva</p>
      <a class="paket-badge__cta" href="../../websites.html#showcase" target="_top">Pakete ansehen →</a>
    </aside>
    data-tier: basic | business | premium */
@@ -17,7 +17,7 @@
   justify-content: center;
   gap: 0.15rem 1rem;
   padding: 0.4rem 1rem;
-  background: #11141a;
+  background: #2F2A85;
   color: #fff;
   font: 500 0.8125rem/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
   text-align: center;

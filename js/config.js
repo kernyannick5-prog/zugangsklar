@@ -1,9 +1,9 @@
-/* Zugangsklar – zentrale Konfiguration und kleine Helfer. Keine Abhängigkeiten. */
+/* Yanqiva – zentrale Konfiguration und kleine Helfer. Keine Abhängigkeiten. */
 (function () {
   'use strict';
 
   // Basis-URL der API (Cloudflare Worker). PLATZHALTER: nach dem Deployment durch die echte Worker-URL ersetzen.
-  var API_BASE = 'https://zugangsklar-api.workers.dev';
+  var API_BASE = 'https://yanqiva-api.workers.dev';
 
   // Zahlungslinks (z. B. Stripe Payment Links). Leer = Rechnungs-Fallback ("Wir melden uns innerhalb von 24 Stunden").
   var PAYMENT_LINKS = {
@@ -88,5 +88,5 @@
     }).then(function (d) { if (timer) clearTimeout(timer); return d; }, function (e) { if (timer) clearTimeout(timer); throw e; });
   }
 
-  window.ZK = { API_BASE: API_BASE, PAYMENT_LINKS: PAYMENT_LINKS, ANALYTICS: ANALYTICS, MOCK: MOCK, MOCK_URL: MOCK_URL, mockUrl: mockUrl, el: el, postJson: postJson, getJson: getJson };
+  window.YQ = { API_BASE: API_BASE, PAYMENT_LINKS: PAYMENT_LINKS, ANALYTICS: ANALYTICS, MOCK: MOCK, MOCK_URL: MOCK_URL, mockUrl: mockUrl, el: el, postJson: postJson, getJson: getJson };
 })();

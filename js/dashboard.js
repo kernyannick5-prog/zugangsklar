@@ -1,7 +1,7 @@
 /* Monitoring-Dashboard: ?t=<token> -> GET /api/portfolio, Detail per #site=<id>. Mock: ?mock=1. Alle API-Texte nur per textContent. */
 (function () {
   'use strict';
-  var ZK = window.ZK, el = ZK.el, R = ZK.report;
+  var YQ = window.YQ, el = YQ.el, R = YQ.report;
   var root = document.getElementById('dash-root');
   if (!root) return;
   var h1 = document.getElementById('dash-h1');
@@ -31,11 +31,13 @@
     return [parseInt(x.substr(0, 2), 16), parseInt(x.substr(2, 2), 16), parseInt(x.substr(4, 2), 16)];
   }
   function contrastWhite(rgb) { var L = 0.2126 * lin(rgb[0]) + 0.7152 * lin(rgb[1]) + 0.0722 * lin(rgb[2]); return 1.05 / (L + 0.05); }
+  function contrastRgb(a, b) { function L(c) { return 0.2126 * lin(c[0]) + 0.7152 * lin(c[1]) + 0.0722 * lin(c[2]); } var x = L(a), y = L(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
+  function mixWhite(rgb, t) { return rgb.map(function (n) { return n * t + 255 * (1 - t); }); }
   function hex(rgb) { return '#' + rgb.map(function (n) { return ('0' + Math.round(n).toString(16)).slice(-2); }).join(''); }
   function applyBrand(brand) {
     if (!brand || !brand.name) return;
     var old = document.getElementById('dash-brand');
-    var node = el('span', { class: 'logo', id: 'dash-brand' });
+    var node = el('span', { class: 'logo logo-custom', id: 'dash-brand' });
     var logo = str(brand.logoUrl);
     if (/^https:\/\//i.test(logo)) {
       var img = el('img', { src: logo, alt: '', class: 'brand-logo', height: '32', referrerpolicy: 'no-referrer', loading: 'lazy' });
@@ -46,10 +48,13 @@
     old.parentNode.replaceChild(node, old);
     var p = document.getElementById('powered-by'); if (p) p.hidden = true;
     var rgb = parseHex(brand.color);
-    if (rgb && contrastWhite(rgb) >= 4.5) {
+    var soft = rgb ? mixWhite(rgb, 0.08) : null;
+    /* Markenfarbe nur uebernehmen, wenn Text in Markenfarbe auf Weiss UND auf der getoenten Flaeche >= 4,5:1 hat */
+    if (rgb && contrastWhite(rgb) >= 4.5 && contrastRgb(rgb, soft) >= 4.5) {
       var s = document.documentElement.style;
       s.setProperty('--primary', hex(rgb));
-      s.setProperty('--primary-dark', hex(rgb.map(function (n) { return n * 0.8; })));
+      s.setProperty('--primary-hover', hex(rgb.map(function (n) { return n * 0.8; })));
+      s.setProperty('--primary-soft', hex(soft));
     }
     document.title = 'Dashboard | ' + str(brand.name);
   }
@@ -57,12 +62,12 @@
   /* ---------- Daten ---------- */
   function fetchJson(url) { return fetch(url).then(function (r) { if (!r.ok) throw new Error('Mock nicht gefunden'); return r.json(); }); }
   function loadPortfolio() {
-    if (ZK.MOCK) return fetchJson(ZK.mockUrl('portfolio-example.json'));
-    return ZK.getJson('/api/portfolio?t=' + encodeURIComponent(token));
+    if (YQ.MOCK) return fetchJson(YQ.mockUrl('portfolio-example.json'));
+    return YQ.getJson('/api/portfolio?t=' + encodeURIComponent(token));
   }
   function loadSite(id) {
-    if (ZK.MOCK) {
-      return fetchJson(ZK.mockUrl('site-example.json')).then(function (ex) {
+    if (YQ.MOCK) {
+      return fetchJson(YQ.mockUrl('site-example.json')).then(function (ex) {
         var s = (portfolio.sites || []).filter(function (x) { return x.id === id; })[0];
         if (!s) { var e = new Error('nf'); e.kind = 'auth'; throw e; }
         var out = {}; Object.keys(ex).forEach(function (k) { out[k] = ex[k]; });
@@ -71,7 +76,7 @@
         return out;
       });
     }
-    return ZK.getJson('/api/portfolio/site?t=' + encodeURIComponent(token) + '&id=' + encodeURIComponent(id));
+    return YQ.getJson('/api/portfolio/site?t=' + encodeURIComponent(token) + '&id=' + encodeURIComponent(id));
   }
 
   function cats(site) {
@@ -133,7 +138,7 @@
     root.textContent = '';
     h1.textContent = str(portfolio.label) || 'Monitoring-Dashboard';
     var plan = PLAN[portfolio.plan] || str(portfolio.plan);
-    if (ZK.MOCK) root.appendChild(el('p', { class: 'notice info' }, 'Demo-Daten (mock=1): Beispielportfolio einer Agentur, keine echten Websites.'));
+    if (YQ.MOCK) root.appendChild(el('p', { class: 'notice info' }, 'Demo-Daten (mock=1): Beispielportfolio einer Agentur, keine echten Websites.'));
     var avg = sites.length ? Math.round(sites.reduce(function (s, x) { return s + R.clampScore(x.score); }, 0) / sites.length) : null;
     var critTotal = sites.reduce(function (s, x) { return s + (crit(x) || 0); }, 0);
     root.appendChild(el('p', { class: 'muted dash-sub' }, (plan ? 'Plan: ' + plan + ' · ' : '') + sites.length + (sites.length === 1 ? ' Website' : ' Websites') + (avg != null ? ' · Durchschnitts-Score ' + avg + '/100 · ' + critTotal + ' kritische Befunde' : '')));
@@ -217,7 +222,7 @@
       root.appendChild(back);
       var title = str(site.label || site.url);
       h1.textContent = title;
-      if (ZK.MOCK) root.appendChild(el('p', { class: 'notice info' }, 'Demo-Daten (mock=1): Die Befundliste ist ein Beispiel und nur für die erste Website hinterlegt.'));
+      if (YQ.MOCK) root.appendChild(el('p', { class: 'notice info' }, 'Demo-Daten (mock=1): Die Befundliste ist ein Beispiel und nur für die erste Website hinterlegt.'));
       root.appendChild(el('p', { class: 'muted' }, el('span', { class: 'url-text' }, str(site.url)), ' · Letzter Scan: ' + fmtDate(site.lastRunAt, true) + ' · Nächster Scan: ' + fmtDate(site.nextRunAt, true)));
       if (site.lastError) root.appendChild(el('div', { class: 'notice error' }, el('p', null, el('strong', null, 'Letzter Scan fehlgeschlagen. '), str(site.lastError))));
       root.appendChild(el('div', { class: 'btn-row no-print' }, printBtn()));
@@ -282,7 +287,7 @@
   window.addEventListener('beforeprint', function () { var d = document.querySelector('.spark-table'); if (d) d.open = true; });
 
   function start() {
-    if (!ZK.MOCK && !token) { showProblem('missing'); return; }
+    if (!YQ.MOCK && !token) { showProblem('missing'); return; }
     root.setAttribute('aria-busy', 'true');
     setStatus('Dashboard wird geladen …');
     loadPortfolio().then(function (p) {
