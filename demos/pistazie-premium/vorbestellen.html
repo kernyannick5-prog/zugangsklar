@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Torte vorbestellen — Café Pistazie</title>
+<meta name="description" content="Torte auf Vorbestellung bei Café Pistazie: Sorte, Größe und Abholtag wählen, Preis wird automatisch berechnet. Status im Mitgliederbereich einsehbar.">
+
+<link rel="alternate" hreflang="de" href="https://www.cafe-pistazie.example/vorbestellen.html">
+<link rel="alternate" hreflang="en" href="https://www.cafe-pistazie.example/vorbestellen.html?lang=en">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Torte vorbestellen — Café Pistazie">
+<meta property="og:url" content="https://www.cafe-pistazie.example/vorbestellen.html">
+<meta property="og:image" content="../_assets/img/08c68788d063.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%23cfe3c1'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23f6d6d6'/%3E%3C/svg%3E">
+<link href="../_assets/fonts/8237af75e2.css" rel="stylesheet">
+<link rel="stylesheet" href="../demo-basic/styles.css">
+<link rel="stylesheet" href="../pistazie-shared/shared.css">
+<link rel="stylesheet" href="premium.css">
+<link rel="stylesheet" href="../shared/paket-badge.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Zum Inhalt springen</a>
+<aside class="paket-badge" data-tier="premium" aria-label="Hinweis zur Beispiel-Website"><p class="paket-badge__text"><span class="paket-badge__dot" aria-hidden="true"></span>Beispiel-Website · Paket <strong>Premium</strong> · erstellt von Zugangsklar</p><a class="paket-badge__cta" href="../../websites.html#showcase" target="_top">Pakete ansehen →</a></aside>
+
+<div class="cookie-banner" id="cookieBanner" hidden role="dialog" aria-label="Cookie-Einstellungen">
+  <div class="cookie-banner__inner">
+    <p><strong>Cookie-Einstellungen (Demo).</strong> Wir nutzen Cookies für notwendige Funktionen sowie optional für Statistik und Marketing. Es werden keine echten Cookies gesetzt.</p>
+    <div class="cookie-banner__categories"><label><input type="checkbox" checked disabled> Notwendig</label><label><input type="checkbox" id="cookieStats"> Statistik</label><label><input type="checkbox" id="cookieMarketing"> Marketing</label></div>
+    <div class="cookie-banner__actions"><button type="button" class="btn btn-ghost" id="cookieReject">Ablehnen</button><button type="button" class="btn btn-ghost" id="cookieSave">Auswahl speichern</button><button type="button" class="btn btn-primary" id="cookieAcceptAll">Alle akzeptieren</button></div>
+  </div>
+</div>
+
+<header class="site-header" id="top">
+  <div class="header-top">
+    <a href="index.html" class="logo" aria-label="Café Pistazie — Startseite">
+      <svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><circle cx="24" cy="22" r="17" fill="#cfe3c1"/><circle cx="24" cy="22" r="7" fill="#f6d6d6"/><path d="M13 38q11 6 22 0" fill="none" stroke="#4a3428" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <span class="logo-text">Café Pistazie</span>
+    </a>
+    <button type="button" class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mobileNav"><span class="sr-only">Menü öffnen</span><span class="menu-toggle-bars" aria-hidden="true"><span></span><span></span><span></span></span></button>
+  </div>
+  <nav class="header-nav" aria-label="Hauptnavigation">
+    <ul>
+      <li><a href="index.html">Start</a></li><li><a href="angebot.html">Angebot</a></li><li><a href="shop.html">Shop</a></li>
+      <li><a href="reservieren.html">Reservieren</a></li><li><a href="vorbestellen.html" aria-current="page">Torten</a></li>
+      <li><a href="events.html">Events</a></li><li><a href="konto.html">Konto</a></li><li><a href="kontakt.html">Kontakt</a></li>
+      <li><a href="warenkorb.html" class="cart-link" aria-label="Warenkorb">Warenkorb <span data-cart-count>0</span></a></li>
+      <li><button type="button" class="lang-toggle" aria-label="Switch to English">EN</button></li>
+    </ul>
+  </nav>
+  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile Navigation" hidden>
+    <ul>
+      <li><a href="index.html">Start</a></li><li><a href="angebot.html">Angebot</a></li><li><a href="shop.html">Shop</a></li>
+      <li><a href="reservieren.html">Reservieren</a></li><li><a href="vorbestellen.html" aria-current="page">Torten vorbestellen</a></li>
+      <li><a href="events.html">Events</a></li><li><a href="ueber-uns.html">Über uns</a></li><li><a href="gutschein.html">Gutschein</a></li>
+      <li><a href="konto.html">Konto</a></li><li><a href="kontakt.html">Kontakt</a></li>
+      <li><a href="warenkorb.html" class="cart-link" aria-label="Warenkorb">Warenkorb <span data-cart-count>0</span></a></li>
+      <li><button type="button" class="lang-toggle" aria-label="Switch to English">EN</button></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main">
+  <section aria-labelledby="order-heading">
+    <div class="section-head reveal">
+      <p class="eyebrow">Vorbestellung</p>
+      <h1 id="order-heading">Torte vorbestellen</h1>
+      <p class="section-lede">Wähle Sorte, Größe und Abholtag — der Preis wird automatisch berechnet. Den Status siehst du danach in deinem <a href="konto.html">Konto</a>.</p>
+      <p class="integration-tag">Demo-Integration · automatische Preisberechnung, mindestens 2 Tage Vorlauf</p>
+    </div>
+
+    <div id="cakeOrderTool">
+      <form class="tool-panel reveal" id="cakeOrderForm" novalidate>
+        <div class="field">
+          <label for="cakeSelect">Torte</label>
+          <select id="cakeSelect" required>
+            <option value="">Bitte wählen</option>
+            <option value="Pistazien-Himbeer-Torte" data-price="32">Pistazien-Himbeer-Torte — ab 22,40&nbsp;€</option>
+            <option value="Schokoladen-Cassis-Torte" data-price="34">Schokoladen-Cassis-Torte — ab 23,80&nbsp;€</option>
+            <option value="Zitronen-Lavendel-Torte" data-price="30">Zitronen-Lavendel-Torte — ab 21,00&nbsp;€</option>
+            <option value="Vanille-Erdbeer-Torte" data-price="30">Vanille-Erdbeer-Torte — ab 21,00&nbsp;€</option>
+          </select>
+          <p class="field__error" id="cakeSelectError"></p>
+        </div>
+        <div class="field">
+          <label id="cakeSizeLabel">Größe</label>
+          <div class="choice-group" role="radiogroup" aria-labelledby="cakeSizeLabel">
+            <label class="choice-option"><input type="radio" name="cakeSize" value="0.7" data-persons="ca. 6 Personen"><div class="choice-option__row"><strong>Klein</strong><span>× 0,7</span></div><p class="choice-option__meta">ca. 6 Personen</p></label>
+            <label class="choice-option"><input type="radio" name="cakeSize" value="1" data-persons="ca. 10 Personen" checked><div class="choice-option__row"><strong>Mittel</strong><span>× 1,0</span></div><p class="choice-option__meta">ca. 10 Personen</p></label>
+            <label class="choice-option"><input type="radio" name="cakeSize" value="1.5" data-persons="ca. 16 Personen"><div class="choice-option__row"><strong>Groß</strong><span>× 1,5</span></div><p class="choice-option__meta">ca. 16 Personen</p></label>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label for="cakeDate">Abholdatum</label><input type="date" id="cakeDate" required><p class="field__error" id="cakeDateError"></p></div>
+          <div class="field"><label for="cakeCount">Anzahl Torten</label><input type="number" id="cakeCount" min="1" max="10" value="1" required><p class="field__error" id="cakeCountError"></p></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label for="cakeName">Name</label><input type="text" id="cakeName" autocomplete="name" required><p class="field__error" id="cakeNameError"></p></div>
+          <div class="field"><label for="cakeEmail">E-Mail</label><input type="email" id="cakeEmail" autocomplete="email" required><p class="field__error" id="cakeEmailError"></p></div>
+        </div>
+        <div class="field"><label for="cakeNote">Widmung / Anmerkung (optional)</label><textarea id="cakeNote" rows="2" placeholder="z. B. „Alles Gute, Mia!“"></textarea></div>
+        <ul class="price-breakdown" id="cakePriceBreakdown" aria-live="polite"><li><span>Bitte Torte, Größe und Anzahl wählen</span><span>—</span></li></ul>
+        <button type="submit" class="btn btn-primary btn-block">Vorbestellung unverbindlich senden</button>
+      </form>
+
+      <div class="tool-panel confirmation" id="cakeConfirmation" hidden>
+        <p class="confirmation__icon" aria-hidden="true">✓</p>
+        <h2 tabindex="-1">Vorbestellung erhalten (Demo)</h2>
+        <p>Deine Referenznummer: <span class="confirmation__ref" id="cakeConfirmationRef"></span></p>
+        <p id="cakeConfirmationText"></p>
+        <p>Den Status findest du künftig auch in deinem <a href="konto.html">Konto</a>.</p>
+        <div class="confirmation__actions"><button type="button" class="btn btn-ghost" id="cakeRestart">Neue Vorbestellung</button></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><span class="logo-text">Café Pistazie</span><p>Steinstraße 22, 40212 Düsseldorf</p></div>
+    <form class="newsletter" id="newsletter-form" novalidate>
+      <p class="integration-tag">Demo-Integration · Double-Opt-in wie bei Brevo</p>
+      <label for="newsletter-email">Pistazien-Post: seltene Neuigkeiten aus dem Café</label>
+      <div class="newsletter__row"><input type="email" id="newsletter-email" name="email" placeholder="deine@email.example" required><button type="submit" class="btn btn-primary">Anmelden</button></div>
+      <p class="newsletter__message" role="status" aria-live="polite"></p>
+      <div class="newsletter__confirm" hidden><button type="button" class="btn btn-ghost" data-newsletter-confirm>Anmeldung jetzt bestätigen (Demo-Link)</button></div>
+    </form>
+    <nav class="footer-nav" aria-label="Footer-Navigation">
+      <ul><li><a href="index.html">Start</a></li><li><a href="angebot.html">Angebot</a></li><li><a href="shop.html">Shop</a></li>
+        <li><a href="reservieren.html">Reservieren</a></li><li><a href="vorbestellen.html" aria-current="page">Torten</a></li><li><a href="events.html">Events</a></li></ul>
+      <ul><li><a href="ueber-uns.html">Über uns</a></li><li><a href="gutschein.html">Gutschein</a></li><li><a href="konto.html">Konto</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li><li><a href="warenkorb.html">Warenkorb</a></li></ul>
+      <ul><li><button type="button" class="link-button" id="openImpressum">Impressum</button></li><li><button type="button" class="link-button" id="openDatenschutz">Datenschutz</button></li></ul>
+    </nav>
+  </div>
+  <p class="footer-legal">© 2026 Café Pistazie Düsseldorf GmbH.</p>
+  <p class="support-note">Priorisierter Support: eigener Chat unten rechts, garantierte Reaktionszeit &lt; 4h (Paket Premium).</p>
+  <p class="tier-switcher">Diese Website als:
+    <a href="../demo-basic/index.html" data-tier="basic">Basic</a> ·
+    <a href="../pistazie-business/vorbestellen.html" data-tier="business">Business</a> ·
+    <a href="vorbestellen.html" data-tier="premium" aria-current="page">Premium</a>
+  </p>
+</footer>
+
+<dialog id="impressumDialog" class="legal-dialog">
+  <h2>Impressum</h2>
+  <p>Café Pistazie Düsseldorf GmbH<br>Steinstraße 22, 40212 Düsseldorf</p>
+  <p>Geschäftsführung: Léa Vogt<br>Handelsregister: Amtsgericht Düsseldorf, HRB 123456 (fiktiv)</p>
+  <p>Kontakt: <a href="mailto:hallo@cafe-pistazie.example">hallo@cafe-pistazie.example</a>, 0211 5504488</p>
+  <form method="dialog"><button type="submit" class="btn btn-ghost">Schließen</button></form>
+</dialog>
+<dialog id="datenschutzDialog" class="legal-dialog">
+  <h2>Datenschutz</h2>
+  <p>Diese Beispielseite verarbeitet keine echten Nutzerdaten. Daten liegen höchstens lokal in deinem Browser (localStorage, Präfix „pistazie-premium:“).</p>
+  <p>Fiktiver Kontakt: <a href="mailto:datenschutz@cafe-pistazie.example">datenschutz@cafe-pistazie.example</a></p>
+  <form method="dialog"><button type="submit" class="btn btn-ghost">Schließen</button></form>
+</dialog>
+<div class="chat-widget">
+  <div class="chat-widget__panel" id="chatPanel" hidden>
+    <span class="chat-widget__badge">Priorisierter Support</span><h2>Fragen? Wir sind da.</h2>
+    <div class="chat-widget__log" id="chatLog"><div class="chat-widget__msg chat-widget__msg--bot">Hallo! Wie können wir dir helfen? (Demo-Chat, keine echte Übertragung)</div></div>
+    <div class="chat-widget__quick"><button type="button">Öffnungszeiten?</button><button type="button">Tisch reservieren?</button><button type="button">Lieferung möglich?</button></div>
+  </div>
+  <button type="button" class="chat-widget__toggle" id="chatToggle" aria-expanded="false" aria-controls="chatPanel" aria-label="Support-Chat öffnen"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M4 5h16v11H8l-4 4V5z" stroke="white" stroke-width="1.8" stroke-linejoin="round"/></svg></button>
+</div>
+
+
+
+<script src="../pistazie-shared/shared.js"></script>
+<script src="../demo-basic/script.js"></script>
+<script src="../pistazie-business/business.js"></script>
+<script src="data.js"></script>
+<script src="premium.js"></script>
+</body>
+</html>

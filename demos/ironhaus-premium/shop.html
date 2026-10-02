@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Shop – IRONHAUS Dortmund</title>
+<meta name="description" content="IRONHAUS Shop: Supplements und Merch online bestellen. Warenkorb, Zahlungsauswahl und Bestellbestätigung als Demo-Checkout.">
+
+<link rel="alternate" hreflang="de-DE" href="https://www.ironhaus-dortmund.example/pakete/premium/shop.html">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%231c1d1f'/%3E%3Crect x='4' y='14' width='24' height='4' fill='%23ffd400'/%3E%3Crect x='2' y='10' width='4' height='12' fill='%23ffd400'/%3E%3Crect x='26' y='10' width='4' height='12' fill='%23ffd400'/%3E%3C/svg%3E">
+<link href="../_assets/fonts/bd2c22ba1f.css" rel="stylesheet">
+<link rel="stylesheet" href="../ironhaus-shared/base.css">
+<link rel="stylesheet" href="../ironhaus-shared/components.css">
+<link rel="stylesheet" href="premium.css">
+<link rel="stylesheet" href="../shared/paket-badge.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Start", "item": "https://www.ironhaus-dortmund.example/pakete/premium/index.html" },
+    { "@type": "ListItem", "position": 2, "name": "Shop", "item": "https://www.ironhaus-dortmund.example/pakete/premium/shop.html" }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Zum Inhalt springen</a>
+<aside class="paket-badge" data-tier="premium" aria-label="Hinweis zur Beispiel-Website"><p class="paket-badge__text"><span class="paket-badge__dot" aria-hidden="true"></span>Beispiel-Website · Paket <strong>Premium</strong> · erstellt von Zugangsklar</p><a class="paket-badge__cta" href="../../websites.html#showcase" target="_top">Pakete ansehen →</a></aside>
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="brand">IRON<span>HAUS</span></a>
+    <nav class="main-nav" aria-label="Hauptnavigation">
+      <ul id="primary-menu" class="nav-list">
+        <li><a href="training.html">Training</a></li>
+        <li><a href="kursplan.html">Kursplan</a></li>
+        <li><a href="mitgliedschaft.html">Mitgliedschaft</a></li>
+        <li><a href="coaches.html">Coaches</a></li>
+        <li><a href="shop.html" aria-current="page">Shop</a></li>
+        <li><a href="mitglieder.html">Mitglieder</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+      </ul>
+      <a href="#cart" class="btn btn-yellow nav-cta cart-btn">Warenkorb <span class="cart-count" id="cart-count">0</span></a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu"><span class="nav-toggle-box"><span class="nav-toggle-bar"></span></span><span class="visually-hidden">Menü öffnen</span></button>
+    </nav>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <ul>
+      <li><a href="training.html">Training</a></li><li><a href="kursplan.html">Kursplan</a></li><li><a href="mitgliedschaft.html">Mitgliedschaft</a></li>
+      <li><a href="coaches.html">Coaches</a></li><li><a href="shop.html">Shop</a></li><li><a href="mitglieder.html">Mitglieder</a></li>
+      <li><a href="probetraining.html">Probetraining</a></li><li><a href="kontakt.html">Kontakt</a></li>
+    </ul>
+    <a href="#cart" class="btn btn-yellow">Warenkorb (<span id="cart-count-mobile">0</span>)</a>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-head">
+    <div class="container">
+      <ol class="breadcrumb"><li><a href="index.html">Start</a></li><li>Shop</li></ol>
+      <p class="eyebrow">Shop</p>
+      <h1>Supplements &amp; Merch</h1>
+      <p>Bestelle direkt online – Demo-Checkout ohne echte Zahlung, der Warenkorb bleibt über <code>localStorage</code> auch nach einem Neuladen erhalten.</p>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="container">
+      <div class="shop-toolbar">
+        <h2 class="section-title" style="margin:0;">Produkte</h2>
+        <a href="#cart" class="btn btn-outline-dark">Zum Warenkorb</a>
+      </div>
+      <div class="product-grid" id="product-grid"></div>
+    </div>
+  </section>
+
+  <section id="cart" class="section section-dark reveal">
+    <div class="container" style="max-width:640px;">
+      <h2 class="section-title section-title-light">Warenkorb</h2>
+      <div class="cart-items" id="cart-items"></div>
+      <div class="cart-total" style="color:var(--color-white);"><span>Gesamt</span><span id="cart-total-amount">0,00&nbsp;€</span></div>
+
+      <form id="checkout-form" style="margin-top:var(--space-6);" hidden novalidate>
+        <h3 style="font-size:1.1rem;">Bestellung abschließen</h3>
+        <div class="form-row"><label for="checkout-name">Name</label><input type="text" id="checkout-name" name="name" autocomplete="name" required aria-describedby="checkout-err-name"><p class="field-error" id="checkout-err-name" aria-live="polite"></p></div>
+        <div class="form-row"><label for="checkout-email">E-Mail</label><input type="email" id="checkout-email" name="email" autocomplete="email" required aria-describedby="checkout-err-email"><p class="field-error" id="checkout-err-email" aria-live="polite"></p></div>
+        <fieldset class="payment-options" style="border:none; padding:0; margin:var(--space-4) 0;">
+          <legend style="font-weight:700; margin-bottom:var(--space-2);">Zahlungsmethode</legend>
+          <label><input type="radio" name="payment" value="card" checked> Kreditkarte (Demo)</label>
+          <label><input type="radio" name="payment" value="paypal"> PayPal (Demo)</label>
+          <label><input type="radio" name="payment" value="invoice"> Rechnung (Demo)</label>
+        </fieldset>
+        <button type="submit" class="btn btn-yellow btn-lg">Kostenpflichtig bestellen (Demo)</button>
+      </form>
+
+      <div id="order-confirmation" class="success-panel" role="status" tabindex="-1" hidden style="margin-top:var(--space-6);">
+        <h3>Danke für deine Bestellung!</h3>
+        <p>Bestellnummer <strong id="order-id"></strong>, Zahlungsart: <span id="order-payment"></span>.</p>
+        <p>Dies ist eine Demo-Bestellung – es wurde keine echte Zahlung ausgelöst und keine Ware verschickt.</p>
+        <a href="shop.html" class="btn btn-outline-dark">Weiter einkaufen</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div><p class="brand brand-footer">IRON<span>HAUS</span></p><p>Kraft- und Functional-Training in einer ehemaligen Industriehalle im Dortmunder Hafenviertel.</p><p class="footer-hours"><strong>Öffnungszeiten:</strong> 24/7 – 365 Tage im Jahr</p><p class="support-note">✓ Priority Support inklusive</p></div>
+    <nav aria-label="Footer-Navigation"><h2>Navigation</h2><ul><li><a href="training.html">Training</a></li><li><a href="kursplan.html">Kursplan</a></li><li><a href="mitgliedschaft.html">Mitgliedschaft</a></li><li><a href="coaches.html">Coaches</a></li><li><a href="shop.html">Shop</a></li><li><a href="mitglieder.html">Mitglieder</a></li><li><a href="blog.html">Blog</a></li></ul></nav>
+    <div><h2>Kontakt</h2><address>Speicherstraße 12<br>44147 Dortmund<br><a href="tel:+492315567231">0231 5567 231</a><br><a href="mailto:hallo@ironhaus-dortmund.example">hallo@ironhaus-dortmund.example</a></address></div>
+    <div><h2>Rechtliches</h2><ul><li><a href="#" aria-disabled="true" title="In dieser Demo nicht hinterlegt">Impressum</a></li><li><a href="#" aria-disabled="true" title="In dieser Demo nicht hinterlegt">Datenschutz</a></li></ul></div>
+  </div>
+  <div class="container footer-bottom">
+    <p>© <span data-current-year>2026</span> IRONHAUS Trainingshalle GmbH. Alle Angaben ohne Gewähr – fiktives Beispielprojekt.</p>
+    <div class="tier-switcher"><p>Diese Website als:</p><div class="tier-switcher-links">
+      <span aria-hidden="true">Basic (kein Shop)</span><span aria-hidden="true">·</span>
+      <span aria-hidden="true">Business (kein Shop)</span><span aria-hidden="true">·</span>
+      <a href="shop.html" aria-current="page">Premium</a>
+    </div></div>
+  </div>
+</footer>
+
+<div class="iw-cookie-banner" id="cookie-banner" hidden role="dialog" aria-label="Cookie-Einstellungen">
+  <div class="iw-cookie-inner">
+    <div><p class="iw-cookie-text"><strong>Cookie-Einstellungen (Demo).</strong> Notwendige Funktionen sowie optional Statistik und Marketing. Es werden keine echten Cookies gesetzt.</p>
+      <div class="iw-cookie-categories"><label class="iw-cookie-category"><input type="checkbox" checked disabled> Notwendig</label><label class="iw-cookie-category"><input type="checkbox" id="cookie-stats"> Statistik</label><label class="iw-cookie-category"><input type="checkbox" id="cookie-marketing"> Marketing</label></div>
+    </div>
+    <div class="iw-cookie-actions"><button type="button" class="btn btn-outline-dark" id="cookie-reject" style="border-color:#fff; color:#fff;">Ablehnen</button><button type="button" class="btn btn-outline-dark" id="cookie-save" style="border-color:#fff; color:#fff;">Auswahl speichern</button><button type="button" class="btn btn-yellow" id="cookie-accept-all">Alle akzeptieren</button></div>
+  </div>
+</div>
+<button type="button" class="iw-chat-toggle" id="chat-toggle" aria-expanded="false" aria-controls="chat-panel" aria-label="Support-Chat öffnen">💬</button>
+<div class="iw-chat-panel" id="chat-panel" hidden>
+  <div class="iw-chat-head"><h2>Priority Support</h2><button type="button" class="iw-chat-close" id="chat-close" aria-label="Chat schließen">&times;</button></div>
+  <div class="iw-chat-body" id="chat-body"><div class="iw-chat-msg iw-chat-msg--bot">Hey! Womit können wir dir helfen? (Demo-Chat)</div></div>
+  <div class="iw-chat-quick"><button type="button">Öffnungszeiten?</button><button type="button">Kurs stornieren</button><button type="button">Mitgliedschaft pausieren</button></div>
+</div>
+
+<script src="../ironhaus-shared/data.js"></script>
+<script src="../ironhaus-shared/shared.js"></script>
+<script src="premium.js"></script>
+
+</body>
+</html>

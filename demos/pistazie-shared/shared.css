@@ -1,0 +1,233 @@
+/* =========================================================
+   Café Pistazie — gemeinsame Bausteine für Business & Premium
+   Baut auf den Design-Tokens von ../demo-basic/styles.css auf
+   (wird IMMER zusätzlich zu styles.css eingebunden).
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   Eyebrow-Hinweis auf Demo-Integrationen (Buchungstool, .ics …)
+   --------------------------------------------------------- */
+.integration-tag {
+  display: inline-block;
+  margin-top: var(--space-2xs);
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  background: var(--color-lavender);
+  color: var(--color-cocoa);
+  font-size: var(--step--1);
+  font-weight: 700;
+}
+
+/* ---------------------------------------------------------
+   Support-Hinweis im Footer (Business & Premium)
+   --------------------------------------------------------- */
+.support-note {
+  margin-top: var(--space-2xs);
+  font-size: var(--step--1);
+  color: var(--color-cocoa-70);
+}
+
+/* ---------------------------------------------------------
+   Galerie ("Instagram-Stil", aus 10-cafe übernommen)
+   --------------------------------------------------------- */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  gap: var(--space-s);
+}
+.photo-grid figure { margin: 0; border-radius: var(--radius-m); overflow: hidden; box-shadow: var(--shadow-card); }
+.photo-grid img { width: 100%; height: 100%; aspect-ratio: 1/1; object-fit: cover; }
+
+/* ---------------------------------------------------------
+   Schritt-Anzeige (Buchungstool, Vorbestellung, Checkout)
+   --------------------------------------------------------- */
+.stepper {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-s);
+  margin: 0 0 var(--space-l);
+  font-weight: 700; font-size: var(--step--1); color: var(--color-cocoa-70);
+}
+.stepper li { display: flex; align-items: center; gap: 0.5rem; }
+.stepper__num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 1.75rem; height: 1.75rem; border-radius: 50%;
+  background: var(--color-surface); border: 2px solid var(--color-pistachio-deep);
+  font-size: var(--step--1);
+}
+.stepper li[aria-current="step"] { color: var(--color-cocoa); }
+.stepper li[aria-current="step"] .stepper__num { background: var(--color-cocoa); color: #fff; border-color: var(--color-cocoa); }
+.stepper li[data-done="true"] .stepper__num { background: var(--color-pistachio); border-color: var(--color-pistachio-deep); }
+
+.tool-step[hidden] { display: none; }
+.tool-panel {
+  background: var(--color-surface); border-radius: var(--radius-l);
+  padding: var(--space-l); box-shadow: var(--shadow-card);
+  max-width: 40rem; margin: 0 auto var(--space-m);
+}
+.tool-actions { display: flex; justify-content: space-between; gap: var(--space-s); margin-top: var(--space-m); flex-wrap: wrap; }
+
+/* ---------------------------------------------------------
+   Kalenderwidget (Reservierung, Events)
+   --------------------------------------------------------- */
+.calendar { max-width: 26rem; margin: 0 auto; }
+.calendar__nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-xs); }
+.calendar__nav-btn {
+  width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--color-cocoa);
+  background: transparent; display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
+}
+.calendar__nav-btn:hover:not(:disabled) { background: var(--color-pistachio); }
+.calendar__nav-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.calendar__label { font-weight: 800; font-family: var(--font-display); font-size: var(--step-1); }
+.calendar__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.25rem; }
+.calendar__weekday { text-align: center; font-size: var(--step--1); font-weight: 700; color: var(--color-cocoa-70); padding: 0.25rem 0; }
+.calendar__day {
+  aspect-ratio: 1/1; border-radius: 50%; border: none; background: transparent;
+  font: inherit; font-weight: 700; cursor: pointer; color: var(--color-cocoa);
+  display: flex; align-items: center; justify-content: center; min-height: 36px;
+}
+.calendar__day:hover:not(:disabled) { background: var(--color-pistachio); }
+.calendar__day--pad { visibility: hidden; }
+.calendar__day--unavailable { color: var(--color-cocoa-45); text-decoration: line-through; cursor: not-allowed; }
+.calendar__day--today { box-shadow: inset 0 0 0 2px var(--color-cocoa); }
+.calendar__day--selected { background: var(--color-cocoa); color: #fff; }
+.calendar__dates-readout { text-align: center; margin-top: var(--space-xs); font-weight: 700; min-height: 1.4em; }
+.calendar__legend { display: flex; justify-content: center; gap: var(--space-s); flex-wrap: wrap; margin-top: var(--space-xs); font-size: var(--step--1); color: var(--color-cocoa-70); }
+.calendar__legend i { display: inline-block; width: 0.8em; height: 0.8em; border-radius: 50%; margin-right: 0.35em; vertical-align: middle; }
+.calendar__legend .is-unavailable { background: var(--color-blush-deep); }
+.calendar__legend .is-selected { background: var(--color-cocoa); }
+.calendar__legend .is-today { box-shadow: inset 0 0 0 2px var(--color-cocoa); }
+
+/* ---------------------------------------------------------
+   Mengen-/Personenfeld mit +/- Buttons
+   --------------------------------------------------------- */
+.stepper-field { display: flex; align-items: center; justify-content: space-between; gap: var(--space-s); background: var(--color-cream); border: 2px solid var(--color-pistachio-deep); border-radius: var(--radius-m); padding: var(--space-2xs) var(--space-s); }
+.stepper-field__controls { display: flex; align-items: center; gap: var(--space-s); }
+.stepper-field__btn { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--color-cocoa); background: transparent; font-size: 1.1rem; font-weight: 800; cursor: pointer; }
+.stepper-field__btn:hover { background: var(--color-pistachio); }
+.stepper-field__count { min-width: 1.6rem; text-align: center; font-weight: 800; }
+
+/* ---------------------------------------------------------
+   Zeit-/Slot-Auswahl (Chips)
+   --------------------------------------------------------- */
+.slot-group { display: flex; flex-wrap: wrap; gap: var(--space-2xs); }
+.slot-chip {
+  min-height: 44px; padding: 0 1.1rem; border-radius: 999px; border: 2px solid var(--color-pistachio-deep);
+  background: var(--color-cream); font-weight: 700; cursor: pointer;
+}
+.slot-chip[aria-pressed="true"] { background: var(--color-cocoa); color: #fff; border-color: var(--color-cocoa); }
+.slot-chip:disabled { opacity: 0.4; cursor: not-allowed; text-decoration: line-through; }
+.slot-chip:hover:not(:disabled):not([aria-pressed="true"]) { background: var(--color-pistachio); }
+
+/* ---------------------------------------------------------
+   Preis-Aufstellung / Zusammenfassung
+   --------------------------------------------------------- */
+.price-breakdown { display: flex; flex-direction: column; gap: var(--space-2xs); margin: var(--space-s) 0; }
+.price-breakdown li { display: flex; justify-content: space-between; gap: var(--space-s); padding-bottom: var(--space-2xs); border-bottom: 1px dashed var(--color-pistachio-deep); }
+.price-breakdown li.total { border-bottom: none; font-weight: 800; font-size: var(--step-1); padding-top: var(--space-2xs); }
+.summary-list { display: flex; flex-direction: column; gap: var(--space-2xs); margin-bottom: var(--space-s); }
+.summary-list dt { font-weight: 700; }
+.summary-list .row { display: flex; justify-content: space-between; gap: var(--space-s); }
+
+/* ---------------------------------------------------------
+   Bestätigung
+   --------------------------------------------------------- */
+.confirmation { text-align: center; }
+.confirmation__icon {
+  width: 3.5rem; height: 3.5rem; margin: 0 auto var(--space-s); border-radius: 50%;
+  background: var(--color-pistachio); display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem; color: var(--color-cocoa);
+}
+.confirmation__ref { font-weight: 800; font-family: var(--font-display); font-size: var(--step-1); }
+.confirmation__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-s); margin-top: var(--space-m); }
+
+/* ---------------------------------------------------------
+   Einwilligung (Checkbox)
+   --------------------------------------------------------- */
+.consent-check { display: flex; align-items: flex-start; gap: 0.6rem; text-align: left; }
+.consent-check input { margin-top: 0.3rem; width: 1.1rem; height: 1.1rem; flex-shrink: 0; }
+.consent-check a { color: var(--color-cocoa); text-decoration: underline; }
+
+/* ---------------------------------------------------------
+   Zwei-Klick Karten-Platzhalter (Datenschutz)
+   --------------------------------------------------------- */
+.map-consent {
+  position: relative; border-radius: var(--radius-l); overflow: hidden;
+  box-shadow: var(--shadow-card); max-width: 40rem; margin: 0 auto;
+}
+.map-consent__cover {
+  padding: var(--space-l); text-align: center; background: var(--color-surface);
+  display: flex; flex-direction: column; align-items: center; gap: var(--space-s);
+}
+.map-consent__cover p { color: var(--color-cocoa-70); max-width: 30rem; }
+.map-consent__loaded { display: block; width: 100%; height: auto; }
+.map-consent__loaded:focus-visible { outline: 3px solid var(--color-cocoa); outline-offset: -3px; }
+
+/* ---------------------------------------------------------
+   Newsletter (Footer)
+   --------------------------------------------------------- */
+.newsletter { max-width: 26rem; text-align: left; }
+.newsletter label { display: block; font-weight: 700; margin-bottom: var(--space-2xs); }
+.newsletter__row { display: flex; gap: var(--space-2xs); flex-wrap: wrap; }
+.newsletter__row input {
+  flex: 1 1 12rem; min-height: 44px; padding: 0.6rem 1rem; border-radius: 999px;
+  border: 2px solid var(--color-pistachio-deep); font: inherit;
+}
+.newsletter__row .btn { min-height: 44px; }
+.newsletter__message { margin-top: var(--space-2xs); font-weight: 700; min-height: 1.3em; }
+.newsletter__message.is-success { color: #3f7a34; }
+.newsletter__confirm { margin-top: var(--space-2xs); }
+
+/* ---------------------------------------------------------
+   Bewertungs-Widget (Google-Stil, Demo)
+   --------------------------------------------------------- */
+.reviews { max-width: 46rem; margin: 0 auto; }
+.reviews__summary { display: flex; align-items: center; gap: var(--space-s); justify-content: center; margin-bottom: var(--space-m); flex-wrap: wrap; }
+.reviews__score { font-family: var(--font-display); font-size: var(--step-4); }
+.reviews__stars { color: #d9a017; font-size: var(--step-2); letter-spacing: 0.1em; }
+.reviews__meta { color: var(--color-cocoa-70); font-size: var(--step--1); }
+.review-list { display: flex; flex-direction: column; gap: var(--space-s); }
+.review-card { background: var(--color-surface); border-radius: var(--radius-m); padding: var(--space-s) var(--space-m); box-shadow: var(--shadow-card); }
+.review-card__head { display: flex; justify-content: space-between; gap: var(--space-s); font-weight: 700; flex-wrap: wrap; }
+.review-card__stars { color: #d9a017; }
+.review-card p { margin-top: var(--space-2xs); color: var(--color-cocoa-70); }
+
+/* ---------------------------------------------------------
+   Kleine Live-Widgets (Premium, simulierte API)
+   --------------------------------------------------------- */
+.live-widgets { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: var(--space-m); }
+.live-widget { background: var(--color-surface); border-radius: var(--radius-m); padding: var(--space-m); box-shadow: var(--shadow-card); text-align: center; }
+.live-widget__value { font-family: var(--font-display); font-size: var(--step-3); display: block; margin-top: var(--space-2xs); }
+.live-widget__note { font-size: var(--step--1); color: var(--color-cocoa-70); margin-top: var(--space-2xs); }
+.live-widget.is-loading .live-widget__value { opacity: 0.4; }
+
+/* ---------------------------------------------------------
+   Allgemeine Formularfelder außerhalb von .order-form
+   --------------------------------------------------------- */
+.field { display: flex; flex-direction: column; gap: var(--space-3xs); text-align: left; margin-bottom: var(--space-s); }
+.field label { font-weight: 700; font-size: var(--step--1); }
+.field input, .field select, .field textarea {
+  min-height: 48px; padding: 0.75rem 1rem; border-radius: var(--radius-m);
+  border: 2px solid var(--color-pistachio-deep); font: inherit; background: var(--color-cream); color: var(--color-cocoa);
+}
+.field[data-invalid="true"] input, .field[data-invalid="true"] select { border-color: #b3564d; }
+.field__error { color: #b3564d; font-size: var(--step--1); min-height: 1.2em; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-s); }
+@media (max-width: 640px) { .field-row { grid-template-columns: 1fr; } }
+
+/* ---------------------------------------------------------
+   Preisstufen-Karten (Vorbestellung Größe, Zahlungsarten …)
+   --------------------------------------------------------- */
+.choice-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: var(--space-s); }
+.choice-option {
+  display: block; cursor: pointer; background: var(--color-surface); border-radius: var(--radius-m);
+  padding: var(--space-s); box-shadow: var(--shadow-card); border: 2px solid transparent;
+}
+.choice-option:has(input:checked) { border-color: var(--color-cocoa); }
+.choice-option input { position: absolute; opacity: 0; }
+.choice-option__row { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-2xs); font-weight: 700; }
+.choice-option__meta { color: var(--color-cocoa-70); font-size: var(--step--1); margin-top: 0.2rem; }
+
+/* Aktive Seite im erweiterten Nav (mehr als 3 Punkte, Business & Premium) */
+.header-nav ul { flex-wrap: wrap; row-gap: var(--space-3xs); justify-content: center; }
+@media (max-width: 1000px) {
+  .header-nav ul { gap: var(--space-2xs) var(--space-s); }
+}

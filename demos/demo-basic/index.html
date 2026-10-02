@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Café Pistazie — Pâtisserie &amp; Specialty Coffee in Düsseldorf</title>
+<meta name="description" content="Café Pistazie: französische Pâtisserie, Macarons, Tartes und Specialty Coffee nahe der Königsallee in Düsseldorf. Demo-Website zum Paket Basic.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%23cfe3c1'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23f6d6d6'/%3E%3C/svg%3E">
+<link href="../_assets/fonts/8237af75e2.css" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../shared/paket-badge.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Zum Inhalt springen</a>
+<aside class="paket-badge" data-tier="basic" aria-label="Hinweis zur Beispiel-Website"><p class="paket-badge__text"><span class="paket-badge__dot" aria-hidden="true"></span>Beispiel-Website · Paket <strong>Basic</strong> · erstellt von Zugangsklar</p><a class="paket-badge__cta" href="../../websites.html#showcase" target="_top">Pakete ansehen →</a></aside>
+
+<header class="site-header" id="top">
+  <div class="header-top">
+    <a href="index.html" class="logo" aria-label="Café Pistazie — Startseite">
+      <svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+        <circle cx="24" cy="22" r="17" fill="#cfe3c1"/>
+        <circle cx="24" cy="22" r="7" fill="#f6d6d6"/>
+        <path d="M13 38q11 6 22 0" fill="none" stroke="#4a3428" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <span class="logo-text">Café Pistazie</span>
+    </a>
+    <button type="button" class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mobileNav">
+      <span class="sr-only">Menü öffnen</span>
+      <span class="menu-toggle-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+    </button>
+  </div>
+
+  <nav class="header-nav" aria-label="Hauptnavigation">
+    <ul>
+      <li><a href="index.html" aria-current="page">Start</a></li>
+      <li><a href="angebot.html">Angebot</a></li>
+      <li><a href="kontakt.html">Kontakt</a></li>
+    </ul>
+  </nav>
+
+  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile Navigation" hidden>
+    <ul>
+      <li><a href="index.html" aria-current="page">Start</a></li>
+      <li><a href="angebot.html">Angebot</a></li>
+      <li><a href="kontakt.html">Kontakt</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="hero-copy">
+      <p class="status-pill" id="statusPill" aria-live="polite">Öffnungszeiten siehe unten</p>
+      <h1 id="hero-heading">Kleine süße Momente,<br>direkt an der Kö.</h1>
+      <p class="hero-lede">Handgemachte Macarons, zarte Tartes und Specialty Coffee aus der eigenen Rösterei-Auswahl — mitten in Düsseldorf.</p>
+      <div class="hero-actions">
+        <a href="angebot.html" class="btn btn-primary">Zum Angebot</a>
+        <a href="kontakt.html" class="btn btn-ghost">Kontakt aufnehmen</a>
+      </div>
+    </div>
+
+    <div class="hero-gallery" aria-hidden="false">
+      <figure class="arch arch-1">
+        <img src="../_assets/img/3feda3cbb7ac.jpg" width="700" height="875" loading="eager" alt="Bunt gefüllte Macarons in Pastelltönen, dicht aneinandergereiht">
+      </figure>
+      <figure class="arch arch-2">
+        <img src="../_assets/img/fe793a9a473c.jpg" width="700" height="875" loading="eager" alt="Cupcakes mit pastellfarbener Swirl-Verzierung in Rosa und Mintblau auf rosa Untergrund">
+      </figure>
+      <figure class="arch arch-3">
+        <img src="../_assets/img/cadc6417f026.jpg" width="700" height="875" loading="eager" alt="Barista gießt Milchschaum in eine Tasse Kaffee, Latte-Art entsteht">
+      </figure>
+    </div>
+  </section>
+
+  <!-- KURZE VORSTELLUNG -->
+  <section class="intro" aria-labelledby="intro-heading">
+    <div class="section-head reveal">
+      <p class="eyebrow">Willkommen</p>
+      <h2 id="intro-heading">Ein Café für kleine Auszeiten</h2>
+      <p class="section-lede">Seit ein paar Jahren backen wir in unserer kleinen Küche nahe der Königsallee Macarons und Tartes von Hand und rösten unseren Kaffee saisonal aus. Schau vorbei — auf einen Kaffee oder zum Brunch am Wochenende.</p>
+    </div>
+  </section>
+
+  <!-- VITRINE (TEASER) -->
+  <section class="vitrine" id="vitrine-teaser" aria-labelledby="vitrine-teaser-heading">
+    <div class="section-head reveal">
+      <p class="eyebrow">Aus der Vitrine</p>
+      <h2 id="vitrine-teaser-heading">Täglich frisch gefüllt</h2>
+      <p class="section-lede">Ein kleiner Einblick in unsere Auswahl — die ganze Karte gibt es auf der Angebotsseite.</p>
+    </div>
+
+    <ul class="product-grid">
+      <li class="product-card reveal"><span class="product-swatch swatch-a" aria-hidden="true"></span><h3>Pistazie-Rose</h3><p>Macaron mit Pistaziencreme und Rosenwasser</p><p class="product-price">2,80&nbsp;€</p></li>
+      <li class="product-card reveal"><span class="product-swatch swatch-d" aria-hidden="true"></span><h3>Zitronen-Lavendel-Tarte</h3><p>Mürbeteig, Zitronencreme, kandierter Lavendel</p><p class="product-price">5,50&nbsp;€</p></li>
+      <li class="product-card reveal"><span class="product-swatch swatch-g" aria-hidden="true"></span><h3>Flat White</h3><p>Doppelter Espresso, samtiger Milchschaum</p><p class="product-price">4,20&nbsp;€</p></li>
+    </ul>
+
+    <div class="teaser-cta reveal">
+      <a href="angebot.html#vitrine" class="btn btn-primary">Zur ganzen Karte</a>
+    </div>
+  </section>
+
+  <!-- ÖFFNUNGSZEITEN / LIVE-STATUS -->
+  <section class="location" id="oeffnungszeiten" aria-labelledby="hours-heading">
+    <div class="location-info reveal">
+      <p class="eyebrow">Öffnungszeiten</p>
+      <h2 id="hours-heading">Wann wir für dich da sind</h2>
+      <p>Der Status oben aktualisiert sich live nach Berliner Zeit. Adresse, Telefonnummer und Anfahrt findest du auf der <a href="kontakt.html">Kontaktseite</a>.</p>
+    </div>
+    <div class="location-hours reveal">
+      <table class="hours-table">
+        <caption class="sr-only">Öffnungszeiten von Café Pistazie</caption>
+        <tbody>
+          <tr data-day="Montag"><th scope="row">Montag</th><td>08:00–19:00</td></tr>
+          <tr data-day="Dienstag"><th scope="row">Dienstag</th><td>08:00–19:00</td></tr>
+          <tr data-day="Mittwoch"><th scope="row">Mittwoch</th><td>08:00–19:00</td></tr>
+          <tr data-day="Donnerstag"><th scope="row">Donnerstag</th><td>08:00–19:00</td></tr>
+          <tr data-day="Freitag"><th scope="row">Freitag</th><td>08:00–19:00</td></tr>
+          <tr data-day="Samstag"><th scope="row">Samstag</th><td>09:00–19:00</td></tr>
+          <tr data-day="Sonntag"><th scope="row">Sonntag</th><td>09:00–17:00</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="logo-text">Café Pistazie</span>
+      <p>Steinstraße 22, 40212 Düsseldorf</p>
+    </div>
+    <nav class="footer-nav" aria-label="Footer-Navigation">
+      <ul>
+        <li><a href="index.html" aria-current="page">Start</a></li>
+        <li><a href="angebot.html">Angebot</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+      </ul>
+      <ul>
+        <li><button type="button" class="link-button" id="openImpressum">Impressum</button></li>
+        <li><button type="button" class="link-button" id="openDatenschutz">Datenschutz</button></li>
+      </ul>
+    </nav>
+  </div>
+  <p class="footer-legal">© 2026 Café Pistazie Düsseldorf GmbH.</p>
+  <p class="tier-switcher">Diese Website als:
+    <a href="index.html" data-tier="basic" aria-current="page">Basic</a> ·
+    <a href="../pistazie-business/index.html" data-tier="business">Business</a> ·
+    <a href="../pistazie-premium/index.html" data-tier="premium">Premium</a>
+  </p>
+</footer>
+
+<dialog id="impressumDialog" class="legal-dialog">
+  <h2>Impressum</h2>
+  <p>Café Pistazie Düsseldorf GmbH<br>Steinstraße 22, 40212 Düsseldorf</p>
+  <p>Geschäftsführung: Léa Vogt<br>Handelsregister: Amtsgericht Düsseldorf, HRB 123456 (fiktiv)</p>
+  <p>Kontakt: <a href="mailto:hallo@cafe-pistazie.example">hallo@cafe-pistazie.example</a>, 0211 5504488</p>
+  <form method="dialog"><button type="submit" class="btn btn-ghost">Schließen</button></form>
+</dialog>
+
+<dialog id="datenschutzDialog" class="legal-dialog">
+  <h2>Datenschutz</h2>
+  <p>Diese Beispielseite verarbeitet keine echten Nutzerdaten. Formulare sind
+  Demonstrationen ohne serverseitige Übertragung.</p>
+  <p>Fiktiver Kontakt: <a href="mailto:datenschutz@cafe-pistazie.example">datenschutz@cafe-pistazie.example</a></p>
+  <form method="dialog"><button type="submit" class="btn btn-ghost">Schließen</button></form>
+</dialog>
+
+
+
+<script src="script.js"></script>
+</body>
+</html>

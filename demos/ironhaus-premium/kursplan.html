@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Kursplan &amp; Buchung – IRONHAUS Dortmund</title>
+<meta name="description" content="Filterbarer Kursplan von IRONHAUS Dortmund mit Live-Auslastung, Online-Buchung und Warteliste bei ausgebuchten Kursen.">
+
+<link rel="alternate" hreflang="de-DE" href="https://www.ironhaus-dortmund.example/pakete/premium/kursplan.html">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%231c1d1f'/%3E%3Crect x='4' y='14' width='24' height='4' fill='%23ffd400'/%3E%3Crect x='2' y='10' width='4' height='12' fill='%23ffd400'/%3E%3Crect x='26' y='10' width='4' height='12' fill='%23ffd400'/%3E%3C/svg%3E">
+<link href="../_assets/fonts/bd2c22ba1f.css" rel="stylesheet">
+<link rel="stylesheet" href="../ironhaus-shared/base.css">
+<link rel="stylesheet" href="../ironhaus-shared/components.css">
+<link rel="stylesheet" href="premium.css">
+<link rel="stylesheet" href="../shared/paket-badge.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Zum Inhalt springen</a>
+<aside class="paket-badge" data-tier="premium" aria-label="Hinweis zur Beispiel-Website"><p class="paket-badge__text"><span class="paket-badge__dot" aria-hidden="true"></span>Beispiel-Website · Paket <strong>Premium</strong> · erstellt von Zugangsklar</p><a class="paket-badge__cta" href="../../websites.html#showcase" target="_top">Pakete ansehen →</a></aside>
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="brand">IRON<span>HAUS</span></a>
+    <nav class="main-nav" aria-label="Hauptnavigation">
+      <ul id="primary-menu" class="nav-list">
+        <li><a href="training.html">Training</a></li>
+        <li><a href="kursplan.html" aria-current="page">Kursplan</a></li>
+        <li><a href="mitgliedschaft.html">Mitgliedschaft</a></li>
+        <li><a href="coaches.html">Coaches</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="mitglieder.html">Mitglieder</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+      </ul>
+      <a href="probetraining.html" class="btn btn-yellow nav-cta">Probetraining sichern</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu"><span class="nav-toggle-box"><span class="nav-toggle-bar"></span></span><span class="visually-hidden">Menü öffnen</span></button>
+    </nav>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <ul>
+      <li><a href="training.html">Training</a></li><li><a href="kursplan.html">Kursplan</a></li><li><a href="mitgliedschaft.html">Mitgliedschaft</a></li>
+      <li><a href="coaches.html">Coaches</a></li><li><a href="shop.html">Shop</a></li><li><a href="mitglieder.html">Mitglieder</a></li>
+      <li><a href="probetraining.html">Probetraining</a></li><li><a href="kontakt.html">Kontakt</a></li>
+    </ul>
+    <a href="probetraining.html" class="btn btn-yellow">Probetraining sichern</a>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-head">
+    <div class="container">
+      <ol class="breadcrumb"><li><a href="index.html">Start</a></li><li>Kursplan</li></ol>
+      <p class="eyebrow">Kursplan</p>
+      <h1>Finde deinen Kurs – live &amp; buchbar</h1>
+      <p>Die Auslastung wird live simuliert nachgeladen. Ist ein Kurs ausgebucht, kannst du dich direkt auf die Warteliste setzen.</p>
+    </div>
+  </section>
+
+  <section id="kursplan" class="section section-dark reveal">
+    <div class="container">
+      <div class="plan-controls">
+        <div class="day-select" role="group" aria-label="Wochentag wählen">
+          <button type="button" class="day-btn" data-day="0" aria-pressed="true">Mo</button>
+          <button type="button" class="day-btn" data-day="1" aria-pressed="false">Di</button>
+          <button type="button" class="day-btn" data-day="2" aria-pressed="false">Mi</button>
+          <button type="button" class="day-btn" data-day="3" aria-pressed="false">Do</button>
+          <button type="button" class="day-btn" data-day="4" aria-pressed="false">Fr</button>
+          <button type="button" class="day-btn" data-day="5" aria-pressed="false">Sa</button>
+          <button type="button" class="day-btn" data-day="6" aria-pressed="false">So</button>
+        </div>
+        <div class="chip-select" role="group" aria-label="Nach Kategorie filtern">
+          <button type="button" class="chip" data-category="Kraft" aria-pressed="false">Kraft</button>
+          <button type="button" class="chip" data-category="HIIT" aria-pressed="false">HIIT</button>
+          <button type="button" class="chip" data-category="Mobility" aria-pressed="false">Mobility</button>
+          <button type="button" class="chip" data-category="Boxen" aria-pressed="false">Boxen</button>
+        </div>
+      </div>
+      <ul class="course-list" id="course-list" aria-live="polite"></ul>
+      <p style="color:var(--color-grey-text); font-size:0.85rem; margin-top:var(--space-5);">Auslastung wird über eine simulierte API mit künstlicher Ladezeit nachgeladen (Demo).</p>
+    </div>
+  </section>
+</main>
+
+<div class="iw-modal-overlay" id="booking-modal" hidden>
+  <div class="iw-modal" role="dialog" aria-modal="true" aria-labelledby="booking-modal-title">
+    <button type="button" class="iw-modal-close" data-modal-close aria-label="Dialog schließen">&times;</button>
+    <h2 id="booking-modal-title">Kurs buchen</h2>
+    <p id="booking-course-label" style="font-weight:700;"></p>
+    <form id="booking-form">
+      <div class="form-row"><label for="booking-name">Name</label><input type="text" id="booking-name" name="name" autocomplete="name" required aria-describedby="booking-err-name"><p class="field-error" id="booking-err-name" aria-live="polite"></p></div>
+      <div class="form-row"><label for="booking-email">E-Mail</label><input type="email" id="booking-email" name="email" autocomplete="email" required aria-describedby="booking-err-email"><p class="field-error" id="booking-err-email" aria-live="polite"></p></div>
+      <button type="submit" class="btn btn-yellow" id="booking-submit-btn" style="width:100%;">Verbindlich buchen</button>
+    </form>
+    <div id="booking-success" role="status" tabindex="-1" hidden>
+      <p class="iw-notice iw-notice--success">Bestätigt!</p>
+      <button type="button" class="btn btn-outline-dark" id="booking-ics-btn">Zum Kalender hinzufügen (.ics)</button>
+      <button type="button" class="btn btn-dark" data-modal-close style="margin-left:var(--space-3);">Schließen</button>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div><p class="brand brand-footer">IRON<span>HAUS</span></p><p>Kraft- und Functional-Training in einer ehemaligen Industriehalle im Dortmunder Hafenviertel.</p><p class="footer-hours"><strong>Öffnungszeiten:</strong> 24/7 – 365 Tage im Jahr</p><p class="support-note">✓ Priority Support inklusive</p></div>
+    <nav aria-label="Footer-Navigation"><h2>Navigation</h2><ul><li><a href="training.html">Training</a></li><li><a href="kursplan.html">Kursplan</a></li><li><a href="mitgliedschaft.html">Mitgliedschaft</a></li><li><a href="coaches.html">Coaches</a></li><li><a href="shop.html">Shop</a></li><li><a href="mitglieder.html">Mitglieder</a></li><li><a href="blog.html">Blog</a></li></ul></nav>
+    <div><h2>Kontakt</h2><address>Speicherstraße 12<br>44147 Dortmund<br><a href="tel:+492315567231">0231 5567 231</a><br><a href="mailto:hallo@ironhaus-dortmund.example">hallo@ironhaus-dortmund.example</a></address></div>
+    <div><h2>Rechtliches</h2><ul><li><a href="#" aria-disabled="true" title="In dieser Demo nicht hinterlegt">Impressum</a></li><li><a href="#" aria-disabled="true" title="In dieser Demo nicht hinterlegt">Datenschutz</a></li></ul></div>
+  </div>
+  <div class="container footer-bottom">
+    <p>© <span data-current-year>2026</span> IRONHAUS Trainingshalle GmbH. Alle Angaben ohne Gewähr – fiktives Beispielprojekt.</p>
+    <div class="tier-switcher"><p>Diese Website als:</p><div class="tier-switcher-links">
+      <a href="../ironhaus-basic/kurse.html">Basic</a><span aria-hidden="true">·</span>
+      <a href="../ironhaus-business/kursplan.html">Business</a><span aria-hidden="true">·</span>
+      <a href="kursplan.html" aria-current="page">Premium</a>
+    </div></div>
+  </div>
+</footer>
+
+<div class="iw-cookie-banner" id="cookie-banner" hidden role="dialog" aria-label="Cookie-Einstellungen">
+  <div class="iw-cookie-inner">
+    <div>
+      <p class="iw-cookie-text"><strong>Cookie-Einstellungen (Demo).</strong> Notwendige Funktionen sowie optional Statistik und Marketing. Es werden keine echten Cookies gesetzt.</p>
+      <div class="iw-cookie-categories">
+        <label class="iw-cookie-category"><input type="checkbox" checked disabled> Notwendig</label>
+        <label class="iw-cookie-category"><input type="checkbox" id="cookie-stats"> Statistik</label>
+        <label class="iw-cookie-category"><input type="checkbox" id="cookie-marketing"> Marketing</label>
+      </div>
+    </div>
+    <div class="iw-cookie-actions">
+      <button type="button" class="btn btn-outline-dark" id="cookie-reject" style="border-color:#fff; color:#fff;">Ablehnen</button>
+      <button type="button" class="btn btn-outline-dark" id="cookie-save" style="border-color:#fff; color:#fff;">Auswahl speichern</button>
+      <button type="button" class="btn btn-yellow" id="cookie-accept-all">Alle akzeptieren</button>
+    </div>
+  </div>
+</div>
+<button type="button" class="iw-chat-toggle" id="chat-toggle" aria-expanded="false" aria-controls="chat-panel" aria-label="Support-Chat öffnen">💬</button>
+<div class="iw-chat-panel" id="chat-panel" hidden>
+  <div class="iw-chat-head"><h2>Priority Support</h2><button type="button" class="iw-chat-close" id="chat-close" aria-label="Chat schließen">&times;</button></div>
+  <div class="iw-chat-body" id="chat-body"><div class="iw-chat-msg iw-chat-msg--bot">Hey! Womit können wir dir helfen? (Demo-Chat)</div></div>
+  <div class="iw-chat-quick"><button type="button">Öffnungszeiten?</button><button type="button">Kurs stornieren</button><button type="button">Mitgliedschaft pausieren</button></div>
+</div>
+
+<script src="../ironhaus-shared/data.js"></script>
+<script src="../ironhaus-shared/shared.js"></script>
+<script src="premium.js"></script>
+
+</body>
+</html>

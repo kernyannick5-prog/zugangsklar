@@ -1,0 +1,170 @@
+/* =========================================================
+   Café Pistazie — Paket Premium
+   Ergänzt ../demo-basic/styles.css und ../pistazie-shared/shared.css
+   um Shop, Mitgliederbereich, Sprachumschalter, Cookie-Banner
+   und Chat-Widget.
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   Sprachumschalter (DE/EN) — als Nav-Eintrag in Header & Footer
+   --------------------------------------------------------- */
+.lang-toggle {
+  min-height: 40px; padding: 0.5rem 1rem; border-radius: 999px;
+  border: 2px solid var(--color-cocoa); background: transparent;
+  font-weight: 800; cursor: pointer; font-size: var(--step--1);
+}
+.lang-toggle:hover { background: var(--color-pistachio); }
+.header-nav .lang-toggle, .mobile-nav .lang-toggle { min-height: 44px; }
+
+/* Warenkorb-Link mit Zähler im Nav */
+.cart-link { position: relative; }
+.cart-link[data-bump] { animation: cart-bump 0.22s ease; }
+@keyframes cart-bump { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
+[data-cart-count] {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 1.3em; height: 1.3em; padding: 0 0.3em; margin-left: 0.3em;
+  background: var(--color-cocoa); color: #fff; border-radius: 999px; font-size: 0.75em; font-weight: 800;
+}
+
+/* ---------------------------------------------------------
+   Cookie-Banner — bewusst NICHT position:fixed/sticky: ein
+   überlagerndes Banner würde je nach Seite entweder den
+   sticky Header (oben) oder Formulare/Buttons weiter unten im
+   Viewport verdecken (z. B. Lieferoptionen im Warenkorb).
+   Stattdessen ein normaler Block ganz oben im Dokument (vor
+   dem Header), der beim Erscheinen/Schließen den Inhalt
+   darunter verschiebt statt ihn zu verdecken.
+   --------------------------------------------------------- */
+.cookie-banner {
+  position: relative; z-index: 500;
+  background: var(--color-cocoa); color: #fff;
+  padding: var(--space-s) clamp(1rem, 4vw, 3rem);
+}
+.cookie-banner__inner { max-width: 70rem; margin: 0 auto; display: flex; flex-wrap: wrap; gap: var(--space-m); align-items: center; justify-content: space-between; }
+.cookie-banner p { max-width: 42rem; font-size: var(--step--1); }
+.cookie-banner__categories { display: flex; flex-wrap: wrap; gap: var(--space-s); font-size: var(--step--1); }
+.cookie-banner__categories label { display: flex; align-items: center; gap: 0.4em; }
+.cookie-banner__actions { display: flex; flex-wrap: wrap; gap: var(--space-2xs); }
+.cookie-banner .btn-ghost { border-color: #fff; color: #fff; }
+.cookie-banner .btn-ghost:hover { background: #fff; color: var(--color-cocoa); }
+.cookie-banner .btn-primary { background: var(--color-pistachio); color: var(--color-cocoa); border-color: var(--color-pistachio); }
+.cookie-banner[hidden] { display: none; }
+
+/* ---------------------------------------------------------
+   Chat-Widget (unten rechts, priorisierter Support)
+   --------------------------------------------------------- */
+.chat-widget { position: fixed; right: 16px; bottom: 16px; z-index: 9980; display: flex; flex-direction: column; align-items: flex-end; gap: 0.75rem; }
+.chat-widget__toggle {
+  width: 56px; height: 56px; border-radius: 50%; border: none;
+  background: var(--color-cocoa); color: #fff; font-size: 1.4rem;
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+  box-shadow: 0 10px 24px rgba(74,52,40,0.35);
+}
+.chat-widget__toggle:hover { background: var(--color-blush-deep); color: var(--color-cocoa); }
+.chat-widget__panel {
+  width: min(20rem, 80vw); max-height: 60vh; overflow-y: auto;
+  background: var(--color-surface); border-radius: var(--radius-l);
+  box-shadow: var(--shadow-card); padding: var(--space-m);
+}
+.chat-widget__panel[hidden] { display: none; }
+.chat-widget__panel h2 { font-size: var(--step-1); margin-bottom: var(--space-2xs); }
+.chat-widget__badge { font-size: var(--step--1); background: var(--color-pistachio); border-radius: 999px; padding: 0.2rem 0.7rem; display: inline-block; margin-bottom: var(--space-2xs); font-weight: 700; }
+.chat-widget__log { display: flex; flex-direction: column; gap: var(--space-2xs); margin: var(--space-s) 0; }
+.chat-widget__msg { padding: 0.5rem 0.8rem; border-radius: var(--radius-m); font-size: var(--step--1); }
+.chat-widget__msg--bot { background: var(--color-pistachio); align-self: flex-start; }
+.chat-widget__msg--user { background: var(--color-blush); align-self: flex-end; }
+.chat-widget__quick { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.chat-widget__quick button { font-size: var(--step--1); border-radius: 999px; border: 2px solid var(--color-pistachio-deep); background: transparent; padding: 0.3rem 0.7rem; cursor: pointer; }
+.chat-widget__quick button:hover { background: var(--color-pistachio); }
+
+@media (max-width: 480px) {
+  .chat-widget { right: 10px; bottom: 10px; }
+}
+
+/* ---------------------------------------------------------
+   Shop: Produktraster
+   --------------------------------------------------------- */
+.shop-toolbar { display: flex; flex-wrap: wrap; gap: var(--space-s); justify-content: space-between; align-items: center; margin-bottom: var(--space-l); }
+.shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: var(--space-m); }
+.shop-card { background: var(--color-surface); border-radius: var(--radius-m); box-shadow: var(--shadow-card); overflow: hidden; display: flex; flex-direction: column; position: relative; }
+.shop-card__media { aspect-ratio: 4/3; overflow: hidden; background: var(--color-pistachio); }
+.shop-card__media img { width: 100%; height: 100%; object-fit: cover; }
+.shop-card__body { padding: var(--space-s) var(--space-m) var(--space-m); display: flex; flex-direction: column; gap: 0.3rem; flex: 1; }
+.shop-card__body p { color: var(--color-cocoa-70); font-size: var(--step--1); }
+.shop-card__price { font-weight: 800; margin-top: auto; }
+.shop-card__actions { display: flex; gap: var(--space-2xs); align-items: center; margin-top: var(--space-2xs); }
+.wish-btn {
+  border: 2px solid var(--color-pistachio-deep); background: var(--color-surface); border-radius: 50%;
+  width: 40px; height: 40px; cursor: pointer; font-size: 1.1rem; flex-shrink: 0;
+}
+.wish-btn[aria-pressed="true"] { background: var(--color-blush); border-color: var(--color-blush-deep); }
+.stock-note { font-size: var(--step--1); font-weight: 700; }
+.stock-note.is-low { color: #b3564d; }
+.stock-note.is-ok { color: #3f7a34; }
+
+/* ---------------------------------------------------------
+   Warenkorb
+   --------------------------------------------------------- */
+.cart-table { width: 100%; border-collapse: collapse; }
+.cart-table th, .cart-table td { text-align: left; padding: var(--space-2xs) var(--space-s); border-bottom: 1px solid var(--color-pistachio); }
+.cart-table td.num, .cart-table th.num { text-align: right; }
+.cart-qty { display: inline-flex; align-items: center; gap: 0.4rem; }
+.cart-qty button { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--color-cocoa); background: transparent; cursor: pointer; }
+.cart-remove { background: none; border: none; color: #b3564d; text-decoration: underline; cursor: pointer; font: inherit; }
+.cart-empty { text-align: center; color: var(--color-cocoa-70); padding: var(--space-l) 0; }
+.fulfillment-choice { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: var(--space-s); margin: var(--space-m) 0; }
+.delivery-check-result { margin-top: var(--space-2xs); font-weight: 700; min-height: 1.4em; }
+.delivery-check-result.is-ok { color: #3f7a34; }
+.delivery-check-result.is-fail { color: #b3564d; }
+
+/* ---------------------------------------------------------
+   Konto / Dashboard
+   --------------------------------------------------------- */
+.auth-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: var(--space-m); max-width: 50rem; margin: 0 auto; }
+.dashboard-tabs { display: flex; flex-wrap: wrap; gap: var(--space-2xs); margin-bottom: var(--space-m); justify-content: center; }
+.dashboard-tabs button {
+  min-height: 44px; padding: 0 1.25rem; border-radius: 999px; border: 2px solid var(--color-cocoa);
+  background: transparent; font-weight: 700; cursor: pointer;
+}
+.dashboard-tabs button[aria-selected="true"] { background: var(--color-cocoa); color: #fff; }
+.dashboard-panel[hidden] { display: none; }
+.stamp-card { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-s); max-width: 24rem; margin: var(--space-m) auto; }
+.stamp {
+  aspect-ratio: 1/1; border-radius: 50%; border: 2px dashed var(--color-pistachio-deep);
+  display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
+}
+.stamp.is-filled { border-style: solid; background: var(--color-pistachio); }
+.orders-table { width: 100%; border-collapse: collapse; }
+.orders-table th, .orders-table td { text-align: left; padding: var(--space-2xs) var(--space-s); border-bottom: 1px solid var(--color-pistachio); }
+.order-status { display: inline-block; padding: 0.2rem 0.7rem; border-radius: 999px; font-weight: 700; font-size: var(--step--1); background: var(--color-pistachio); }
+.favorites-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: var(--space-s); }
+
+/* ---------------------------------------------------------
+   Gutschein
+   --------------------------------------------------------- */
+.voucher-layout { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-l); align-items: start; }
+.voucher-preview {
+  background: linear-gradient(135deg, var(--color-pistachio), var(--color-lavender));
+  border-radius: var(--radius-l); padding: var(--space-l); box-shadow: var(--shadow-card);
+  aspect-ratio: 1.6/1; display: flex; flex-direction: column; justify-content: space-between;
+  color: var(--color-cocoa); position: relative; overflow: hidden;
+}
+.voucher-preview::after {
+  content: ""; position: absolute; inset: 10px; border: 2px dashed rgba(74,52,40,0.35); border-radius: calc(var(--radius-l) - 6px); pointer-events: none;
+}
+.voucher-preview__brand { font-family: var(--font-display); font-size: var(--step-2); }
+.voucher-preview__amount { font-family: var(--font-display); font-size: var(--step-5); }
+.voucher-preview__meta { font-size: var(--step--1); }
+.voucher-amount-chip { cursor: pointer; font: inherit; text-align: left; width: 100%; }
+.voucher-amount-chip[aria-pressed="true"] { border-color: var(--color-cocoa); background: var(--color-pistachio); }
+@media (max-width: 860px) { .voucher-layout { grid-template-columns: 1fr; } }
+
+/* ---------------------------------------------------------
+   Live-Wartezeit / Heute frisch — Ladezustand
+   --------------------------------------------------------- */
+.live-widget__value[data-loading]::after { content: "…"; }
+
+/* Sprachumschalter darf mobilen Menu-Button nicht überlappen */
+@media (max-width: 460px) {
+  .header-top { flex-wrap: wrap; row-gap: 0.5rem; }
+}

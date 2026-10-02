@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Kontakt & Probetraining – IRONHAUS Dortmund</title>
+<meta name="description" content="Kontaktiere IRONHAUS Dortmund oder sichere dir ein kostenloses Probetraining. Adresse, Öffnungszeiten und Kontaktformular.">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%231c1d1f'/%3E%3Crect x='4' y='14' width='24' height='4' fill='%23ffd400'/%3E%3Crect x='2' y='10' width='4' height='12' fill='%23ffd400'/%3E%3Crect x='26' y='10' width='4' height='12' fill='%23ffd400'/%3E%3C/svg%3E">
+<link href="../_assets/fonts/bd2c22ba1f.css" rel="stylesheet">
+<link rel="stylesheet" href="../ironhaus-shared/base.css">
+<link rel="stylesheet" href="../ironhaus-shared/components.css">
+<link rel="stylesheet" href="basic.css">
+<link rel="stylesheet" href="../shared/paket-badge.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Zum Inhalt springen</a>
+<aside class="paket-badge" data-tier="basic" aria-label="Hinweis zur Beispiel-Website"><p class="paket-badge__text"><span class="paket-badge__dot" aria-hidden="true"></span>Beispiel-Website · Paket <strong>Basic</strong> · erstellt von Zugangsklar</p><a class="paket-badge__cta" href="../../websites.html#showcase" target="_top">Pakete ansehen →</a></aside>
+
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="brand">IRON<span>HAUS</span></a>
+    <nav class="main-nav" aria-label="Hauptnavigation">
+      <ul id="primary-menu" class="nav-list">
+        <li><a href="index.html#training">Training</a></li>
+        <li><a href="kurse.html">Kurse</a></li>
+        <li><a href="index.html#mitgliedschaft">Mitgliedschaft</a></li>
+        <li><a href="kontakt.html" aria-current="page">Kontakt</a></li>
+      </ul>
+      <a href="kontakt.html#trial" class="btn btn-yellow nav-cta">Probetraining sichern</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu">
+        <span class="nav-toggle-box"><span class="nav-toggle-bar"></span></span>
+        <span class="visually-hidden">Menü öffnen</span>
+      </button>
+    </nav>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <ul>
+      <li><a href="index.html#training">Training</a></li>
+      <li><a href="kurse.html">Kurse</a></li>
+      <li><a href="index.html#mitgliedschaft">Mitgliedschaft</a></li>
+      <li><a href="kontakt.html">Kontakt</a></li>
+    </ul>
+    <a href="kontakt.html#trial" class="btn btn-yellow">Probetraining sichern</a>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-head">
+    <div class="container">
+      <ol class="breadcrumb"><li><a href="index.html">Start</a></li><li>Kontakt</li></ol>
+      <p class="eyebrow">Kontakt</p>
+      <h1>Sprich uns an</h1>
+      <p>Fragen zur Mitgliedschaft oder direkt ein Probetraining sichern – schreib uns einfach.</p>
+    </div>
+  </section>
+
+  <section id="trial" class="section reveal">
+    <div class="container contact-layout">
+      <div class="contact-info">
+        <h2>Adresse &amp; Öffnungszeiten</h2>
+        <address>
+          IRONHAUS Trainingshalle GmbH<br>
+          Speicherstraße 12<br>44147 Dortmund<br>
+          <a href="tel:+492315567231">0231 5567 231</a><br>
+          <a href="mailto:hallo@ironhaus-dortmund.example">hallo@ironhaus-dortmund.example</a>
+        </address>
+        <table class="contact-hours-table">
+          <caption class="visually-hidden">Öffnungszeiten</caption>
+          <tbody>
+            <tr><th scope="row">Montag – Freitag</th><td>06:00 – 23:00 Uhr</td></tr>
+            <tr><th scope="row">Samstag – Sonntag</th><td>08:00 – 21:00 Uhr</td></tr>
+          </tbody>
+        </table>
+        <p>Am schnellsten erreichst du uns telefonisch während der Öffnungszeiten oder per E-Mail – wir melden uns werktags innerhalb von 24 Stunden.</p>
+      </div>
+
+      <div>
+        <h2 class="visually-hidden">Kontakt- und Probetrainingsformular</h2>
+        <form id="trial-form" class="trial-form" novalidate>
+          <div class="form-row">
+            <label for="trial-name">Name</label>
+            <input type="text" id="trial-name" name="name" autocomplete="name" required aria-describedby="trial-err-name">
+            <p class="field-error" id="trial-err-name" aria-live="polite"></p>
+          </div>
+          <div class="form-row">
+            <label for="trial-email">E-Mail</label>
+            <input type="email" id="trial-email" name="email" autocomplete="email" required aria-describedby="trial-err-email">
+            <p class="field-error" id="trial-err-email" aria-live="polite"></p>
+          </div>
+          <div class="form-row">
+            <label for="trial-date">Wunschtermin (optional für Probetraining)</label>
+            <input type="date" id="trial-date" name="date" aria-describedby="trial-err-date">
+            <p class="field-error" id="trial-err-date" aria-live="polite"></p>
+          </div>
+          <div class="form-row">
+            <label for="trial-message">Nachricht (optional)</label>
+            <input type="text" id="trial-message" name="message" aria-describedby="trial-err-message">
+            <p class="field-error" id="trial-err-message" aria-live="polite"></p>
+          </div>
+          <button type="submit" class="btn btn-dark btn-lg">Anfrage senden</button>
+        </form>
+
+        <div id="trial-success" class="success-panel" role="status" tabindex="-1" hidden>
+          <h3>Danke, <span id="trial-success-name"></span>!</h3>
+          <p>Wir melden uns per E-Mail an <span id="trial-success-email"></span><span id="trial-success-date-wrap">, um deinen Termin am <span id="trial-success-date"></span> zu bestätigen</span>.</p>
+          <button type="button" class="btn btn-outline-dark" id="trial-reset">Neue Anfrage stellen</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <p class="brand brand-footer">IRON<span>HAUS</span></p>
+      <p>Kraft- und Functional-Training in einer ehemaligen Industriehalle im Dortmunder Hafenviertel.</p>
+      <p class="footer-hours"><strong>Öffnungszeiten:</strong> Mo–Fr 06–23 Uhr, Sa–So 08–21 Uhr</p>
+    </div>
+    <nav aria-label="Footer-Navigation">
+      <h2>Navigation</h2>
+      <ul>
+        <li><a href="index.html#training">Training</a></li>
+        <li><a href="kurse.html">Kurse</a></li>
+        <li><a href="index.html#mitgliedschaft">Mitgliedschaft</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+      </ul>
+    </nav>
+    <div>
+      <h2>Kontakt</h2>
+      <address>
+        Speicherstraße 12<br>44147 Dortmund<br>
+        <a href="tel:+492315567231">0231 5567 231</a><br>
+        <a href="mailto:hallo@ironhaus-dortmund.example">hallo@ironhaus-dortmund.example</a>
+      </address>
+    </div>
+    <div>
+      <h2>Rechtliches</h2>
+      <ul>
+        <li><a href="#" aria-disabled="true" title="In dieser Demo nicht hinterlegt">Impressum</a></li>
+        <li><a href="#" aria-disabled="true" title="In dieser Demo nicht hinterlegt">Datenschutz</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>© <span data-current-year>2026</span> IRONHAUS Trainingshalle GmbH. Alle Angaben ohne Gewähr – fiktives Beispielprojekt.</p>
+    <div class="tier-switcher">
+      <p>Diese Website als:</p>
+      <div class="tier-switcher-links">
+        <a href="index.html" aria-current="page">Basic</a>
+        <span aria-hidden="true">·</span>
+        <a href="../ironhaus-business/kontakt.html">Business</a>
+        <span aria-hidden="true">·</span>
+        <a href="../ironhaus-premium/kontakt.html">Premium</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="../ironhaus-shared/shared.js"></script>
+<script src="basic.js"></script>
+
+</body>
+</html>

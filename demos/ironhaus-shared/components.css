@@ -1,0 +1,167 @@
+/* ==========================================================================
+   IRONHAUS – gemeinsame Zusatzkomponenten (Business & Premium)
+   Baut auf base.css auf (Design-Tokens, Farben, Schriften, Buttons).
+   Praefix "iw-" = IronhausWidget, um Kollisionen mit base.css zu vermeiden.
+   ========================================================================== */
+
+/* Paket-Umschalter im Footer */
+.tier-switcher { margin-top: var(--space-6); padding-top: var(--space-5); border-top: 1px solid var(--color-anthracite-3); font-size: 0.85rem; color: var(--color-grey-text); }
+.tier-switcher p { margin: 0 0 var(--space-2); }
+.tier-switcher-links { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); }
+.tier-switcher-links a { text-decoration: underline; text-underline-offset: 2px; }
+.tier-switcher-links a:hover { color: var(--color-yellow); }
+.tier-switcher-links [aria-current="page"] { color: var(--color-yellow); font-weight: 700; text-decoration: none; }
+
+/* Support-Hinweis im Footer (Business/Premium) */
+.support-note {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  margin-top: var(--space-3); font-size: 0.85rem; font-weight: 700; color: var(--color-yellow);
+}
+
+/* Seiten-Untertitel/Kopfbereich fuer Unterseiten (kein Vollbild-Hero) */
+.page-head { background: var(--color-anthracite); color: var(--color-white); padding: var(--space-8) 0 var(--space-7); }
+.page-head .eyebrow { color: var(--color-yellow); }
+.page-head h1 { font-size: var(--fs-h2); max-width: 24ch; }
+.page-head p { color: var(--color-grey-text); max-width: 60ch; margin: 0; }
+.breadcrumb { list-style: none; display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 0 0 var(--space-4); padding: 0; font-size: 0.8rem; color: var(--color-grey-text); }
+.breadcrumb li:not(:last-child)::after { content: "/"; margin-left: var(--space-2); opacity: 0.6; }
+.breadcrumb a { color: var(--color-grey-text); text-decoration: none; }
+.breadcrumb a:hover { color: var(--color-yellow); }
+
+/* Generisches Badge/Pill */
+.iw-pill {
+  display: inline-flex; align-items: center; gap: 0.35em;
+  padding: 0.25em 0.75em; border-radius: 999px; font-size: 0.75rem;
+  font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+  border: 1px solid currentColor;
+}
+.iw-pill--free { color: #35b56b; }
+.iw-pill--low { color: var(--color-yellow); }
+.iw-pill--full { color: #ff8a80; }
+
+/* Kapazitaetsbalken (Kursplan, Auslastung) */
+.iw-capacity { display: flex; align-items: center; gap: var(--space-3); font-size: 0.8rem; color: var(--color-grey-text); }
+.iw-capacity-track { flex: 1; min-width: 60px; height: 8px; border-radius: 999px; background: var(--color-anthracite-3); overflow: hidden; }
+.iw-capacity-bar { height: 100%; background: var(--color-yellow); border-radius: 999px; transition: width var(--transition-med); }
+.iw-capacity-bar.is-full { background: #e2574c; }
+
+/* Modal (Buchung, Login, Warenkorb-Hinweise) */
+.iw-modal-overlay {
+  position: fixed; inset: 0; z-index: 500; background: rgba(10, 11, 12, 0.72);
+  display: flex; align-items: center; justify-content: center; padding: var(--space-5);
+}
+.iw-modal-overlay[hidden] { display: none; }
+.iw-modal {
+  background: var(--color-white); color: var(--color-anthracite);
+  max-width: 460px; width: 100%; max-height: 90vh; overflow-y: auto;
+  padding: var(--space-6); border-radius: var(--radius-md); position: relative;
+  box-shadow: var(--shadow-lg);
+}
+.iw-modal h2, .iw-modal h3 { font-size: 1.5rem; }
+.iw-modal-close {
+  position: absolute; top: var(--space-4); right: var(--space-4);
+  min-width: 44px; min-height: 44px; background: none; border: none; cursor: pointer;
+  font-size: 1.5rem; line-height: 1; color: var(--color-anthracite);
+}
+.iw-modal-close:hover { color: #b3261e; }
+.iw-modal .form-row { margin-bottom: var(--space-4); display: flex; flex-direction: column; }
+.iw-modal label { font-weight: 700; margin-bottom: var(--space-2); font-size: 0.9rem; }
+.iw-modal input, .iw-modal select {
+  font: inherit; padding: 0.7rem 0.9rem; border-radius: var(--radius-sm);
+  border: 2px solid var(--color-anthracite); background: var(--color-white); min-height: 44px;
+}
+.iw-modal input[aria-invalid="true"] { border-color: #b3261e; }
+
+/* Toggle-Switch (Newsletter, Wearable-Sync, Cookie-Kategorien) */
+.iw-switch { display: inline-flex; align-items: center; gap: var(--space-3); cursor: pointer; }
+.iw-switch input { position: absolute; opacity: 0; width: 44px; height: 24px; margin: 0; cursor: pointer; }
+.iw-switch-track {
+  width: 44px; height: 24px; border-radius: 999px; background: var(--color-anthracite-3);
+  position: relative; transition: background var(--transition-fast); flex: none;
+}
+.iw-switch-track::after {
+  content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px;
+  border-radius: 50%; background: var(--color-white); transition: transform var(--transition-fast);
+}
+.iw-switch input:checked + .iw-switch-track { background: var(--color-yellow); }
+.iw-switch input:checked + .iw-switch-track::after { transform: translateX(20px); background: var(--color-anthracite); }
+.iw-switch input:focus-visible + .iw-switch-track { outline: 3px solid var(--color-yellow); outline-offset: 2px; }
+.iw-switch input:disabled + .iw-switch-track { opacity: 0.5; cursor: not-allowed; }
+
+/* Generische Tabelle (Rechnungen, Check-in-Verlauf) */
+.iw-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.iw-table caption { text-align: left; font-weight: 700; margin-bottom: var(--space-3); }
+.iw-table th, .iw-table td { text-align: left; padding: var(--space-3) var(--space-4); border-bottom: 1px solid #e6e6e8; }
+.section-dark .iw-table th, .section-dark .iw-table td { border-bottom-color: var(--color-anthracite-3); }
+.iw-table th { text-transform: uppercase; letter-spacing: 0.03em; font-size: 0.75rem; opacity: 0.65; }
+.iw-table-wrap { overflow-x: auto; }
+
+/* Karten fuer Blog/Shop/Dashboard */
+.iw-card-grid { display: grid; gap: var(--space-5); grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 980px) { .iw-card-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 620px) { .iw-card-grid { grid-template-columns: 1fr; } }
+.iw-card {
+  background: var(--color-white); border: 2px solid #e6e6e8; padding: var(--space-5);
+  display: flex; flex-direction: column; gap: var(--space-2);
+}
+.section-dark .iw-card { background: var(--color-anthracite-2); border-color: var(--color-anthracite-3); color: var(--color-white); }
+.iw-card h3 { font-size: 1.1rem; }
+.iw-card .iw-card-meta { font-size: 0.8rem; color: var(--color-grey-text); text-transform: uppercase; letter-spacing: 0.03em; }
+
+/* Formular-Statusmeldungen (Erfolg / Hinweis) */
+.iw-notice { padding: var(--space-4) var(--space-5); border-radius: var(--radius-md); font-size: 0.92rem; margin-bottom: var(--space-5); }
+.iw-notice--info { background: #eef2ff; color: #33366b; border: 1px solid #c7cdf5; }
+.iw-notice--success { background: #e9f9ef; color: #1e6b3d; border: 1px solid #a9e6bf; }
+
+/* Cookie-Banner (Premium) – muss ueber dem fixen Demo-Paket-Badge liegen,
+   solange der Consent noch aussteht, damit der Badge dessen Buttons nicht
+   verdeckt (Badge hat z-index: 9990, siehe pakete/shared/paket-badge.css). */
+.iw-cookie-banner {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 9995;
+  background: var(--color-anthracite); color: var(--color-white);
+  padding: var(--space-5); border-top: 3px solid var(--color-yellow);
+  box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
+}
+.iw-cookie-banner[hidden] { display: none; }
+.iw-cookie-inner { max-width: var(--container-w); margin-inline: auto; display: flex; flex-wrap: wrap; gap: var(--space-5); align-items: flex-start; justify-content: space-between; }
+.iw-cookie-text { max-width: 60ch; font-size: 0.9rem; color: var(--color-grey-text); }
+.iw-cookie-text strong { color: var(--color-white); }
+.iw-cookie-categories { display: flex; flex-wrap: wrap; gap: var(--space-4); margin: var(--space-3) 0; }
+.iw-cookie-category { display: flex; align-items: center; gap: var(--space-2); font-size: 0.85rem; }
+.iw-cookie-actions { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
+
+/* Support-Chat-Widget (Premium) */
+.iw-chat-toggle {
+  position: fixed; right: 16px; bottom: 16px; z-index: 590;
+  min-width: 56px; min-height: 56px; border-radius: 50%;
+  background: var(--color-yellow); color: var(--color-anthracite);
+  border: none; cursor: pointer; box-shadow: var(--shadow-lg);
+  display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+}
+.iw-chat-toggle:hover { background: var(--color-yellow-dark); }
+.iw-chat-panel {
+  position: fixed; right: 16px; bottom: 84px; z-index: 591;
+  width: min(340px, calc(100vw - 32px)); max-height: min(480px, calc(100vh - 140px));
+  background: var(--color-white); color: var(--color-anthracite);
+  border-radius: var(--radius-md); box-shadow: var(--shadow-lg);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.iw-chat-panel[hidden] { display: none; }
+.iw-chat-head { background: var(--color-anthracite); color: var(--color-white); padding: var(--space-4) var(--space-5); display: flex; justify-content: space-between; align-items: center; }
+.iw-chat-head h2 { font-size: 1rem; margin: 0; font-family: var(--font-body); font-style: normal; text-transform: none; }
+.iw-chat-close { background: none; border: none; color: var(--color-white); font-size: 1.3rem; cursor: pointer; min-width: 32px; min-height: 32px; }
+.iw-chat-body { flex: 1; overflow-y: auto; padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); font-size: 0.88rem; }
+.iw-chat-msg { max-width: 85%; padding: var(--space-3); border-radius: var(--radius-md); }
+.iw-chat-msg--bot { background: #f2f2f3; align-self: flex-start; }
+.iw-chat-msg--user { background: var(--color-yellow); align-self: flex-end; }
+.iw-chat-quick { display: flex; flex-wrap: wrap; gap: var(--space-2); padding: 0 var(--space-4) var(--space-4); }
+.iw-chat-quick button { font-size: 0.78rem; padding: 0.4em 0.8em; border-radius: 999px; border: 1px solid var(--color-anthracite); background: none; cursor: pointer; min-height: 36px; }
+.iw-chat-quick button:hover { background: var(--color-yellow); border-color: var(--color-yellow); }
+
+/* Skeleton / Ladezustand fuer simulierte APIs */
+.iw-skeleton { color: var(--color-grey-text); font-size: 0.85rem; padding: var(--space-4); text-align: center; }
+.iw-skeleton::before { content: "\21BB "; }
+
+@media (prefers-reduced-motion: reduce) {
+  .iw-capacity-bar, .iw-switch-track, .iw-switch-track::after { transition: none; }
+}

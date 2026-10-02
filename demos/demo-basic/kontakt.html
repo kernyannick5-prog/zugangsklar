@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Kontakt — Café Pistazie</title>
+<meta name="description" content="Kontaktiere Café Pistazie in Düsseldorf: Adresse, Öffnungszeiten und Kontaktformular.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%23cfe3c1'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23f6d6d6'/%3E%3C/svg%3E">
+<link href="../_assets/fonts/8237af75e2.css" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../shared/paket-badge.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Zum Inhalt springen</a>
+<aside class="paket-badge" data-tier="basic" aria-label="Hinweis zur Beispiel-Website"><p class="paket-badge__text"><span class="paket-badge__dot" aria-hidden="true"></span>Beispiel-Website · Paket <strong>Basic</strong> · erstellt von Zugangsklar</p><a class="paket-badge__cta" href="../../websites.html#showcase" target="_top">Pakete ansehen →</a></aside>
+
+<header class="site-header" id="top">
+  <div class="header-top">
+    <a href="index.html" class="logo" aria-label="Café Pistazie — Startseite">
+      <svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+        <circle cx="24" cy="22" r="17" fill="#cfe3c1"/>
+        <circle cx="24" cy="22" r="7" fill="#f6d6d6"/>
+        <path d="M13 38q11 6 22 0" fill="none" stroke="#4a3428" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <span class="logo-text">Café Pistazie</span>
+    </a>
+    <button type="button" class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mobileNav">
+      <span class="sr-only">Menü öffnen</span>
+      <span class="menu-toggle-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+    </button>
+  </div>
+
+  <nav class="header-nav" aria-label="Hauptnavigation">
+    <ul>
+      <li><a href="index.html">Start</a></li>
+      <li><a href="angebot.html">Angebot</a></li>
+      <li><a href="kontakt.html" aria-current="page">Kontakt</a></li>
+    </ul>
+  </nav>
+
+  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile Navigation" hidden>
+    <ul>
+      <li><a href="index.html">Start</a></li>
+      <li><a href="angebot.html">Angebot</a></li>
+      <li><a href="kontakt.html" aria-current="page">Kontakt</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main">
+
+  <!-- SEITENKOPF -->
+  <section aria-labelledby="kontakt-heading">
+    <div class="section-head reveal">
+      <p class="eyebrow">Kontakt</p>
+      <h1 id="kontakt-heading">Wir freuen uns auf dich</h1>
+      <p class="section-lede">Fragen zu Öffnungszeiten, Brunch oder unserer Karte? Schreib uns eine Nachricht oder komm einfach vorbei.</p>
+    </div>
+  </section>
+
+  <!-- KONTAKTFORMULAR -->
+  <section class="order" id="kontaktformular" aria-labelledby="kontaktform-heading">
+    <div class="section-head reveal">
+      <p class="eyebrow">Nachricht senden</p>
+      <h2 id="kontaktform-heading">Schreib uns eine Nachricht</h2>
+      <p class="section-lede">Wir antworten in der Regel innerhalb von zwei Werktagen.</p>
+    </div>
+
+    <form class="order-form reveal" id="contactForm" novalidate>
+      <div class="form-row">
+        <label for="contactName">Name</label>
+        <input type="text" id="contactName" name="name" required autocomplete="name">
+        <span class="form-error" id="contactNameError" role="alert"></span>
+      </div>
+
+      <div class="form-row">
+        <label for="contactEmail">E-Mail</label>
+        <input type="email" id="contactEmail" name="email" required autocomplete="email">
+        <span class="form-error" id="contactEmailError" role="alert"></span>
+      </div>
+
+      <div class="form-row">
+        <label for="contactMessage">Nachricht</label>
+        <textarea id="contactMessage" name="message" rows="5" required></textarea>
+        <span class="form-error" id="contactMessageError" role="alert"></span>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block">Nachricht senden</button>
+      <p class="form-message" id="contactStatus" role="status"></p>
+    </form>
+  </section>
+
+  <!-- STANDORT -->
+  <section class="location" id="standort" aria-labelledby="location-heading">
+    <div class="location-info reveal">
+      <p class="eyebrow">Standort</p>
+      <h2 id="location-heading">Besuch uns</h2>
+      <p>Steinstraße 22<br>40212 Düsseldorf<br>(nahe Königsallee)</p>
+      <p><a href="tel:+492115504488">0211 5504488</a><br><a href="mailto:hallo@cafe-pistazie.example">hallo@cafe-pistazie.example</a></p>
+    </div>
+    <div class="location-hours reveal">
+      <table class="hours-table">
+        <caption class="sr-only">Öffnungszeiten von Café Pistazie</caption>
+        <tbody>
+          <tr data-day="Montag"><th scope="row">Montag</th><td>08:00–19:00</td></tr>
+          <tr data-day="Dienstag"><th scope="row">Dienstag</th><td>08:00–19:00</td></tr>
+          <tr data-day="Mittwoch"><th scope="row">Mittwoch</th><td>08:00–19:00</td></tr>
+          <tr data-day="Donnerstag"><th scope="row">Donnerstag</th><td>08:00–19:00</td></tr>
+          <tr data-day="Freitag"><th scope="row">Freitag</th><td>08:00–19:00</td></tr>
+          <tr data-day="Samstag"><th scope="row">Samstag</th><td>09:00–19:00</td></tr>
+          <tr data-day="Sonntag"><th scope="row">Sonntag</th><td>09:00–17:00</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ANFAHRT / KARTENSKIZZE -->
+  <section class="karte" id="anfahrt" aria-labelledby="karte-heading">
+    <div class="section-head reveal">
+      <p class="eyebrow">Anfahrt</p>
+      <h2 id="karte-heading">So findest du uns</h2>
+    </div>
+    <div class="map-card reveal">
+      <svg class="map-illustration" viewBox="0 0 400 240" role="img" aria-labelledby="mapTitle mapDesc" xmlns="http://www.w3.org/2000/svg">
+        <title id="mapTitle">Kartenskizze zur Lage von Café Pistazie</title>
+        <desc id="mapDesc">Vereinfachte, nicht maßstabsgetreue Illustration: Café Pistazie liegt an der Steinstraße, wenige Gehminuten von der Königsallee entfernt.</desc>
+        <rect width="400" height="240" fill="#f6efe1"/>
+        <rect x="20" y="20" width="90" height="60" rx="10" fill="#cfe3c1"/>
+        <rect x="140" y="30" width="70" height="50" rx="10" fill="#f6d6d6"/>
+        <rect x="240" y="15" width="100" height="70" rx="10" fill="#d9d3f2"/>
+        <rect x="30" y="140" width="100" height="70" rx="10" fill="#d9d3f2"/>
+        <rect x="160" y="150" width="80" height="60" rx="10" fill="#f6d6d6"/>
+        <rect x="270" y="130" width="100" height="80" rx="10" fill="#cfe3c1"/>
+        <path d="M0 120 H400" stroke="#fffaf3" stroke-width="14"/>
+        <path d="M150 0 V240" stroke="#fffaf3" stroke-width="14"/>
+        <path d="M0 120 H400" stroke="#e7ded0" stroke-width="2" stroke-dasharray="6 6"/>
+        <path d="M150 0 V240" stroke="#e7ded0" stroke-width="2" stroke-dasharray="6 6"/>
+        <g transform="translate(150 118)">
+          <path d="M0 -34c12 0 22 10 22 22 0 16-22 34-22 34s-22-18-22-34c0-12 10-22 22-22z" fill="#4a3428"/>
+          <circle cx="0" cy="-12" r="9" fill="#fffaf3"/>
+        </g>
+        <text x="175" y="100" font-family="Nunito Sans, sans-serif" font-size="12" font-weight="700" fill="#4a3428">Steinstraße</text>
+        <text x="250" y="16" font-family="Nunito Sans, sans-serif" font-size="11" font-weight="700" fill="#4a3428" opacity="0.7">Richtung Königsallee →</text>
+      </svg>
+      <p class="map-caption">Steinstraße 22 · nahe Königsallee, Düsseldorf</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="logo-text">Café Pistazie</span>
+      <p>Steinstraße 22, 40212 Düsseldorf</p>
+    </div>
+    <nav class="footer-nav" aria-label="Footer-Navigation">
+      <ul>
+        <li><a href="index.html">Start</a></li>
+        <li><a href="angebot.html">Angebot</a></li>
+        <li><a href="kontakt.html" aria-current="page">Kontakt</a></li>
+      </ul>
+      <ul>
+        <li><button type="button" class="link-button" id="openImpressum">Impressum</button></li>
+        <li><button type="button" class="link-button" id="openDatenschutz">Datenschutz</button></li>
+      </ul>
+    </nav>
+  </div>
+  <p class="footer-legal">© 2026 Café Pistazie Düsseldorf GmbH.</p>
+  <p class="tier-switcher">Diese Website als:
+    <a href="index.html" data-tier="basic" aria-current="page">Basic</a> ·
+    <a href="../pistazie-business/kontakt.html" data-tier="business">Business</a> ·
+    <a href="../pistazie-premium/kontakt.html" data-tier="premium">Premium</a>
+  </p>
+</footer>
+
+<dialog id="impressumDialog" class="legal-dialog">
+  <h2>Impressum</h2>
+  <p>Café Pistazie Düsseldorf GmbH<br>Steinstraße 22, 40212 Düsseldorf</p>
+  <p>Geschäftsführung: Léa Vogt<br>Handelsregister: Amtsgericht Düsseldorf, HRB 123456 (fiktiv)</p>
+  <p>Kontakt: <a href="mailto:hallo@cafe-pistazie.example">hallo@cafe-pistazie.example</a>, 0211 5504488</p>
+  <form method="dialog"><button type="submit" class="btn btn-ghost">Schließen</button></form>
+</dialog>
+
+<dialog id="datenschutzDialog" class="legal-dialog">
+  <h2>Datenschutz</h2>
+  <p>Diese Beispielseite verarbeitet keine echten Nutzerdaten. Formulare sind
+  Demonstrationen ohne serverseitige Übertragung.</p>
+  <p>Fiktiver Kontakt: <a href="mailto:datenschutz@cafe-pistazie.example">datenschutz@cafe-pistazie.example</a></p>
+  <form method="dialog"><button type="submit" class="btn btn-ghost">Schließen</button></form>
+</dialog>
+
+
+
+<script src="script.js"></script>
+</body>
+</html>

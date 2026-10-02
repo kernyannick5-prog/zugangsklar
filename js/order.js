@@ -7,6 +7,7 @@
   var statusEl = document.getElementById('order-status');
   var done = document.getElementById('order-done');
   var NAMES = {
+    'website-basic': 'Website Basic (89 € netto, einmalig)', 'website-business': 'Website Business (179 € netto, einmalig)', 'website-premium': 'Website Premium (299 € netto, einmalig)',
     report: 'Website-Report (149 € netto, einmalig)', monitoring: 'Monitoring (29 € netto pro Monat)', business: 'Business (79 € netto pro Monat)',
     agentur: 'Agentur (99 € netto pro Monat)', agentur_plus: 'Agentur Plus (249 € netto pro Monat)',
     'fix-google-fonts': 'Fix: Google Fonts lokal einbinden (149 € netto)', 'fix-erklaerung': 'Fix: Barrierefreiheitserklärung erstellen (99 € netto)',
@@ -20,6 +21,20 @@
   }
   if (q.get('url')) form.elements.url.value = q.get('url');
 
+  // Bei Website-Paketen ist die Adresse einer bestehenden Website optional (es gibt ggf. noch keine).
+  var urlInput = form.elements.url;
+  var urlReq = document.getElementById('o-url-req');
+  var urlOpt = document.getElementById('o-url-opt');
+  function syncUrlRequired() {
+    var sel = form.querySelector('input[name="produkt"]:checked');
+    var isWeb = !!sel && sel.value.indexOf('website-') === 0;
+    urlInput.required = !isWeb;
+    if (urlReq) urlReq.hidden = isWeb;
+    if (urlOpt) urlOpt.hidden = !isWeb;
+  }
+  form.addEventListener('change', function (e) { if (e.target && e.target.name === 'produkt') syncUrlRequired(); });
+  syncUrlRequired();
+
   form.addEventListener('submit', function (ev) {
     ev.preventDefault();
     var f = form.elements;
@@ -27,7 +42,7 @@
     var btn = form.querySelector('button[type="submit"]');
     var email = f.email.value.trim();
     var url = f.url.value.trim();
-    if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+    if (url && !/^https?:\/\//i.test(url)) url = 'https://' + url;
     var message = 'Produkt: ' + (NAMES[product] || product) + ' [' + product + ']' + '\nFirma: ' + f.firma.value.trim() + '\nHinweise: ' + (f.hinweise.value.trim() || '-');
     btn.disabled = true;
     statusEl.textContent = 'Bestellung wird gesendet …';

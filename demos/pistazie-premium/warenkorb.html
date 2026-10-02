@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Warenkorb — Café Pistazie</title>
+<meta name="description" content="Dein Warenkorb bei Café Pistazie: Abholung im Café oder Lieferung im Düsseldorfer Stadtgebiet mit Postleitzahl-Prüfung.">
+
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%23cfe3c1'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23f6d6d6'/%3E%3C/svg%3E">
+<link href="../_assets/fonts/8237af75e2.css" rel="stylesheet">
+<link rel="stylesheet" href="../demo-basic/styles.css">
+<link rel="stylesheet" href="../pistazie-shared/shared.css">
+<link rel="stylesheet" href="premium.css">
+<link rel="stylesheet" href="../shared/paket-badge.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Zum Inhalt springen</a>
+<aside class="paket-badge" data-tier="premium" aria-label="Hinweis zur Beispiel-Website"><p class="paket-badge__text"><span class="paket-badge__dot" aria-hidden="true"></span>Beispiel-Website · Paket <strong>Premium</strong> · erstellt von Zugangsklar</p><a class="paket-badge__cta" href="../../websites.html#showcase" target="_top">Pakete ansehen →</a></aside>
+
+<div class="cookie-banner" id="cookieBanner" hidden role="dialog" aria-label="Cookie-Einstellungen">
+  <div class="cookie-banner__inner">
+    <p><strong>Cookie-Einstellungen (Demo).</strong> Wir nutzen Cookies für notwendige Funktionen sowie optional für Statistik und Marketing.</p>
+    <div class="cookie-banner__categories"><label><input type="checkbox" checked disabled> Notwendig</label><label><input type="checkbox" id="cookieStats"> Statistik</label><label><input type="checkbox" id="cookieMarketing"> Marketing</label></div>
+    <div class="cookie-banner__actions"><button type="button" class="btn btn-ghost" id="cookieReject">Ablehnen</button><button type="button" class="btn btn-ghost" id="cookieSave">Auswahl speichern</button><button type="button" class="btn btn-primary" id="cookieAcceptAll">Alle akzeptieren</button></div>
+  </div>
+</div>
+
+<header class="site-header" id="top">
+  <div class="header-top">
+    <a href="index.html" class="logo" aria-label="Café Pistazie — Startseite">
+      <svg class="logo-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><circle cx="24" cy="22" r="17" fill="#cfe3c1"/><circle cx="24" cy="22" r="7" fill="#f6d6d6"/><path d="M13 38q11 6 22 0" fill="none" stroke="#4a3428" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <span class="logo-text">Café Pistazie</span>
+    </a>
+    <button type="button" class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mobileNav"><span class="sr-only">Menü öffnen</span><span class="menu-toggle-bars" aria-hidden="true"><span></span><span></span><span></span></span></button>
+  </div>
+  <nav class="header-nav" aria-label="Hauptnavigation">
+    <ul>
+      <li><a href="index.html">Start</a></li><li><a href="angebot.html">Angebot</a></li><li><a href="shop.html">Shop</a></li>
+      <li><a href="reservieren.html">Reservieren</a></li><li><a href="vorbestellen.html">Torten</a></li>
+      <li><a href="events.html">Events</a></li><li><a href="konto.html">Konto</a></li><li><a href="kontakt.html">Kontakt</a></li>
+      <li><a href="warenkorb.html" class="cart-link" aria-current="page" aria-label="Warenkorb">Warenkorb <span data-cart-count>0</span></a></li>
+      <li><button type="button" class="lang-toggle" aria-label="Switch to English">EN</button></li>
+    </ul>
+  </nav>
+  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile Navigation" hidden>
+    <ul>
+      <li><a href="index.html">Start</a></li><li><a href="angebot.html">Angebot</a></li><li><a href="shop.html">Shop</a></li>
+      <li><a href="reservieren.html">Reservieren</a></li><li><a href="vorbestellen.html">Torten vorbestellen</a></li>
+      <li><a href="events.html">Events</a></li><li><a href="ueber-uns.html">Über uns</a></li><li><a href="gutschein.html">Gutschein</a></li>
+      <li><a href="konto.html">Konto</a></li><li><a href="kontakt.html">Kontakt</a></li>
+      <li><a href="warenkorb.html" class="cart-link" aria-current="page" aria-label="Warenkorb">Warenkorb <span data-cart-count>0</span></a></li>
+      <li><button type="button" class="lang-toggle" aria-label="Switch to English">EN</button></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main">
+  <section aria-labelledby="cart-heading">
+    <div class="section-head reveal">
+      <p class="eyebrow">Warenkorb</p>
+      <h1 id="cart-heading">Dein Warenkorb</h1>
+      <p class="section-lede">Abholung im Café oder Lieferung im Düsseldorfer Stadtgebiet (Demo: PLZ 40xxx/41xxx).</p>
+    </div>
+
+    <p class="cart-empty" id="cartEmpty">Dein Warenkorb ist noch leer. <a href="shop.html">Jetzt im Shop stöbern</a>.</p>
+
+    <div id="cartTableWrap" class="tool-panel reveal" style="max-width:48rem;">
+      <table class="cart-table">
+        <caption class="sr-only">Artikel im Warenkorb</caption>
+        <thead><tr><th scope="col">Artikel</th><th scope="col" class="num">Menge</th><th scope="col" class="num">Preis</th><th scope="col" class="num"><span class="sr-only">Entfernen</span></th></tr></thead>
+        <tbody id="cartTableBody"></tbody>
+      </table>
+
+      <div class="field" style="margin-top:var(--space-m);">
+        <label id="fulfillmentLabel">Abholung oder Lieferung?</label>
+        <div class="fulfillment-choice" role="radiogroup" aria-labelledby="fulfillmentLabel">
+          <label class="choice-option"><input type="radio" name="fulfillment" value="abholung"><div class="choice-option__row"><strong>Abholung im Café</strong></div><p class="choice-option__meta">Kostenlos, Zeitfenster wählen</p></label>
+          <label class="choice-option"><input type="radio" name="fulfillment" value="lieferung"><div class="choice-option__row"><strong>Lieferung</strong></div><p class="choice-option__meta">Pauschale 3,50 €, nur Düsseldorf</p></label>
+        </div>
+      </div>
+
+      <div id="pickupBlock" hidden>
+        <p id="pickupLabel" style="font-weight:700;">Abholzeit wählen</p>
+        <div class="slot-group" id="pickupSlotGroup" role="group" aria-labelledby="pickupLabel"></div>
+      </div>
+
+      <div id="deliveryBlock" hidden class="field">
+        <label for="deliveryPlz">Postleitzahl für die Lieferung</label>
+        <div style="display:flex; gap:var(--space-2xs); flex-wrap:wrap;">
+          <input type="text" id="deliveryPlz" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" style="max-width:10rem;">
+          <button type="button" class="btn btn-ghost" id="deliveryCheckBtn">Liefergebiet prüfen</button>
+        </div>
+        <p class="delivery-check-result" id="deliveryResult"></p>
+      </div>
+
+      <p style="display:flex; justify-content:space-between; font-weight:800; font-size:var(--step-1); margin-top:var(--space-m);">
+        <span>Zwischensumme</span><span id="cartSubtotal">0,00&nbsp;€</span>
+      </p>
+
+      <button type="button" class="btn btn-primary btn-block" id="toCheckoutBtn" disabled>Weiter zur Kasse</button>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><span class="logo-text">Café Pistazie</span><p>Steinstraße 22, 40212 Düsseldorf</p></div>
+    <nav class="footer-nav" aria-label="Footer-Navigation">
+      <ul><li><a href="index.html">Start</a></li><li><a href="angebot.html">Angebot</a></li><li><a href="shop.html">Shop</a></li>
+        <li><a href="reservieren.html">Reservieren</a></li><li><a href="vorbestellen.html">Torten</a></li><li><a href="events.html">Events</a></li></ul>
+      <ul><li><a href="ueber-uns.html">Über uns</a></li><li><a href="gutschein.html">Gutschein</a></li><li><a href="konto.html">Konto</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li><li><a href="warenkorb.html" aria-current="page">Warenkorb</a></li></ul>
+      <ul><li><button type="button" class="link-button" id="openImpressum">Impressum</button></li><li><button type="button" class="link-button" id="openDatenschutz">Datenschutz</button></li></ul>
+    </nav>
+  </div>
+  <p class="footer-legal">© 2026 Café Pistazie Düsseldorf GmbH.</p>
+  <p class="tier-switcher">Diese Website als:
+    <a href="../demo-basic/index.html" data-tier="basic">Basic</a> ·
+    <a href="../pistazie-business/index.html" data-tier="business">Business</a> ·
+    <a href="warenkorb.html" data-tier="premium" aria-current="page">Premium</a>
+  </p>
+</footer>
+
+<dialog id="impressumDialog" class="legal-dialog">
+  <h2>Impressum</h2>
+  <p>Café Pistazie Düsseldorf GmbH<br>Steinstraße 22, 40212 Düsseldorf</p>
+  <p>Kontakt: <a href="mailto:hallo@cafe-pistazie.example">hallo@cafe-pistazie.example</a>, 0211 5504488</p>
+  <form method="dialog"><button type="submit" class="btn btn-ghost">Schließen</button></form>
+</dialog>
+<dialog id="datenschutzDialog" class="legal-dialog">
+  <h2>Datenschutz</h2>
+  <p>Warenkorb und Bestellungen liegen nur lokal in deinem Browser (localStorage, Präfix „pistazie-premium:“), es findet keine echte Übertragung statt.</p>
+  <form method="dialog"><button type="submit" class="btn btn-ghost">Schließen</button></form>
+</dialog>
+<div class="chat-widget">
+  <div class="chat-widget__panel" id="chatPanel" hidden>
+    <span class="chat-widget__badge">Priorisierter Support</span><h2>Fragen? Wir sind da.</h2>
+    <div class="chat-widget__log" id="chatLog"><div class="chat-widget__msg chat-widget__msg--bot">Hallo! Wie können wir dir helfen? (Demo-Chat, keine echte Übertragung)</div></div>
+    <div class="chat-widget__quick"><button type="button">Öffnungszeiten?</button><button type="button">Tisch reservieren?</button><button type="button">Lieferung möglich?</button></div>
+  </div>
+  <button type="button" class="chat-widget__toggle" id="chatToggle" aria-expanded="false" aria-controls="chatPanel" aria-label="Support-Chat öffnen"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M4 5h16v11H8l-4 4V5z" stroke="white" stroke-width="1.8" stroke-linejoin="round"/></svg></button>
+</div>
+
+
+
+<script src="../pistazie-shared/shared.js"></script>
+<script src="../demo-basic/script.js"></script>
+<script src="data.js"></script>
+<script src="premium.js"></script>
+</body>
+</html>
