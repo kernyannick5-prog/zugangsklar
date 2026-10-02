@@ -1,0 +1,567 @@
+{
+  "label": "Portfolio Webwerk Nord",
+  "plan": "agentur",
+  "brand": {
+    "name": "Webwerk Nord",
+    "color": "#1F6F5C",
+    "logoUrl": null
+  },
+  "alerts": [
+    {
+      "at": "2026-09-28T04:05:00.000Z",
+      "siteId": "s3",
+      "url": "https://www.praxis-lindner.example",
+      "type": "neues_kritisches_problem",
+      "text": "Neues kritisches Problem: Google Analytics wird vor der Einwilligung geladen. Score von 84 auf 62."
+    },
+    {
+      "at": "2026-09-28T04:09:00.000Z",
+      "siteId": "s6",
+      "url": "https://www.sportverein-ost.example",
+      "type": "nicht_erreichbar",
+      "text": "Die Website war beim Scan nicht erreichbar (Zeitüberschreitung)."
+    },
+    {
+      "at": "2026-09-28T04:02:00.000Z",
+      "siteId": "s1",
+      "url": "https://www.beispiel-shop.de",
+      "type": "neues_problem",
+      "text": "Neues Problem: HSTS-Header fehlt."
+    },
+    {
+      "at": "2026-09-21T04:03:00.000Z",
+      "siteId": "s2",
+      "url": "https://www.gartenbau-meier.example",
+      "type": "behoben",
+      "text": "Behoben: Google Fonts werden nicht mehr von Google-Servern geladen."
+    }
+  ],
+  "sites": [
+    {
+      "id": "s1",
+      "url": "https://www.beispiel-shop.de",
+      "label": "Beispiel-Shop (Mode)",
+      "lastRunAt": "2026-09-28T04:00:00.000Z",
+      "nextRunAt": "2026-10-05T04:00:00.000Z",
+      "score": 78,
+      "categories": [
+        {
+          "id": "accessibility",
+          "title": "Barrierefreiheit",
+          "score": 74
+        },
+        {
+          "id": "privacy",
+          "title": "Datenschutz",
+          "score": 64
+        },
+        {
+          "id": "legal",
+          "title": "Rechtliches",
+          "score": 85
+        },
+        {
+          "id": "security",
+          "title": "Sicherheit",
+          "score": 88
+        },
+        {
+          "id": "seo",
+          "title": "Technik & SEO",
+          "score": 92
+        }
+      ],
+      "summary": {
+        "kritisch": 4,
+        "hoch": 3,
+        "mittel": 4,
+        "gering": 3
+      },
+      "history": [
+        {
+          "at": "2026-08-10T04:00:00.000Z",
+          "score": 70
+        },
+        {
+          "at": "2026-08-17T04:00:00.000Z",
+          "score": 72
+        },
+        {
+          "at": "2026-08-24T04:00:00.000Z",
+          "score": 72
+        },
+        {
+          "at": "2026-08-31T04:00:00.000Z",
+          "score": 75
+        },
+        {
+          "at": "2026-09-07T04:00:00.000Z",
+          "score": 74
+        },
+        {
+          "at": "2026-09-14T04:00:00.000Z",
+          "score": 73
+        },
+        {
+          "at": "2026-09-21T04:00:00.000Z",
+          "score": 81
+        },
+        {
+          "at": "2026-09-28T04:00:00.000Z",
+          "score": 78
+        }
+      ],
+      "diff": {
+        "newIssues": [
+          {
+            "id": "hsts",
+            "category": "security",
+            "severity": "hoch",
+            "title": "HSTS-Header fehlt"
+          }
+        ],
+        "fixedIssues": [
+          {
+            "id": "tracking-tiktok",
+            "category": "privacy",
+            "severity": "hoch",
+            "title": "TikTok-Pixel ohne Einwilligung"
+          },
+          {
+            "id": "title",
+            "category": "seo",
+            "severity": "mittel",
+            "title": "Seitentitel fehlte"
+          }
+        ]
+      },
+      "lastError": null
+    },
+    {
+      "id": "s2",
+      "url": "https://www.gartenbau-meier.example",
+      "label": "Gartenbau Meier",
+      "lastRunAt": "2026-09-28T04:00:00.000Z",
+      "nextRunAt": "2026-10-05T04:00:00.000Z",
+      "score": 74,
+      "categories": [
+        {
+          "id": "accessibility",
+          "title": "Barrierefreiheit",
+          "score": 70
+        },
+        {
+          "id": "privacy",
+          "title": "Datenschutz",
+          "score": 72
+        },
+        {
+          "id": "legal",
+          "title": "Rechtliches",
+          "score": 80
+        },
+        {
+          "id": "security",
+          "title": "Sicherheit",
+          "score": 78
+        },
+        {
+          "id": "seo",
+          "title": "Technik & SEO",
+          "score": 90
+        }
+      ],
+      "summary": {
+        "kritisch": 2,
+        "hoch": 3,
+        "mittel": 2,
+        "gering": 1
+      },
+      "history": [
+        {
+          "at": "2026-08-10T04:00:00.000Z",
+          "score": 55
+        },
+        {
+          "at": "2026-08-17T04:00:00.000Z",
+          "score": 55
+        },
+        {
+          "at": "2026-08-24T04:00:00.000Z",
+          "score": 58
+        },
+        {
+          "at": "2026-08-31T04:00:00.000Z",
+          "score": 58
+        },
+        {
+          "at": "2026-09-07T04:00:00.000Z",
+          "score": 60
+        },
+        {
+          "at": "2026-09-14T04:00:00.000Z",
+          "score": 66
+        },
+        {
+          "at": "2026-09-21T04:00:00.000Z",
+          "score": 70
+        },
+        {
+          "at": "2026-09-28T04:00:00.000Z",
+          "score": 74
+        }
+      ],
+      "diff": {
+        "newIssues": [],
+        "fixedIssues": [
+          {
+            "id": "google-fonts",
+            "category": "privacy",
+            "severity": "kritisch",
+            "title": "Google Fonts von Google-Servern"
+          }
+        ]
+      },
+      "lastError": null
+    },
+    {
+      "id": "s3",
+      "url": "https://www.praxis-lindner.example",
+      "label": "Praxis Dr. Lindner",
+      "lastRunAt": "2026-09-28T04:00:00.000Z",
+      "nextRunAt": "2026-10-05T04:00:00.000Z",
+      "score": 62,
+      "categories": [
+        {
+          "id": "accessibility",
+          "title": "Barrierefreiheit",
+          "score": 60
+        },
+        {
+          "id": "privacy",
+          "title": "Datenschutz",
+          "score": 40
+        },
+        {
+          "id": "legal",
+          "title": "Rechtliches",
+          "score": 70
+        },
+        {
+          "id": "security",
+          "title": "Sicherheit",
+          "score": 85
+        },
+        {
+          "id": "seo",
+          "title": "Technik & SEO",
+          "score": 90
+        }
+      ],
+      "summary": {
+        "kritisch": 5,
+        "hoch": 2,
+        "mittel": 1,
+        "gering": 0
+      },
+      "history": [
+        {
+          "at": "2026-08-10T04:00:00.000Z",
+          "score": 88
+        },
+        {
+          "at": "2026-08-17T04:00:00.000Z",
+          "score": 88
+        },
+        {
+          "at": "2026-08-24T04:00:00.000Z",
+          "score": 86
+        },
+        {
+          "at": "2026-08-31T04:00:00.000Z",
+          "score": 86
+        },
+        {
+          "at": "2026-09-07T04:00:00.000Z",
+          "score": 85
+        },
+        {
+          "at": "2026-09-14T04:00:00.000Z",
+          "score": 85
+        },
+        {
+          "at": "2026-09-21T04:00:00.000Z",
+          "score": 84
+        },
+        {
+          "at": "2026-09-28T04:00:00.000Z",
+          "score": 62
+        }
+      ],
+      "diff": {
+        "newIssues": [
+          {
+            "id": "tracking-before-consent",
+            "category": "privacy",
+            "severity": "kritisch",
+            "title": "Google Analytics vor Einwilligung"
+          },
+          {
+            "id": "cookie-first-visit",
+            "category": "privacy",
+            "severity": "kritisch",
+            "title": "Marketing-Cookie beim ersten Aufruf"
+          },
+          {
+            "id": "image-alt",
+            "category": "accessibility",
+            "severity": "kritisch",
+            "title": "Bilder ohne Alternativtext"
+          }
+        ],
+        "fixedIssues": []
+      },
+      "lastError": null
+    },
+    {
+      "id": "s4",
+      "url": "https://www.brauhaus-nord.example",
+      "label": "Brauhaus Nord (Shop)",
+      "lastRunAt": "2026-09-28T04:00:00.000Z",
+      "nextRunAt": "2026-10-05T04:00:00.000Z",
+      "score": 64,
+      "categories": [
+        {
+          "id": "accessibility",
+          "title": "Barrierefreiheit",
+          "score": 58
+        },
+        {
+          "id": "privacy",
+          "title": "Datenschutz",
+          "score": 60
+        },
+        {
+          "id": "legal",
+          "title": "Rechtliches",
+          "score": 70
+        },
+        {
+          "id": "security",
+          "title": "Sicherheit",
+          "score": 75
+        },
+        {
+          "id": "seo",
+          "title": "Technik & SEO",
+          "score": 80
+        }
+      ],
+      "summary": {
+        "kritisch": 3,
+        "hoch": 4,
+        "mittel": 2,
+        "gering": 2
+      },
+      "history": [
+        {
+          "at": "2026-08-10T04:00:00.000Z",
+          "score": 62
+        },
+        {
+          "at": "2026-08-17T04:00:00.000Z",
+          "score": 63
+        },
+        {
+          "at": "2026-08-24T04:00:00.000Z",
+          "score": 63
+        },
+        {
+          "at": "2026-08-31T04:00:00.000Z",
+          "score": 64
+        },
+        {
+          "at": "2026-09-07T04:00:00.000Z",
+          "score": 64
+        },
+        {
+          "at": "2026-09-14T04:00:00.000Z",
+          "score": 64
+        },
+        {
+          "at": "2026-09-21T04:00:00.000Z",
+          "score": 64
+        },
+        {
+          "at": "2026-09-28T04:00:00.000Z",
+          "score": 64
+        }
+      ],
+      "diff": {
+        "newIssues": [],
+        "fixedIssues": []
+      },
+      "lastError": null
+    },
+    {
+      "id": "s5",
+      "url": "https://www.kanzlei-haas.example",
+      "label": "Kanzlei Haas",
+      "lastRunAt": "2026-09-28T04:00:00.000Z",
+      "nextRunAt": "2026-10-05T04:00:00.000Z",
+      "score": 93,
+      "categories": [
+        {
+          "id": "accessibility",
+          "title": "Barrierefreiheit",
+          "score": 95
+        },
+        {
+          "id": "privacy",
+          "title": "Datenschutz",
+          "score": 90
+        },
+        {
+          "id": "legal",
+          "title": "Rechtliches",
+          "score": 90
+        },
+        {
+          "id": "security",
+          "title": "Sicherheit",
+          "score": 95
+        },
+        {
+          "id": "seo",
+          "title": "Technik & SEO",
+          "score": 98
+        }
+      ],
+      "summary": {
+        "kritisch": 0,
+        "hoch": 1,
+        "mittel": 2,
+        "gering": 2
+      },
+      "history": [
+        {
+          "at": "2026-08-10T04:00:00.000Z",
+          "score": 90
+        },
+        {
+          "at": "2026-08-17T04:00:00.000Z",
+          "score": 91
+        },
+        {
+          "at": "2026-08-24T04:00:00.000Z",
+          "score": 91
+        },
+        {
+          "at": "2026-08-31T04:00:00.000Z",
+          "score": 92
+        },
+        {
+          "at": "2026-09-07T04:00:00.000Z",
+          "score": 92
+        },
+        {
+          "at": "2026-09-14T04:00:00.000Z",
+          "score": 93
+        },
+        {
+          "at": "2026-09-21T04:00:00.000Z",
+          "score": 93
+        },
+        {
+          "at": "2026-09-28T04:00:00.000Z",
+          "score": 93
+        }
+      ],
+      "diff": {
+        "newIssues": [],
+        "fixedIssues": []
+      },
+      "lastError": null
+    },
+    {
+      "id": "s6",
+      "url": "https://www.sportverein-ost.example",
+      "label": "Sportverein Ost",
+      "lastRunAt": "2026-09-28T04:00:00.000Z",
+      "nextRunAt": "2026-10-05T04:00:00.000Z",
+      "score": 52,
+      "categories": [
+        {
+          "id": "accessibility",
+          "title": "Barrierefreiheit",
+          "score": 52
+        },
+        {
+          "id": "privacy",
+          "title": "Datenschutz",
+          "score": 45
+        },
+        {
+          "id": "legal",
+          "title": "Rechtliches",
+          "score": 60
+        },
+        {
+          "id": "security",
+          "title": "Sicherheit",
+          "score": 70
+        },
+        {
+          "id": "seo",
+          "title": "Technik & SEO",
+          "score": 75
+        }
+      ],
+      "summary": {
+        "kritisch": 3,
+        "hoch": 3,
+        "mittel": 2,
+        "gering": 1
+      },
+      "history": [
+        {
+          "at": "2026-08-10T04:00:00.000Z",
+          "score": 48
+        },
+        {
+          "at": "2026-08-17T04:00:00.000Z",
+          "score": 50
+        },
+        {
+          "at": "2026-08-24T04:00:00.000Z",
+          "score": 50
+        },
+        {
+          "at": "2026-08-31T04:00:00.000Z",
+          "score": 50
+        },
+        {
+          "at": "2026-09-07T04:00:00.000Z",
+          "score": 52
+        },
+        {
+          "at": "2026-09-14T04:00:00.000Z",
+          "score": 52
+        },
+        {
+          "at": "2026-09-21T04:00:00.000Z",
+          "score": 52
+        },
+        {
+          "at": "2026-09-28T04:00:00.000Z",
+          "score": 52
+        }
+      ],
+      "diff": {
+        "newIssues": [],
+        "fixedIssues": []
+      },
+      "lastError": "Die Website war beim letzten Scan nicht erreichbar (Zeitüberschreitung)."
+    }
+  ]
+}

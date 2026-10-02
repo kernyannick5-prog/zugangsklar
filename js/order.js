@@ -6,7 +6,12 @@
   if (!form) return;
   var statusEl = document.getElementById('order-status');
   var done = document.getElementById('order-done');
-  var NAMES = { report: 'BFSG-Report (149 € netto, einmalig)', monitoring: 'Monitoring (29 € netto pro Monat)', agentur: 'Agentur-Paket (99 € netto pro Monat)' };
+  var NAMES = {
+    report: 'Website-Report (149 € netto, einmalig)', monitoring: 'Monitoring (29 € netto pro Monat)', business: 'Business (79 € netto pro Monat)',
+    agentur: 'Agentur (99 € netto pro Monat)', agentur_plus: 'Agentur Plus (249 € netto pro Monat)',
+    'fix-google-fonts': 'Fix: Google Fonts lokal einbinden (149 € netto)', 'fix-erklaerung': 'Fix: Barrierefreiheitserklärung erstellen (99 € netto)',
+    'fix-security-header': 'Fix: Security-Header einrichten (149 € netto)', 'fix-a11y': 'Fix: Barrierefreiheits-Fix-Paket (ab 490 € netto)', 'fix-individuell': 'Fix: individuelle Umsetzung (nach Angebot)'
+  };
 
   var q = new URLSearchParams(window.location.search);
   var pre = q.get('produkt');
@@ -23,7 +28,7 @@
     var email = f.email.value.trim();
     var url = f.url.value.trim();
     if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
-    var message = 'Produkt: ' + NAMES[product] + '\nFirma: ' + f.firma.value.trim() + '\nHinweise: ' + (f.hinweise.value.trim() || '-');
+    var message = 'Produkt: ' + (NAMES[product] || product) + ' [' + product + ']' + '\nFirma: ' + f.firma.value.trim() + '\nHinweise: ' + (f.hinweise.value.trim() || '-');
     btn.disabled = true;
     statusEl.textContent = 'Bestellung wird gesendet …';
     ZK.postJson('/api/lead', { email: email, url: url, consent: true, source: 'bestellung', message: message }).then(function () {

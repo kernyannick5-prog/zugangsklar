@@ -6,17 +6,21 @@
   var API_BASE = 'https://zugangsklar-api.workers.dev';
 
   // Zahlungslinks (z. B. Stripe Payment Links). Leer = Rechnungs-Fallback ("Wir melden uns innerhalb von 24 Stunden").
-  var PAYMENT_LINKS = { report: '', monitoring: '', agentur: '' };
+  var PAYMENT_LINKS = {
+    report: '', monitoring: '', business: '', agentur: '', agentur_plus: '',
+    'fix-google-fonts': '', 'fix-erklaerung': '', 'fix-security-header': '', 'fix-a11y': '', 'fix-individuell': ''
+  };
 
   // Bewusst kein Analytics-Skript (DSGVO, Geschwindigkeit). Zählung erfolgt über API-Zähler.
   // Falls später nötig: Konfiguration hier eintragen. Aktuell: null.
   var ANALYTICS = null;
 
-  // ?mock=1 lädt mock/check-example.json statt die API aufzurufen (Demo/Tests ohne Backend).
+  // ?mock=1 lädt mock/*.json statt die API aufzurufen (Demo/Tests ohne Backend).
   var params = new URLSearchParams(window.location.search);
   var MOCK = params.get('mock') === '1';
   var scriptSrc = document.currentScript && document.currentScript.src;
-  var MOCK_URL = scriptSrc ? new URL('../mock/check-example.json', scriptSrc).href : 'mock/check-example.json';
+  function mockUrl(name) { return scriptSrc ? new URL('../mock/' + name, scriptSrc).href : 'mock/' + name; }
+  var MOCK_URL = mockUrl('check-example.json');
 
   /** DOM-Helfer: el('div', {class:'x'}, 'text', childNode). Text wird immer als textContent gesetzt. */
   function el(tag, attrs) {
@@ -65,5 +69,23 @@
     }).then(function (d) { if (timer) clearTimeout(timer); return d; }, function (e) { if (timer) clearTimeout(timer); throw e; });
   }
 
-  window.ZK = { API_BASE: API_BASE, PAYMENT_LINKS: PAYMENT_LINKS, ANALYTICS: ANALYTICS, MOCK: MOCK, MOCK_URL: MOCK_URL, el: el, postJson: postJson };
+  /** GET JSON von der API. Fehler: kind 'auth' (401/403/404), 'api' (sonstiger Status), 'network'. */
+  function getJson(path) {
+    var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    var timer = controller ? setTimeout(function () { controller.abort(); }, 30000) : null;
+    return fetch(API_BASE + path, { headers: { 'Accept': 'application/json' }, signal: controller ? controller.signal : undefined }).then(function (res) {
+      return res.json().catch(function () { return null; }).then(function (data) {
+        if (!res.ok) {
+          var e = new Error((data && data.error) || 'Status ' + res.status);
+          e.kind = (res.status === 401 || res.status === 403 || res.status === 404) ? 'auth' : (res.status >= 500 ? 'network' : 'api');
+          throw e;
+        }
+        return data;
+      });
+    }, function () {
+      var e = new Error('Netzwerkfehler'); e.kind = 'network'; throw e;
+    }).then(function (d) { if (timer) clearTimeout(timer); return d; }, function (e) { if (timer) clearTimeout(timer); throw e; });
+  }
+
+  window.ZK = { API_BASE: API_BASE, PAYMENT_LINKS: PAYMENT_LINKS, ANALYTICS: ANALYTICS, MOCK: MOCK, MOCK_URL: MOCK_URL, mockUrl: mockUrl, el: el, postJson: postJson, getJson: getJson };
 })();

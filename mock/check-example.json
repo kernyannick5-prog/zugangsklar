@@ -3,103 +3,361 @@
   "finalUrl": "https://www.beispiel-shop.de/",
   "checkedAt": "2026-10-02T09:41:12.000Z",
   "system": "shopify",
-  "score": 58,
-  "summary": { "kritisch": 3, "hoch": 2, "mittel": 2, "bestanden": 11 },
+  "score": 78,
+  "categories": [
+    {
+      "id": "accessibility",
+      "title": "Barrierefreiheit",
+      "score": 74,
+      "weight": 30,
+      "counts": {
+        "kritisch": 3,
+        "hoch": 1,
+        "mittel": 1,
+        "gering": 0
+      },
+      "issueCount": 5
+    },
+    {
+      "id": "privacy",
+      "title": "Datenschutz",
+      "score": 64,
+      "weight": 25,
+      "counts": {
+        "kritisch": 1,
+        "hoch": 1,
+        "mittel": 1,
+        "gering": 0
+      },
+      "issueCount": 3
+    },
+    {
+      "id": "legal",
+      "title": "Rechtliches",
+      "score": 85,
+      "weight": 20,
+      "counts": {
+        "kritisch": 0,
+        "hoch": 0,
+        "mittel": 1,
+        "gering": 1
+      },
+      "issueCount": 2
+    },
+    {
+      "id": "security",
+      "title": "Sicherheit",
+      "score": 88,
+      "weight": 15,
+      "counts": {
+        "kritisch": 0,
+        "hoch": 1,
+        "mittel": 0,
+        "gering": 1
+      },
+      "issueCount": 2
+    },
+    {
+      "id": "seo",
+      "title": "Technik & SEO",
+      "score": 92,
+      "weight": 10,
+      "counts": {
+        "kritisch": 0,
+        "hoch": 0,
+        "mittel": 1,
+        "gering": 1
+      },
+      "issueCount": 2
+    }
+  ],
+  "summary": {
+    "kritisch": 4,
+    "hoch": 3,
+    "mittel": 4,
+    "gering": 3,
+    "bestanden": 14
+  },
   "issues": [
     {
       "id": "image-alt",
+      "category": "accessibility",
       "severity": "kritisch",
       "title": "Bilder ohne Alternativtext",
       "description": "Informative Bilder haben kein alt-Attribut. Screenreader lesen stattdessen den Dateinamen vor oder überspringen das Bild.",
+      "fix": "Ergänzen Sie für jedes informative Bild einen kurzen, beschreibenden Alternativtext. Rein dekorative Bilder erhalten alt=\"\". In Shopify pflegen Sie den Text im Admin und geben ihn im Theme mit image_tag aus.",
       "count": 23,
       "examples": [
         "<img src=\"//www.beispiel-shop.de/cdn/shop/files/DSC_0412_800x.jpg?v=1712\" class=\"product-card__image\">",
         "<img src=\"//www.beispiel-shop.de/cdn/shop/files/banner-herbst.jpg?v=1698\" width=\"1600\" height=\"600\">"
       ],
-      "wcag": "1.1.1"
+      "wcag": "1.1.1",
+      "ref": "WCAG 2.2, Erfolgskriterium 1.1.1 Nicht-Text-Inhalt",
+      "affectedUrl": "https://www.beispiel-shop.de/"
     },
     {
       "id": "label",
+      "category": "accessibility",
       "severity": "kritisch",
       "title": "Formularfelder ohne Beschriftung",
       "description": "Das Suchfeld und das Newsletter-Feld haben kein zugehöriges Label. Nutzer von Sprachsteuerung und Screenreadern können sie nicht gezielt ansprechen.",
+      "fix": "Verknüpfen Sie jedes Feld mit einem <label for=\"…\"> oder ergänzen Sie ein aria-label. Ein Platzhalter ersetzt keine Beschriftung.",
       "count": 2,
       "examples": [
         "<input type=\"search\" name=\"q\" placeholder=\"Suchen\" class=\"search__input\">",
         "<input type=\"email\" name=\"contact[email]\" placeholder=\"E-Mail-Adresse\">"
       ],
-      "wcag": "1.3.1"
+      "wcag": "1.3.1",
+      "ref": "WCAG 2.2, Erfolgskriterium 1.3.1 Info und Beziehungen",
+      "affectedUrl": "https://www.beispiel-shop.de/"
     },
     {
       "id": "button-name",
+      "category": "accessibility",
       "severity": "kritisch",
       "title": "Buttons ohne Namen",
       "description": "Der Warenkorb-Button und der Menü-Button enthalten nur ein Icon. Ihr Zweck wird nicht vorgelesen.",
+      "fix": "Ergänzen Sie einen sichtbaren Text oder ein aria-label, zum Beispiel aria-label=\"Warenkorb öffnen\". Das Icon erhält aria-hidden=\"true\".",
       "count": 2,
       "examples": [
         "<button class=\"header__icon cart-toggle\"><svg class=\"icon icon-cart\">…</svg></button>"
       ],
-      "wcag": "4.1.2"
+      "wcag": "4.1.2",
+      "ref": "WCAG 2.2, Erfolgskriterium 4.1.2 Name, Rolle, Wert",
+      "affectedUrl": "https://www.beispiel-shop.de/"
     },
     {
       "id": "color-contrast",
+      "category": "accessibility",
       "severity": "hoch",
       "title": "Zu geringer Farbkontrast",
       "description": "Hellgrauer Text auf weißem Hintergrund erreicht 2,6:1. Gefordert sind mindestens 4,5:1 für normalen Text.",
+      "fix": "Dunkeln Sie die Textfarbe ab, zum Beispiel auf #595959 oder dunkler, und prüfen Sie das Verhältnis mit einem Kontrastrechner.",
       "count": 14,
       "examples": [
         "<span class=\"price__sale\" style=\"color:#aaa\">statt 49,90 €</span>",
         "<p class=\"footer__small\">Preise inkl. MwSt. zzgl. Versand</p>"
       ],
-      "wcag": "1.4.3"
-    },
-    {
-      "id": "link-name",
-      "severity": "hoch",
-      "title": "Links ohne erkennbaren Text",
-      "description": "Mehrere Links enthalten nur ein Bild ohne Alternativtext, zum Beispiel die Social-Media-Icons im Footer.",
-      "count": 5,
-      "examples": [
-        "<a href=\"https://instagram.com/beispielshop\"><svg class=\"icon\">…</svg></a>"
-      ],
-      "wcag": "2.4.4"
+      "wcag": "1.4.3",
+      "ref": "WCAG 2.2, Erfolgskriterium 1.4.3 Kontrast (Minimum)",
+      "affectedUrl": "https://www.beispiel-shop.de/"
     },
     {
       "id": "heading-order",
+      "category": "accessibility",
       "severity": "mittel",
       "title": "Überschriftenebenen übersprungen",
       "description": "Auf der Startseite folgt auf eine h1 direkt eine h4. Die Gliederung ist für Screenreader-Nutzer nicht nachvollziehbar.",
+      "fix": "Verwenden Sie die Ebenen lückenlos (h1, h2, h3) und steuern Sie die Schriftgröße über CSS.",
       "count": 6,
       "examples": [
         "<h4 class=\"collection-list__title\">Beliebte Kategorien</h4>"
       ],
-      "wcag": "1.3.1"
+      "wcag": "1.3.1",
+      "ref": "WCAG 2.2, Erfolgskriterium 1.3.1 Info und Beziehungen",
+      "affectedUrl": "https://www.beispiel-shop.de/"
     },
     {
-      "id": "landmark-one-main",
-      "severity": "mittel",
-      "title": "Kein main-Bereich vorhanden",
-      "description": "Die Seite hat kein main-Element. Screenreader-Nutzer können nicht direkt zum Hauptinhalt springen.",
+      "id": "google-fonts",
+      "category": "privacy",
+      "severity": "kritisch",
+      "title": "Google Fonts werden von Servern von Google geladen",
+      "description": "Beim Seitenaufruf lädt der Browser Schriften von fonts.googleapis.com. Dabei wird die IP-Adresse der Besucher an Google übermittelt, bevor jemand eingewilligt hat.",
+      "fix": "Laden Sie die Schriftdateien herunter, legen Sie sie auf Ihrem eigenen Server ab, deklarieren Sie sie per @font-face und entfernen Sie den Link auf fonts.googleapis.com.",
+      "count": 2,
+      "examples": [
+        "<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap\">"
+      ],
+      "wcag": null,
+      "ref": "LG München I, Urteil vom 20.01.2022, Az. 3 O 17493/20",
+      "affectedUrl": "https://www.beispiel-shop.de/"
+    },
+    {
+      "id": "tracking-before-consent",
+      "category": "privacy",
+      "severity": "hoch",
+      "title": "Tracking-Skript ohne Einwilligungsverwaltung eingebunden",
+      "description": "Ein Meta-Pixel ist direkt im Quelltext eingebunden. Es wird geladen, bevor Besucher eine Auswahl treffen können.",
+      "fix": "Laden Sie das Skript erst nach Einwilligung, zum Beispiel über Ihr Consent-Werkzeug, oder entfernen Sie es, wenn Sie es nicht brauchen.",
       "count": 1,
       "examples": [
-        "<div id=\"MainContent\" class=\"content-for-layout\">…</div>"
+        "<script src=\"https://connect.facebook.net/de_DE/fbevents.js\" async></script>"
       ],
-      "wcag": "1.3.1"
+      "wcag": null,
+      "ref": "§ 25 TDDDG, Art. 6 DSGVO",
+      "affectedUrl": "https://www.beispiel-shop.de/"
+    },
+    {
+      "id": "cookie-first-visit",
+      "category": "privacy",
+      "severity": "mittel",
+      "title": "Cookie beim ersten Aufruf gesetzt",
+      "description": "Der Server setzt schon in der Antwort auf die erste Anfrage ein Cookie, das nicht erkennbar technisch notwendig ist.",
+      "fix": "Prüfen Sie, welches Plugin oder Skript das Cookie setzt, und setzen Sie es erst nach Einwilligung, sofern es nicht unbedingt erforderlich ist.",
+      "count": 1,
+      "examples": [
+        "Set-Cookie: _fbp=…; Max-Age=7776000; Path=/"
+      ],
+      "wcag": null,
+      "ref": "§ 25 TDDDG",
+      "affectedUrl": "https://www.beispiel-shop.de/"
+    },
+    {
+      "id": "imprint-os-link",
+      "category": "legal",
+      "severity": "mittel",
+      "title": "Veralteter Link zur EU-OS-Plattform",
+      "description": "Die Seite verweist noch auf die Plattform zur Online-Streitbeilegung. Die Plattform wurde am 20.07.2025 abgeschaltet.",
+      "fix": "Entfernen Sie den Link und den zugehörigen Satz aus Impressum und AGB. Lassen Sie die Hinweise zur Verbraucherschlichtung prüfen.",
+      "count": 1,
+      "examples": [
+        "<a href=\"https://ec.europa.eu/consumers/odr\">Online-Streitbeilegung</a>"
+      ],
+      "wcag": null,
+      "ref": "Verordnung (EU) 2024/3228",
+      "affectedUrl": "https://www.beispiel-shop.de/"
+    },
+    {
+      "id": "imprint-email",
+      "category": "legal",
+      "severity": "gering",
+      "title": "Keine E-Mail-Adresse im Impressum erkannt",
+      "description": "Auf der Impressumsseite wurde keine E-Mail-Adresse erkannt. Das kann an einer Grafik oder einem Kontaktformular liegen.",
+      "fix": "Prüfen Sie, ob eine Möglichkeit zur schnellen elektronischen Kontaktaufnahme als Text angegeben ist, in der Regel eine E-Mail-Adresse.",
+      "count": 1,
+      "examples": [],
+      "wcag": null,
+      "ref": "§ 5 DDG",
+      "affectedUrl": "https://www.beispiel-shop.de/"
+    },
+    {
+      "id": "hsts",
+      "category": "security",
+      "severity": "hoch",
+      "title": "HSTS-Header fehlt",
+      "description": "Der Header Strict-Transport-Security weist Browser an, Ihre Seite künftig nur noch verschlüsselt aufzurufen. Er fehlt.",
+      "fix": "Setzen Sie Strict-Transport-Security: max-age=31536000 in der Server- oder Hoster-Konfiguration. Testen Sie zuerst mit kurzer Laufzeit.",
+      "count": 1,
+      "examples": [],
+      "wcag": null,
+      "ref": "MDN: Strict-Transport-Security",
+      "affectedUrl": "https://www.beispiel-shop.de/"
+    },
+    {
+      "id": "csp",
+      "category": "security",
+      "severity": "gering",
+      "title": "Keine Content-Security-Policy",
+      "description": "Es ist keine Content-Security-Policy gesetzt. Sie begrenzt den Schaden durch eingeschleuste Skripte.",
+      "fix": "Führen Sie eine CSP zunächst im Testmodus (Content-Security-Policy-Report-Only) ein und verschärfen Sie sie schrittweise.",
+      "count": 1,
+      "examples": [],
+      "wcag": null,
+      "ref": "MDN: Content-Security-Policy",
+      "affectedUrl": "https://www.beispiel-shop.de/"
+    },
+    {
+      "id": "meta-description",
+      "category": "seo",
+      "severity": "mittel",
+      "title": "Meta-Description fehlt",
+      "description": "Die Startseite hat keine Meta-Description. Suchmaschinen wählen den Text im Suchergebnis dann selbst.",
+      "fix": "Ergänzen Sie eine Beschreibung mit etwa 70 bis 160 Zeichen im Head der Seite.",
+      "count": 1,
+      "examples": [
+        "<head>… (kein <meta name=\"description\">) …</head>"
+      ],
+      "wcag": null,
+      "ref": null,
+      "affectedUrl": "https://www.beispiel-shop.de/"
+    },
+    {
+      "id": "canonical",
+      "category": "seo",
+      "severity": "gering",
+      "title": "Canonical-Link fehlt",
+      "description": "Ohne Canonical kann dieselbe Seite unter mehreren Adressen konkurrieren.",
+      "fix": "Ergänzen Sie <link rel=\"canonical\" href=\"…\"> mit der bevorzugten Adresse der Seite.",
+      "count": 1,
+      "examples": [],
+      "wcag": null,
+      "ref": null,
+      "affectedUrl": "https://www.beispiel-shop.de/"
     }
   ],
   "passed": [
-    { "id": "html-has-lang", "title": "Seitensprache ist angegeben (lang-Attribut)" },
-    { "id": "document-title", "title": "Seite hat einen Titel" },
-    { "id": "meta-viewport", "title": "Zoomen ist nicht gesperrt" },
-    { "id": "valid-lang", "title": "Sprachangabe ist gültig" },
-    { "id": "duplicate-id", "title": "Keine doppelten IDs" },
-    { "id": "aria-valid-attr", "title": "ARIA-Attribute sind gültig" },
-    { "id": "aria-roles", "title": "ARIA-Rollen sind gültig" },
-    { "id": "list", "title": "Listen sind korrekt aufgebaut" },
-    { "id": "frame-title", "title": "Eingebettete Frames haben einen Titel" },
-    { "id": "bypass", "title": "Sprunglink zum Inhalt vorhanden" },
-    { "id": "tabindex", "title": "Kein tabindex größer als 0" }
+    {
+      "id": "html-has-lang",
+      "category": "accessibility",
+      "title": "Seitensprache ist angegeben (lang-Attribut)"
+    },
+    {
+      "id": "document-title",
+      "category": "accessibility",
+      "title": "Seite hat einen Titel"
+    },
+    {
+      "id": "meta-viewport",
+      "category": "accessibility",
+      "title": "Zoomen ist nicht gesperrt"
+    },
+    {
+      "id": "bypass",
+      "category": "accessibility",
+      "title": "Sprunglink zum Inhalt vorhanden"
+    },
+    {
+      "id": "consent-tool",
+      "category": "privacy",
+      "title": "Einwilligungswerkzeug erkannt"
+    },
+    {
+      "id": "no-maps",
+      "category": "privacy",
+      "title": "Keine Google Maps beim Seitenaufruf eingebettet"
+    },
+    {
+      "id": "imprint-found",
+      "category": "legal",
+      "title": "Impressum ist verlinkt und erreichbar"
+    },
+    {
+      "id": "privacy-found",
+      "category": "legal",
+      "title": "Datenschutzerklärung ist verlinkt und erreichbar"
+    },
+    {
+      "id": "https",
+      "category": "security",
+      "title": "Seite ist über HTTPS erreichbar"
+    },
+    {
+      "id": "redirect",
+      "category": "security",
+      "title": "Weiterleitung von HTTP auf HTTPS vorhanden"
+    },
+    {
+      "id": "mixed",
+      "category": "security",
+      "title": "Kein Mixed Content"
+    },
+    {
+      "id": "indexable",
+      "category": "seo",
+      "title": "Seite darf indexiert werden"
+    },
+    {
+      "id": "title",
+      "category": "seo",
+      "title": "Seitentitel vorhanden"
+    },
+    {
+      "id": "h1",
+      "category": "seo",
+      "title": "Genau eine Hauptüberschrift (h1)"
+    }
   ],
   "overlayDetected": "accessiBe",
-  "note": "Der Schnellcheck prüft nur die Startseite mit automatischen Regeln. Automatische Tests finden etwa 30 bis 50 % der Barrieren. Tastaturbedienung, Verständlichkeit und Checkout prüft der vollständige Report mit einer manuellen Checkliste. Das Ergebnis ist keine Rechtsberatung."
+  "note": "Der Check prüft nur die Startseite mit automatischen Regeln. Automatische Tests finden etwa 30 bis 50 % der Barrieren. Tastaturbedienung, Verständlichkeit, Checkout und rechtliche Inhalte prüft der vollständige Report mit einer manuellen Checkliste.",
+  "disclaimer": "Automatische Prüfung. Liefert Hinweise, keine Rechtsberatung und keine Garantie für Rechtskonformität."
 }

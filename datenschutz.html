@@ -5,7 +5,7 @@
 <meta name="robots" content="noindex, nofollow"><!-- VORLAUNCH: entfernen, sobald echte Impressumsdaten drin sind -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Datenschutzerklärung | Zugangsklar</title>
-<meta name="description" content="Datenschutzerklärung von Zugangsklar: keine Cookies, kein Tracking, Hosting bei GitHub Pages, API bei Cloudflare.">
+<meta name="description" content="Datenschutzerklärung von Zugangsklar: keine Cookies, kein Tracking, Hosting bei GitHub Pages, API und Monitoring bei Cloudflare.">
 
 <link rel="canonical" href="https://zugangsklar.de/datenschutz.html">
 <meta name="theme-color" content="#0B3D91">
@@ -13,7 +13,7 @@
 <meta property="og:locale" content="de_DE">
 <meta property="og:site_name" content="Zugangsklar">
 <meta property="og:title" content="Datenschutzerklärung | Zugangsklar">
-<meta property="og:description" content="Datenschutzerklärung von Zugangsklar: keine Cookies, kein Tracking, Hosting bei GitHub Pages, API bei Cloudflare.">
+<meta property="og:description" content="Datenschutzerklärung von Zugangsklar: keine Cookies, kein Tracking, Hosting bei GitHub Pages, API und Monitoring bei Cloudflare.">
 <meta property="og:url" content="https://zugangsklar.de/datenschutz.html">
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -25,7 +25,7 @@
 <header class="site-header">
 <div class="wrap header-inner">
 <a class="logo" href="index.html" aria-label="zugangsklar – Startseite"><svg class="logo-mark" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="5" y="2.5" width="22" height="27" rx="2.5" fill="#fff" stroke="#0B3D91" stroke-width="3"/><path d="M10.5 16.5l4 4 7.5-9" fill="none" stroke="#0A7D32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="logo-word">zugangsklar</span></a>
-<nav aria-label="Hauptnavigation"><ul class="nav-list"><li><a href="index.html#check">Schnellcheck</a></li><li><a href="index.html#preise">Preise</a></li><li><a href="ratgeber/index.html">Ratgeber</a></li><li><a href="agenturen.html">Agenturen</a></li><li><a class="btn btn-small" href="bestellen.html">Report bestellen</a></li></ul></nav>
+<nav aria-label="Hauptnavigation"><ul class="nav-list"><li class="nav-drop-li"><details class="nav-drop"><summary>Prüfbereiche</summary><ul class="nav-drop-list"><li><a href="barrierefreiheit-check.html">Barrierefreiheit (BFSG)</a></li><li><a href="dsgvo-check.html">Datenschutz (DSGVO)</a></li><li><a href="impressum-check.html">Rechtliches (Impressum)</a></li><li><a href="sicherheit-check.html">Sicherheit</a></li><li><a href="seo-check.html">Technik &amp; SEO</a></li></ul></details></li><li><a href="index.html#preise">Preise</a></li><li><a href="agenturen.html">Agenturen</a></li><li><a href="fix.html">Fix</a></li><li><a href="ratgeber/index.html">Ratgeber</a></li><li><a class="btn btn-small" href="index.html#check">Website prüfen</a></li></ul></nav>
 </div>
 </header>
 <main id="main" tabindex="-1">
@@ -47,12 +47,16 @@ E-Mail: <span data-muster="1">kontakt@example.com</span></p>
 <p>Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes Interesse liegt in der sicheren und effizienten Bereitstellung der Website. Eine Übermittlung in die USA kann stattfinden. GitHub ist nach unserer Kenntnis unter dem EU-US Data Privacy Framework zertifiziert, was ein angemessenes Datenschutzniveau begründet. Weitere Informationen: <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement">GitHub-Datenschutzerklärung</a>.</p>
 <p>Nach einer Umstellung auf eine eigene Domain und einen anderen Hoster aktualisieren wir diesen Abschnitt: </p>
 
-<h2>4. Schnellcheck und API bei Cloudflare</h2>
-<p>Für den kostenlosen Schnellcheck, das Kontakt- und das Bestellformular nutzen wir eine Schnittstelle (API), die auf Cloudflare Workers läuft. Anbieter ist Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, USA. Cloudflare ist unter dem EU-US Data Privacy Framework zertifiziert. Cloudflare verarbeitet beim Aufruf der API technisch notwendige Verbindungsdaten wie die IP-Adresse.</p>
-<h3>Schnellcheck</h3>
-<p>Wenn Sie eine Shop-Adresse eingeben und den Check starten, übermitteln wir die Adresse an unsere API. Diese ruft die öffentlich erreichbare Seite ab, führt automatische Tests durch und gibt das Ergebnis aus. Es werden dafür keine weiteren personenbezogenen Daten benötigt. Zur Missbrauchsabwehr (Begrenzung der Anfragen pro Nutzer) kann die IP-Adresse kurzzeitig verarbeitet werden. Zur Auswertung der Nutzung führen wir anonyme Zähler (zum Beispiel die Zahl der durchgeführten Checks), die keinen Personenbezug haben. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.</p>
+<h2>4. Website-Check, Monitoring und API bei Cloudflare</h2>
+<p>Für den kostenlosen Website-Check, das Monitoring, das Dashboard sowie das Kontakt- und das Bestellformular nutzen wir eine Schnittstelle (API), die auf Cloudflare Workers läuft. Anbieter ist Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, USA. Cloudflare ist unter dem EU-US Data Privacy Framework zertifiziert. Cloudflare verarbeitet beim Aufruf der API technisch notwendige Verbindungsdaten wie die IP-Adresse.</p>
+<h3>Website-Check</h3>
+<p>Wenn Sie eine Website-Adresse eingeben und den Check starten, übermitteln wir die Adresse an unsere API. Diese ruft die öffentlich erreichbare Seite ab, führt automatische Tests durch und gibt das Ergebnis aus. Es werden dafür keine weiteren personenbezogenen Daten benötigt. Das Ergebnis wird Ihnen im Browser angezeigt. Wir speichern es für den kostenlosen Check nicht. Zur Missbrauchsabwehr (Begrenzung der Anfragen pro Nutzer) kann die IP-Adresse kurzzeitig verarbeitet werden. Zur Auswertung der Nutzung führen wir anonyme Zähler (zum Beispiel die Zahl der durchgeführten Checks), die keinen Personenbezug haben. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.</p>
 <h3>Kontakt-, Ergebnis- und Bestellformulare</h3>
 <p>Wenn Sie uns über eines der Formulare Daten übermitteln (E-Mail-Adresse, Shop-Adresse, Name, Firma, Nachricht, Produktwahl), speichern wir diese in einem Cloudflare-KV-Speicher, um Ihre Anfrage zu bearbeiten, Ihnen das Ergebnis zu senden oder Ihre Bestellung abzuwickeln. Rechtsgrundlage ist Ihre Einwilligung (Art. 6 Abs. 1 lit. a DSGVO) beziehungsweise bei Bestellungen die Vertragsanbahnung und -erfüllung (Art. 6 Abs. 1 lit. b DSGVO). Sie können eine Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen. Wir löschen Ihre Daten, sobald der Zweck entfällt und keine gesetzlichen Aufbewahrungspflichten (zum Beispiel für Rechnungen) bestehen. Anfragen ohne Vertragsschluss löschen wir spätestens nach 12 Monaten.</p>
+<h3>Monitoring und Dashboard</h3>
+<p>Wenn Sie Monitoring, Business, Agentur oder Agentur Plus buchen, speichern wir für die überwachten Websites die Adresse, die Scan-Ergebnisse (Scores, Befunde, Lösungsvorschläge) und den Verlauf der Scans in einem Cloudflare-KV-Speicher. Die Scans betreffen öffentlich abrufbare Inhalte der Websites, nicht Daten von deren Besuchern. Zusätzlich speichern wir Ihre E-Mail-Adresse, den Namen des Portfolios und, falls Sie White-Label nutzen, Markenname, Farbe und gegebenenfalls die Adresse eines Logos. Rechtsgrundlage ist die Vertragserfüllung (Art. 6 Abs. 1 lit. b DSGVO). Nach Vertragsende löschen wir die Scan-Daten <span data-muster="1">innerhalb von 30 Tagen</span>, soweit keine Aufbewahrungspflichten bestehen.</p>
+<p>Das Dashboard rufen Sie über einen geheimen persönlichen Link auf. Er enthält ein Zugriffs-Kennzeichen (Token) und ersetzt ein Passwort. Behandeln Sie ihn vertraulich und geben Sie ihn nur an Personen weiter, die Zugriff haben sollen. Das Kennzeichen wird bei jedem Aufruf an unsere API übermittelt. Es steht in der Adresszeile und kann dadurch im Browserverlauf Ihres Geräts erscheinen. Wir setzen für das Dashboard <strong>keine Cookies</strong>. Auf Wunsch erzeugen wir einen neuen Link.</p>
+<p>Verwendet eine Agentur im White-Label-Dashboard ein Logo, das auf einer eigenen Adresse liegt, lädt der Browser des Dashboard-Nutzers dieses Logo von dort. Der Betreiber dieser Adresse erhält dabei technisch notwendige Verbindungsdaten, insbesondere die IP-Adresse. Verantwortlich dafür ist die Agentur. Zugangsklar verarbeitet keine Besucherdaten der überwachten Websites.</p>
 
 <h2>5. Zahlungsabwicklung</h2>
 <p>Für die Zahlung können wir einen Zahlungsdienstleister einsetzen oder auf Rechnung abrechnen. Bei Nutzung eines Zahlungslinks werden Sie auf die Seite des Anbieters weitergeleitet. Dort gilt dessen Datenschutzerklärung. Wir übermitteln Ihre E-Mail-Adresse, um das Zahlungsformular vorzubefüllen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO.</p>
@@ -90,15 +94,27 @@ E-Mail: <span data-muster="1">kontakt@example.com</span></p>
 <div class="wrap footer-grid">
 <div>
 <p class="footer-brand">zugangsklar</p>
-<p class="footer-note">BFSG-Check für Onlineshops. Konkrete Fehlerliste, konkrete Fixes, Festpreis.</p>
+<p class="footer-note">Website-Check und Monitoring: Barrieren, Datenschutz, Pflichtangaben und Technik.</p>
 <p class="footer-note">Zugangsklar bietet technische Prüfungen an und keine Rechtsberatung.</p>
 </div>
+<nav aria-label="Prüfbereiche">
+<h2 class="footer-h">Prüfbereiche</h2>
+<ul>
+<li><a href="barrierefreiheit-check.html">Barrierefreiheit (BFSG)</a></li>
+<li><a href="dsgvo-check.html">Datenschutz (DSGVO)</a></li>
+<li><a href="impressum-check.html">Rechtliches (Impressum)</a></li>
+<li><a href="sicherheit-check.html">Sicherheit</a></li>
+<li><a href="seo-check.html">Technik &amp; SEO</a></li>
+</ul>
+</nav>
 <nav aria-label="Produkt und Wissen">
 <h2 class="footer-h">Produkt</h2>
 <ul>
-<li><a href="index.html#check">Kostenloser Schnellcheck</a></li>
-<li><a href="bestellen.html">Report bestellen</a></li>
+<li><a href="index.html#check">Kostenloser Check</a></li>
+<li><a href="index.html#preise">Preise</a></li>
+<li><a href="bestellen.html">Bestellen</a></li>
 <li><a href="agenturen.html">Für Agenturen</a></li>
+<li><a href="fix.html">Zugangsklar Fix</a></li>
 <li><a href="barrierefreiheitserklaerung-generator.html">Erklärungs-Generator</a></li>
 <li><a href="ratgeber/index.html">Ratgeber</a></li>
 </ul>
@@ -114,8 +130,9 @@ E-Mail: <span data-muster="1">kontakt@example.com</span></p>
 </ul>
 </nav>
 </div>
-<div class="wrap"><p class="footer-copy">© 2026 Zugangsklar. Alle Preise zzgl. MwSt.</p></div>
+<div class="wrap"><p class="footer-note footer-login">Monitoring-Kunden: Ihren persönlichen Dashboard-Link finden Sie in Ihrer Willkommens-E-Mail.</p><p class="footer-copy">© 2026 Zugangsklar. Alle Preise zzgl. MwSt. Automatische Prüfung. Liefert Hinweise, keine Rechtsberatung und keine Garantie für Rechtskonformität.</p></div>
 </footer>
 <script src="js/config.js"></script>
+<script src="js/nav.js"></script>
 </body>
 </html>

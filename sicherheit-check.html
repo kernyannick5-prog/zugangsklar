@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow"><!-- VORLAUNCH: entfernen, sobald echte Impressumsdaten drin sind -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Website-Sicherheit prüfen: HTTPS & Security-Header | Zugangsklar</title>
+<meta name="description" content="Kostenloser Sicherheits-Check: HTTPS, Weiterleitung, HSTS, Security-Header und Mixed Content. Zeigt fehlende Header und wie Sie sie setzen.">
+
+<link rel="canonical" href="https://zugangsklar.de/sicherheit-check.html">
+<meta name="theme-color" content="#0B3D91">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="de_DE">
+<meta property="og:site_name" content="Zugangsklar">
+<meta property="og:title" content="Website-Sicherheit prüfen: HTTPS & Security-Header | Zugangsklar">
+<meta property="og:description" content="Kostenloser Sicherheits-Check: HTTPS, Weiterleitung, HSTS, Security-Header und Mixed Content. Zeigt fehlende Header und wie Sie sie setzen.">
+<meta property="og:url" content="https://zugangsklar.de/sicherheit-check.html">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Website-Sicherheit prüfen: HTTPS & Security-Header","description":"Kostenloser Sicherheits-Check: HTTPS, Weiterleitung, HSTS, Security-Header und Mixed Content. Zeigt fehlende Header und wie Sie sie setzen.","url":"https://zugangsklar.de/sicherheit-check.html","inLanguage":"de","dateModified":"2026-10-02","isPartOf":{"@type":"WebSite","name":"Zugangsklar","url":"https://zugangsklar.de/"},"publisher":{"@type":"Organization","name":"Zugangsklar","url":"https://zugangsklar.de/"}}</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Zum Inhalt springen</a>
+<header class="site-header">
+<div class="wrap header-inner">
+<a class="logo" href="index.html" aria-label="zugangsklar – Startseite"><svg class="logo-mark" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="5" y="2.5" width="22" height="27" rx="2.5" fill="#fff" stroke="#0B3D91" stroke-width="3"/><path d="M10.5 16.5l4 4 7.5-9" fill="none" stroke="#0A7D32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="logo-word">zugangsklar</span></a>
+<nav aria-label="Hauptnavigation"><ul class="nav-list"><li class="nav-drop-li"><details class="nav-drop"><summary class="is-current">Prüfbereiche</summary><ul class="nav-drop-list"><li><a href="barrierefreiheit-check.html">Barrierefreiheit (BFSG)</a></li><li><a href="dsgvo-check.html">Datenschutz (DSGVO)</a></li><li><a href="impressum-check.html">Rechtliches (Impressum)</a></li><li><a href="sicherheit-check.html" aria-current="page">Sicherheit</a></li><li><a href="seo-check.html">Technik &amp; SEO</a></li></ul></details></li><li><a href="index.html#preise">Preise</a></li><li><a href="agenturen.html">Agenturen</a></li><li><a href="fix.html">Fix</a></li><li><a href="ratgeber/index.html">Ratgeber</a></li><li><a class="btn btn-small" href="index.html#check">Website prüfen</a></li></ul></nav>
+</div>
+</header>
+<main id="main" tabindex="-1">
+<section class="hero" aria-labelledby="h1">
+<div class="wrap">
+<div class="hero-main">
+<p class="eyebrow">Prüfbereich Sicherheit</p>
+<h1 id="h1">Website-Sicherheit prüfen: HTTPS und Security-Header</h1>
+<p class="lead">Ein Zertifikat allein reicht nicht. Der Check zeigt, ob Ihre Website konsequent über HTTPS läuft, welche Sicherheits-Header fehlen und ob unsichere Inhalte eingebunden sind.</p>
+<form id="check" class="check-form" aria-labelledby="check-title" data-focus="security">
+<h2 id="check-title" class="visually-hidden">Kostenloser Website-Check</h2>
+<label for="check-url">Adresse Ihrer Website</label>
+<div class="check-row">
+<input type="text" id="check-url" name="url" inputmode="url" autocomplete="url" placeholder="www.ihre-website.de" aria-describedby="check-hint" required>
+<button type="submit" class="btn">Website prüfen</button>
+</div>
+<p id="check-hint" class="hint">Kein Konto, keine E-Mail-Adresse nötig. Geprüft wird die Startseite in allen fünf Bereichen.</p>
+<p id="check-status" class="status-msg" role="status" aria-live="polite" aria-busy="false"></p>
+</form>
+<ul class="trust-list">
+<li>Kostenlos und ohne Anmeldung</li>
+<li>Passiv: nur normale Seitenaufrufe, keine Angriffe</li>
+<li>Keine Cookies, kein Tracking</li>
+</ul>
+</div>
+</div>
+</section>
+
+<div class="wrap" style="padding-bottom:1rem">
+<div id="check-result" class="result" tabindex="-1" aria-busy="false" hidden></div>
+</div>
+
+<section aria-labelledby="was-h">
+<div class="wrap narrow article">
+<h2 id="was-h">Warum Sicherheit mehr ist als ein Schloss in der Adressleiste</h2>
+<p>Besucher übermitteln auf Ihrer Website Kontaktdaten, Bestelldaten und Anmeldungen. Die Datenschutz-Grundverordnung verlangt in Art. 32 angemessene technische Maßnahmen zum Schutz personenbezogener Daten. Welche das konkret sind, hängt vom Einzelfall ab. Eine durchgängige HTTPS-Verschlüsselung und gängige Sicherheits-Header gehören für die meisten Websites zum üblichen Mindeststandard. Zugangsklar gibt dazu keine Rechtsberatung, sondern zeigt technische Lücken.</p>
+
+<h2>Was der Sicherheits-Check prüft</h2>
+<ul>
+<li><strong>HTTPS erreichbar:</strong> Wird die Seite verschlüsselt ausgeliefert, und ist das Zertifikat gültig?</li>
+<li><strong>Weiterleitung von HTTP auf HTTPS:</strong> Landen Besucher, die <code>http://</code> eingeben, automatisch auf der verschlüsselten Version?</li>
+<li><strong>HSTS (Strict-Transport-Security):</strong> Der Header weist Browser an, künftig nur noch verschlüsselt zu verbinden.</li>
+<li><strong>Content-Security-Policy (CSP):</strong> Sie legt fest, von wo Skripte, Bilder und Frames geladen werden dürfen, und begrenzt den Schaden durch eingeschleuste Skripte (Cross-Site-Scripting).</li>
+<li><strong>X-Content-Type-Options:</strong> Mit dem Wert <code>nosniff</code> raten Browser Dateitypen nicht selbst.</li>
+<li><strong>Clickjacking-Schutz:</strong> Über <code>frame-ancestors</code> in der CSP oder den älteren Header <code>X-Frame-Options</code> verhindern Sie, dass fremde Seiten Ihre Seite in einem Frame einbetten.</li>
+<li><strong>Referrer-Policy und Permissions-Policy:</strong> Sie steuern, welche Informationen Browser weitergeben und welche Funktionen eine Seite nutzen darf.</li>
+<li><strong>Mixed Content:</strong> Eine HTTPS-Seite lädt Bilder, Skripte oder Frames über unverschlüsseltes HTTP. Browser blockieren oder warnen, und die Verschlüsselung ist lückenhaft.</li>
+<li><strong>Versions-Hinweise im Server-Header:</strong> Angaben wie die genaue Server- oder PHP-Version erleichtern Angreifern die Suche nach bekannten Schwachstellen.</li>
+</ul>
+
+<h2>Was der Check nicht kann</h2>
+<p>Der Check ist ein Blick von außen auf die Startseite. Er ersetzt keinen Penetrationstest und findet keine Schwachstellen in Ihrem Shopsystem, Ihren Plugins oder Ihrem Server. Er erkennt auch nicht, ob Ihre Software aktuell ist, ob Ihre Passwörter sicher sind oder ob Ihre Website bereits kompromittiert wurde. Ein guter Score bedeutet: Die üblichen Basis-Header sind gesetzt. Mehr nicht.</p>
+
+<h2>Typische Ursachen und Lösungen</h2>
+<div class="table-wrap" role="region" aria-label="Tabelle: Befunde, Ursachen und Lösungen" tabindex="0">
+<table>
+<thead><tr><th scope="col">Befund</th><th scope="col">Häufige Ursache</th><th scope="col">Lösung</th></tr></thead>
+<tbody>
+<tr><td>Keine Weiterleitung auf HTTPS</td><td>Weiterleitung beim Hoster nicht aktiviert</td><td>Weiterleitung in der Server- oder Hoster-Konfiguration einrichten</td></tr>
+<tr><td>HSTS fehlt</td><td>Header nicht gesetzt</td><td>Header <code>Strict-Transport-Security</code> setzen, erst mit kurzer Laufzeit testen</td></tr>
+<tr><td>CSP fehlt</td><td>Nie konfiguriert, weil aufwendig</td><td>Zunächst im Testmodus (<code>Content-Security-Policy-Report-Only</code>), dann schrittweise einführen</td></tr>
+<tr><td>Mixed Content</td><td>Alte absolute <code>http://</code>-Adressen in Inhalten</td><td>Adressen auf <code>https://</code> umstellen oder protokollrelativ einbinden</td></tr>
+</tbody>
+</table>
+</div>
+<p>Wo Header gesetzt werden, hängt vom Hosting ab: in der <code>.htaccess</code> bei Apache, in der Server-Konfiguration bei nginx, in den Einstellungen Ihres CDN oder Hosters. Bei Shopify steuern Sie die meisten Header nicht selbst. Prüfen Sie nach jeder Änderung, ob Ihre Seite noch vollständig funktioniert. Insbesondere eine zu strenge CSP kann Funktionen blockieren.</p>
+<p>Wenn wir Zugriff auf Ihre Server- oder Hosting-Konfiguration bekommen, richten wir die Header als <a href="fix.html">Zugangsklar Fix für 149 €</a> ein und prüfen danach erneut.</p>
+
+<h2>Monitoring: Sicherheit bleibt nicht von allein</h2>
+<p>Nach einem Hoster-Wechsel, einer Umstellung auf ein neues CDN oder einem Plugin-Update können Header verschwinden oder Mixed Content entstehen. Das <a href="bestellen.html?produkt=monitoring">Monitoring ab 29 €/Monat</a> prüft wöchentlich und meldet, wenn sich etwas verschlechtert.</p>
+<div class="callout"><p>Automatische Prüfung. Liefert Hinweise, keine Rechtsberatung und keine Garantie für Rechtskonformität.</p></div>
+</div>
+</section>
+
+<section class="section-alt" aria-labelledby="mod-h">
+<div class="wrap">
+<h2 id="mod-h">Weitere Prüfbereiche</h2>
+<ul class="grid grid-4 mod-grid" style="list-style:none;padding:0"><li class="card"><h3><a href="barrierefreiheit-check.html">Barrierefreiheit (BFSG)</a></h3><p>Alternativtexte, Kontraste, Formulare, Tastatur: BFSG-Pflichten prüfen.</p></li><li class="card"><h3><a href="dsgvo-check.html">Datenschutz (DSGVO)</a></h3><p>Google Fonts, Tracker vor Einwilligung, Cookies.</p></li><li class="card"><h3><a href="impressum-check.html">Rechtliches (Impressum)</a></h3><p>Pflichtangaben nach § 5 DDG, Datenschutzerklärung, veralteter OS-Link.</p></li><li class="card"><h3><a href="seo-check.html">Technik &amp; SEO</a></h3><p>Indexierbarkeit, Title, Description, Canonical, Mobile.</p></li></ul>
+</div>
+</section>
+
+<section class="cta-band on-dark" aria-labelledby="cta-h">
+<div class="wrap narrow" style="text-align:center">
+<h2 id="cta-h">Wissen Sie, wo Ihre Website steht?</h2>
+<p>Der Check dauert 30 Sekunden und kostet nichts.</p>
+<p><a class="btn btn-light" href="#check">Website kostenlos prüfen</a></p>
+</div>
+</section>
+
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p class="footer-brand">zugangsklar</p>
+<p class="footer-note">Website-Check und Monitoring: Barrieren, Datenschutz, Pflichtangaben und Technik.</p>
+<p class="footer-note">Zugangsklar bietet technische Prüfungen an und keine Rechtsberatung.</p>
+</div>
+<nav aria-label="Prüfbereiche">
+<h2 class="footer-h">Prüfbereiche</h2>
+<ul>
+<li><a href="barrierefreiheit-check.html">Barrierefreiheit (BFSG)</a></li>
+<li><a href="dsgvo-check.html">Datenschutz (DSGVO)</a></li>
+<li><a href="impressum-check.html">Rechtliches (Impressum)</a></li>
+<li><a href="sicherheit-check.html">Sicherheit</a></li>
+<li><a href="seo-check.html">Technik &amp; SEO</a></li>
+</ul>
+</nav>
+<nav aria-label="Produkt und Wissen">
+<h2 class="footer-h">Produkt</h2>
+<ul>
+<li><a href="index.html#check">Kostenloser Check</a></li>
+<li><a href="index.html#preise">Preise</a></li>
+<li><a href="bestellen.html">Bestellen</a></li>
+<li><a href="agenturen.html">Für Agenturen</a></li>
+<li><a href="fix.html">Zugangsklar Fix</a></li>
+<li><a href="barrierefreiheitserklaerung-generator.html">Erklärungs-Generator</a></li>
+<li><a href="ratgeber/index.html">Ratgeber</a></li>
+</ul>
+</nav>
+<nav aria-label="Rechtliches">
+<h2 class="footer-h">Rechtliches</h2>
+<ul>
+<li><a href="impressum.html">Impressum</a></li>
+<li><a href="datenschutz.html">Datenschutz</a></li>
+<li><a href="agb.html">AGB</a></li>
+<li><a href="barrierefreiheit.html">Barrierefreiheitserklärung</a></li>
+<li><a href="kontakt.html">Kontakt</a></li>
+</ul>
+</nav>
+</div>
+<div class="wrap"><p class="footer-note footer-login">Monitoring-Kunden: Ihren persönlichen Dashboard-Link finden Sie in Ihrer Willkommens-E-Mail.</p><p class="footer-copy">© 2026 Zugangsklar. Alle Preise zzgl. MwSt. Automatische Prüfung. Liefert Hinweise, keine Rechtsberatung und keine Garantie für Rechtskonformität.</p></div>
+</footer>
+<script src="js/config.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/report-render.js"></script>
+<script src="js/check.js"></script>
+</body>
+</html>
