@@ -17,7 +17,7 @@
     btn.disabled = true;
     statusEl.textContent = 'Nachricht wird gesendet …';
     YQ.postJson('/api/lead', { email: f.email.value.trim(), url: url, consent: true, source: 'kontakt', message: 'Name: ' + f.name.value.trim() + '\n' + f.nachricht.value.trim() }).then(function () {
-      statusEl.textContent = 'Vielen Dank. Wir antworten innerhalb von 24 Stunden.';
+      statusEl.textContent = 'Vielen Dank. Wir antworten in der Regel innerhalb von 24 Stunden (werktags).';
       form.reset();
       btn.disabled = false;
     }, function (e) {

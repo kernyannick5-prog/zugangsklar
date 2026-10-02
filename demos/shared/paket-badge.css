@@ -2,7 +2,7 @@
    Schmale Leiste ganz oben im Dokument (nicht fixiert: verdeckt keine Inhalte, Cookie-Banner oder Chat-Widgets).
    Markup (direkt nach dem Skip-Link):
    <aside class="paket-badge" data-tier="business" aria-label="Hinweis zur Beispiel-Website">
-     <p class="paket-badge__text"><span class="paket-badge__dot" aria-hidden="true"></span>Beispiel-Website · Paket <strong>Business</strong> · erstellt von Yanqiva</p>
+     <p class="paket-badge__text"><span class="paket-badge__dot" aria-hidden="true"></span>Fiktive Beispiel-Website · Paket <strong>Business</strong> · erstellt von Yanqiva</p>
      <a class="paket-badge__cta" href="../../websites.html#showcase" target="_top">Pakete ansehen →</a>
    </aside>
    data-tier: basic | business | premium */

@@ -7,11 +7,11 @@
   var statusEl = document.getElementById('order-status');
   var done = document.getElementById('order-done');
   var NAMES = {
-    'website-basic': 'Website Basic (349 € netto, einmalig)', 'website-business': 'Website Business (790 € netto, einmalig)', 'website-pflege': 'Yanqiva Pflege (ab 19 €/Monat netto)', 'website-premium': 'Website Premium (ab 1.490 € netto, einmalig, Festpreis-Angebot vorab)',
-    report: 'Website-Report (149 € netto, einmalig)', monitoring: 'Monitoring (29 € netto pro Monat)', business: 'Business (79 € netto pro Monat)',
-    agentur: 'Agentur (99 € netto pro Monat)', agentur_plus: 'Agentur Plus (249 € netto pro Monat)',
-    'fix-google-fonts': 'Fix: Google Fonts lokal einbinden (149 € netto)', 'fix-erklaerung': 'Fix: Barrierefreiheitserklärung erstellen (99 € netto)',
-    'fix-security-header': 'Fix: Security-Header einrichten (149 € netto)', 'fix-a11y': 'Fix: Barrierefreiheits-Fix-Paket (ab 490 € netto)', 'fix-individuell': 'Fix: individuelle Umsetzung (nach Angebot)'
+    'website-basic': 'Website Basic (349 €, einmalig)', 'website-business': 'Website Business (790 €, einmalig)', 'website-pflege': 'Yanqiva Pflege (ab 19 €/Monat)', 'website-premium': 'Website Premium (ab 1.490 €, einmalig, Festpreis-Angebot vorab)',
+    report: 'Website-Report (149 €, einmalig)', monitoring: 'Monitoring (29 € pro Monat)', business: 'Business (79 € pro Monat)',
+    agentur: 'Agentur (99 € pro Monat)', agentur_plus: 'Agentur Plus (249 € pro Monat)',
+    'fix-google-fonts': 'Fix: Google Fonts lokal einbinden (149 €)', 'fix-erklaerung': 'Fix: Barrierefreiheitserklärung erstellen (99 €)',
+    'fix-security-header': 'Fix: Security-Header einrichten (149 €)', 'fix-a11y': 'Fix: Barrierefreiheits-Fix-Paket (ab 490 €)', 'fix-individuell': 'Fix: individuelle Umsetzung (nach Angebot)'
   };
 
   var q = new URLSearchParams(window.location.search);
@@ -43,7 +43,7 @@
     var email = f.email.value.trim();
     var url = f.url.value.trim();
     if (url && !/^https?:\/\//i.test(url)) url = 'https://' + url;
-    var message = 'Produkt: ' + (NAMES[product] || product) + ' [' + product + ']' + '\nFirma: ' + f.firma.value.trim() + '\nHinweise: ' + (f.hinweise.value.trim() || '-');
+    var message = 'Produkt: ' + (NAMES[product] || product) + ' [' + product + ']' + '\nFirma: ' + f.firma.value.trim() + '\nHinweise: ' + (f.hinweise.value.trim() || '-') + '\nUnternehmer (§ 14 BGB) bestätigt und AGB akzeptiert: ' + (f.consent && f.consent.checked ? 'ja' : 'nein');
     btn.disabled = true;
     statusEl.textContent = 'Bestellung wird gesendet …';
     YQ.postJson('/api/lead', { email: email, url: url, consent: true, source: 'bestellung', message: message }).then(function () {

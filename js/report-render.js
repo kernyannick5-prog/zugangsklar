@@ -235,7 +235,7 @@
     var withIssues = d.issues.length > 0;
     container.appendChild(h(level + 1, null, withIssues ? 'Befunde nach Bereich (' + d.issues.length + ')' : 'Befunde'));
     if (!withIssues) {
-      container.appendChild(el('div', { class: 'notice success' }, el('p', null, 'Die automatische Prüfung hat auf der Startseite keine Befunde gefunden. Das ist noch keine Konformität: Tastaturbedienung, Checkout, Verständlichkeit und rechtliche Inhalte prüft nur der vollständige Report.')));
+      container.appendChild(el('div', { class: 'notice success' }, el('p', null, 'Die automatische Prüfung hat auf der Startseite keine Befunde gefunden. Das ist noch keine Bestätigung der Konformität: Tastaturbedienung, Checkout und Verständlichkeit brauchen eine manuelle Prüfung, und rechtliche Inhalte bewertet keine automatische Prüfung.')));
     } else if (d.categories.length > 1) {
       var tablist = el('div', { class: 'tablist', role: 'tablist', 'aria-label': 'Prüfbereiche' });
       var startIdx = 0;
@@ -318,7 +318,7 @@
         el('li', null, el('a', { class: 'btn', href: 'bestellen.html?produkt=report' + q }, 'Vollständigen Website-Report bestellen (149 €)')),
         el('li', null, el('a', { class: 'btn btn-secondary', href: 'bestellen.html?produkt=monitoring' + q }, 'Automatische Überwachung aktivieren (ab 29 €/Monat)')),
         el('li', null, el('a', { class: 'btn btn-secondary', href: 'fix.html' }, 'Probleme beheben lassen (Yanqiva Fix)'))),
-      el('p', { class: 'hint' }, 'Alle Preise netto zzgl. MwSt.'));
+      el('p', { class: 'hint' }, 'Alle Preise sind Endpreise. Als Kleinunternehmer im Sinne von § 19 UStG berechnen wir keine Umsatzsteuer.'));
   }
 
   YQ.report = { render: render, normalize: normalize, scoreRing: scoreRing, catScores: catScores, sevBadge: sevBadge, scoreClass: scoreClass, scoreWord: scoreWord, clampScore: clampScore, SEV: SEV, CAT_TITLES: CAT_TITLES, CAT_ORDER: CAT_ORDER, DISCLAIMER: DISCLAIMER };
