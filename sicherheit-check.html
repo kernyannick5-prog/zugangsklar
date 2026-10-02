@@ -18,7 +18,7 @@
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="css/style.css">
-<script>document.documentElement.className+=" js"</script>
+<script>var d=document.documentElement,n=navigator;d.className+=" js";if(matchMedia("(prefers-reduced-motion: reduce)").matches||n.hardwareConcurrency<=4||n.deviceMemory<=4||(n.connection&&n.connection.saveData))d.className+=" fx-lite"</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Website-Sicherheit prüfen: HTTPS & Security-Header","description":"Kostenloser Sicherheits-Check: HTTPS, Weiterleitung, HSTS, Security-Header und Mixed Content. Zeigt fehlende Header und wie Sie sie setzen.","url":"https://yanqiva.de/sicherheit-check.html","inLanguage":"de","dateModified":"2026-10-02","isPartOf":{"@type":"WebSite","name":"Yanqiva","url":"https://yanqiva.de/"},"publisher":{"@type":"Organization","name":"Yanqiva","url":"https://yanqiva.de/"}}</script>
 </head>
 <body>
@@ -94,10 +94,10 @@
 </table>
 </div>
 <p>Wo Header gesetzt werden, hängt vom Hosting ab: in der <code>.htaccess</code> bei Apache, in der Server-Konfiguration bei nginx, in den Einstellungen Ihres CDN oder Hosters. Bei Shopify steuern Sie die meisten Header nicht selbst. Prüfen Sie nach jeder Änderung, ob Ihre Seite noch vollständig funktioniert. Insbesondere eine zu strenge CSP kann Funktionen blockieren.</p>
-<p>Wenn wir Zugriff auf Ihre Server- oder Hosting-Konfiguration bekommen, richten wir die Header als <a href="fix.html">Yanqiva Fix für 149 €</a> ein und prüfen danach erneut.</p>
+<p>Wenn wir Zugriff auf Ihre Server- oder Hosting-Konfiguration bekommen, richten wir die Header als <a href="fix.html">Yanqiva Fix für 149&nbsp;€</a> ein und prüfen danach erneut.</p>
 
 <h2>Monitoring: Sicherheit bleibt nicht von allein</h2>
-<p>Nach einem Hoster-Wechsel, einer Umstellung auf ein neues CDN oder einem Plugin-Update können Header verschwinden oder Mixed Content entstehen. Das <a href="bestellen.html?produkt=monitoring">Monitoring ab 29 €/Monat</a> prüft wöchentlich und meldet, wenn sich etwas verschlechtert.</p>
+<p>Nach einem Hoster-Wechsel, einer Umstellung auf ein neues CDN oder einem Plugin-Update können Header verschwinden oder Mixed Content entstehen. Das <a href="bestellen.html?produkt=monitoring">Monitoring ab 29&nbsp;€/Monat</a> prüft wöchentlich und meldet, wenn sich etwas verschlechtert.</p>
 <div class="callout"><p>Automatische Prüfung. Liefert Hinweise, keine Rechtsberatung und keine Garantie für Rechtskonformität.</p></div>
 </div>
 </section>
@@ -165,5 +165,6 @@
 <script src="js/nav.js"></script>
 <script src="js/report-render.js"></script>
 <script src="js/check.js"></script>
+<script src="js/fx.js" defer></script>
 </body>
 </html>

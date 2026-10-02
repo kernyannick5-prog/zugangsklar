@@ -18,7 +18,7 @@
   var DEVICES = {
     desktop: { vw: 1280, pref: 800, max: 100000, pad: 0 },
     tablet: { vw: 820, pref: 1100, max: 620, pad: 14 },
-    mobile: { vw: 390, pref: 820, max: 390, pad: 14 }
+    mobile: { vw: 390, pref: 820, max: 390, pad: 10 }
   };
   var MIN_SCALE = 0.5; // darunter wird eine Ansicht deaktiviert (Text nicht mehr lesbar)
 

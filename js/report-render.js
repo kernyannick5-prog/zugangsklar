@@ -318,7 +318,7 @@
         el('li', null, el('a', { class: 'btn', href: 'bestellen.html?produkt=report' + q }, 'Vollständigen Website-Report bestellen (149 €)')),
         el('li', null, el('a', { class: 'btn btn-secondary', href: 'bestellen.html?produkt=monitoring' + q }, 'Automatische Überwachung aktivieren (ab 29 €/Monat)')),
         el('li', null, el('a', { class: 'btn btn-secondary', href: 'fix.html' }, 'Probleme beheben lassen (Yanqiva Fix)'))),
-      el('p', { class: 'hint' }, 'Alle Preise netto zzgl. MwSt.'));
+      el('p', { class: 'hint' }, 'Alle Preise netto zzgl. MwSt.'));
   }
 
   YQ.report = { render: render, normalize: normalize, scoreRing: scoreRing, catScores: catScores, sevBadge: sevBadge, scoreClass: scoreClass, scoreWord: scoreWord, clampScore: clampScore, SEV: SEV, CAT_TITLES: CAT_TITLES, CAT_ORDER: CAT_ORDER, DISCLAIMER: DISCLAIMER };

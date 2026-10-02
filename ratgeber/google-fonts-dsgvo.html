@@ -18,7 +18,7 @@
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../css/style.css">
-<script>document.documentElement.className+=" js"</script>
+<script>var d=document.documentElement,n=navigator;d.className+=" js";if(matchMedia("(prefers-reduced-motion: reduce)").matches||n.hardwareConcurrency<=4||n.deviceMemory<=4||(n.connection&&n.connection.saveData))d.className+=" fx-lite"</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Google Fonts und DSGVO: Was Website-Betreiber 2026 wissen sollten","description":"Warum dynamisch eingebundene Google Fonts ein Datenschutzthema sind, was das LG München I entschied und wie Sie Schriften lokal einbinden (WordPress, Shopify).","datePublished":"2026-10-02","dateModified":"2026-10-02","inLanguage":"de","mainEntityOfPage":"https://yanqiva.de/ratgeber/google-fonts-dsgvo.html","author":{"@type":"Organization","name":"Yanqiva"},"publisher":{"@type":"Organization","name":"Yanqiva","logo":{"@type":"ImageObject","url":"https://yanqiva.de/favicon.svg"}}}</script>
 </head>
 <body>
@@ -56,7 +56,7 @@
 <p>Google Fonts ist eine kostenlose Schriftenbibliothek. Viele Themes binden die Schriften so ein, dass der Browser der Besucher sie bei jedem Seitenaufruf von Servern von Google lädt (<code>fonts.googleapis.com</code> und <code>fonts.gstatic.com</code>). Dabei erhält Google zwangsläufig die IP-Adresse des Besuchers. Die IP-Adresse ist ein personenbezogenes Datum. Eine Übermittlung an Dritte braucht eine Rechtsgrundlage, und der Besucher muss darüber informiert werden. Eine Einwilligung liegt bei einer direkten Einbindung nicht vor, denn die Schrift wird geladen, bevor der Besucher überhaupt etwas entscheiden kann.</p>
 
 <h2 id="urteil">Das Urteil des LG München I von 2022</h2>
-<p>Das Landgericht München I entschied am 20. Januar 2022 (Az. 3 O 17493/20), dass die dynamische Einbindung von Google Fonts ohne Einwilligung das allgemeine Persönlichkeitsrecht des Besuchers verletzt. Das Gericht sah kein berechtigtes Interesse an der Einbindung über Google-Server, weil sich Schriften auch lokal ausliefern lassen. Es sprach dem Kläger 100 € Schadensersatz zu und verurteilte den Betreiber zur Unterlassung.</p>
+<p>Das Landgericht München I entschied am 20. Januar 2022 (Az. 3 O 17493/20), dass die dynamische Einbindung von Google Fonts ohne Einwilligung das allgemeine Persönlichkeitsrecht des Besuchers verletzt. Das Gericht sah kein berechtigtes Interesse an der Einbindung über Google-Server, weil sich Schriften auch lokal ausliefern lassen. Es sprach dem Kläger 100&nbsp;€ Schadensersatz zu und verurteilte den Betreiber zur Unterlassung.</p>
 <p>Es handelt sich um die Entscheidung eines Landgerichts im Einzelfall. Sie bindet andere Gerichte nicht. Praktisch hat sie die Debatte aber geprägt und dazu geführt, dass die lokale Einbindung als Standard gilt.</p>
 
 <h2 id="welle">Die Abmahnwelle 2022/23</h2>
@@ -83,7 +83,7 @@
 <li><strong>Externe Aufrufe entfernen:</strong> Löschen Sie den <code>&lt;link&gt;</code> auf <code>fonts.googleapis.com</code>, zugehörige <code>preconnect</code>-Zeilen und jedes <code>@import</code> im CSS.</li>
 <li><strong>Cache leeren und prüfen:</strong> Kontrollieren Sie, dass keine Anfrage mehr an Google-Domains geht.</li>
 </ol>
-<p>Wenn Sie das nicht selbst tun möchten: Wir erledigen es als <a href="../fix.html">Yanqiva Fix für 149 €</a> und prüfen danach erneut.</p>
+<p>Wenn Sie das nicht selbst tun möchten: Wir erledigen es als <a href="../fix.html">Yanqiva Fix für 149&nbsp;€</a> und prüfen danach erneut.</p>
 
 <h2 id="cms">Hinweise für WordPress und Shopify</h2>
 <h3>WordPress</h3>
@@ -153,5 +153,6 @@
 </footer>
 <script src="../js/config.js"></script>
 <script src="../js/nav.js"></script>
+<script src="../js/fx.js" defer></script>
 </body>
 </html>
