@@ -25,12 +25,26 @@
   var urlInput = form.elements.url;
   var urlReq = document.getElementById('o-url-req');
   var urlOpt = document.getElementById('o-url-opt');
+  // Bestätigung „Inhaber oder beauftragt“: Pflicht für alle Leistungen an einer bestehenden Website
+  // (Report, Monitoring-/Agentur-Pläne, Fix, Pflege). Bei neuer Website (Basic/Business/Premium) entfällt sie.
+  var authInput = document.getElementById('o-auth');
+  var authField = document.getElementById('o-auth-field');
+  var authWeb = document.getElementById('o-auth-web');
+  function isNewWebsite(v) { return /^website-(basic|business|premium)$/.test(v || ''); }
+  function needsAuth() {
+    var sel = form.querySelector('input[name="produkt"]:checked');
+    return !!authInput && !(sel && isNewWebsite(sel.value));
+  }
   function syncUrlRequired() {
     var sel = form.querySelector('input[name="produkt"]:checked');
     var isWeb = !!sel && sel.value.indexOf('website-') === 0;
     urlInput.required = !isWeb;
     if (urlReq) urlReq.hidden = isWeb;
     if (urlOpt) urlOpt.hidden = !isWeb;
+    var auth = needsAuth();
+    if (authInput) authInput.required = auth;
+    if (authField) authField.hidden = !auth;
+    if (authWeb) authWeb.hidden = auth;
   }
   form.addEventListener('change', function (e) { if (e.target && e.target.name === 'produkt') syncUrlRequired(); });
   syncUrlRequired();
@@ -40,10 +54,17 @@
     var f = form.elements;
     var product = form.querySelector('input[name="produkt"]:checked').value;
     var btn = form.querySelector('button[type="submit"]');
+    var auth = needsAuth();
+    if (auth && !authInput.checked) {
+      statusEl.textContent = 'Bitte bestätigen Sie, dass Sie Inhaber der angegebenen Website oder vom Inhaber beauftragt sind.';
+      authInput.focus();
+      return;
+    }
     var email = f.email.value.trim();
     var url = f.url.value.trim();
     if (url && !/^https?:\/\//i.test(url)) url = 'https://' + url;
-    var message = 'Produkt: ' + (NAMES[product] || product) + ' [' + product + ']' + '\nFirma: ' + f.firma.value.trim() + '\nHinweise: ' + (f.hinweise.value.trim() || '-') + '\nUnternehmer (§ 14 BGB) bestätigt und AGB akzeptiert: ' + (f.consent && f.consent.checked ? 'ja' : 'nein');
+    var message = 'Produkt: ' + (NAMES[product] || product) + ' [' + product + ']' + '\nFirma: ' + f.firma.value.trim() + '\nHinweise: ' + (f.hinweise.value.trim() || '-') + '\nUnternehmer (§ 14 BGB) bestätigt und AGB akzeptiert: ' + (f.consent && f.consent.checked ? 'ja' : 'nein')
+      + '\nInhaber der Website oder vom Inhaber beauftragt (Agentur: mit Auftrag des Kunden) bestätigt: ' + (auth ? (authInput.checked ? 'ja' : 'nein') : 'entfällt (neue Website)');
     btn.disabled = true;
     statusEl.textContent = 'Bestellung wird gesendet …';
     YQ.postJson('/api/lead', { email: email, url: url, consent: true, source: 'bestellung', message: message }).then(function () {

@@ -194,3 +194,10 @@ html:not(.fx-ready) .fx-flip__btn { display: none; }
   html.fx3d.fx-pro .brand:not(.brand-footer):hover, html.fx3d.fx-pro .brand:not(.brand-footer):focus-visible { transform: perspective(500px) rotateX(360deg); }
 }
 @keyframes fx-logo { from { transform: perspective(500px) rotateX(-90deg); opacity: 0; } to { transform: perspective(500px) rotateX(0deg); opacity: 1; } }
+
+/* Immer sichtbare, langsame Drehung (reines CSS, unabhängig von JS/fx-lite); nur bei „Bewegung reduzieren“ aus */
+@keyframes yq-turn { from { transform: rotateX(-8deg) rotateY(0deg); } to { transform: rotateX(-8deg) rotateY(360deg); } }
+@media (prefers-reduced-motion: no-preference) {
+  .fx-hero3d .fx-spin, .fx3d .fx-hero3d .fx-spin, .fx3d .is-pro .fx-spin { animation: yq-turn 26s linear infinite !important; animation-play-state: running !important; }
+  .fx-hero3d.is-pro .fx-spin, .fx3d .fx-hero3d.is-pro .fx-spin { animation-duration: 34s !important; }
+}

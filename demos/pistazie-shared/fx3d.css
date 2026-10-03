@@ -16,7 +16,8 @@
 
 /* ---------- Business: schwebende Macarons am Hero ---------- */
 .hero-gallery { position: relative; }
-.mc-float { position: absolute; z-index: 3; width: var(--sz, 84px); aspect-ratio: 1; pointer-events: none; left: var(--x); top: var(--y); perspective: 520px; --u: calc(var(--sz, 84px) / 96); filter: drop-shadow(0 14px 12px rgba(74, 52, 40, .22)); }
+.mc-float { position: absolute; z-index: 3; width: var(--sz, 84px); aspect-ratio: 1; pointer-events: none; left: var(--x); top: var(--y); perspective: 520px; --u: calc(var(--sz, 84px) / 96); }
+.mc-float::before { content: ""; position: absolute; left: 6%; right: 6%; bottom: -10%; height: 30%; border-radius: 50%; background: radial-gradient(closest-side, rgba(74, 52, 40, .3), rgba(74, 52, 40, 0)); }
 .mc-tilt { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(var(--rx, 58deg)) rotateZ(var(--rz, -18deg)) rotateY(var(--ry, 0deg)); }
 @media (prefers-reduced-motion: no-preference) {
   .fx3d .mc-float { animation: fx-bob var(--dur, 7s) ease-in-out infinite alternate; animation-play-state: paused; }
@@ -31,19 +32,26 @@
 /* ---------- Premium: rotierende Torte im Hero ---------- */
 .hero-gallery:has(> .fx-tart) { padding-bottom: calc(min(19rem, 52vw) * .3); }
 .fx-tart { --tart: min(19rem, 52vw); position: absolute; z-index: 3; left: 50%; margin-left: calc(var(--tart) / -2); bottom: calc(var(--tart) * -.3); width: var(--tart); aspect-ratio: 1; perspective: 900px; pointer-events: none; --u: calc(var(--tart) / 300); }
-.fx-tart__pose { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(calc(58deg + var(--py, 0) * -9deg)) rotateY(calc(var(--px, 0) * 9deg)); transition: transform .4s ease-out; }
-.fx-tart__spin { position: absolute; inset: 8% 8% 8% 8%; transform-style: preserve-3d; transform: rotateZ(20deg); }
-.fx-tart__shadow { position: absolute; inset: 6%; border-radius: 50%; background: radial-gradient(closest-side, rgba(74, 52, 40, .38), transparent); transform: translateZ(-44px) scale(1.12); }
-.fx-tart .mc-s { transform: translateZ(calc(var(--z) * var(--u))); }
-.fx-tart .dot { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateZ(calc(var(--a) * 1deg)); }
-.fx-tart .dotbox { position: absolute; left: 78%; top: 41%; width: 18%; height: 18%; transform-style: preserve-3d; }
+/* Flache Bauweise (kein preserve-3d): Koerper = statische Scheiben (Hoehe per translateY, 1/tan(58deg) ~ 1.6),
+   nur die Deko-Scheibe dreht sich in der Ebene (eine transform-Animation) - guenstig fuer die GPU. */
+.fx-tart__pose { position: absolute; inset: 0; transform: rotateX(calc(58deg + var(--py, 0) * -9deg)) rotateY(calc(var(--px, 0) * 9deg)); transition: transform .4s ease-out; }
+.fx-tart__body, .fx-tart__top { position: absolute; inset: 8%; }
+.fx-tart__top { transform: translateY(calc(-17 * var(--u) * 1.6)); }
+.fx-tart__spin { position: absolute; inset: 0; transform: rotate(20deg); }
+.fx-tart__shadow { position: absolute; inset: 6%; border-radius: 50%; background: radial-gradient(closest-side, rgba(74, 52, 40, .38), transparent); transform: translateY(calc(44 * var(--u) * 1.6)) scale(1.12); }
+.fx-tart__body .mc-s { transform: translateY(calc(var(--z) * var(--u) * -1.6)); }
+.fx-tart__spin > .mc-s { transform: none; }
+.fx-tart .dot { position: absolute; inset: 0; transform: rotate(calc(var(--a) * 1deg)); }
+.fx-tart .dotbox { position: absolute; left: 78%; top: 41%; width: 18%; height: 18%; }
 .fx-tart .dotbox.c { left: 32%; top: 32%; width: 36%; height: 36%; }
+.fx-tart .td { position: absolute; inset: 0; border-radius: 50%; box-shadow: 0 0 0 2px rgba(74, 52, 40, .14), 0 3px 8px rgba(74, 52, 40, .28);
+  background: radial-gradient(circle, rgba(255, 255, 255, .8) 0, rgba(255, 255, 255, 0) 46%), radial-gradient(circle, color-mix(in srgb, var(--c), #fff 18%) 0 68%, color-mix(in srgb, var(--c), #4a3428 24%) 72% 100%); }
 @media (prefers-reduced-motion: no-preference) {
   .fx3d .fx-tart__spin { animation: fx-turn 38s linear infinite; animation-play-state: paused; }
   .fx3d .fx-run .fx-tart__spin { animation-play-state: running; }
   .fx3d.fx-hidden .fx-tart__spin { animation-play-state: paused; }
 }
-@keyframes fx-turn { from { transform: rotateZ(0deg); } to { transform: rotateZ(360deg); } }
+@keyframes fx-turn { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @media (max-width: 960px) { .hero-gallery:has(> .fx-tart) { padding-bottom: calc(min(15rem, 56vw) * .3); } .fx-tart { --tart: min(15rem, 56vw); } }
 
 /* Parallax-Tiefe der Torbogen-Bilder (Premium) */
@@ -121,3 +129,10 @@ html:not(.fx-ready) .fx-flip__btn { display: none; }
   html.fx3d.fx-pro .logo:hover .logo-mark, html.fx3d.fx-pro .logo:focus-visible .logo-mark { transform: perspective(240px) rotateY(360deg); }
 }
 @keyframes fx-logo { from { transform: perspective(240px) rotateY(-180deg); } to { transform: perspective(240px) rotateY(0deg); } }
+
+/* Immer sichtbare, langsame Bewegung (reines CSS, unabhängig von JS/fx-lite); nur bei „Bewegung reduzieren“ aus */
+@media (prefers-reduced-motion: no-preference) {
+  .fx-tart__spin, .fx3d .fx-tart__spin { animation: fx-turn 48s linear infinite !important; animation-play-state: running !important; }
+  .mc-float, .fx3d .mc-float { animation: fx-bob 9s ease-in-out infinite alternate !important; animation-play-state: running !important; }
+  .mc-tilt, .fx3d .mc-tilt { animation: fx-wobble 12s ease-in-out infinite alternate !important; animation-play-state: running !important; }
+}

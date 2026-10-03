@@ -650,7 +650,7 @@ th { background: var(--tint); }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .fx .y3d-scene { animation: y3d-idle 7s ease-in-out infinite alternate; }
+  .fx .y3d-scene { animation: y3d-idle 11s ease-in-out infinite alternate; }
   .fx .y3d-ring { animation: y3d-orbit 15s linear infinite; }
   .fx .y3d-ring-b { animation-name: y3d-orbit-b; animation-duration: 19s; animation-direction: reverse; }
   .fx .y3d-cg { animation: y3d-bob 4.6s ease-in-out infinite alternate; }
@@ -719,3 +719,9 @@ th { background: var(--tint); }
 .reco .reco-selffix-title { margin: .9rem 0 .35rem; font-size: 1rem; }
 .reco .reco-selffix { margin: 0 0 .5rem; padding-left: 1.25rem; }
 .reco .reco-selffix li { margin-bottom: .3rem; }
+
+/* Mobil: Y-Logo dreht sich immer (reines CSS, unabhängig von JS/fx-lite), nur nicht bei „Bewegung reduzieren“ */
+@keyframes y3d-spin-m { from { transform: rotateX(8deg) rotateY(0deg); } to { transform: rotateX(8deg) rotateY(360deg); } }
+@media (max-width: 959px) and (prefers-reduced-motion: no-preference) {
+  .y3d-scene, .fx .y3d-scene, .fx-lite .y3d-scene { animation: y3d-spin-m 18s linear infinite !important; }
+}
