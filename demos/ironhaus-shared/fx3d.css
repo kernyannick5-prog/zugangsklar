@@ -211,8 +211,10 @@ html.fx3d main { overflow-x: clip; }
 .bb-floor svg, .bb-layer { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .bb-tilt, .bb-settle, .bb-float { position: absolute; inset: 0; transform-style: preserve-3d; }
 .bb-tilt { transform: rotateX(var(--bb-rx)) rotateY(var(--bb-ry)); }
-.bb-l { transform: translateZ(-46px); filter: brightness(.86); }
-.bb-r { transform: translateZ(46px); }
+/* Alle Ebenen liegen in einer Ebene: so sitzt die Stange in jeder Drehphase exakt in den Scheibenlöchern.
+   Die Tiefe entsteht durch die perspektivische Drehung (vordere Scheibe wächst, hintere schrumpft). */
+.bb-l { filter: brightness(.86); }
+.bb-r { transform: none; }
 .bb-l { filter: brightness(.86); }
 /* Eigene Bühne unter dem Foto-Hero: die Hantel liegt nicht über dem Foto, sondern wie ein Produktfoto auf dunklem Grund. */
 .bb-stage { position: relative; overflow: hidden; padding: clamp(3rem, 8vw, 6rem) 0 clamp(2.5rem, 6vw, 4.5rem);
@@ -240,5 +242,5 @@ html.fx3d main { overflow-x: clip; }
 @keyframes bb-hover { from { translate: 0 4px; } to { translate: 0 -14px; } }
 @keyframes bb-sway { from { rotate: z -.9deg; } to { rotate: z .9deg; } }
 /* Sichtbare 3D-Drehung um die Hochachse (leicht geneigt): die Tiefenebenen (Scheiben ±46px) verschieben sich gegeneinander. Keine Dauerrotation. */
-@keyframes bb-turn { from { rotate: .18 1 .06 -16deg; } to { rotate: .18 1 .06 16deg; } }
+@keyframes bb-turn { from { rotate: y -16deg; } to { rotate: y 16deg; } }
 @keyframes bb-shadow { from { transform: scale(1.03); opacity: 1; } to { transform: scale(.94); opacity: .72; } }
