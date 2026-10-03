@@ -195,6 +195,8 @@
       container.appendChild(catScores(d.categories));
     }
 
+    if (opts.recommend && YQ.recommend) container.appendChild(recoCard(opts, level, data));
+
     // Befunde
     var panels = [];
     function fillPanel(p) {
@@ -307,6 +309,58 @@
     }
 
     return { heading: heading, summary: d.summary, score: d.score };
+  }
+
+  /* Produktempfehlung (recommend.js). Immer sichtbar, auch bei geschlossenem Lead-Gate. Alle Texte per textContent. */
+  function recoCard(opts, level, data) {
+    var rec = YQ.recommend.recommend(data);
+    var q = opts.url ? '&url=' + encodeURIComponent(opts.url) : '';
+    function href(key) { return 'bestellen.html?produkt=' + key + q; }
+    var hid = 'reco-title-' + (++uid);
+    var p = rec.primary;
+    var main = el('div', { class: 'reco-main' },
+      h(level + 2, { class: 'reco-product' }, 'Empfehlung: ', el('strong', null, p.items ? 'Einzel-Fixes (' + p.items.length + ')' : p.name), p.noSale ? null : ' – ', p.noSale ? null : el('span', { class: 'reco-price' }, p.price)),
+      el('p', { class: 'reco-reason' }, rec.reason));
+    if (p.noSale) {
+      if (rec.selfFix && rec.selfFix.length) {
+        var sl = el('ul', { class: 'reco-selffix' });
+        rec.selfFix.forEach(function (t) { sl.appendChild(el('li', null, t)); });
+        main.appendChild(h(level + 3, { class: 'reco-selffix-title' }, 'Kleinigkeiten, die Sie selbst erledigen können'));
+        main.appendChild(sl);
+      }
+      main.appendChild(el('p', { class: 'reco-cta' }, el('a', { class: 'btn btn-light', href: '#check' }, p.cta)));
+    } else if (p.items) {
+      var fl = el('ul', { class: 'reco-fixes' });
+      p.items.forEach(function (f) { fl.appendChild(el('li', null, el('a', { class: 'btn btn-light', href: href(f.key) }, f.name + ' bestellen (' + f.price + ')'))); });
+      main.appendChild(fl);
+      main.appendChild(el('p', { class: 'reco-sum' }, 'Summe aller ' + p.items.length + ' Fixes: ' + p.price + ' (Endpreis).'));
+    } else {
+      if (rec.rule === 'monitoring' && rec.selfFix && rec.selfFix.length) {
+        var ml = el('ul', { class: 'reco-selffix' });
+        rec.selfFix.forEach(function (t) { ml.appendChild(el('li', null, t)); });
+        main.appendChild(h(level + 3, { class: 'reco-selffix-title' }, 'Kleinigkeiten, die Sie selbst erledigen können'));
+        main.appendChild(ml);
+      }
+      main.appendChild(el('p', { class: 'reco-cta' }, el('a', { class: 'btn btn-light', href: href(p.key) }, p.name + ' bestellen (' + p.price + ')')));
+    }
+    var whyList = el('ul', { class: 'reco-why' });
+    rec.why.concat(rec.notes).forEach(function (t) { whyList.appendChild(el('li', null, t)); });
+    var card = el('section', { class: 'reco on-dark', 'aria-labelledby': hid },
+      h(level + 1, { id: hid, class: 'reco-title' }, 'Unsere Empfehlung für Ihre Website'),
+      h(level + 2, { class: 'reco-sub reco-sub-first' }, 'Kurze Einschätzung'),
+      el('p', { class: 'reco-assess' }, rec.assessment),
+      main,
+      h(level + 2, { class: 'reco-sub' }, 'Warum?'), whyList);
+    if (rec.alternatives.length) {
+      var al = el('ul', { class: 'reco-alts' });
+      rec.alternatives.forEach(function (a) {
+        al.appendChild(el('li', null, el('a', { href: a.key === 'fix-individuell' ? 'fix.html' : href(a.key) }, a.name + ' (' + a.price + ')'), a.why ? el('span', null, ' – ' + a.why) : null));
+      });
+      card.appendChild(h(level + 2, { class: 'reco-sub' }, 'Alternativen'));
+      card.appendChild(al);
+    }
+    card.appendChild(el('p', { class: 'reco-hint' }, rec.disclaimer + ' Alle Preise sind Endpreise (Kleinunternehmer nach § 19 UStG, keine Umsatzsteuer).'));
+    return card;
   }
 
   function ctaBox(opts, level, d) {

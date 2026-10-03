@@ -80,7 +80,7 @@
   },
   "issues": [
     {
-      "id": "image-alt",
+      "id": "img-alt",
       "category": "accessibility",
       "severity": "kritisch",
       "title": "Bilder ohne Alternativtext",
@@ -96,7 +96,7 @@
       "affectedUrl": "https://www.beispiel-shop.example/"
     },
     {
-      "id": "label",
+      "id": "form-label",
       "category": "accessibility",
       "severity": "kritisch",
       "title": "Formularfelder ohne Beschriftung",
@@ -158,7 +158,7 @@
       "affectedUrl": "https://www.beispiel-shop.example/"
     },
     {
-      "id": "google-fonts",
+      "id": "privacy-google-fonts",
       "category": "privacy",
       "severity": "kritisch",
       "title": "Google Fonts werden von Servern von Google geladen",
@@ -231,7 +231,7 @@
       "affectedUrl": "https://www.beispiel-shop.example/"
     },
     {
-      "id": "hsts",
+      "id": "sec-hsts",
       "category": "security",
       "severity": "hoch",
       "title": "HSTS-Header fehlt",
@@ -244,7 +244,7 @@
       "affectedUrl": "https://www.beispiel-shop.example/"
     },
     {
-      "id": "csp",
+      "id": "sec-csp",
       "category": "security",
       "severity": "gering",
       "title": "Keine Content-Security-Policy",

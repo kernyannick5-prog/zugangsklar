@@ -659,6 +659,11 @@ th { background: var(--tint); }
   @keyframes y3d-orbit { from { transform: rotateX(72deg) rotateZ(0deg); } to { transform: rotateX(72deg) rotateZ(360deg); } }
   @keyframes y3d-orbit-b { from { transform: rotateY(68deg) rotateX(12deg) rotateZ(0deg); } to { transform: rotateY(68deg) rotateX(12deg) rotateZ(360deg); } }
   @keyframes y3d-bob { from { transform: translate(-4px, 0); } to { transform: translate(5px, -16px); } }
+  /* Mobil: Y-Zeichen dreht sich langsam komplett um die eigene Achse (eine einzige transform-Animation, GPU-günstig) */
+  @media (max-width: 959px) {
+    .fx .y3d-scene { animation: y3d-spin 10s linear infinite; }
+    @keyframes y3d-spin { from { transform: rotateX(8deg) rotateY(0deg); } to { transform: rotateX(8deg) rotateY(360deg); } }
+  }
   /* Scroll-Reveal: nur bis zum Einblenden unsichtbar, danach normale Werte */
   .fx .fx-r:not(.fx-in) { opacity: 0; }
   .fx .fx-r.fx-in { animation: fx-rise .6s cubic-bezier(.22, .68, 0, 1) var(--fx-d, 0ms) backwards; }
@@ -686,3 +691,31 @@ th { background: var(--tint); }
 }
 /* Pause ausserhalb des Sichtfelds und im verdeckten Tab */
 .fx-off, .fx-off::before, .fx-off::after, .fx-off *, .fx-off *::before, .fx-off *::after, .fx-paused *, .fx-paused *::before, .fx-paused *::after { animation-play-state: paused !important; }
+
+/* === Produktempfehlung im Website-Check (recommend.js / report-render.js recoCard) === */
+.reco { margin: 0 0 2rem; padding: clamp(1.1rem, 4vw, 2rem); border-radius: var(--radius); color: #fff; background: radial-gradient(ellipse 60% 120% at 90% 0%, rgba(127,224,203,.18) 0%, rgba(127,224,203,0) 60%), linear-gradient(135deg, var(--ink-2) 0%, var(--primary) 100%); box-shadow: var(--shadow-pop); overflow-wrap: anywhere; }
+.reco h3, .reco h4, .reco h5, .reco p, .reco li { color: #fff; }
+.reco .reco-title { margin: 0 0 1rem; font-size: clamp(1.3rem, 4vw, 1.6rem); }
+.reco-main { padding: 1rem 1.15rem; border: 1px solid rgba(255,255,255,.35); border-left: 6px solid var(--mint); border-radius: var(--radius-btn); background: rgba(15,14,46,.45); }
+.reco .reco-label { margin: 0 0 .25rem; font-size: .9rem; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; color: var(--mint); }
+.reco .reco-product { margin: 0 0 .35rem; font-size: 1.25rem; }
+.reco-price { display: inline-block; margin-left: .25rem; padding: .05rem .6rem; border: 1px solid var(--mint); border-radius: var(--radius-pill); font-size: 1rem; white-space: nowrap; color: var(--mint); }
+.reco .reco-reason { margin: 0 0 .9rem; font-weight: 600; }
+.reco .reco-cta, .reco .reco-sum { margin: .5rem 0 0; }
+.reco .reco-fixes { list-style: none; margin: .5rem 0; padding: 0; display: grid; gap: .6rem; }
+.reco .reco-fixes .btn, .reco .reco-cta .btn { white-space: normal; }
+.reco .reco-sub { margin: 1.25rem 0 .4rem; font-size: 1.05rem; }
+.reco .reco-why, .reco .reco-alts { margin: 0; padding-left: 1.25rem; }
+.reco .reco-why li, .reco .reco-alts li { margin-bottom: .35rem; }
+.reco a:not(.btn) { color: #fff; text-decoration: underline; text-underline-offset: .15em; font-weight: 650; }
+.reco a:not(.btn):hover { color: var(--mint); }
+.reco .reco-hint { margin: 1.25rem 0 0; padding-top: .9rem; border-top: 1px solid rgba(255,255,255,.3); font-size: .95rem; color: var(--on-dark-2); }
+@media print { .reco { color: #000; background: none; box-shadow: none; border: 1px solid #000; } .reco * { color: #000 !important; } }
+/* Produktempfehlung: Einschätzung + Empfehlungszeile */
+.reco .reco-sub-first { margin-top: 0; }
+.reco .reco-assess { margin: 0 0 1rem; font-size: 1.05rem; }
+.reco .reco-product { font-size: 1.3rem; }
+.reco .reco-product strong { font-weight: 800; }
+.reco .reco-selffix-title { margin: .9rem 0 .35rem; font-size: 1rem; }
+.reco .reco-selffix { margin: 0 0 .5rem; padding-left: 1.25rem; }
+.reco .reco-selffix li { margin-bottom: .3rem; }

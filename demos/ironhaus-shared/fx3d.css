@@ -1,0 +1,174 @@
+/* IRONHAUS – 3D-Effekte (nur Business + Premium; Basic bindet diese Datei NICHT ein).
+   Reines CSS-3D + SVG. Dauer-Animationen nur transform; pausiert, solange .fx-run fehlt
+   (Skript: ../shared/fx3d.js). Ohne JS / im fx-lite-Modus: statische, schoene Pose. */
+
+/* ---------- Hero-Szene (Hantelscheibe / Langhantel) ---------- */
+.fx-hero3d {
+  position: relative; height: 150px; margin: 0 0 var(--space-4);
+  perspective: 900px; pointer-events: none; user-select: none;
+}
+.fx-stage {
+  position: absolute; left: 0; top: 50%; width: 260px; height: 260px; margin-top: -130px;
+  transform-origin: 0 50%; transform: scale(.52); transform-style: preserve-3d;
+}
+.fx-par, .fx-spin, .fx-obj { position: absolute; inset: 0; transform-style: preserve-3d; }
+.fx-par { transition: transform .35s ease-out; }
+.fx-spin { transform: rotateX(-9deg) rotateY(-26deg); }
+.fx-obj { transform-style: preserve-3d; }
+.fx-ground {
+  position: absolute; left: 6%; right: 6%; bottom: -14%; height: 14%; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(0,0,0,.55), transparent); transform: translateZ(-160px);
+}
+
+/* Scheibe: Scheiben-Slices ergeben Dicke, Vorderseite traegt die Grafik */
+.fx-plate { position: absolute; left: 10px; top: 10px; width: 240px; height: 240px; transform-style: preserve-3d; transform: translateZ(calc(var(--pz, 0) * 1px)); }
+.fx-plate.is-sm { left: 45px; top: 45px; width: 170px; height: 170px; }
+.fx-sl {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: #1a1b1d; box-shadow: inset 0 0 0 1px #34373c;
+  transform: translateZ(calc(var(--z) * 1px));
+}
+.fx-sl:nth-child(odd) { background: #202225; }
+.fx-face {
+  position: absolute; inset: 0; border-radius: 50%; backface-visibility: hidden;
+  transform: translateZ(calc(var(--z) * 1px)) rotateY(var(--ry, 0deg));
+  background:
+    radial-gradient(circle, #0c0c0d 0 12%, #4a4d53 12.5% 14%, transparent 14.5%),
+    conic-gradient(from 20deg, #2c2e32, #3f434a 12%, #2a2c30 25%, #3c4046 40%, #2a2c30 55%, #3f434a 70%, #2a2c30 85%, #2c2e32);
+  box-shadow: inset 0 0 0 5px #17181a, inset 0 0 0 8px #ffd400, inset 0 0 0 11px #17181a, 0 0 0 1px #0d0d0e;
+}
+.fx-face svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.fx-face text { font-family: var(--font-display); font-style: italic; font-weight: 800; }
+
+/* Stange (Zylinder aus Scheiben) */
+.fx-bar { position: absolute; left: 117px; top: 117px; width: 26px; height: 26px; transform-style: preserve-3d; }
+.fx-bar .fx-sl { background: radial-gradient(circle at 36% 32%, #d8dbe0, #8b9099 45%, #4c5057); box-shadow: none; }
+.fx-bar .fx-sl:nth-child(odd) { background: radial-gradient(circle at 36% 32%, #c4c7cd, #7d828b 45%, #43464c); }
+.fx-collar { position: absolute; left: 106px; top: 106px; width: 48px; height: 48px; transform-style: preserve-3d; }
+.fx-collar .fx-sl { background: #ffd400; box-shadow: inset 0 0 0 2px #c9a800; }
+.fx-collar .fx-sl:nth-child(odd) { background: #f0c800; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .fx3d .fx-spin { animation: fx-swing 13s ease-in-out infinite alternate; animation-play-state: paused; }
+  .fx3d .fx-run .fx-spin { animation-play-state: running; }
+  .fx3d.fx-hidden .fx-spin { animation-play-state: paused; }
+  /* Premium-Hantel: aufwendige 3D-Szene – nur einmalige Einschwing-Bewegung, danach Ruhe-Pose
+     (Dauer-Animation kostete auf schwachen CPUs zu viel); Maus-Parallax bleibt. */
+  .fx3d .is-pro .fx-spin { animation: fx-swing 2.6s cubic-bezier(.2,.7,.2,1) 1 reverse both; }
+}
+@keyframes fx-swing {
+  from { transform: rotateX(-9deg) rotateY(-34deg); }
+  to   { transform: rotateX(-4deg) rotateY(30deg); }
+}
+.fx3d [data-fx-scene] .fx-par { transform: rotateX(calc(var(--py, 0) * -7deg)) rotateY(calc(var(--px, 0) * 12deg)); }
+
+@media (min-width: 1000px) {
+  .fx-hero3d {
+    position: absolute; right: var(--space-5); top: 22%; width: min(42%, 440px); height: 440px; margin: -220px 0 0;
+  }
+  .fx-stage { left: 50%; margin-left: -130px; transform-origin: 50% 50%; transform: scale(.82); }
+  .fx-hero3d.is-pro { width: min(46%, 560px); height: 560px; margin-top: -280px; right: 0; top: 46%; }
+  .is-pro .fx-stage { transform: scale(1.3); }
+}
+@media (min-width: 1000px) and (max-width: 1180px) { .is-pro .fx-stage { transform: scale(1.05); } }
+
+/* ---------- Scroll-Reveal mit leichter Perspektive ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  html.fx3d .reveal { transform: perspective(1100px) translateY(30px) rotateX(5deg); transform-origin: 50% 0; }
+  html.fx3d .reveal.is-visible { transform: none; }
+}
+
+/* ---------- Karten: 3D-Tilt mit Tiefen-Ebenen (nur feiner Zeiger, nicht im Lite-Modus) ---------- */
+html.fx3d .fx-hot {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateZ(0);
+  transform-style: preserve-3d; transition: transform .2s ease-out, box-shadow .3s ease;
+}
+html.fx3d .fx-hot:hover { box-shadow: 0 26px 44px -22px rgba(0,0,0,.6); }
+html.fx3d .fx-hot > * { transition: transform .3s ease-out; }
+html.fx3d .fx-hot:hover > .feature-icon, html.fx3d .fx-hot:hover > .price-amount { transform: translateZ(calc(var(--fz, 1) * 38px)); }
+html.fx3d .fx-hot:hover > h3, html.fx3d .fx-hot:hover > .price, html.fx3d .fx-hot:hover > .coach-teaser img { transform: translateZ(calc(var(--fz, 1) * 26px)); }
+html.fx3d .fx-hot:hover > .btn, html.fx3d .fx-hot:hover > .add-cart-btn, html.fx3d .fx-hot:hover > .price-features { transform: translateZ(calc(var(--fz, 1) * 16px)); }
+html.fx3d .fx-hot:hover > p:not(.price) { transform: translateZ(calc(var(--fz, 1) * 12px)); }
+html.fx3d .fx-hot:hover > img { transform: translateZ(calc(var(--fz, 1) * 22px)); }
+html.fx3d .fx-hot:hover > figcaption { transform: translateZ(calc(var(--fz, 1) * 14px)); }
+.fx-pro { --fz: 1.5; }
+.price-card, .feature-card, .coach-teaser, .iw-card, .blog-card, .product-card { transform-origin: 50% 50%; }
+
+/* ---------- Premium: Tiefen-Ebenen im Hero ---------- */
+.fx-depth { position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none; }
+.fx-ghost {
+  position: absolute; right: -2vw; bottom: -4vw; margin: 0; line-height: .8;
+  font-family: var(--font-display); font-style: italic; font-weight: 800; text-transform: uppercase;
+  font-size: clamp(7rem, 24vw, 22rem); letter-spacing: -.02em; color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 212, 0, .16); white-space: nowrap;
+}
+.fx-stripe { position: absolute; width: 14px; height: 140%; top: -20%; background: #ffd400; opacity: .1; transform: skewX(-22deg); }
+.fx-stripe.s1 { right: 31%; } .fx-stripe.s2 { right: 24%; width: 6px; opacity: .14; } .fx-stripe.s3 { right: 9%; width: 30px; opacity: .06; }
+.fx3d .fx-ghost { transform: translate3d(calc(var(--px, 0) * -26px), calc(var(--sy, 0) * -50px + var(--py, 0) * -10px), 0); }
+.fx3d .fx-stripe.s1 { transform: skewX(-22deg) translate3d(calc(var(--px, 0) * 40px), 0, 0); }
+.fx3d .fx-stripe.s2 { transform: skewX(-22deg) translate3d(calc(var(--px, 0) * -22px), 0, 0); }
+.fx3d .fx-stripe.s3 { transform: skewX(-22deg) translate3d(calc(var(--px, 0) * 14px), 0, 0); }
+.fx3d.fx-pro .hero-bg { transform: translate3d(calc(var(--px, 0) * -14px), calc(var(--sy, 0) * 60px + var(--py, 0) * -8px), 0) scale(1.1); }
+.fx-ghost, .fx-stripe { transition: transform .4s ease-out; }
+@media (max-width: 999px) { .fx-ghost { font-size: 9rem; right: -4vw; bottom: -1rem; } .fx-stripe.s3 { display: none; } }
+
+/* ---------- Premium: 3D-Laufband (Stats + Live-Auslastung) ---------- */
+.fx-band { background: #111214; color: #fff; overflow: hidden; padding: var(--space-5) 0 var(--space-6); perspective: 640px; border-block: 3px solid #ffd400; }
+.fx-band__plane { transform: rotateX(24deg) scale(1.04); transform-origin: 50% 40%; transform-style: preserve-3d; }
+.fx-band__row { display: flex; width: max-content; font-family: var(--font-display); font-style: italic; font-weight: 800; text-transform: uppercase; line-height: 1.05; white-space: nowrap; }
+.fx-band__row + .fx-band__row { margin-top: .15em; }
+.fx-band__row span { padding-right: .6em; }
+.fx-band__row.r1 { font-size: clamp(2.2rem, 7vw, 4.4rem); color: #ffd400; }
+.fx-band__row.r2 { font-size: clamp(1.5rem, 4.4vw, 2.8rem); color: #e6e7ea; }
+.fx-band__row i { display: inline-block; width: .3em; height: .62em; background: #ffd400; transform: skewX(-22deg); margin: 0 .55em .02em .1em; vertical-align: middle; }
+.fx-band__row.r2 i { background: #8a8d94; }
+.fx-band__row b { font-weight: 800; color: #fff; }
+@media (prefers-reduced-motion: no-preference) {
+  .fx3d .fx-band__row { animation: fx-run-l 38s linear infinite; animation-play-state: paused; }
+  .fx3d .fx-band__row.r2 { animation-name: fx-run-r; animation-duration: 46s; }
+  .fx3d .fx-run .fx-band__row { animation-play-state: running; }
+  .fx3d.fx-hidden .fx-band__row { animation-play-state: paused; }
+}
+@keyframes fx-run-l { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes fx-run-r { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+/* ---------- Premium: Coach-Flip-Karten ---------- */
+.fx-flip-grid { display: grid; gap: var(--space-5); grid-template-columns: repeat(4, 1fr); margin-top: var(--space-6); }
+@media (max-width: 980px) { .fx-flip-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .fx-flip-grid { grid-template-columns: 1fr; } }
+.fx-flip { position: relative; aspect-ratio: 4 / 5; min-height: 17rem; perspective: 1100px; color: #fff; }
+@media (max-width: 560px) { .fx-flip { aspect-ratio: auto; height: 17rem; } }
+.fx-flip__inner { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform .7s cubic-bezier(.3, .8, .3, 1); }
+.fx-flip.is-flipped .fx-flip__inner { transform: rotateY(180deg); }
+.fx-flip__front, .fx-flip__back { position: absolute; inset: 0; backface-visibility: hidden; overflow: hidden; border-radius: var(--radius-md); }
+.fx-flip__front { background: #1c1d1f; box-shadow: 0 18px 34px -22px rgba(0,0,0,.6); }
+.fx-flip__front img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; aspect-ratio: auto; }
+.fx-flip__front::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 45%, rgba(15,15,16,.92)); }
+.fx-flip__cap { position: absolute; z-index: 1; left: var(--space-4); right: 64px; bottom: var(--space-4); display: flex; flex-direction: column; }
+.fx-flip__cap strong { font-family: var(--font-display); font-style: italic; text-transform: uppercase; font-size: 1.5rem; line-height: 1.05; }
+.fx-flip__cap span { color: #ffd400; font-weight: 700; font-size: .85rem; text-transform: uppercase; letter-spacing: .06em; }
+.fx-flip__back {
+  transform: rotateY(180deg); background: #2b2d31; border-top: 5px solid #ffd400; padding: var(--space-5) var(--space-5) 64px;
+  display: flex; flex-direction: column; justify-content: flex-start; box-shadow: 0 18px 34px -22px rgba(0,0,0,.6);
+}
+.fx-flip__back h3 { font-size: 1.35rem; margin-bottom: var(--space-1); }
+.fx-flip__back p { color: #d3d5d9; font-size: .92rem; margin-bottom: var(--space-3); }
+.fx-flip__back .coach-profile-tags { margin-top: auto; }
+.fx-flip__btn {
+  position: absolute; z-index: 3; right: var(--space-3); bottom: var(--space-3); width: 48px; height: 48px; border-radius: 50%;
+  background: #ffd400; color: #1c1d1f; border: 0; cursor: pointer; display: grid; place-items: center; transition: transform .2s ease;
+}
+.fx-flip__btn:hover { transform: scale(1.08); }
+.fx-flip__btn:focus-visible { outline: 3px solid #fff; outline-offset: 3px; box-shadow: 0 0 0 6px #1c1d1f; }
+.fx-flip__btn svg { width: 22px; height: 22px; transition: transform .5s ease; }
+.fx-flip.is-flipped .fx-flip__btn svg { transform: rotate(180deg); }
+/* Ohne JS: beide Seiten gestapelt statt gedreht */
+html:not(.fx-ready) .fx-flip { aspect-ratio: auto; min-height: 0; }
+html:not(.fx-ready) .fx-flip__inner, html:not(.fx-ready) .fx-flip__front, html:not(.fx-ready) .fx-flip__back { position: relative; inset: auto; transform: none; }
+html:not(.fx-ready) .fx-flip__front { aspect-ratio: 4 / 5; }
+html:not(.fx-ready) .fx-flip__btn { display: none; }
+.fx-ready .fx-flip:not(.is-flipped) .fx-flip__back, .fx-ready .fx-flip.is-flipped .fx-flip__front { visibility: hidden; transition: visibility 0s .35s; }
+@media (prefers-reduced-motion: reduce) { .fx-flip__inner { transition: none; } }
+.fx-flip-foot { margin-top: var(--space-6); }
+@media (max-width: 999px) { .fx-hero3d.is-pro { height: 190px; } }
+@media (max-width: 999px) { .fx-hero3d.is-pro .fx-stage { transform: scale(.66); } }

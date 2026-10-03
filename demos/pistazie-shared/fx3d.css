@@ -1,0 +1,116 @@
+/* Café Pistazie – 3D-Effekte (nur Business + Premium; Basic bindet diese Datei NICHT ein).
+   Reines CSS-3D (Schicht-Stapel), Dauer-Animationen nur transform, pausiert ohne .fx-run
+   (Skript: ../shared/fx3d.js). Ohne JS / im fx-lite-Modus: statische, schoene Pose. */
+
+/* ---------- Gemeinsame Teile: Scheiben-Stapel ---------- */
+.mc-s {
+  position: absolute; border-radius: 50%;
+  width: calc(var(--w) * 1%); height: calc(var(--w) * 1%);
+  left: calc((100 - var(--w)) / 2 * 1%); top: calc((100 - var(--w)) / 2 * 1%);
+  background: color-mix(in srgb, var(--c), #fff calc(var(--l, 0) * 1%));
+  transform: translateZ(calc(var(--z) * var(--u, 1px)));
+}
+.mc-s.hl { background: radial-gradient(circle at 34% 30%, rgba(255,255,255,.75), rgba(255,255,255,0) 52%), color-mix(in srgb, var(--c), #fff calc(var(--l, 0) * 1%)); }
+.mc-s.cr { background: repeating-radial-gradient(circle, #fffaf3 0 6%, #f1e6d6 6.5% 8%); box-shadow: 0 0 0 2px #f6ecdc; }
+.mc-s.dk { background: color-mix(in srgb, var(--c), #4a3428 18%); }
+
+/* ---------- Business: schwebende Macarons am Hero ---------- */
+.hero-gallery { position: relative; }
+.mc-float { position: absolute; z-index: 3; width: var(--sz, 84px); aspect-ratio: 1; pointer-events: none; left: var(--x); top: var(--y); perspective: 520px; --u: calc(var(--sz, 84px) / 96); filter: drop-shadow(0 14px 12px rgba(74, 52, 40, .22)); }
+.mc-tilt { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(var(--rx, 58deg)) rotateZ(var(--rz, -18deg)) rotateY(var(--ry, 0deg)); }
+@media (prefers-reduced-motion: no-preference) {
+  .fx3d .mc-float { animation: fx-bob var(--dur, 7s) ease-in-out infinite alternate; animation-play-state: paused; }
+  .fx3d .mc-tilt { animation: fx-wobble calc(var(--dur, 7s) * 1.3) ease-in-out infinite alternate; animation-play-state: paused; }
+  .fx3d .fx-run .mc-float, .fx3d .fx-run .mc-tilt { animation-play-state: running; }
+  .fx3d.fx-hidden .mc-float, .fx3d.fx-hidden .mc-tilt { animation-play-state: paused; }
+}
+@keyframes fx-bob { from { transform: translate3d(0, -7px, 0); } to { transform: translate3d(0, 9px, 0); } }
+@keyframes fx-wobble { from { transform: rotateX(48deg) rotateZ(-26deg) rotateY(-6deg); } to { transform: rotateX(68deg) rotateZ(14deg) rotateY(8deg); } }
+@media (max-width: 560px) { .mc-float { --sz: 62px !important; } }
+
+/* ---------- Premium: rotierende Torte im Hero ---------- */
+.fx-tart { position: absolute; z-index: 3; left: 17%; bottom: -30%; width: min(66%, 22rem); aspect-ratio: 1; perspective: 900px; pointer-events: none; --u: calc(min(62vw, 21rem) / 300); }
+.fx-tart__pose { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(calc(58deg + var(--py, 0) * -9deg)) rotateY(calc(var(--px, 0) * 9deg)); transition: transform .4s ease-out; }
+.fx-tart__spin { position: absolute; inset: 8% 8% 8% 8%; transform-style: preserve-3d; transform: rotateZ(20deg); }
+.fx-tart__shadow { position: absolute; inset: 6%; border-radius: 50%; background: radial-gradient(closest-side, rgba(74, 52, 40, .38), transparent); transform: translateZ(-44px) scale(1.12); }
+.fx-tart .mc-s { transform: translateZ(calc(var(--z) * var(--u))); }
+.fx-tart .dot { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateZ(calc(var(--a) * 1deg)); }
+.fx-tart .dotbox { position: absolute; left: 78%; top: 41%; width: 18%; height: 18%; transform-style: preserve-3d; }
+.fx-tart .dotbox.c { left: 32%; top: 32%; width: 36%; height: 36%; }
+@media (prefers-reduced-motion: no-preference) {
+  .fx3d .fx-tart__spin { animation: fx-turn 38s linear infinite; animation-play-state: paused; }
+  .fx3d .fx-run .fx-tart__spin { animation-play-state: running; }
+  .fx3d.fx-hidden .fx-tart__spin { animation-play-state: paused; }
+}
+@keyframes fx-turn { from { transform: rotateZ(0deg); } to { transform: rotateZ(360deg); } }
+@media (max-width: 960px) { .fx-tart { left: -2%; width: min(54%, 15rem); bottom: -10%; --u: calc(min(54vw, 15rem) / 300); } }
+@media (max-width: 560px) { .fx-tart { --u: calc(min(54vw, 11rem) / 300); width: min(54%, 11rem); } }
+
+/* Parallax-Tiefe der Torbogen-Bilder (Premium) */
+@media (prefers-reduced-motion: no-preference) {
+  html.fx3d.fx-pro .arch { will-change: transform; }
+  html.fx3d.fx-pro .arch-1 { transform: translate3d(calc(var(--px, 0) * -9px), calc(1.5rem + var(--py, 0) * -5px + var(--sy, 0) * -16px), 0); }
+  html.fx3d.fx-pro .arch-2 { transform: translate3d(calc(var(--px, 0) * 7px), calc(-1rem + var(--py, 0) * 4px + var(--sy, 0) * -32px), 0); }
+  html.fx3d.fx-pro .arch-3 { transform: translate3d(calc(var(--px, 0) * -14px), calc(2rem + var(--py, 0) * -8px + var(--sy, 0) * -48px), 0); }
+}
+@media (max-width: 560px) {
+  html.fx3d.fx-pro .arch-1, html.fx3d.fx-pro .arch-2, html.fx3d.fx-pro .arch-3 { transform: translate3d(0, calc(var(--sy, 0) * -14px), 0); }
+}
+
+/* ---------- Scroll-Reveal mit leichter Perspektive ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  html.js.fx3d .reveal { transform: perspective(1000px) translateY(26px) rotateX(5deg); transform-origin: 50% 0; }
+  html.js.fx3d .reveal.is-visible { transform: none; }
+}
+
+/* ---------- Karten: Tilt + Lift (feiner Zeiger, nicht im Lite-Modus) ---------- */
+html.js.fx3d .fx-hot, html.js.fx3d .reveal.is-visible.fx-hot {
+  transform: perspective(900px) translateY(var(--ly, 0px)) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transform-style: preserve-3d; transition: transform .22s ease-out, box-shadow .3s ease;
+}
+html.js.fx3d .fx-hot:hover { --ly: -6px; box-shadow: 0 30px 46px -26px rgba(74, 52, 40, .55); }
+.fx-pro .fx-hot:hover { --ly: -9px; }
+html.fx3d .fx-hot > * { transition: transform .3s ease-out; }
+html.fx3d .fx-hot:hover > h3 { transform: translateZ(26px); }
+html.fx3d .fx-hot:hover > .product-swatch { transform: translateZ(44px) scale(1.12); }
+html.fx3d .fx-hot:hover > .product-price, html.fx3d .fx-hot:hover > .shop-card__body { transform: translateZ(18px); }
+html.fx3d .fx-hot:hover > p, html.fx3d .fx-hot:hover > .shop-card__media { transform: translateZ(14px); }
+html.fx3d .product-swatch { background-image: radial-gradient(circle at 32% 28%, rgba(255,255,255,.75), rgba(255,255,255,0) 55%); box-shadow: inset -4px -6px 8px rgba(74,52,40,.16), 0 6px 10px -6px rgba(74,52,40,.35); }
+
+/* ---------- Premium: Stempelkarte (Flip) ---------- */
+.fx-loyalty { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-l); align-items: center; max-width: 64rem; margin-inline: auto; }
+.fx-loyalty__copy .section-lede { margin-bottom: var(--space-s); }
+@media (max-width: 800px) { .fx-loyalty { grid-template-columns: 1fr; } }
+.fx-flip { position: relative; perspective: 1200px; width: min(100%, 24rem); aspect-ratio: 8 / 5; margin-inline: auto; }
+.fx-flip__inner { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform .8s cubic-bezier(.3, .8, .3, 1); }
+.fx-flip.is-flipped .fx-flip__inner { transform: rotateY(180deg); }
+.fx-flip__front, .fx-flip__back { position: absolute; inset: 0; backface-visibility: hidden; border-radius: var(--radius-m); padding: var(--space-s) var(--space-m) var(--space-s); box-shadow: 0 26px 40px -26px rgba(74, 52, 40, .55); display: flex; flex-direction: column; justify-content: center; }
+.fx-flip__front { background: linear-gradient(135deg, #fffaf3, var(--color-pistachio)); border: 2px solid var(--color-pistachio-deep); }
+.fx-flip__back { transform: rotateY(180deg); background: var(--color-cocoa); color: #fff; }
+.fx-flip__back h3 { color: #fff; font-size: var(--step-1); margin-bottom: var(--space-3xs); }
+.fx-flip__back p { margin: 0 0 var(--space-3xs); font-size: var(--step--1); color: #f3ece4; }
+.fx-flip__front h3 { font-size: var(--step-1); margin: 0 0 var(--space-3xs); }
+.fx-flip__front p { margin: var(--space-3xs) 0 0; font-weight: 700; font-size: var(--step--1); }
+.fx-stamps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.fx-stamps i { aspect-ratio: 1; border-radius: 50%; border: 2px dashed var(--color-pistachio-deep); display: grid; place-items: center; font-style: normal; font-size: .9rem; color: var(--color-cocoa); }
+.fx-stamps i.on { border-style: solid; background: var(--color-blush); border-color: var(--color-blush-deep); }
+.fx-flip__btn { position: absolute; z-index: 3; right: 10px; bottom: 10px; width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--color-cocoa); color: #fff; cursor: pointer; display: grid; place-items: center; transition: transform .2s; }
+.fx-flip__btn:hover { transform: scale(1.08); }
+.fx-flip__btn:focus-visible { outline: 3px solid var(--color-cocoa); outline-offset: 3px; box-shadow: 0 0 0 6px #fff; }
+.fx-flip__btn svg { width: 20px; height: 20px; }
+html:not(.fx-ready) .fx-flip { aspect-ratio: auto; display: grid; gap: var(--space-xs); }
+html:not(.fx-ready) .fx-flip__inner, html:not(.fx-ready) .fx-flip__front, html:not(.fx-ready) .fx-flip__back { position: relative; inset: auto; transform: none; }
+html:not(.fx-ready) .fx-flip__btn { display: none; }
+.fx-ready .fx-flip:not(.is-flipped) .fx-flip__back, .fx-ready .fx-flip.is-flipped .fx-flip__front { visibility: hidden; transition: visibility 0s .4s; }
+@media (prefers-reduced-motion: reduce) { .fx-flip__inner { transition: none; } }
+
+/* Stempel-Karte im Konto: Stempel klappen nacheinander ein */
+@media (prefers-reduced-motion: no-preference) {
+  .fx3d .stamp.is-filled { animation: fx-stamp .7s cubic-bezier(.3, .9, .3, 1.2) both; }
+  .fx3d .stamp.is-filled:nth-child(2) { animation-delay: .08s; } .fx3d .stamp.is-filled:nth-child(3) { animation-delay: .16s; }
+  .fx3d .stamp.is-filled:nth-child(4) { animation-delay: .24s; } .fx3d .stamp.is-filled:nth-child(5) { animation-delay: .32s; }
+  .fx3d .stamp.is-filled:nth-child(6) { animation-delay: .4s; } .fx3d .stamp.is-filled:nth-child(7) { animation-delay: .48s; }
+  .fx3d .stamp.is-filled:nth-child(8) { animation-delay: .56s; } .fx3d .stamp.is-filled:nth-child(9) { animation-delay: .64s; }
+  .fx3d .stamp.is-filled:nth-child(10) { animation-delay: .72s; }
+}
+@keyframes fx-stamp { from { transform: perspective(300px) rotateY(-100deg) scale(.5); opacity: 0; } to { transform: none; opacity: 1; } }

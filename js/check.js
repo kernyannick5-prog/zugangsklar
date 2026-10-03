@@ -9,6 +9,7 @@
   var statusEl = document.getElementById('check-status');
   var resultEl = document.getElementById('check-result');
   var currentUrl = '';
+  var lastData = null;
   var FALLBACK = 'Der Check ist gerade nicht erreichbar. Bitte versuchen Sie es später erneut oder bestellen Sie den Website-Report direkt. Sie erhalten ihn in 48 Stunden.';
 
   function normalize(raw) {
@@ -42,13 +43,17 @@
   }
 
   function postLead(email) {
-    return YQ.postJson('/api/lead', { email: email, url: currentUrl, consent: true, source: 'schnellcheck' });
+    var body = { email: email, url: currentUrl, consent: true, source: 'schnellcheck' };
+    // Empfehlung vorn in die Nachricht (Lead-Liste zeigt nur die ersten Zeichen)
+    if (lastData && YQ.recommend) { try { body.message = YQ.recommend.recommend(lastData).leadLine.slice(0, 600); } catch (e) { /* Empfehlung ist optional */ } }
+    return YQ.postJson('/api/lead', body);
   }
 
   function render(data) {
+    lastData = data;
     resultEl.hidden = false;
     var r = YQ.report.render(resultEl, data, {
-      level: 3, headingId: 'result-heading', url: currentUrl, gate: true, ctas: true, legacyLead: true,
+      level: 3, headingId: 'result-heading', url: currentUrl, gate: true, ctas: true, recommend: true, legacyLead: true,
       postLead: postLead, focus: form.getAttribute('data-focus') || null,
       mockNotice: YQ.MOCK ? 'Demo-Daten (mock=1): Dies ist ein Beispielergebnis, kein echter Test.' : null
     });
