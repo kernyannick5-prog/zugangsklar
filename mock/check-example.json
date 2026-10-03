@@ -24,9 +24,9 @@
       "score": 64,
       "weight": 25,
       "counts": {
-        "kritisch": 1,
-        "hoch": 1,
-        "mittel": 1,
+        "kritisch": 0,
+        "hoch": 3,
+        "mittel": 0,
         "gering": 0
       },
       "issueCount": 3
@@ -51,8 +51,8 @@
       "weight": 15,
       "counts": {
         "kritisch": 0,
-        "hoch": 1,
-        "mittel": 0,
+        "hoch": 0,
+        "mittel": 1,
         "gering": 1
       },
       "issueCount": 2
@@ -72,11 +72,11 @@
     }
   ],
   "summary": {
-    "kritisch": 4,
-    "hoch": 3,
+    "kritisch": 3,
+    "hoch": 4,
     "mittel": 4,
     "gering": 3,
-    "bestanden": 14
+    "bestanden": 11
   },
   "issues": [
     {
@@ -127,26 +127,25 @@
       "affectedUrl": "https://www.beispiel-shop.example/"
     },
     {
-      "id": "color-contrast",
+      "id": "viewport-zoom",
       "category": "accessibility",
       "severity": "hoch",
-      "title": "Zu geringer Farbkontrast",
-      "description": "Hellgrauer Text auf weißem Hintergrund erreicht 2,6:1. Gefordert sind mindestens 4,5:1 für normalen Text.",
-      "fix": "Dunkeln Sie die Textfarbe ab, zum Beispiel auf #595959 oder dunkler, und prüfen Sie das Verhältnis mit einem Kontrastrechner.",
-      "count": 14,
+      "title": "Zoomen auf mobilen Geräten ist blockiert",
+      "description": "Das viewport-Meta-Tag verhindert das Vergrößern der Seite (user-scalable=no oder maximum-scale unter 2). Menschen mit Sehbehinderung sind aber auf das Zoomen angewiesen.",
+      "fix": "Setzen Sie das viewport-Tag auf <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> und entfernen Sie user-scalable=no sowie maximum-scale.",
+      "count": 1,
       "examples": [
-        "<span class=\"price__sale\" style=\"color:#aaa\">statt 49,90 €</span>",
-        "<p class=\"footer__small\">Preise inkl. MwSt. zzgl. Versand</p>"
+        "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\">"
       ],
-      "wcag": "1.4.3",
-      "ref": "WCAG 2.2, Erfolgskriterium 1.4.3 Kontrast (Minimum)",
+      "wcag": "1.4.4",
+      "ref": "WCAG 2.2, Erfolgskriterium 1.4.4 Textgröße ändern",
       "affectedUrl": "https://www.beispiel-shop.example/"
     },
     {
-      "id": "heading-order",
+      "id": "heading-skip",
       "category": "accessibility",
       "severity": "mittel",
-      "title": "Überschriftenebenen übersprungen",
+      "title": "Überschriftenebenen werden übersprungen",
       "description": "Auf der Startseite folgt auf eine h1 direkt eine h4. Die Gliederung ist für Screenreader-Nutzer nicht nachvollziehbar.",
       "fix": "Verwenden Sie die Ebenen lückenlos (h1, h2, h3) und steuern Sie die Schriftgröße über CSS.",
       "count": 6,
@@ -160,8 +159,8 @@
     {
       "id": "privacy-google-fonts",
       "category": "privacy",
-      "severity": "kritisch",
-      "title": "Google Fonts werden von Servern von Google geladen",
+      "severity": "hoch",
+      "title": "Google Fonts werden von Google-Servern geladen",
       "description": "Beim Seitenaufruf lädt der Browser Schriften von fonts.googleapis.com. Dabei wird die IP-Adresse der Besucher an Google übermittelt, bevor jemand eingewilligt hat.",
       "fix": "Laden Sie die Schriftdateien herunter, legen Sie sie auf Ihrem eigenen Server ab, deklarieren Sie sie per @font-face und entfernen Sie den Link auf fonts.googleapis.com.",
       "count": 2,
@@ -173,10 +172,10 @@
       "affectedUrl": "https://www.beispiel-shop.example/"
     },
     {
-      "id": "tracking-before-consent",
+      "id": "privacy-trackers",
       "category": "privacy",
       "severity": "hoch",
-      "title": "Tracking-Skript ohne Einwilligungsverwaltung eingebunden",
+      "title": "Tracking-Dienste werden direkt geladen",
       "description": "Ein Meta-Pixel ist direkt im Quelltext eingebunden. Es wird geladen, bevor Besucher eine Auswahl treffen können.",
       "fix": "Laden Sie das Skript erst nach Einwilligung, zum Beispiel über Ihr Consent-Werkzeug, oder entfernen Sie es, wenn Sie es nicht brauchen.",
       "count": 1,
@@ -188,10 +187,10 @@
       "affectedUrl": "https://www.beispiel-shop.example/"
     },
     {
-      "id": "cookie-first-visit",
+      "id": "privacy-cookies-early",
       "category": "privacy",
-      "severity": "mittel",
-      "title": "Cookie beim ersten Aufruf gesetzt",
+      "severity": "hoch",
+      "title": "Cookies vor Einwilligung gesetzt",
       "description": "Der Server setzt schon in der Antwort auf die erste Anfrage ein Cookie, das nicht erkennbar technisch notwendig ist.",
       "fix": "Prüfen Sie, welches Plugin oder Skript das Cookie setzt, und setzen Sie es erst nach Einwilligung, sofern es nicht unbedingt erforderlich ist.",
       "count": 1,
@@ -203,7 +202,7 @@
       "affectedUrl": "https://www.beispiel-shop.example/"
     },
     {
-      "id": "imprint-os-link",
+      "id": "legal-odr-link",
       "category": "legal",
       "severity": "mittel",
       "title": "Veralteter Link zur EU-OS-Plattform",
@@ -218,14 +217,16 @@
       "affectedUrl": "https://www.beispiel-shop.example/"
     },
     {
-      "id": "imprint-email",
+      "id": "legal-impressum-tmg",
       "category": "legal",
       "severity": "gering",
-      "title": "Keine E-Mail-Adresse im Impressum erkannt",
-      "description": "Auf der Impressumsseite wurde keine E-Mail-Adresse erkannt. Das kann an einer Grafik oder einem Kontaktformular liegen.",
-      "fix": "Prüfen Sie, ob eine Möglichkeit zur schnellen elektronischen Kontaktaufnahme als Text angegeben ist, in der Regel eine E-Mail-Adresse.",
+      "title": "Impressum verweist noch auf das TMG",
+      "description": "Das Impressum nennt „§ 5 TMG“ bzw. das Telemediengesetz. Seit dem 14.05.2024 gilt stattdessen das Digitale-Dienste-Gesetz (DDG).",
+      "fix": "Ersetzen Sie „§ 5 TMG“ durch „§ 5 DDG“ und prüfen Sie weitere Verweise.",
       "count": 1,
-      "examples": [],
+      "examples": [
+        "§ 5 TMG"
+      ],
       "wcag": null,
       "ref": "§ 5 DDG",
       "affectedUrl": "https://www.beispiel-shop.example/"
@@ -233,7 +234,7 @@
     {
       "id": "sec-hsts",
       "category": "security",
-      "severity": "hoch",
+      "severity": "mittel",
       "title": "HSTS-Header fehlt",
       "description": "Der Header Strict-Transport-Security weist Browser an, Ihre Seite künftig nur noch verschlüsselt aufzurufen. Er fehlt.",
       "fix": "Setzen Sie Strict-Transport-Security: max-age=31536000 in der Server- oder Hoster-Konfiguration. Testen Sie zuerst mit kurzer Laufzeit.",
@@ -247,7 +248,7 @@
       "id": "sec-csp",
       "category": "security",
       "severity": "gering",
-      "title": "Keine Content-Security-Policy",
+      "title": "Content-Security-Policy fehlt",
       "description": "Es ist keine Content-Security-Policy gesetzt. Sie begrenzt den Schaden durch eingeschleuste Skripte.",
       "fix": "Führen Sie eine CSP zunächst im Testmodus (Content-Security-Policy-Report-Only) ein und verschärfen Sie sie schrittweise.",
       "count": 1,
@@ -257,7 +258,7 @@
       "affectedUrl": "https://www.beispiel-shop.example/"
     },
     {
-      "id": "meta-description",
+      "id": "seo-description-missing",
       "category": "seo",
       "severity": "mittel",
       "title": "Meta-Description fehlt",
@@ -272,7 +273,7 @@
       "affectedUrl": "https://www.beispiel-shop.example/"
     },
     {
-      "id": "canonical",
+      "id": "seo-canonical-missing",
       "category": "seo",
       "severity": "gering",
       "title": "Canonical-Link fehlt",
@@ -287,69 +288,54 @@
   ],
   "passed": [
     {
-      "id": "html-has-lang",
+      "id": "html-lang",
       "category": "accessibility",
-      "title": "Seitensprache ist angegeben (lang-Attribut)"
+      "title": "Sprache der Seite ist angegeben"
     },
     {
-      "id": "document-title",
+      "id": "page-title",
       "category": "accessibility",
       "title": "Seite hat einen Titel"
     },
     {
-      "id": "meta-viewport",
+      "id": "landmark-main",
       "category": "accessibility",
-      "title": "Zoomen ist nicht gesperrt"
+      "title": "Hauptbereich (main) ist vorhanden"
     },
     {
-      "id": "bypass",
-      "category": "accessibility",
-      "title": "Sprunglink zum Inhalt vorhanden"
-    },
-    {
-      "id": "consent-tool",
-      "category": "privacy",
-      "title": "Einwilligungswerkzeug erkannt"
-    },
-    {
-      "id": "no-maps",
-      "category": "privacy",
-      "title": "Keine Google Maps beim Seitenaufruf eingebettet"
-    },
-    {
-      "id": "imprint-found",
+      "id": "legal-impressum-link",
       "category": "legal",
-      "title": "Impressum ist verlinkt und erreichbar"
+      "title": "Link zum Impressum gefunden"
     },
     {
-      "id": "privacy-found",
+      "id": "privacy-policy-link",
       "category": "legal",
-      "title": "Datenschutzerklärung ist verlinkt und erreichbar"
+      "title": "Link zur Datenschutzerklärung gefunden"
     },
     {
-      "id": "https",
+      "id": "sec-https",
       "category": "security",
-      "title": "Seite ist über HTTPS erreichbar"
+      "title": "Seite wird über HTTPS ausgeliefert"
     },
     {
-      "id": "redirect",
+      "id": "sec-http-redirect",
       "category": "security",
-      "title": "Weiterleitung von HTTP auf HTTPS vorhanden"
+      "title": "http:// leitet auf https:// weiter"
     },
     {
-      "id": "mixed",
+      "id": "sec-mixed",
       "category": "security",
-      "title": "Kein Mixed Content"
+      "title": "Kein Mixed Content im HTML gefunden"
     },
     {
-      "id": "indexable",
+      "id": "seo-noindex",
       "category": "seo",
-      "title": "Seite darf indexiert werden"
+      "title": "Seite ist für Suchmaschinen indexierbar"
     },
     {
-      "id": "title",
+      "id": "seo-title-length",
       "category": "seo",
-      "title": "Seitentitel vorhanden"
+      "title": "Seitentitel hat eine sinnvolle Länge"
     },
     {
       "id": "h1",

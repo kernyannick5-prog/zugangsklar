@@ -623,13 +623,15 @@ th { background: var(--tint); }
 @media (min-width: 960px) { .hero-wrap .hero-main { max-width: min(640px, calc(100% - clamp(300px, 34vw, 400px) - 1.5rem)); } }
 .y3d-defs { position: absolute; }
 .y3d { position: absolute; inset: 0; perspective: 900px; }
-.y3d-tilt { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .3s ease-out; }
+.y3d-tilt { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .9s cubic-bezier(.22, 1, .36, 1); }
 .y3d-scene { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateY(calc(var(--amp, 1) * -18deg)) rotateX(calc(var(--amp, 1) * 9deg)); }
 .y3d-stack { position: absolute; left: 50%; top: 50%; width: var(--mark, calc(var(--art) * .5)); height: var(--mark, calc(var(--art) * .5)); margin: calc(var(--mark, var(--art) * .5) / -2) 0 0 calc(var(--mark, var(--art) * .5) / -2); transform-style: preserve-3d; }
 .y3d-l { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; overflow: visible; transform: translateZ(calc(var(--z, 0px) * var(--zs, 1))); }
 .y3d-l.f { backface-visibility: hidden; }
 /* Lichtreflex auf der Vorderseite (nur opacity animiert) */
-.y3d-stack::after { content: ""; position: absolute; inset: 0; border-radius: 24%; pointer-events: none; opacity: .12; backface-visibility: hidden; transform: translateZ(calc(19px * var(--zs, 1))); background: linear-gradient(115deg, rgba(255,255,255,0) 32%, rgba(255,255,255,.34) 50%, rgba(255,255,255,0) 68%); }
+.y3d-stack::after { content: ""; position: absolute; inset: 0; border-radius: 24%; pointer-events: none; opacity: .12; backface-visibility: hidden; transform: translateZ(calc(19px * var(--zs, 1))); background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.36) 48%, rgba(255,255,255,.1) 56%, rgba(255,255,255,0) 68%); }
+/* Weicher Bodenschatten unter dem Zeichen (Licht oben links: leicht nach rechts versetzt); nur transform/opacity */
+.y3d::after { content: ""; position: absolute; left: 50%; top: 76%; width: calc(var(--mark, var(--art) * .5) * 1.05); height: calc(var(--mark, var(--art) * .5) * .16); margin: 0 0 0 calc(var(--mark, var(--art) * .5) * -.42); border-radius: 50%; pointer-events: none; background: radial-gradient(closest-side, rgba(10, 8, 48, .42), rgba(10, 8, 48, .16) 58%, rgba(10, 8, 48, 0)); }
 .y3d-glow { position: absolute; left: 50%; top: 50%; width: calc(var(--art) * .9); height: calc(var(--art) * .9); margin: calc(var(--art) * -.45) 0 0 calc(var(--art) * -.45); border-radius: 50%; background: radial-gradient(circle, rgba(126,224,200,.30) 0%, rgba(63,55,201,.20) 42%, rgba(63,55,201,0) 70%); }
 .y3d-ring { position: absolute; left: 50%; top: 50%; width: calc(var(--art) * .88); height: calc(var(--art) * .88); margin: calc(var(--art) * -.44) 0 0 calc(var(--art) * -.44); border-radius: 50%; border: 2px solid; border-color: #7EE0C8 rgba(140,134,255,.7) rgba(126,224,200,.3) rgba(140,134,255,.7); transform: rotateX(72deg) rotateZ(0deg); }
 .y3d-ring::after { content: ""; position: absolute; top: -8px; left: 50%; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 3px rgba(126,224,200,.45), 0 0 16px rgba(126,224,200,.9); }
@@ -676,8 +678,10 @@ th { background: var(--tint); }
   .y3d-cg { animation: y3d-bob 4.6s ease-in-out infinite alternate; }
   .y3d-cg-b { animation-duration: 5.4s; animation-delay: -2.5s; }
   .y3d-stack::after { animation: y3d-sheen 11s ease-in-out infinite alternate; }
+  .y3d::after { animation: y3d-shadow 11s ease-in-out infinite alternate; }
   @keyframes y3d-idle { from { transform: translateY(calc(var(--amp, 1) * 6px)) rotateY(calc(var(--amp, 1) * -28deg)) rotateX(calc(var(--amp, 1) * 12deg)); } to { transform: translateY(calc(var(--amp, 1) * -12px)) rotateY(calc(var(--amp, 1) * 18deg)) rotateX(calc(var(--amp, 1) * -6deg)); } }
   @keyframes y3d-float { from { transform: translateY(3px) rotateZ(-1.5deg); } to { transform: translateY(-5px) rotateZ(1.5deg); } }
+  @keyframes y3d-shadow { from { transform: scale(1.06); opacity: 1; } to { transform: scale(.84); opacity: .6; } }
   @keyframes y3d-sheen { from { opacity: .05; } to { opacity: .95; } }
   @keyframes y3d-orbit { from { transform: rotateX(72deg) rotateZ(0deg); } to { transform: rotateX(72deg) rotateZ(360deg); } }
   @keyframes y3d-orbit-b { from { transform: rotateY(68deg) rotateX(12deg) rotateZ(0deg); } to { transform: rotateY(68deg) rotateX(12deg) rotateZ(360deg); } }
@@ -685,6 +689,8 @@ th { background: var(--tint); }
   @media (max-width: 959px) {
     .y3d-scene { animation: y3d-spin 16s cubic-bezier(.45, 0, .55, 1) infinite; }
     .y3d-stack::after { animation: y3d-sheen-m 16s cubic-bezier(.45, 0, .55, 1) infinite; }
+    .y3d::after { animation: y3d-shadow-m 5.5s ease-in-out infinite alternate; }
+    @keyframes y3d-shadow-m { from { transform: scale(1.03); opacity: 1; } to { transform: scale(.9); opacity: .72; } }
     @keyframes y3d-spin { from { transform: rotateX(8deg) rotateY(0deg); } to { transform: rotateX(8deg) rotateY(360deg); } }
     @keyframes y3d-sheen-m { 0%, 100% { opacity: .9; } 22%, 78% { opacity: .05; } }
   }
@@ -706,11 +712,11 @@ th { background: var(--tint); }
   .fx .mod-card::before, .fx .pkg-card::before, .fx .pkg-teaser::before, .fx .path-card::before, .fx .stepup-card::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .2s; background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(63,55,201,.10), rgba(63,55,201,0) 55%); }
   .fx .card.fx-tilt { transform: perspective(900px) rotateX(var(--ty, 0deg)) rotateY(var(--tx, 0deg)); transition-duration: .08s, .15s, .15s, .15s; }
   .fx .card.fx-tilt::before { opacity: 1; }
-  /* Showcase: leicht geneigtes Browserfenster, richtet sich bei Hover/Fokus auf */
+  /* Showcase: Browserfenster bleibt in Ruhe unverzerrt (scharfer iframe), Tiefe nur ueber versetzte Ebene/Schatten;
+     bei Hover/Fokus hebt es sich leicht an (nur translateY, kein Neigen des iframes) */
   @media (min-width: 861px) and (hover: hover) {
-    .fx .sc-stage { perspective: 1600px; }
-    .fx .sc-device[data-device="desktop"] { transform: rotateY(-3deg) rotateX(1.5deg); transition: transform .6s cubic-bezier(.22, .68, 0, 1); }
-    .fx .sc-stage:hover .sc-device, .fx .sc-stage:focus-within .sc-device { transform: none; }
+    .fx .sc-device[data-device="desktop"] { box-shadow: 0 0 0 1px var(--line), 18px 22px 0 -6px rgba(63, 55, 201, .10), 0 24px 46px rgba(23, 23, 43, .18); transition: transform .5s cubic-bezier(.22, .68, 0, 1), box-shadow .5s ease; }
+    .fx .sc-stage:hover .sc-device[data-device="desktop"], .fx .sc-stage:focus-within .sc-device[data-device="desktop"] { transform: translateY(-4px); box-shadow: 0 0 0 1px var(--line), 0 30px 54px rgba(23, 23, 43, .22); }
   }
 }
 /* Pause ausserhalb des Sichtfelds und im verdeckten Tab */
@@ -743,3 +749,9 @@ th { background: var(--tint); }
 .reco .reco-selffix-title { margin: .9rem 0 .35rem; font-size: 1rem; }
 .reco .reco-selffix { margin: 0 0 .5rem; padding-left: 1.25rem; }
 .reco .reco-selffix li { margin-bottom: .3rem; }
+
+/* Fuenf Pruefbereiche: ab Desktop 3 Spalten, BFSG-Karte ueber 2 Spalten (2+3 statt 3+2 mit Leerzelle) */
+@media (min-width: 900px) {
+  .mod-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .mod-grid .mod-card-main { grid-column: span 2; }
+}

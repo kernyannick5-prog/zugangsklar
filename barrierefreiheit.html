@@ -18,6 +18,7 @@
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/chat.css">
 <script>var d=document.documentElement,n=navigator;d.className+=" js";if(matchMedia("(prefers-reduced-motion: reduce)").matches||n.hardwareConcurrency<4||n.deviceMemory<4||(n.connection&&n.connection.saveData))d.className+=" fx-lite"</script>
 
 </head>
@@ -47,7 +48,7 @@
 <li>Alle Funktionen sind per Tastatur bedienbar. Der Fokus ist sichtbar.</li>
 <li>Texte erreichen einen Kontrast von mindestens 4,5:1. Information wird nie allein über Farbe vermittelt.</li>
 <li>Alle Formularfelder haben sichtbare Beschriftungen. Ergebnisse und Statusmeldungen werden Screenreadern über Live-Regionen mitgeteilt.</li>
-<li>Die Seiten funktionieren bei 400 % Zoom und ab 320 Pixel Breite ohne horizontales Scrollen. Animationen sind auf ein Minimum reduziert und respektieren die Einstellung „Bewegung reduzieren“.</li>
+<li>Die Seiten funktionieren bei 400 % Zoom und ab 320 Pixel Breite ohne horizontales Scrollen. Animationen und 3D-Effekte sind dezent gehalten und werden bei der Einstellung „Bewegung reduzieren“ angehalten.</li>
 <li>Wir verwenden keine Overlay-Widgets, keine Cookies und keine externen Schriftarten.</li>
 </ul>
 
@@ -57,6 +58,7 @@
 <h2>4. Bekannte Einschränkungen</h2>
 <ul>
 <li>Der Website-Check zeigt Quelltext-Auszüge aus geprüften Websites. Wir stellen sie als Codeblöcke dar. Sie sind absichtlich unverändert.</li>
+<li>Der Chat-Assistent „Fragen zu Yanqiva“ ist per Tastatur bedienbar und meldet Antworten über eine Live-Region. Er wurde automatisch mit axe-core geprüft, aber noch nicht mit Screenreadern getestet. Die Antworten werden automatisch erzeugt; alle Informationen finden Sie auch auf den Seiten der Website und über das Kontaktformular.</li>
 <li>Der Entwurf aus dem Erklärungs-Generator enthält Standardtexte, die Nutzer selbst prüfen müssen.</li>
 <li>Die PDF-Reports, die wir liefern, sind noch nicht durchgängig als barrierefreie PDFs (PDF/UA) ausgezeichnet. Auf Wunsch liefern wir den Inhalt in einem anderen Format.</li>
 </ul>
@@ -118,5 +120,6 @@
 <script src="js/config.js"></script>
 <script src="js/nav.js"></script>
 <script src="js/fx.js" defer></script>
+<script src="js/chat.js" defer></script>
 </body>
 </html>

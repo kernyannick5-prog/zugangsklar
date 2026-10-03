@@ -38,7 +38,7 @@
     resultEl.hidden = false;
     resultEl.textContent = '';
     resultEl.appendChild(el('div', { class: 'notice error' }, el('p', null, el('strong', null, unreachable ? 'Nicht erreichbar. ' : 'Prüfung nicht möglich. '), msg)));
-    if (unreachable) resultEl.appendChild(el('p', null, el('a', { class: 'btn', href: 'bestellen.html?produkt=report' + (currentUrl ? '&url=' + encodeURIComponent(currentUrl) : '') }, 'Website-Report für 149 € bestellen'), ' ', el('span', { class: 'hint' }, 'Endpreis, keine Umsatzsteuer (§ 19 UStG)')));
+    if (unreachable) resultEl.appendChild(el('p', null, el('a', { class: 'btn', href: 'bestellen.html?produkt=report' + (currentUrl ? '&url=' + encodeURIComponent(currentUrl) : '') }, 'Website-Report für ' + ((window.YQ_CATALOG && window.YQ_CATALOG.products.report.amountText) || '149 €') + ' bestellen'), ' ', el('span', { class: 'hint' }, 'Endpreis, keine Umsatzsteuer (§ 19 UStG)')));
     setStatus(unreachable ? FALLBACK : 'Fehler: ' + msg);
   }
 

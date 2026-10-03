@@ -71,10 +71,12 @@
   }
 
   /** GET JSON von der API. Fehler: kind 'auth' (401/403/404), 'api' (sonstiger Status), 'network'. */
-  function getJson(path) {
+  function getJson(path, extraHeaders) {
     var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
     var timer = controller ? setTimeout(function () { controller.abort(); }, 30000) : null;
-    return fetch(API_BASE + path, { headers: { 'Accept': 'application/json' }, signal: controller ? controller.signal : undefined }).then(function (res) {
+    var headers = { 'Accept': 'application/json' };
+    if (extraHeaders) Object.keys(extraHeaders).forEach(function (k) { headers[k] = extraHeaders[k]; });
+    return fetch(API_BASE + path, { headers: headers, signal: controller ? controller.signal : undefined }).then(function (res) {
       return res.json().catch(function () { return null; }).then(function (data) {
         if (!res.ok) {
           var e = new Error((data && data.error) || 'Status ' + res.status);

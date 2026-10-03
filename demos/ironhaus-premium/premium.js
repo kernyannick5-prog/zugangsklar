@@ -376,7 +376,7 @@
         var course = DATA.courses.filter(function (c) { return c.id === b.courseId; })[0];
         var li = document.createElement("li");
         li.className = "course-row";
-        li.innerHTML = '<span class="course-time">' + (course ? course.time : "–") + '</span><span><span class="course-name">' + (course ? IH.escapeHTML(course.name) : "Kurs") + '</span><br><span class="course-coach">gebucht am ' + IH.formatDateDE(b.at.slice(0, 10)) + '</span></span><span class="course-category">' + (course ? course.category : "") + '</span>';
+        li.innerHTML = '<span class="course-time">' + (course ? course.time : "–") + '</span><span><span class="course-name">' + (course ? IH.escapeHTML(course.name) : "Kurs") + '</span><br><span class="course-coach">gebucht am ' + IH.escapeHTML(IH.formatDateDE(String(b.at).slice(0, 10))) + '</span></span><span class="course-category">' + (course ? course.category : "") + '</span>';
         bookedList.appendChild(li);
       });
     }
@@ -551,8 +551,8 @@
         total += lineTotal;
         return '<div class="cart-item">' +
           '<span>' + IH.escapeHTML(product.name) + '</span>' +
-          '<span class="cart-item-qty"><button type="button" data-qty-minus="' + item.id + '" aria-label="Menge verringern">−</button>' + item.qty + '<button type="button" data-qty-plus="' + item.id + '" aria-label="Menge erhöhen">+</button></span>' +
-          '<span>' + IH.formatEUR(lineTotal) + ' <button type="button" class="cart-remove" data-remove="' + item.id + '">Entfernen</button></span>' +
+          '<span class="cart-item-qty"><button type="button" data-qty-minus="' + IH.escapeHTML(item.id) + '" aria-label="Menge verringern">−</button>' + IH.escapeHTML(item.qty) + '<button type="button" data-qty-plus="' + IH.escapeHTML(item.id) + '" aria-label="Menge erhöhen">+</button></span>' +
+          '<span>' + IH.formatEUR(lineTotal) + ' <button type="button" class="cart-remove" data-remove="' + IH.escapeHTML(item.id) + '">Entfernen</button></span>' +
           '</div>';
       }).join("");
       if (totalEl) totalEl.textContent = IH.formatEUR(total);

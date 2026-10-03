@@ -33,7 +33,8 @@
 (function (root) {
   'use strict';
 
-  var PRODUCTS = {
+  // Fallback-Preise (Stand 2026-10-03); werden unten durch window.YQ_CATALOG (js/catalog.js, generiert aus tools/site-build/catalog.mjs) überschrieben.
+  var FALLBACK_PRODUCTS = {
     'report': { name: 'Website-Report', price: '149 €', short: 'Analyse bis zu 10 Seiten, PDF mit Code-Fixes' },
     'monitoring': { name: 'Monitoring', price: '29 €/Monat', short: 'wöchentlicher Scan, Score-Verlauf, Alerts' },
     'fix-erklaerung': { name: 'Barrierefreiheitserklärung + Footer-Link', price: '99 €', amount: 99 },
@@ -45,6 +46,17 @@
     'website-business': { name: 'Neue Website Business', price: '790 €' },
     'website-premium': { name: 'Neue Website Premium', price: 'ab 1.490 €' }
   };
+  var CAT = (root.YQ_CATALOG && root.YQ_CATALOG.products) || {};
+  var PRODUCTS = {};
+  Object.keys(FALLBACK_PRODUCTS).forEach(function (k) {
+    var f = FALLBACK_PRODUCTS[k], c = CAT[k], o = {};
+    for (var x in f) o[x] = f[x];
+    if (c) {
+      if (c.priceTextShort) o.price = c.priceTextShort;
+      if (f.amount != null && typeof c.price === 'number') o.amount = c.price;
+    }
+    PRODUCTS[k] = o;
+  });
   var HEADER_IDS = ['sec-hsts', 'sec-csp', 'sec-nosniff', 'sec-frame', 'sec-referrer'];
   var SHOPS = ['shopify', 'woocommerce', 'shopware'];
   var HOSTED_NO_HEADERS = ['shopify'];
@@ -91,7 +103,9 @@
       if (weak.length) {
         var txt = (weak[0].score < 50 ? 'dringenden' : 'deutlichen') + ' Handlungsbedarf gibt es bei ' + joinDe(weak.map(function (c) {
           var sv = sevCount[c.id] || 0;
-          return c.name + ' (' + c.score + '/100' + (sv ? ', ' + (sv === 1 ? '1 kritischer oder hoher Befund' : sv + ' kritische oder hohe Befunde') : '') + ')';
+          var stmt = c.id === 'accessibility' && sevCount.stmt ? 'dazu fehlt der Link zur Barrierefreiheitserklärung' : '';
+          var det = [sv ? (sv === 1 ? '1 kritischer oder hoher Befund' : sv + ' kritische oder hohe Befunde') : '', stmt].filter(Boolean).join(', ');
+          return c.name + ' (' + c.score + '/100' + (det ? ', ' + det : '') + ')';
         }));
         parts.push(strong.length ? txt : txt.charAt(0).toUpperCase() + txt.slice(1));
       }
@@ -121,7 +135,8 @@
     issues.forEach(function (i) {
       var id = String(i.id || ''), cat = catOf(i), severe = i.severity === 'kritisch' || i.severity === 'hoch';
       ids[id] = true;
-      if (severe) { sev[i.severity]++; sevByCat[cat] = (sevByCat[cat] || 0) + 1; sevByCat.total++; }
+      if (severe) { sev[i.severity]++; if (id !== 'a11y-statement') { sevByCat[cat] = (sevByCat[cat] || 0) + 1; sevByCat.total++; } }
+      if (id === 'a11y-statement') sevByCat.stmt = true;
       if (cat === 'accessibility' && id !== 'a11y-statement') { a11yOthers++; if (severe) a11ySevere++; }
       else if (severe && id !== 'a11y-statement' && id !== 'privacy-google-fonts' && HEADER_IDS.indexOf(id) === -1) uncoveredSevere++;
     });
@@ -177,7 +192,7 @@
     function doneNone() {
       why.push('Score ' + score + ' von 100 und keine Befunde mit Priorität kritisch oder hoch.');
       why.push('Der kostenlose Check prüft nur die Startseite und findet nur einen Teil möglicher Probleme. Das Ergebnis ist ein Hinweis, keine Zusicherung der Rechtskonformität.');
-      notes.push('Falls Sie Ihre Website häufig ändern, kann Monitoring (29 €/Monat) später sinnvoll sein.');
+      notes.push('Falls Sie Ihre Website häufig ändern, kann Monitoring (' + PRODUCTS.monitoring.price + ') später sinnvoll sein.');
       return done('none', { key: 'none', name: 'Kein Kauf nötig', price: null, noSale: true, cta: 'In ein paar Monaten erneut kostenlos prüfen' }, [],
         'Ihre Website ist in gutem Zustand, Sie müssen aktuell nichts bei uns kaufen.');
     }
@@ -190,8 +205,8 @@
       if (oldJq) why.push('Es wird ein veraltetes jQuery verwendet, das auf eine alte technische Basis hinweist.');
       if (a11yOthers) why.push(plural(a11yOthers, 'Barrierefreiheits-Befund', 'Barrierefreiheits-Befunde') + ' kommen dazu.');
       why.push('Bei so vielen Baustellen ist ein Neubau oft günstiger als die Reparatur der alten Seite.');
-      if (isShop) notes.push('Erkanntes Shop-System: ' + system.charAt(0).toUpperCase() + system.slice(1) + '. Für Shops passt Business, bei größerem Funktionsumfang (Shop, Mitgliederbereich) Premium ab 1.490 €.');
-      notes.push('Wenn Sie vorher den Website-Report (149 €) bestellen, wird der Preis bei einer späteren Website-Bestellung angerechnet.');
+      if (isShop) notes.push('Erkanntes Shop-System: ' + system.charAt(0).toUpperCase() + system.slice(1) + '. Für Shops passt Business, bei größerem Funktionsumfang (Shop, Mitgliederbereich) Premium ' + PRODUCTS['website-premium'].price + '.');
+      notes.push('Wenn Sie vorher den Website-Report (' + PRODUCTS.report.price + ') bestellen, wird der Preis bei einer späteren Website-Bestellung angerechnet.');
       return done('poor', item(up, { cta: 'Neue Website ansehen und bestellen' }),
         [reportAlt, item('fix-a11y', { why: 'Reparatur der bestehenden Seite, Festpreis nach Sichtung' })],
         'Neubau statt Reparatur ist hier voraussichtlich die wirtschaftlichere Lösung.');
@@ -199,7 +214,7 @@
 
     // H: viele schwere Barrierefreiheits-Befunde -> erst Report
     if (a11ySevere >= 3 || a11yOthers >= 6) {
-      why.push(plural(a11ySevere, 'Barrierefreiheits-Befund ist', 'Barrierefreiheits-Befunde sind') + ' kritisch oder hoch (insgesamt ' + a11yOthers + ' in diesem Bereich).');
+      why.push(plural(a11ySevere, 'Barrierefreiheits-Befund ist', 'Barrierefreiheits-Befunde sind') + ' kritisch oder hoch (insgesamt ' + a11yOthers + ' in diesem Bereich' + (ids['a11y-statement'] ? ', ohne den fehlenden Link zur Barrierefreiheitserklärung, der separat gezählt wird' : '') + ').');
       why.push('Der kostenlose Check prüft nur die Startseite. Bevor Sie Geld in Reparaturen stecken, zeigt der Report, was auf allen wichtigen Seiten genau zu tun ist.');
       if (fixes.length) notes.push('Kleine Einzel-Fixes (' + fixes.map(function (f) { return f.name; }).join(', ') + ') lassen sich zusätzlich beauftragen.');
       return done('heavy', item('report', { cta: 'Website-Report bestellen' }),

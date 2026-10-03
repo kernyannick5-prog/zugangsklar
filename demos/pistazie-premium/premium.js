@@ -248,11 +248,11 @@
       cartTable.hidden = false;
       cartTableBody.innerHTML = items.map(function (it) {
         return "<tr>" +
-          "<td>" + it.name + "</td>" +
-          '<td class="num"><span class="cart-qty"><button type="button" data-qty-minus="' + it.id + '" aria-label="Weniger">−</button>' +
-          '<span>' + it.qty + '</span><button type="button" data-qty-plus="' + it.id + '" aria-label="Mehr">+</button></span></td>' +
+          "<td>" + S.escapeHTML(it.name) + "</td>" +
+          '<td class="num"><span class="cart-qty"><button type="button" data-qty-minus="' + S.escapeHTML(it.id) + '" aria-label="Weniger">−</button>' +
+          '<span>' + S.escapeHTML(it.qty) + '</span><button type="button" data-qty-plus="' + S.escapeHTML(it.id) + '" aria-label="Mehr">+</button></span></td>' +
           '<td class="num">' + S.formatEUR(it.price * it.qty) + '</td>' +
-          '<td class="num"><button type="button" class="cart-remove" data-remove="' + it.id + '">Entfernen</button></td>' +
+          '<td class="num"><button type="button" class="cart-remove" data-remove="' + S.escapeHTML(it.id) + '">Entfernen</button></td>' +
           "</tr>";
       }).join("");
       var subtotal = cartSubtotal(items);
@@ -360,7 +360,7 @@
       var subtotal = cartSubtotal(items);
       var total = subtotal + (fulfillment.fee || 0);
       summaryList.innerHTML = items.map(function (it) {
-        return "<li><span>" + it.qty + "× " + it.name + "</span><span>" + S.formatEUR(it.price * it.qty) + "</span></li>";
+        return "<li><span>" + S.escapeHTML(it.qty) + "× " + S.escapeHTML(it.name) + "</span><span>" + S.formatEUR(it.price * it.qty) + "</span></li>";
       }).join("") +
         (fulfillment.fee ? "<li><span>Lieferpauschale</span><span>" + S.formatEUR(fulfillment.fee) + "</span></li>" : "") +
         '<li class="total"><span>Gesamtsumme</span><span>' + S.formatEUR(total) + "</span></li>";
@@ -605,7 +605,7 @@
         ordersEmpty.hidden = true;
         ordersBody.innerHTML = orders.slice().reverse().map(function (o) {
           var date = new Date(o.date).toLocaleDateString("de-DE");
-          return "<tr><td>" + o.orderNumber + "</td><td>" + date + "</td><td>" + o.items.length + " Artikel</td><td>" + S.formatEUR(o.total) + '</td><td><span class="order-status">' + o.status + "</span></td></tr>";
+          return "<tr><td>" + S.escapeHTML(o.orderNumber) + "</td><td>" + S.escapeHTML(date) + "</td><td>" + S.escapeHTML(o.items.length) + " Artikel</td><td>" + S.escapeHTML(S.formatEUR(o.total)) + '</td><td><span class="order-status">' + S.escapeHTML(o.status) + "</span></td></tr>";
         }).join("");
       }
 
@@ -617,7 +617,7 @@
         else {
           preorderEmpty.hidden = true;
           preorderBody.innerHTML = preorders.slice().reverse().map(function (o) {
-            return "<tr><td>" + o.ref + "</td><td>" + o.cake + "</td><td>" + o.date.split("-").reverse().join(".") + '</td><td><span class="order-status">' + o.status + "</span></td></tr>";
+            return "<tr><td>" + S.escapeHTML(o.ref) + "</td><td>" + S.escapeHTML(o.cake) + "</td><td>" + S.escapeHTML(String(o.date).split("-").reverse().join(".")) + '</td><td><span class="order-status">' + S.escapeHTML(o.status) + "</span></td></tr>";
           }).join("");
         }
       }

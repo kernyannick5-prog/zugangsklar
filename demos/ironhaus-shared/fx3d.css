@@ -12,9 +12,12 @@
   transform-origin: 0 50%; transform: scale(.52); transform-style: preserve-3d;
 }
 .fx-par, .fx-spin, .fx-obj { position: absolute; inset: 0; transform-style: preserve-3d; }
-.fx-par { transition: transform .35s ease-out; }
+.fx-par { transition: transform .9s cubic-bezier(.22, 1, .36, 1); }
 .fx-spin { transform: rotateX(-9deg) rotateY(-26deg); }
 .fx-obj { transform-style: preserve-3d; }
+/* Weicher Kontaktschatten unter der Hantel (Licht oben links, daher leicht nach rechts versetzt); reine Gradient-Flaeche, nicht animiert */
+.fx-stage::after { content: ""; position: absolute; left: 20%; top: 100%; width: 72%; height: 38px; margin-top: -4px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, .55), rgba(0, 0, 0, .22) 55%, rgba(0, 0, 0, 0)); }
 .fx-ground {
   position: absolute; left: 6%; right: 6%; bottom: -14%; height: 14%; border-radius: 50%;
   background: radial-gradient(closest-side, rgba(0,0,0,.55), transparent); transform: translateZ(-160px);
@@ -34,6 +37,8 @@
   transform: translateZ(calc(var(--z) * 1px)) rotateY(var(--ry, 0deg));
   background:
     radial-gradient(circle, #0c0c0d 0 12%, #4a4d53 12.5% 14%, transparent 14.5%),
+    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, .16), rgba(255, 255, 255, 0) 46%),
+    radial-gradient(circle at 72% 80%, rgba(0, 0, 0, .28), rgba(0, 0, 0, 0) 55%),
     conic-gradient(from 20deg, #2c2e32, #3f434a 12%, #2a2c30 25%, #3c4046 40%, #2a2c30 55%, #3f434a 70%, #2a2c30 85%, #2c2e32);
   box-shadow: inset 0 0 0 5px #17181a, inset 0 0 0 8px #ffd400, inset 0 0 0 11px #17181a, 0 0 0 1px #0d0d0e;
 }
@@ -52,7 +57,7 @@
 
 /* Stange (Zylinder aus Scheiben) */
 .fx-bar { position: absolute; left: 117px; top: 117px; width: 26px; height: 26px; transform-style: preserve-3d; }
-.fx-bp { position: absolute; left: 50%; top: 0; width: 300px; height: 26px; margin-left: -150px; background: linear-gradient(180deg, #e4e7ec, #9097a1 42%, #3f4247); }
+.fx-bp { position: absolute; left: 50%; top: 0; width: 300px; height: 26px; margin-left: -150px; background: linear-gradient(180deg, #f2f4f7, #c9cdd4 14%, #8e949d 40%, #565a61 72%, #34373b); }
 .fx-bp.a { transform: rotateY(90deg); }
 .fx-bp.b { transform: rotateY(90deg) rotateX(90deg); }
 .fx-bar .fx-sl { background: radial-gradient(circle at 36% 32%, #d8dbe0, #8b9099 45%, #4c5057); box-shadow: none; }
@@ -79,11 +84,11 @@
   from { transform: rotateX(-9deg) rotateY(-26deg); }
   to   { transform: rotateX(-9deg) rotateY(334deg); }
 }
-@keyframes fx-rock { from { transform: rotateX(-3deg) rotateZ(-1.5deg); } to { transform: rotateX(4deg) rotateZ(1.5deg); } }
+@keyframes fx-rock { from { transform: rotateX(-2.5deg) rotateZ(-1deg); } to { transform: rotateX(3deg) rotateZ(1deg); } }
 /* Reflex auf der Frontflaeche: am hellsten, wenn sie dem Licht (links oben) zugewandt ist */
 .fx-face::after { content: ""; position: absolute; inset: 0; border-radius: 50%; pointer-events: none; opacity: 0;
   background: linear-gradient(115deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, .34) 48%, rgba(255, 255, 255, 0) 66%); }
-@keyframes fx-sheen { 0% { opacity: .15; } 9% { opacity: .9; } 26% { opacity: 0; } 70% { opacity: 0; } 94% { opacity: .1; } 100% { opacity: .15; } }
+@keyframes fx-sheen { 0% { opacity: .55; } 5% { opacity: .85; } 16% { opacity: .2; } 30% { opacity: 0; } 72% { opacity: 0; } 92% { opacity: .2; } 100% { opacity: .55; } }
 .fx3d [data-fx-scene] .fx-par { transform: rotateX(calc(var(--py, 0) * -7deg)) rotateY(calc(var(--px, 0) * 12deg)); }
 
 @media (min-width: 1000px) {
@@ -105,10 +110,10 @@
 /* ---------- Karten: 3D-Tilt mit Tiefen-Ebenen (nur feiner Zeiger, nicht im Lite-Modus) ---------- */
 html.fx3d .fx-hot {
   transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateZ(0);
-  transform-style: preserve-3d; transition: transform .2s ease-out, box-shadow .3s ease;
+  transform-style: preserve-3d; transition: transform .45s cubic-bezier(.22, 1, .36, 1), box-shadow .35s ease;
 }
 html.fx3d .fx-hot:hover { box-shadow: 0 26px 44px -22px rgba(0,0,0,.6); }
-html.fx3d .fx-hot > * { transition: transform .3s ease-out; }
+html.fx3d .fx-hot > * { transition: transform .45s cubic-bezier(.22, 1, .36, 1); }
 html.fx3d .fx-hot:hover > .feature-icon, html.fx3d .fx-hot:hover > .price-amount { transform: translateZ(calc(var(--fz, 1) * 38px)); }
 html.fx3d .fx-hot:hover > h3, html.fx3d .fx-hot:hover > .price, html.fx3d .fx-hot:hover > .coach-teaser img { transform: translateZ(calc(var(--fz, 1) * 26px)); }
 html.fx3d .fx-hot:hover > .btn, html.fx3d .fx-hot:hover > .add-cart-btn, html.fx3d .fx-hot:hover > .price-features { transform: translateZ(calc(var(--fz, 1) * 16px)); }
@@ -133,12 +138,12 @@ html.fx3d .fx-hot:hover > figcaption { transform: translateZ(calc(var(--fz, 1) *
 .fx3d .fx-stripe.s2 { transform: skewX(-22deg) translate3d(calc(var(--px, 0) * -22px), 0, 0); }
 .fx3d .fx-stripe.s3 { transform: skewX(-22deg) translate3d(calc(var(--px, 0) * 14px), 0, 0); }
 .fx3d.fx-pro .hero-bg { transform: translate3d(calc(var(--px, 0) * -14px), calc(var(--sy, 0) * 60px + var(--py, 0) * -8px), 0) scale(1.1); }
-.fx-ghost, .fx-stripe { transition: transform .4s ease-out; }
+.fx-ghost, .fx-stripe { transition: transform .9s cubic-bezier(.22, 1, .36, 1); }
 @media (max-width: 999px) { .fx-ghost { font-size: 9rem; right: -4vw; bottom: -1rem; } .fx-stripe.s3 { display: none; } }
 
 /* ---------- Premium: 3D-Laufband (Stats + Live-Auslastung) ---------- */
-.fx-band { background: #111214; color: #fff; overflow: hidden; padding: var(--space-5) 0 var(--space-6); perspective: 640px; border-block: 3px solid #ffd400; }
-.fx-band__plane { transform: rotateX(24deg) scale(1.04); transform-origin: 50% 40%; transform-style: preserve-3d; }
+.fx-band { background: #111214; color: #fff; overflow: hidden; padding: var(--space-5) 0 var(--space-6); perspective: 900px; border-block: 3px solid #ffd400; }
+.fx-band__plane { transform: rotateX(22deg) scale(1.04); transform-origin: 50% 40%; transform-style: preserve-3d; }
 .fx-band__row { display: flex; width: max-content; font-family: var(--font-display); font-style: italic; font-weight: 800; text-transform: uppercase; line-height: 1.05; white-space: nowrap; }
 .fx-band__row + .fx-band__row { margin-top: .15em; }
 .fx-band__row span { padding-right: .6em; }
@@ -162,7 +167,7 @@ html.fx3d .fx-hot:hover > figcaption { transform: translateZ(calc(var(--fz, 1) *
 @media (max-width: 560px) { .fx-flip-grid { grid-template-columns: 1fr; } }
 .fx-flip { position: relative; aspect-ratio: 4 / 5; min-height: 17rem; perspective: 1100px; color: #fff; }
 @media (max-width: 560px) { .fx-flip { aspect-ratio: auto; height: 17rem; } }
-.fx-flip__inner { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform .7s cubic-bezier(.3, .8, .3, 1); }
+.fx-flip__inner { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform .75s cubic-bezier(.34, 1.18, .5, 1); }
 .fx-flip.is-flipped .fx-flip__inner { transform: rotateY(180deg); }
 .fx-flip__front, .fx-flip__back { position: absolute; inset: 0; backface-visibility: hidden; overflow: hidden; border-radius: var(--radius-md); }
 .fx-flip__front { background: #1c1d1f; box-shadow: 0 18px 34px -22px rgba(0,0,0,.6); }
@@ -202,4 +207,7 @@ html:not(.fx-ready) .fx-flip__btn { display: none; }
   html.fx3d.fx-pro .brand:not(.brand-footer) { display: inline-block; transform-origin: 0 50%; transition: transform .8s cubic-bezier(.3, .8, .3, 1); animation: fx-logo 1s cubic-bezier(.3, .8, .3, 1) .4s backwards; }
   html.fx3d.fx-pro .brand:not(.brand-footer):hover, html.fx3d.fx-pro .brand:not(.brand-footer):focus-visible { transform: perspective(500px) rotateX(360deg); }
 }
-@keyframes fx-logo { from { transform: perspective(500px) rotateX(-90deg); opacity: 0; } to { transform: perspective(500px) rotateX(0deg); opacity: 1; } }
+@keyframes fx-logo { from { transform: perspective(500px) rotateX(-90deg); } to { transform: perspective(500px) rotateX(0deg); } }
+
+/* Reveal-Perspektive darf nie horizontal scrollen lassen */
+html.fx3d main { overflow-x: clip; }

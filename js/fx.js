@@ -72,8 +72,8 @@
     raf = 0;
     if (!cur || !ev) return;
     var r = cur.getBoundingClientRect(), x = (ev.clientX - r.left) / r.width, y = (ev.clientY - r.top) / r.height;
-    cur.style.setProperty('--tx', ((x - 0.5) * 7).toFixed(2) + 'deg');
-    cur.style.setProperty('--ty', ((0.5 - y) * 7).toFixed(2) + 'deg');
+    cur.style.setProperty('--tx', ((x - 0.5) * 6).toFixed(2) + 'deg');
+    cur.style.setProperty('--ty', ((0.5 - y) * 6).toFixed(2) + 'deg');
     cur.style.setProperty('--mx', (x * 100).toFixed(1) + '%');
     cur.style.setProperty('--my', (y * 100).toFixed(1) + '%');
     cur.classList.add('fx-tilt');
@@ -97,8 +97,8 @@
       hr = requestAnimationFrame(function () {
         hr = 0;
         var r = hero.getBoundingClientRect(), x = (he.clientX - r.left) / r.width, y = (he.clientY - r.top) / r.height;
-        tilt.style.setProperty('--ry', ((x - 0.5) * 22).toFixed(1) + 'deg');
-        tilt.style.setProperty('--rx', ((0.5 - y) * 14).toFixed(1) + 'deg');
+        tilt.style.setProperty('--ry', ((x - 0.5) * 14).toFixed(1) + 'deg');
+        tilt.style.setProperty('--rx', ((0.5 - y) * 9).toFixed(1) + 'deg');
       });
     }, { passive: true });
     hero.addEventListener('pointerleave', function () { tilt.style.removeProperty('--ry'); tilt.style.removeProperty('--rx'); });

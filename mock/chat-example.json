@@ -1,0 +1,38 @@
+{
+  "default": {
+    "reply": "Dazu habe ich auf der Website keine eindeutige Angabe gefunden. Schreiben Sie uns gern über das Kontaktformular, dann antworten wir persönlich.",
+    "sources": [{ "title": "Kontakt", "url": "kontakt.html" }],
+    "mode": "faq",
+    "answered": false
+  },
+  "entries": [
+    {
+      "keywords": ["kost", "preis"],
+      "reply": "Websites gibt es in drei Paketen: Basic, Business und Premium. Die genauen Preise und Leistungen finden Sie auf der Seite Websites. Alle Angaben sind unverbindlich.\nEin verbindliches Angebot erhalten Sie nach einem kurzen Gespräch.",
+      "sources": [{ "title": "Websites und Pakete", "url": "websites.html" }],
+      "mode": "ai",
+      "answered": true
+    },
+    {
+      "keywords": ["business", "paket"],
+      "reply": "Das Paket Business richtet sich an Firmen, die mehr als eine Visitenkarte brauchen. Welche Leistungen genau enthalten sind, steht in der Paketübersicht.",
+      "sources": [{ "title": "Websites und Pakete", "url": "websites.html" }],
+      "mode": "ai",
+      "answered": true
+    },
+    {
+      "keywords": ["zusammenarbeit", "ablauf"],
+      "reply": "Ablauf in Kürze:\n1. Kennenlernen und Anforderungen klären\n2. Entwurf und Abstimmung\n3. Umsetzung und Freigabe\n4. Veröffentlichung und Pflege",
+      "sources": [{ "title": "Websites", "url": "websites.html" }],
+      "mode": "faq",
+      "answered": true
+    },
+    {
+      "keywords": ["kontakt"],
+      "reply": "Am einfachsten erreichen Sie uns über das Kontaktformular. Wir antworten in der Regel innerhalb von 24 Stunden (werktags).",
+      "sources": [{ "title": "Kontakt", "url": "kontakt.html" }],
+      "mode": "faq",
+      "answered": true
+    }
+  ]
+}

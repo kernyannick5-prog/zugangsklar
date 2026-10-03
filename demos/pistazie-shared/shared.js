@@ -81,6 +81,13 @@
     }
   }
 
+  /* HTML-Escaping fuer Werte aus localStorage/Nutzereingaben, die per innerHTML gerendert werden. */
+  function escapeHTML(str) {
+    return String(str == null ? "" : str).replace(/[&<>"']/g, function (ch) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch];
+    });
+  }
+
   function formatEUR(value) {
     return value.toFixed(2).replace(".", ",") + " €";
   }
@@ -192,7 +199,7 @@
     pad2: pad2, ymd: ymd, buildICS: buildICS, downloadICS: downloadICS,
     daysInMonth: daysInMonth, firstWeekdayMonday: firstWeekdayMonday, sameDay: sameDay,
     addDays: addDays, formatDateDE: formatDateDE, monthLabel: monthLabel,
-    renderCalendarGrid: renderCalendarGrid, formatEUR: formatEUR, isBlockedDate: isBlockedDate,
+    renderCalendarGrid: renderCalendarGrid, formatEUR: formatEUR, escapeHTML: escapeHTML, isBlockedDate: isBlockedDate,
     simulateApi: simulateApi, readJSON: readJSON, writeJSON: writeJSON,
     validEmail: validEmail, setFieldError: setFieldError, wireNewsletter: wireNewsletter,
     renderReviews: renderReviews, DEMO_REVIEWS: DEMO_REVIEWS

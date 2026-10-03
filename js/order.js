@@ -6,13 +6,17 @@
   if (!form) return;
   var statusEl = document.getElementById('order-status');
   var done = document.getElementById('order-done');
+  // Fallback-Namen (Stand 2026-10-03). Maßgeblich ist window.YQ_CATALOG (js/catalog.js, generiert aus tools/site-build/catalog.mjs).
   var NAMES = {
-    'website-basic': 'Website Basic (349 €, einmalig)', 'website-business': 'Website Business (790 €, einmalig)', 'website-pflege': 'Yanqiva Pflege (ab 19 €/Monat)', 'website-premium': 'Website Premium (ab 1.490 €, einmalig, Festpreis-Angebot vorab)',
+    'website-basic': 'Website Basic (349 €, einmalig)', 'website-business': 'Website Business (790 €, einmalig)', 'website-pflege': 'Yanqiva Pflege (ab 29 €/Monat)', 'website-premium': 'Website Premium (ab 1.490 €, einmalig, Festpreis-Angebot vorab)',
     report: 'Website-Report (149 €, einmalig)', monitoring: 'Monitoring (29 € pro Monat)', business: 'Business (79 € pro Monat)',
     agentur: 'Agentur (99 € pro Monat)', agentur_plus: 'Agentur Plus (249 € pro Monat)',
     'fix-google-fonts': 'Fix: Google Fonts lokal einbinden (149 €)', 'fix-erklaerung': 'Fix: Barrierefreiheitserklärung erstellen (99 €)',
     'fix-security-header': 'Fix: Security-Header einrichten (149 €)', 'fix-a11y': 'Fix: Barrierefreiheits-Fix-Paket (ab 490 €)', 'fix-individuell': 'Fix: individuelle Umsetzung (nach Angebot)'
   };
+  if (window.YQ_CATALOG && window.YQ_CATALOG.products) {
+    Object.keys(window.YQ_CATALOG.products).forEach(function (id) { NAMES[id] = window.YQ_CATALOG.products[id].orderLabel; });
+  }
 
   var q = new URLSearchParams(window.location.search);
   var pre = q.get('produkt');

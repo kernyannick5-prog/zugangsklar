@@ -1,4 +1,4 @@
-/* Monitoring-Dashboard: ?t=<token> -> GET /api/portfolio, Detail per #site=<id>. Mock: ?mock=1. Alle API-Texte nur per textContent. */
+/* Monitoring-Dashboard: #t=<token> (Fallback ?t=) -> GET /api/portfolio mit Authorization: Bearer, Detail per #site=<id>. Mock: ?mock=1. Alle API-Texte nur per textContent. */
 (function () {
   'use strict';
   var YQ = window.YQ, el = YQ.el, R = YQ.report;
@@ -6,8 +6,24 @@
   if (!root) return;
   var h1 = document.getElementById('dash-h1');
   var statusEl = document.getElementById('dash-status');
-  var params = new URLSearchParams(window.location.search);
-  var token = params.get('t') || '';
+  /* Token bevorzugt aus #t=..., Fallback ?t=... (alte Links). Danach aus der URL entfernen (kein Verlauf/Referer/Logs)
+     und fuer Reload in sessionStorage halten. Reiner Lesezeichen-Aufruf braucht den Link aus der E-Mail erneut. */
+  function readToken() {
+    var hp = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+    var sp = new URLSearchParams(window.location.search);
+    var t = hp.get('t') || sp.get('t') || '';
+    if (t) {
+      try { window.sessionStorage.setItem('yq_t', t); } catch (e) { /* Speicher gesperrt: Token bleibt nur im Speicher */ }
+      hp.delete('t'); sp.delete('t');
+      var qs = sp.toString(), hs = hp.toString();
+      try { window.history.replaceState(null, '', window.location.pathname + (qs ? '?' + qs : '') + (hs ? '#' + hs : '')); } catch (e) { /* ignorieren */ }
+      return t;
+    }
+    try { return window.sessionStorage.getItem('yq_t') || ''; } catch (e) { return ''; }
+  }
+  var token = readToken();
+  function authHeaders() { return { 'Authorization': 'Bearer ' + token }; }
+  function hashSite() { return new URLSearchParams(window.location.hash.replace(/^#/, '')).get('site'); }
   var portfolio = null;
   var DEFAULT_TITLE = document.title;
 
@@ -63,7 +79,7 @@
   function fetchJson(url) { return fetch(url).then(function (r) { if (!r.ok) throw new Error('Mock nicht gefunden'); return r.json(); }); }
   function loadPortfolio() {
     if (YQ.MOCK) return fetchJson(YQ.mockUrl('portfolio-example.json'));
-    return YQ.getJson('/api/portfolio?t=' + encodeURIComponent(token));
+    return YQ.getJson('/api/portfolio', authHeaders());
   }
   function loadSite(id) {
     if (YQ.MOCK) {
@@ -76,7 +92,7 @@
         return out;
       });
     }
-    return YQ.getJson('/api/portfolio/site?t=' + encodeURIComponent(token) + '&id=' + encodeURIComponent(id));
+    return YQ.getJson('/api/portfolio/site?id=' + encodeURIComponent(id), authHeaders());
   }
 
   function cats(site) {
@@ -217,9 +233,27 @@
     var d = new Date(str(m) + '-01T12:00:00Z');
     return isNaN(d) ? str(m) : d.toLocaleDateString('de-DE', { month: 'long', year: 'numeric', timeZone: 'UTC' });
   }
-  function reportHref(site, month) {
-    if (YQ.MOCK) return YQ.mockUrl('bericht-beispiel.pdf');
-    return YQ.API_BASE + '/api/portfolio/report.pdf?t=' + encodeURIComponent(token) + '&id=' + encodeURIComponent(site.id) + '&month=' + encodeURIComponent(month);
+  /* PDF per fetch mit Authorization-Header + Blob (Token landet nicht in der URL). */
+  function downloadReport(site, month, label) {
+    setStatus('Bericht wird geladen …');
+    fetch(YQ.API_BASE + '/api/portfolio/report.pdf?id=' + encodeURIComponent(site.id) + '&month=' + encodeURIComponent(month), { headers: authHeaders() })
+      .then(function (r) { if (!r.ok) throw new Error('status ' + r.status); return r.blob(); })
+      .then(function (blob) {
+        var u = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = u; a.download = 'Monatsbericht-' + month + '.pdf'; a.rel = 'noopener';
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { URL.revokeObjectURL(u); }, 10000);
+        setStatus('Bericht ' + label + ' heruntergeladen.');
+      })
+      .catch(function () { setStatus('Der Bericht konnte nicht geladen werden. Bitte versuchen Sie es später erneut.'); });
+  }
+  function reportLink(site, month) {
+    var text = 'Monatsbericht ' + monthLabel(month) + ' als PDF herunterladen';
+    if (YQ.MOCK) return el('a', { href: YQ.mockUrl('bericht-beispiel.pdf'), download: '', rel: 'noopener' }, text);
+    var a = el('a', { href: '#', role: 'button' }, text);
+    a.addEventListener('click', function (ev) { ev.preventDefault(); downloadReport(site, month, monthLabel(month)); });
+    return a;
   }
   function countsText(c) {
     c = c || {};
@@ -284,7 +318,7 @@
     else {
       var list = el('ul', { class: 'no-print' });
       months.forEach(function (m) {
-        list.appendChild(el('li', null, el('a', { href: reportHref(site, m), download: '', rel: 'noopener' }, 'Monatsbericht ' + monthLabel(m) + ' als PDF herunterladen')));
+        list.appendChild(el('li', null, reportLink(site, m)));
       });
       parent.appendChild(list);
     }
@@ -357,9 +391,9 @@
   /* ---------- Routing ---------- */
   function route() {
     if (!portfolio) return;
-    var m = /^#site=(.+)$/.exec(window.location.hash);
+    var sid = hashSite();
     document.title = (portfolio.brand && portfolio.brand.name) ? 'Dashboard | ' + portfolio.brand.name : DEFAULT_TITLE;
-    if (m) detail(decodeURIComponent(m[1])); else { overview(); if (portfolio._seen) h1.focus(); }
+    if (sid) detail(sid); else { overview(); if (portfolio._seen) h1.focus(); }
     portfolio._seen = true;
     window.scrollTo(0, 0);
   }

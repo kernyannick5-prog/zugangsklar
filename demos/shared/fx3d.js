@@ -12,7 +12,7 @@
     (n.hardwareConcurrency && n.hardwareConcurrency < 4) ||
     (n.deviceMemory && n.deviceMemory < 4) ||
     (n.connection && n.connection.saveData) || false;
-  var fine = !!mq && mq("(pointer: fine)").matches;
+  var fine = !!mq && mq("(hover: hover) and (pointer: fine)").matches;
   root.classList.add("fx-ready", lite ? "fx-lite" : "fx3d");
   if (pro) root.classList.add("fx-pro");
 
@@ -87,8 +87,10 @@
       }
       if (!raf) raf = requestAnimationFrame(frame);
     }, { passive: true });
-    d.addEventListener("pointerleave", function () {
+    /* Zeiger verlaesst das Fenster: Szenen und Karte federn (per CSS-Transition) in die Ruhelage zurueck */
+    root.addEventListener("pointerleave", function () {
       if (hot) { hot.style.setProperty("--rx", "0deg"); hot.style.setProperty("--ry", "0deg"); hot = null; }
+      live.forEach(function (s) { s.style.setProperty("--px", "0"); s.style.setProperty("--py", "0"); });
     });
   }
 

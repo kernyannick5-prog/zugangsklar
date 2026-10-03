@@ -365,14 +365,20 @@
     return card;
   }
 
+  // Preistexte aus window.YQ_CATALOG (js/catalog.js, generiert aus tools/site-build/catalog.mjs); Fallback = Stand 2026-10-03.
+  function catText(id, field, fallback) {
+    var c = window.YQ_CATALOG && window.YQ_CATALOG.products && window.YQ_CATALOG.products[id];
+    return (c && c[field]) || fallback;
+  }
+
   function ctaBox(opts, level, d) {
     var q = opts.url ? '&url=' + encodeURIComponent(opts.url) : '';
     return el('div', { class: 'lead-box cta-box' },
       h(level + 1, null, 'Nächste Schritte'),
       el('p', null, 'Der Website-Report prüft bis zu 10 Seiten, nennt je Befund die Stelle und den Lösungsvorschlag und enthält eine Checkliste für die manuellen Prüfpunkte.'),
       el('ul', { class: 'cta-list' },
-        el('li', null, el('a', { class: 'btn', href: 'bestellen.html?produkt=report' + q }, 'Vollständigen Website-Report bestellen (149 €)')),
-        el('li', null, el('a', { class: 'btn btn-secondary', href: 'bestellen.html?produkt=monitoring' + q }, 'Automatische Überwachung aktivieren (ab 29 €/Monat)')),
+        el('li', null, el('a', { class: 'btn', href: 'bestellen.html?produkt=report' + q }, 'Vollständigen Website-Report bestellen (' + catText('report', 'amountText', '149 €') + ')')),
+        el('li', null, el('a', { class: 'btn btn-secondary', href: 'bestellen.html?produkt=monitoring' + q }, 'Automatische Überwachung aktivieren (ab ' + catText('monitoring', 'priceTextShort', '29 €/Monat') + ')')),
         el('li', null, el('a', { class: 'btn btn-secondary', href: 'fix.html' }, 'Probleme beheben lassen (Yanqiva Fix)'))),
       el('p', { class: 'hint' }, 'Alle Preise sind Endpreise. Als Kleinunternehmer im Sinne von § 19 UStG berechnen wir keine Umsatzsteuer.'));
   }

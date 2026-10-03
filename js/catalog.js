@@ -1,0 +1,190 @@
+/* GENERIERT von tools/site-build/build.mjs aus tools/site-build/catalog.mjs. Nicht von Hand ändern. */
+window.YQ_CATALOG = {
+ "products": {
+  "website-basic": {
+   "id": "website-basic",
+   "name": "Website Basic",
+   "group": "website",
+   "price": 349,
+   "priceFrom": false,
+   "billing": "einmalig",
+   "priceText": "349 €",
+   "priceTextShort": "349 €",
+   "amountText": "349 €",
+   "orderLabel": "Website Basic (349 €, einmalig)"
+  },
+  "website-business": {
+   "id": "website-business",
+   "name": "Website Business",
+   "group": "website",
+   "price": 790,
+   "priceFrom": false,
+   "billing": "einmalig",
+   "priceText": "790 €",
+   "priceTextShort": "790 €",
+   "amountText": "790 €",
+   "orderLabel": "Website Business (790 €, einmalig)"
+  },
+  "website-premium": {
+   "id": "website-premium",
+   "name": "Website Premium",
+   "group": "website",
+   "price": 1490,
+   "priceFrom": true,
+   "billing": "einmalig",
+   "priceText": "ab 1.490 €",
+   "priceTextShort": "ab 1.490 €",
+   "amountText": "1.490 €",
+   "orderLabel": "Website Premium (ab 1.490 €, einmalig, Festpreis-Angebot vorab)"
+  },
+  "website-pflege": {
+   "id": "website-pflege",
+   "name": "Yanqiva Pflege",
+   "group": "website",
+   "price": 29,
+   "priceFrom": true,
+   "billing": "monatlich",
+   "priceText": "ab 29 € pro Monat",
+   "priceTextShort": "ab 29 €/Monat",
+   "amountText": "29 €",
+   "orderLabel": "Yanqiva Pflege (ab 29 €/Monat)",
+   "tiers": [
+    {
+     "for": [
+      "website-basic"
+     ],
+     "price": 29
+    },
+    {
+     "for": [
+      "website-business",
+      "website-premium"
+     ],
+     "price": 49
+    }
+   ]
+  },
+  "report": {
+   "id": "report",
+   "name": "Website-Report",
+   "group": "check",
+   "price": 149,
+   "priceFrom": false,
+   "billing": "einmalig",
+   "priceText": "149 €",
+   "priceTextShort": "149 €",
+   "amountText": "149 €",
+   "orderLabel": "Website-Report (149 €, einmalig)"
+  },
+  "monitoring": {
+   "id": "monitoring",
+   "name": "Monitoring",
+   "group": "check",
+   "price": 29,
+   "priceFrom": false,
+   "billing": "monatlich",
+   "priceText": "29 € pro Monat",
+   "priceTextShort": "29 €/Monat",
+   "amountText": "29 €",
+   "orderLabel": "Monitoring (29 € pro Monat)"
+  },
+  "business": {
+   "id": "business",
+   "name": "Business",
+   "group": "check",
+   "price": 79,
+   "priceFrom": false,
+   "billing": "monatlich",
+   "priceText": "79 € pro Monat",
+   "priceTextShort": "79 €/Monat",
+   "amountText": "79 €",
+   "orderLabel": "Business (79 € pro Monat)"
+  },
+  "agentur": {
+   "id": "agentur",
+   "name": "Agentur",
+   "group": "agentur",
+   "price": 99,
+   "priceFrom": false,
+   "billing": "monatlich",
+   "priceText": "99 € pro Monat",
+   "priceTextShort": "99 €/Monat",
+   "amountText": "99 €",
+   "orderLabel": "Agentur (99 € pro Monat)"
+  },
+  "agentur_plus": {
+   "id": "agentur_plus",
+   "name": "Agentur Plus",
+   "group": "agentur",
+   "price": 249,
+   "priceFrom": false,
+   "billing": "monatlich",
+   "priceText": "249 € pro Monat",
+   "priceTextShort": "249 €/Monat",
+   "amountText": "249 €",
+   "orderLabel": "Agentur Plus (249 € pro Monat)"
+  },
+  "fix-google-fonts": {
+   "id": "fix-google-fonts",
+   "name": "Google Fonts lokal einbinden",
+   "group": "fix",
+   "price": 149,
+   "priceFrom": false,
+   "billing": "einmalig",
+   "priceText": "149 €",
+   "priceTextShort": "149 €",
+   "amountText": "149 €",
+   "orderLabel": "Fix: Google Fonts lokal einbinden (149 €)"
+  },
+  "fix-erklaerung": {
+   "id": "fix-erklaerung",
+   "name": "Barrierefreiheitserklärung",
+   "group": "fix",
+   "price": 99,
+   "priceFrom": false,
+   "billing": "einmalig",
+   "priceText": "99 €",
+   "priceTextShort": "99 €",
+   "amountText": "99 €",
+   "orderLabel": "Fix: Barrierefreiheitserklärung erstellen (99 €)"
+  },
+  "fix-security-header": {
+   "id": "fix-security-header",
+   "name": "Security-Header einrichten",
+   "group": "fix",
+   "price": 149,
+   "priceFrom": false,
+   "billing": "einmalig",
+   "priceText": "149 €",
+   "priceTextShort": "149 €",
+   "amountText": "149 €",
+   "orderLabel": "Fix: Security-Header einrichten (149 €)"
+  },
+  "fix-a11y": {
+   "id": "fix-a11y",
+   "name": "Barrierefreiheits-Fix-Paket",
+   "group": "fix",
+   "price": 490,
+   "priceFrom": true,
+   "billing": "einmalig",
+   "priceText": "ab 490 €",
+   "priceTextShort": "ab 490 €",
+   "amountText": "490 €",
+   "orderLabel": "Fix: Barrierefreiheits-Fix-Paket (ab 490 €)"
+  },
+  "fix-individuell": {
+   "id": "fix-individuell",
+   "name": "Individuelle Umsetzung",
+   "group": "fix",
+   "price": null,
+   "priceFrom": false,
+   "billing": "nach Angebot",
+   "priceText": "nach Angebot",
+   "priceTextShort": "nach Angebot",
+   "amountText": "nach Angebot",
+   "orderLabel": "Fix: individuelle Umsetzung (nach Angebot)"
+  }
+ },
+ "endpreiseHinweis": "Alle Preise sind Endpreise. Als Kleinunternehmer im Sinne von § 19 UStG berechnen wir keine Umsatzsteuer.",
+ "reportCredit": "Ein bereits gekaufter Website-Report wird beim Website-Auftrag voll angerechnet."
+};
