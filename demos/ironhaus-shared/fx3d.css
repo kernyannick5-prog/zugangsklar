@@ -214,11 +214,14 @@ html.fx3d main { overflow-x: clip; }
 .bb-l { transform: translateZ(-46px); filter: brightness(.86); }
 .bb-r { transform: translateZ(46px); }
 .bb-l { filter: brightness(.86); }
-@media (min-width: 1000px) {
-  .fx-hero3d.is-pro { position: absolute; right: -1.5rem; top: 50%; translate: 0 -50%; width: min(45%, 580px); max-width: none; margin: 0; }
-}
-@media (min-width: 1000px) and (max-width: 1180px) { .fx-hero3d.is-pro { width: 42%; right: -2.5rem; } }
-@media (max-width: 999px) { .fx-hero3d.is-pro { width: min(100%, 500px); margin-top: clamp(7rem, 40vw, 13rem); margin-bottom: clamp(1.5rem, 7vw, 2.5rem); } }
+/* Eigene Bühne unter dem Foto-Hero: die Hantel liegt nicht über dem Foto, sondern wie ein Produktfoto auf dunklem Grund. */
+.bb-stage { position: relative; overflow: hidden; padding: clamp(3rem, 8vw, 6rem) 0 clamp(2.5rem, 6vw, 4.5rem);
+  background: radial-gradient(ellipse 60% 70% at 70% 62%, #2a2c31 0%, #17181b 58%, #111214 100%); }
+.bb-stage__inner { display: grid; gap: clamp(1.5rem, 4vw, 3rem); align-items: center; }
+.bb-stage__text .section-title { margin-bottom: .75rem; }
+.bb-stage__lead { color: #c9cbd0; max-width: 34ch; margin: 0; }
+.bb-stage .fx-hero3d.is-pro { width: 100%; max-width: 620px; margin: 0 auto; }
+@media (min-width: 860px) { .bb-stage__inner { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } }
 
 /* Bewegung: nur mit .fx3d (nicht fx-lite), nur bei "Bewegung erlaubt". Schweben/Pendeln mit langer Periode,
    Einschwingen einmalig beim Erscheinen. Schleifen pausieren ausserhalb des Viewports (.fx-run) und bei versteckter Seite. */
