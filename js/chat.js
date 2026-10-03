@@ -13,7 +13,7 @@
   var STORE_KEY = 'yq-chat-v1';
   var TIMEOUT_MS = 30000;
   var OWN_HOSTS = ['yanqiva.de', 'www.yanqiva.de'];
-  var SUGGESTIONS = ['Was kostet eine Website?', 'Was ist im Paket Business enthalten?', 'Wie läuft die Zusammenarbeit ab?', 'Wie kann ich Yanqiva kontaktieren?'];
+  var SUGGESTIONS = ['Was kostet eine Website?', 'Was kostet eine Premium-Website?', 'Wie läuft die Zusammenarbeit ab?', 'Wie kann ich Yanqiva kontaktieren?'];
   var GREETING = 'Hallo! Ich beantworte Fragen zu Yanqiva, unseren Websites und Leistungen. Wählen Sie einen Vorschlag oder stellen Sie Ihre Frage.';
   var ERR_RATE = 'Sie haben gerade viele Fragen gestellt. Bitte versuchen Sie es später erneut.';
   var ERR_DOWN = 'Der Chat ist gerade nicht erreichbar. Nutzen Sie gern das Kontaktformular.';

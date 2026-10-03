@@ -68,27 +68,17 @@
 
 /* Bewegung: reines CSS, laeuft auch im fx-lite-Modus (nur bei "Bewegung reduzieren" aus); pausiert nur,
    wenn der Hero ausserhalb des Viewports ist bzw. der Tab versteckt (Skript ../shared/fx3d.js). Nur transform/opacity.
-   Drehteller (gleichmaessig, schwer), dazu leichtes Nicken (Praezession) und ein Lichtreflex, der mit dem Winkel wandert. */
-.fx-hero3d { --turn: 28s; }
-.fx-hero3d.is-pro { --turn: 38s; }
+   Business: dezent, KEINE Dauerrotation - die Scheibe steht in fester Pose und pendelt nur langsam (lange Periode, ease-in-out).
+   Nur mit JS-Klasse .fx3d (also nicht im fx-lite-Modus) und nur bei "Bewegung erlaubt". */
 @media (prefers-reduced-motion: no-preference) {
-  .fx-spin { animation: fx-yturn var(--turn) linear infinite; }
-  .fx-obj { animation: fx-rock calc(var(--turn) / 3) ease-in-out infinite alternate; }
-  .fx-face::after { animation: fx-sheen var(--turn) linear infinite; }
-  .fx3d [data-fx-scene]:not(.fx-run) :is(.fx-spin, .fx-obj),
-  .fx3d [data-fx-scene]:not(.fx-run) .fx-face::after,
-  .fx3d.fx-hidden :is(.fx-spin, .fx-obj),
-  .fx3d.fx-hidden .fx-face::after { animation-play-state: paused; }
+  .fx3d .fx-obj { animation: fx-rock 11s ease-in-out infinite alternate; }
+  .fx3d [data-fx-scene]:not(.fx-run) .fx-obj,
+  .fx3d.fx-hidden .fx-obj { animation-play-state: paused; }
 }
-@keyframes fx-yturn {
-  from { transform: rotateX(-9deg) rotateY(-26deg); }
-  to   { transform: rotateX(-9deg) rotateY(334deg); }
-}
-@keyframes fx-rock { from { transform: rotateX(-2.5deg) rotateZ(-1deg); } to { transform: rotateX(3deg) rotateZ(1deg); } }
-/* Reflex auf der Frontflaeche: am hellsten, wenn sie dem Licht (links oben) zugewandt ist */
-.fx-face::after { content: ""; position: absolute; inset: 0; border-radius: 50%; pointer-events: none; opacity: 0;
+@keyframes fx-rock { from { transform: rotateY(-7deg) rotateX(-3deg); } to { transform: rotateY(9deg) rotateX(3deg); } }
+/* Statischer Glanz auf der Frontflaeche (Licht links oben) */
+.fx-face::after { content: ""; position: absolute; inset: 0; border-radius: 50%; pointer-events: none; opacity: .5;
   background: linear-gradient(115deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, .34) 48%, rgba(255, 255, 255, 0) 66%); }
-@keyframes fx-sheen { 0% { opacity: .55; } 5% { opacity: .85; } 16% { opacity: .2; } 30% { opacity: 0; } 72% { opacity: 0; } 92% { opacity: .2; } 100% { opacity: .55; } }
 .fx3d [data-fx-scene] .fx-par { transform: rotateX(calc(var(--py, 0) * -7deg)) rotateY(calc(var(--px, 0) * 12deg)); }
 
 @media (min-width: 1000px) {
@@ -96,10 +86,7 @@
     position: absolute; right: var(--space-5); top: 22%; width: min(42%, 440px); height: 440px; margin: -220px 0 0;
   }
   .fx-stage { left: 50%; margin-left: -130px; transform-origin: 50% 50%; transform: scale(.82); }
-  .fx-hero3d.is-pro { width: 340px; height: 560px; margin-top: -280px; right: -60px; top: 46%; }
-  .is-pro .fx-stage { transform: scale(1.05); }
 }
-@media (min-width: 1000px) and (max-width: 1180px) { .is-pro .fx-stage { transform: scale(.88); } .fx-hero3d.is-pro { width: 300px; right: -40px; } }
 
 /* ---------- Scroll-Reveal mit leichter Perspektive ---------- */
 @media (prefers-reduced-motion: no-preference) {
@@ -199,8 +186,6 @@ html:not(.fx-ready) .fx-flip__btn { display: none; }
 .fx-ready .fx-flip:not(.is-flipped) .fx-flip__back, .fx-ready .fx-flip.is-flipped .fx-flip__front { visibility: hidden; transition: visibility 0s .35s; }
 @media (prefers-reduced-motion: reduce) { .fx-flip__inner { transition: none; } }
 .fx-flip-foot { margin-top: var(--space-6); }
-@media (max-width: 999px) { .fx-hero3d.is-pro { height: 190px; } }
-@media (max-width: 999px) { .fx-hero3d.is-pro .fx-stage { transform: scale(.66); } }
 
 /* ---------- Premium: Logo klappt beim Laden einmal um, bei Hover/Fokus erneut ---------- */
 @media (prefers-reduced-motion: no-preference) {
@@ -211,3 +196,44 @@ html:not(.fx-ready) .fx-flip__btn { display: none; }
 
 /* Reveal-Perspektive darf nie horizontal scrollen lassen */
 html.fx3d main { overflow-x: clip; }
+
+
+/* ==========================================================================
+   Premium-Hero: Langhantel (2.5D)
+   Gewaehlt: schattierte Inline-SVG in drei Tiefenebenen (links hinten / Stange / rechts vorn) statt
+   Zylinder aus CSS-3D-Scheiben. Grund: saubere Rundungen, Chrom-Verlaeufe, Raendelung und Beschriftung ohne Kanten/Z-Fighting,
+   nur 3 Composite-Layer + 1 Schatten, daher auf Mobile guenstig. Tiefe entsteht durch echte Parallaxe (translateZ + leichte Drehung).
+   Licht: oben links. Animiert wird ausschliesslich transform/opacity.
+   ========================================================================== */
+.fx-hero3d.is-pro { height: auto; aspect-ratio: 900 / 380; max-width: 560px; margin: 0 0 var(--space-3); perspective: none; }
+.fx-bb { position: absolute; inset: 0; perspective: 1100px; --bb-rx: 3deg; --bb-ry: -9deg; }
+.bb-floor { position: absolute; inset: 0; }
+.bb-floor svg, .bb-layer { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.bb-tilt, .bb-settle, .bb-float { position: absolute; inset: 0; transform-style: preserve-3d; }
+.bb-tilt { transform: rotateX(var(--bb-rx)) rotateY(var(--bb-ry)); }
+.bb-l { transform: translateZ(-46px); filter: brightness(.86); }
+.bb-r { transform: translateZ(46px); }
+.bb-l { filter: brightness(.86); }
+@media (min-width: 1000px) {
+  .fx-hero3d.is-pro { position: absolute; right: -1.5rem; top: 52%; translate: 0 -50%; width: min(46%, 600px); max-width: none; margin: 0; }
+}
+@media (min-width: 1000px) and (max-width: 1180px) { .fx-hero3d.is-pro { width: 42%; right: -2.5rem; } }
+@media (max-width: 999px) { .fx-hero3d.is-pro { width: min(100%, 500px); } }
+
+/* Bewegung: nur mit .fx3d (nicht fx-lite), nur bei "Bewegung erlaubt". Schweben/Pendeln mit langer Periode,
+   Einschwingen einmalig beim Erscheinen. Schleifen pausieren ausserhalb des Viewports (.fx-run) und bei versteckter Seite. */
+@media (prefers-reduced-motion: no-preference) {
+  .fx3d .bb-settle { animation: bb-settle 1.7s cubic-bezier(.2, .8, .25, 1) .15s backwards; }
+  .fx3d .bb-layer { animation: bb-in .9s ease-out .15s backwards; }
+  .fx3d .bb-floor { animation: bb-in 1.2s ease-out .15s backwards; }
+  .fx3d .bb-float { animation: bb-hover 9s ease-in-out infinite alternate, bb-sway 14s ease-in-out infinite alternate; }
+  .fx3d .bb-floor svg { animation: bb-shadow 9s ease-in-out infinite alternate; }
+  .fx3d [data-fx-scene]:not(.fx-run) .bb-float,
+  .fx3d [data-fx-scene]:not(.fx-run) .bb-floor svg,
+  .fx3d.fx-hidden .bb-float, .fx3d.fx-hidden .bb-floor svg { animation-play-state: paused; }
+}
+@keyframes bb-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bb-settle { 0% { transform: translate3d(0, -26px, 0) rotateZ(-3.2deg); } 55% { transform: translate3d(0, 4px, 0) rotateZ(.9deg); } 78% { transform: translate3d(0, -1.5px, 0) rotateZ(-.3deg); } 100% { transform: none; } }
+@keyframes bb-hover { from { translate: 0 2px; } to { translate: 0 -8px; } }
+@keyframes bb-sway { from { rotate: z -.9deg; } to { rotate: z .9deg; } }
+@keyframes bb-shadow { from { transform: scale(1.03); opacity: 1; } to { transform: scale(.94); opacity: .72; } }

@@ -343,7 +343,7 @@
         main.appendChild(h(level + 3, { class: 'reco-selffix-title' }, 'Kleinigkeiten, die Sie selbst erledigen können'));
         main.appendChild(ml);
       }
-      main.appendChild(el('p', { class: 'reco-cta' }, el('a', { class: 'btn btn-light', href: href(p.key) }, p.name + ' bestellen (' + p.price + ')')));
+      main.appendChild(el('p', { class: 'reco-cta' }, el('a', { class: 'btn btn-light', href: href(p.key) }, p.name + (/^website-/.test(p.key) ? ' anfragen (' + p.price + ')' : ' bestellen (' + p.price + ')'))));
     }
     var whyList = el('ul', { class: 'reco-why' });
     rec.why.concat(rec.notes).forEach(function (t) { whyList.appendChild(el('li', null, t)); });

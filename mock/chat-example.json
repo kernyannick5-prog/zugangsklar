@@ -8,15 +8,15 @@
   "entries": [
     {
       "keywords": ["kost", "preis"],
-      "reply": "Websites gibt es in drei Paketen: Basic, Business und Premium. Die genauen Preise und Leistungen finden Sie auf der Seite Websites. Alle Angaben sind unverbindlich.\nNach Ihrer Anfrage erhalten Sie vorab ein Angebot mit Umfang, Preis und Zeitplan.",
-      "sources": [{ "title": "Websites und Pakete", "url": "websites.html" }],
+      "reply": "Websites gibt es in zwei Leistungsstufen: Business (ab 590 €) und Premium (individuelles Angebot, Orientierung ab 1.490 €). Die genauen Leistungen finden Sie auf der Seite Websites. Alle Angaben sind unverbindlich.\nNach Ihrer Anfrage erhalten Sie vorab ein Angebot mit Umfang, Preis und Zeitplan.",
+      "sources": [{ "title": "Websites erstellen", "url": "websites.html" }],
       "mode": "ai",
       "answered": true
     },
     {
-      "keywords": ["business", "paket"],
-      "reply": "Das Paket Business richtet sich an Firmen, die mehr als eine Visitenkarte brauchen. Welche Leistungen genau enthalten sind, steht in der Paketübersicht.",
-      "sources": [{ "title": "Websites und Pakete", "url": "websites.html" }],
+      "keywords": ["business", "stufe"],
+      "reply": "Die Stufe Business richtet sich an kleinere und mittlere Anforderungen. Welche Leistungen genau enthalten sind, steht im Stufenvergleich.",
+      "sources": [{ "title": "Websites erstellen", "url": "websites.html" }],
       "mode": "ai",
       "answered": true
     },

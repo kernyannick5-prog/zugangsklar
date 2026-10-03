@@ -1,32 +1,21 @@
 /* GENERIERT von tools/site-build/build.mjs aus tools/site-build/catalog.mjs. Nicht von Hand ändern. */
 window.YQ_CATALOG = {
  "products": {
-  "website-basic": {
-   "id": "website-basic",
-   "name": "Website Basic",
-   "group": "website",
-   "price": 349,
-   "priceFrom": false,
-   "billing": "einmalig",
-   "priceText": "349 €",
-   "priceTextShort": "349 €",
-   "amountText": "349 €",
-   "orderLabel": "Website Basic (349 €, einmalig)"
-  },
   "website-business": {
    "id": "website-business",
    "name": "Website Business",
    "group": "website",
-   "price": 790,
-   "priceFrom": false,
+   "price": 590,
+   "priceFrom": true,
    "billing": "einmalig",
-   "priceText": "790 €",
-   "priceTextShort": "790 €",
-   "amountText": "790 €",
-   "orderLabel": "Website Business (790 €, einmalig)"
+   "priceText": "ab 590 €",
+   "priceTextShort": "ab 590 €",
+   "amountText": "590 €",
+   "orderLabel": "Website Business (ab 590 €, einmalig, unverbindliche Anfrage, individuelles Angebot vorab)"
   },
   "website-premium": {
    "id": "website-premium",
+   "offerLabel": "Individuelles Angebot",
    "name": "Website Premium",
    "group": "website",
    "price": 1490,
@@ -35,7 +24,7 @@ window.YQ_CATALOG = {
    "priceText": "ab 1.490 €",
    "priceTextShort": "ab 1.490 €",
    "amountText": "1.490 €",
-   "orderLabel": "Website Premium (ab 1.490 €, einmalig, Festpreis-Angebot vorab)"
+   "orderLabel": "Website Premium (individuelles Angebot, Orientierung ab 1.490 €, einmalig, unverbindliche Anfrage)"
   },
   "website-pflege": {
    "id": "website-pflege",
@@ -50,16 +39,11 @@ window.YQ_CATALOG = {
    "orderLabel": "Yanqiva Pflege (ab 29 €/Monat)",
    "tiers": [
     {
-     "for": [
-      "website-basic"
-     ],
+     "label": "kompakte Business-Websites (bis 3 Seiten)",
      "price": 29
     },
     {
-     "for": [
-      "website-business",
-      "website-premium"
-     ],
+     "label": "größere Business- und Premium-Websites",
      "price": 49
     }
    ]

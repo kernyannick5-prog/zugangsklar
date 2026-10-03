@@ -1,5 +1,5 @@
-/* Showcase: Beispiel-Websites (Paket x Beispielkunde x Gerät) in einem Browser-/Geräte-Mockup.
-   - Tabs (Paket) nach WAI-ARIA-Muster, Radiogruppen für Beispielkunde und Ansicht.
+/* Showcase: Beispiel-Websites (Stufe x Beispielkunde x Gerät) in einem Browser-/Geräte-Mockup.
+   - Tabs (Leistungsstufe) nach WAI-ARIA-Muster, Radiogruppen für Beispielkunde und Ansicht.
    - Genau ein same-origin <iframe> ist aktiv; src wird getauscht und erst geladen, wenn der Bereich fast sichtbar ist.
    - Echter Viewport (1280/820/390 px) per CSS-Transform skaliert, Neuberechnung per ResizeObserver.
    - Zustand im URL-Hash: #showcase=business-ironhaus-mobile (Teile optional, Reihenfolge beliebig). */
@@ -8,11 +8,11 @@
   var root = document.querySelector('[data-showcase]');
   if (!root) return;
 
-  var TIERS = ['basic', 'business', 'premium'];
-  var TIER_NAMES = { basic: 'Basic', business: 'Business', premium: 'Premium' };
+  var TIERS = ['business', 'premium'];
+  var TIER_NAMES = { business: 'Business', premium: 'Premium' };
   var CLIENTS = {
-    ironhaus: { name: 'IRONHAUS', host: 'ironhaus-dortmund.example', folders: { basic: 'ironhaus-basic', business: 'ironhaus-business', premium: 'ironhaus-premium' } },
-    pistazie: { name: 'Café Pistazie', host: 'cafe-pistazie.example', folders: { basic: 'demo-basic', business: 'pistazie-business', premium: 'pistazie-premium' } }
+    ironhaus: { name: 'IRONHAUS', host: 'ironhaus-dortmund.example', folders: { business: 'ironhaus-business', premium: 'ironhaus-premium' } },
+    pistazie: { name: 'Café Pistazie', host: 'cafe-pistazie.example', folders: { business: 'pistazie-business', premium: 'pistazie-premium' } }
   };
   // Geräte: vw = echte CSS-Viewportbreite im iframe, pref = bevorzugte Viewporthöhe, max = maximale Anzeigebreite, pad = Gehäuserand
   var DEVICES = {
@@ -52,7 +52,8 @@
     if (!m) return null;
     var out = {};
     m[1].split('-').forEach(function (p) {
-      if (TIERS.indexOf(p) > -1) out.tier = p;
+      if (p === 'basic') out.tier = 'business'; // alter Link (Basic entfallen)
+      else if (TIERS.indexOf(p) > -1) out.tier = p;
       else if (CLIENTS[p]) out.client = p;
       else if (DEVICES[p]) out.device = p;
     });
@@ -132,7 +133,7 @@
     clientRadios.forEach(function (r) { r.checked = r.value === state.client; });
     deviceRadios.forEach(function (r) { r.checked = r.value === state.device; });
     var c = CLIENTS[state.client];
-    frame.title = 'Demo-Website ' + c.name + ' im Paket ' + TIER_NAMES[state.tier];
+    frame.title = 'Demo-Website ' + c.name + ' in der Stufe ' + TIER_NAMES[state.tier];
     urlText.textContent = c.host + pagePath();
   }
   function pagePath() { return currentPage === 'index.html' ? '' : '/' + currentPage.replace(/\.html$/, ''); }
@@ -173,7 +174,7 @@
     if (!frame.getAttribute('src')) return;
     viewport.setAttribute('aria-busy', 'false');
     loading.classList.remove('is-on');
-    // Navigation im Demo-Inhalt (z. B. Wechsel auf "Kurse" oder auf ein anderes Paket) nachführen, ohne neu zu laden.
+    // Navigation im Demo-Inhalt (z. B. Wechsel auf "Kurse" oder auf eine andere Stufe) nachführen, ohne neu zu laden.
     try {
       var m = /\/demos\/([^/]+)\/([^/?#]*)/.exec(frame.contentWindow.location.pathname);
       if (!m) return;

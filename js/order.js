@@ -8,7 +8,7 @@
   var done = document.getElementById('order-done');
   // Fallback-Namen (Stand 2026-10-03). Maßgeblich ist window.YQ_CATALOG (js/catalog.js, generiert aus tools/site-build/catalog.mjs).
   var NAMES = {
-    'website-basic': 'Website Basic (349 €, einmalig)', 'website-business': 'Website Business (790 €, einmalig)', 'website-pflege': 'Yanqiva Pflege (ab 29 €/Monat)', 'website-premium': 'Website Premium (ab 1.490 €, einmalig, Festpreis-Angebot vorab)',
+    'website-business': 'Website Business (ab 590 €, einmalig, unverbindliche Anfrage, individuelles Angebot vorab)', 'website-pflege': 'Yanqiva Pflege (ab 29 €/Monat)', 'website-premium': 'Website Premium (individuelles Angebot, Orientierung ab 1.490 €, einmalig, unverbindliche Anfrage)',
     report: 'Website-Report (149 €, einmalig)', monitoring: 'Monitoring (29 € pro Monat)', business: 'Business (79 € pro Monat)',
     agentur: 'Agentur (99 € pro Monat)', agentur_plus: 'Agentur Plus (249 € pro Monat)',
     'fix-google-fonts': 'Fix: Google Fonts lokal einbinden (149 €)', 'fix-erklaerung': 'Fix: Barrierefreiheitserklärung erstellen (99 €)',
@@ -20,21 +20,22 @@
 
   var q = new URLSearchParams(window.location.search);
   var pre = q.get('produkt');
+  if (pre === 'website-basic') pre = 'website-business'; // Basic entfällt (seit 2026-10-03): alte Links landen bei Business
   if (pre && form.elements.produkt) {
     Array.prototype.forEach.call(form.querySelectorAll('input[name="produkt"]'), function (r) { r.checked = r.value === pre; });
   }
   if (q.get('url')) form.elements.url.value = q.get('url');
 
-  // Bei Website-Paketen ist die Adresse einer bestehenden Website optional (es gibt ggf. noch keine).
+  // Bei Website-Projekten ist die Adresse einer bestehenden Website optional (es gibt ggf. noch keine).
   var urlInput = form.elements.url;
   var urlReq = document.getElementById('o-url-req');
   var urlOpt = document.getElementById('o-url-opt');
   // Bestätigung „Inhaber oder beauftragt“: Pflicht für alle Leistungen an einer bestehenden Website
-  // (Report, Monitoring-/Agentur-Pläne, Fix, Pflege). Bei neuer Website (Basic/Business/Premium) entfällt sie.
+  // (Report, Monitoring-/Agentur-Pläne, Fix, Pflege). Bei einem neuen Website-Projekt (Business/Premium) entfällt sie.
   var authInput = document.getElementById('o-auth');
   var authField = document.getElementById('o-auth-field');
   var authWeb = document.getElementById('o-auth-web');
-  function isNewWebsite(v) { return /^website-(basic|business|premium)$/.test(v || ''); }
+  function isNewWebsite(v) { return /^website-(business|premium)$/.test(v || ''); }
   function needsAuth() {
     var sel = form.querySelector('input[name="produkt"]:checked');
     return !!authInput && !(sel && isNewWebsite(sel.value));
@@ -45,6 +46,11 @@
     urlInput.required = !isWeb;
     if (urlReq) urlReq.hidden = isWeb;
     if (urlOpt) urlOpt.hidden = !isWeb;
+    var projekt = document.getElementById('o-projekt-field');
+    var submit = document.getElementById('o-submit');
+    var isProject = !!sel && isNewWebsite(sel.value);
+    if (projekt) projekt.hidden = !isProject;
+    if (submit) submit.textContent = isProject ? 'Projekt anfragen (unverbindlich)' : 'Verbindlich bestellen';
     var auth = needsAuth();
     if (authInput) authInput.required = auth;
     if (authField) authField.hidden = !auth;
@@ -67,12 +73,13 @@
     var email = f.email.value.trim();
     var url = f.url.value.trim();
     if (url && !/^https?:\/\//i.test(url)) url = 'https://' + url;
-    var message = 'Produkt: ' + (NAMES[product] || product) + ' [' + product + ']' + '\nFirma: ' + f.firma.value.trim() + '\nHinweise: ' + (f.hinweise.value.trim() || '-') + '\nUnternehmer (§ 14 BGB) bestätigt und AGB akzeptiert: ' + (f.consent && f.consent.checked ? 'ja' : 'nein')
+    var isProject = isNewWebsite(product);
+    var message = (isProject ? 'PROJEKTANFRAGE (unverbindlich, individuelles Angebot)\n' : '') + 'Produkt: ' + (NAMES[product] || product) + ' [' + product + ']' + '\nFirma: ' + f.firma.value.trim() + (isProject ? '\nProjektbeschreibung: ' + ((f.projekt && f.projekt.value.trim()) || '-') : '') + '\nHinweise: ' + (f.hinweise.value.trim() || '-') + '\nUnternehmer (§ 14 BGB) bestätigt und AGB akzeptiert: ' + (f.consent && f.consent.checked ? 'ja' : 'nein')
       + '\nInhaber der Website oder vom Inhaber beauftragt (Agentur: mit Auftrag des Kunden) bestätigt: ' + (auth ? (authInput.checked ? 'ja' : 'nein') : 'entfällt (neue Website)');
     btn.disabled = true;
-    statusEl.textContent = 'Bestellung wird gesendet …';
+    statusEl.textContent = isProject ? 'Anfrage wird gesendet …' : 'Bestellung wird gesendet …';
     YQ.postJson('/api/lead', { email: email, url: url, consent: true, source: 'bestellung', message: message }).then(function () {
-      var link = YQ.PAYMENT_LINKS[product];
+      var link = isProject ? '' : YQ.PAYMENT_LINKS[product]; // Website-Projekte: erst Angebot, keine Sofortzahlung
       if (link) {
         statusEl.textContent = 'Danke. Sie werden jetzt zur Zahlung weitergeleitet …';
         window.location.href = link + (link.indexOf('?') === -1 ? '?' : '&') + 'prefilled_email=' + encodeURIComponent(email);

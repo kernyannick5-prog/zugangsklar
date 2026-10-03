@@ -6,7 +6,7 @@
 
    Regeln (erste passende gewinnt):
    P  "poor"   Gesamt-Score < 50, ODER >= 3 Bereiche < 60, ODER veraltetes jQuery (sec-old-jquery) + >= 4 Barrierefreiheits-Befunde
-               -> neue Website (Shop-System shopify/woocommerce/shopware: Business, Premium als Hinweis; sonst Basic).
+               -> neues Website-Projekt (Business ab 590 EUR als Projektanfrage; bei Shop-System shopify/woocommerce/shopware zusätzlich Premium als Hinweis).
                Alternativen: Website-Report 149 EUR (wird bei Website-Bestellung angerechnet), Fix-Paket ab 490 EUR.
    H  "heavy"  Barrierefreiheit (ohne Erklärungs-Link): >= 3 Befunde kritisch/hoch ODER >= 6 Befunde insgesamt
                -> Website-Report 149 EUR als erster Schritt ("damit Sie wissen, was genau zu tun ist"); Alternative Fix-Paket ab 490 EUR.
@@ -42,8 +42,7 @@
     'fix-security-header': { name: 'Security-Header einrichten', price: '149 €', amount: 149 },
     'fix-a11y': { name: 'Barrierefreiheits-Fix-Paket', price: 'ab 490 €', amount: 490 },
     'fix-individuell': { name: 'Individuelle Umsetzung', price: 'nach Angebot' },
-    'website-basic': { name: 'Neue Website Basic', price: '349 €' },
-    'website-business': { name: 'Neue Website Business', price: '790 €' },
+    'website-business': { name: 'Neue Website Business', price: 'ab 590 €' },
     'website-premium': { name: 'Neue Website Premium', price: 'ab 1.490 €' }
   };
   var CAT = (root.YQ_CATALOG && root.YQ_CATALOG.products) || {};
@@ -199,15 +198,15 @@
 
     // P: sehr schlechtes Gesamtbild -> Neubau
     if (score < 50 || lowCats >= 3 || (oldJq && a11yOthers >= 4)) {
-      var up = isShop ? 'website-business' : 'website-basic';
+      var up = 'website-business'; // Website-Projekte nur als Projektanfrage (individuelles Angebot)
       if (score < 50) why.push('Der Gesamt-Score liegt bei ' + score + ' von 100.');
       if (lowCats >= 3) why.push(lowCats + ' von ' + cats.length + ' Prüfbereichen liegen unter 60 von 100.');
       if (oldJq) why.push('Es wird ein veraltetes jQuery verwendet, das auf eine alte technische Basis hinweist.');
       if (a11yOthers) why.push(plural(a11yOthers, 'Barrierefreiheits-Befund', 'Barrierefreiheits-Befunde') + ' kommen dazu.');
       why.push('Bei so vielen Baustellen ist ein Neubau oft günstiger als die Reparatur der alten Seite.');
-      if (isShop) notes.push('Erkanntes Shop-System: ' + system.charAt(0).toUpperCase() + system.slice(1) + '. Für Shops passt Business, bei größerem Funktionsumfang (Shop, Mitgliederbereich) Premium ' + PRODUCTS['website-premium'].price + '.');
-      notes.push('Wenn Sie vorher den Website-Report (' + PRODUCTS.report.price + ') bestellen, wird der Preis bei einer späteren Website-Bestellung angerechnet.');
-      return done('poor', item(up, { cta: 'Neue Website ansehen und bestellen' }),
+      if (isShop) notes.push('Erkanntes Shop-System: ' + system.charAt(0).toUpperCase() + system.slice(1) + '. Für Shops mit größerem Funktionsumfang (Shop, Mitgliederbereich) passt Premium, ein individuelles Angebot mit Orientierung ' + PRODUCTS['website-premium'].price + '.');
+      notes.push('Wenn Sie vorher den Website-Report (' + PRODUCTS.report.price + ') bestellen, wird der Preis bei einem späteren Website-Auftrag angerechnet.');
+      return done('poor', item(up, { cta: 'Website-Projekt anfragen' }),
         [reportAlt, item('fix-a11y', { why: 'Reparatur der bestehenden Seite, Festpreis nach Sichtung' })],
         'Neubau statt Reparatur ist hier voraussichtlich die wirtschaftlichere Lösung.');
     }

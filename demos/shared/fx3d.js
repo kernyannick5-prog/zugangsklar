@@ -76,10 +76,48 @@
       hot.style.setProperty("--ry", (u * max * 2).toFixed(2) + "deg");
     }
   }
+  /* ---- Feder-Neigung der Langhantel (IRONHAUS Premium): Zielwinkel folgt dem Zeiger, Bewegung per gedaempfter Feder ---- */
+  var bbs = Array.prototype.map.call(d.querySelectorAll(".fx-bb"), function (el) {
+    var cs = getComputedStyle(el);
+    return { el: el, tilt: el.querySelector(".bb-tilt"), scene: el.closest("[data-fx-scene]"),
+      bx: parseFloat(cs.getPropertyValue("--bb-rx")) || 0, by: parseFloat(cs.getPropertyValue("--bb-ry")) || 0,
+      x: 0, y: 0, vx: 0, vy: 0, tx: 0, ty: 0 };
+  });
+  var sp = 0, spLast = 0, idleT = 0;
+  function springStep(t) {
+    sp = 0;
+    var dt = Math.min(0.05, spLast ? (t - spLast) / 1000 : 0.016); spLast = t;
+    var busy = false;
+    bbs.forEach(function (b) {
+      /* Feder: a = k * (Ziel - Lage) - c * v   (leicht unterkritisch gedaempft, ~0.75) */
+      var k = 34, c = 8.8;
+      b.vx += (k * (b.tx - b.x) - c * b.vx) * dt; b.x += b.vx * dt;
+      b.vy += (k * (b.ty - b.y) - c * b.vy) * dt; b.y += b.vy * dt;
+      b.tilt.style.transform = "rotateX(" + (b.bx + b.x).toFixed(3) + "deg) rotateY(" + (b.by + b.y).toFixed(3) + "deg)";
+      if (Math.abs(b.vx) + Math.abs(b.vy) > 0.02 || Math.abs(b.tx - b.x) + Math.abs(b.ty - b.y) > 0.02) busy = true;
+      else { b.x = b.tx; b.y = b.ty; }
+    });
+    if (busy && !d.hidden) sp = requestAnimationFrame(springStep); else spLast = 0;
+  }
+  function springKick() { if (!sp && bbs.length) sp = requestAnimationFrame(springStep); }
+  function springAim(px, py) {
+    var any = false;
+    bbs.forEach(function (b) {
+      if (!b.scene || !b.scene.classList.contains("fx-run")) { b.tx = 0; b.ty = 0; return; }
+      var r = b.el.getBoundingClientRect(), W = window.innerWidth || 1, H = window.innerHeight || 1;
+      var u = Math.max(-1, Math.min(1, (px - (r.left + r.width / 2)) / (W * 0.5)));
+      var v = Math.max(-1, Math.min(1, (py - (r.top + r.height / 2)) / (H * 0.5)));
+      b.ty = u * 9; b.tx = -v * 5; any = true;
+    });
+    if (any) springKick();
+  }
+  function springRelax() { bbs.forEach(function (b) { b.tx = 0; b.ty = 0; }); springKick(); }
+
   if (fine) {
     d.addEventListener("pointermove", function (e) {
       if (e.pointerType !== "mouse") return;
       mx = e.clientX; my = e.clientY;
+      if (bbs.length) { springAim(mx, my); clearTimeout(idleT); idleT = setTimeout(springRelax, 2600); }
       var t = e.target.closest ? e.target.closest(TILT) : null;
       if (t !== hot) {
         if (hot) { hot.style.setProperty("--rx", "0deg"); hot.style.setProperty("--ry", "0deg"); }
@@ -91,6 +129,7 @@
     root.addEventListener("pointerleave", function () {
       if (hot) { hot.style.setProperty("--rx", "0deg"); hot.style.setProperty("--ry", "0deg"); hot = null; }
       live.forEach(function (s) { s.style.setProperty("--px", "0"); s.style.setProperty("--py", "0"); });
+      springRelax();
     });
   }
 
