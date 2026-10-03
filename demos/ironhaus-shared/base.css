@@ -200,6 +200,12 @@ address { font-style: normal; line-height: 1.7; }
   background: linear-gradient(100deg, rgba(15,15,16,0.92) 15%, rgba(15,15,16,0.65) 55%, rgba(15,15,16,0.35) 100%);
 }
 .hero-content { position: relative; z-index: 2; padding-block: var(--space-8); width: 100%; }
+/* Mobil: Motiv oben klar sichtbar (hochformatiger Ausschnitt, Verlauf von oben nach unten statt seitlich ueber dem Foto);
+   der Text liegt auf dem unteren, dunkleren Teil. */
+@media (max-width: 999px) {
+  .hero-bg { object-position: 50% 0; }
+  .hero-overlay { background: linear-gradient(180deg, rgba(15,15,16,.06) 0, rgba(15,15,16,.22) 24%, rgba(15,15,16,.72) 42%, rgba(15,15,16,.92) 60%, rgba(15,15,16,.95) 100%); }
+}
 .hero-inner { max-width: 840px; }
 .eyebrow { text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.8rem; font-weight: 700; color: var(--color-anthracite); margin-bottom: var(--space-3); }
 .eyebrow-light { color: var(--color-yellow); }

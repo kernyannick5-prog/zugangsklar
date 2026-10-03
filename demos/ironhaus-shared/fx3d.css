@@ -215,10 +215,10 @@ html.fx3d main { overflow-x: clip; }
 .bb-r { transform: translateZ(46px); }
 .bb-l { filter: brightness(.86); }
 @media (min-width: 1000px) {
-  .fx-hero3d.is-pro { position: absolute; right: -1.5rem; top: 52%; translate: 0 -50%; width: min(46%, 600px); max-width: none; margin: 0; }
+  .fx-hero3d.is-pro { position: absolute; right: -1.5rem; top: 58%; translate: 0 -50%; width: min(45%, 580px); max-width: none; margin: 0; }
 }
 @media (min-width: 1000px) and (max-width: 1180px) { .fx-hero3d.is-pro { width: 42%; right: -2.5rem; } }
-@media (max-width: 999px) { .fx-hero3d.is-pro { width: min(100%, 500px); } }
+@media (max-width: 999px) { .fx-hero3d.is-pro { width: min(100%, 500px); margin-top: clamp(8.5rem, 46vw, 15rem); } }
 
 /* Bewegung: nur mit .fx3d (nicht fx-lite), nur bei "Bewegung erlaubt". Schweben/Pendeln mit langer Periode,
    Einschwingen einmalig beim Erscheinen. Schleifen pausieren ausserhalb des Viewports (.fx-run) und bei versteckter Seite. */

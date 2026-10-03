@@ -107,7 +107,7 @@
       var r = b.el.getBoundingClientRect(), W = window.innerWidth || 1, H = window.innerHeight || 1;
       var u = Math.max(-1, Math.min(1, (px - (r.left + r.width / 2)) / (W * 0.5)));
       var v = Math.max(-1, Math.min(1, (py - (r.top + r.height / 2)) / (H * 0.5)));
-      b.ty = u * 9; b.tx = -v * 5; any = true;
+      b.ty = u * 6.5; b.tx = -v * 3.5; any = true;
     });
     if (any) springKick();
   }
