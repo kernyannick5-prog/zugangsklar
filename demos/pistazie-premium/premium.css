@@ -142,7 +142,9 @@
 /* ---------------------------------------------------------
    Gutschein
    --------------------------------------------------------- */
-.voucher-layout { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-l); align-items: start; }
+.voucher-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-l); align-items: start; }
+.voucher-layout > * { min-width: 0; }
+.voucher-layout > .tool-panel { margin-inline: 0; width: 100%; }
 .voucher-preview {
   background: linear-gradient(135deg, var(--color-pistachio), var(--color-lavender));
   border-radius: var(--radius-l); padding: var(--space-l); box-shadow: var(--shadow-card);
@@ -157,7 +159,7 @@
 .voucher-preview__meta { font-size: var(--step--1); }
 .voucher-amount-chip { cursor: pointer; font: inherit; text-align: left; width: 100%; }
 .voucher-amount-chip[aria-pressed="true"] { border-color: var(--color-cocoa); background: var(--color-pistachio); }
-@media (max-width: 860px) { .voucher-layout { grid-template-columns: 1fr; } }
+@media (max-width: 860px) { .voucher-layout { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---------------------------------------------------------
    Live-Wartezeit / Heute frisch — Ladezustand

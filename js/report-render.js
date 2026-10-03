@@ -5,6 +5,8 @@
   var YQ = window.YQ, el = YQ.el;
 
   var DISCLAIMER = 'Automatische Prüfung. Liefert Hinweise, keine Rechtsberatung und keine Garantie für Rechtskonformität.';
+  // Rechtliche Einordnung (RDG): Grundlage und Charakter der Ergebnisse, immer unter dem Ergebnis.
+  var BASIS = 'Automatische Hinweise auf Basis öffentlich abrufbarer Inhalte, keine rechtliche Bewertung.';
   // Emoji nur dekorativ (aria-hidden), die Bedeutung steht immer im Text.
   var SEV = {
     kritisch: { label: 'Kritisch', icon: '🔴', order: 0 },
@@ -296,7 +298,7 @@
     }
 
     if (data.note) container.appendChild(el('p', { class: 'hint', style: 'margin-top:1.25rem' }, str(data.note)));
-    container.appendChild(el('p', { class: 'hint disclaimer' }, str(data.disclaimer) || DISCLAIMER));
+    container.appendChild(el('p', { class: 'hint disclaimer' }, (str(data.disclaimer) || DISCLAIMER) + ' ' + BASIS));
 
     if (opts.ctas) container.appendChild(ctaBox(opts, level, d));
     if (opts.legacyLead && d.legacy && typeof opts.postLead === 'function') {

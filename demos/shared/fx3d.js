@@ -9,8 +9,8 @@
   var pro = !!badge && badge.getAttribute("data-tier") === "premium";
   var mq = window.matchMedia;
   var lite = (mq && mq("(prefers-reduced-motion: reduce)").matches) ||
-    (n.hardwareConcurrency && n.hardwareConcurrency <= 4) ||
-    (n.deviceMemory && n.deviceMemory <= 4) ||
+    (n.hardwareConcurrency && n.hardwareConcurrency < 4) ||
+    (n.deviceMemory && n.deviceMemory < 4) ||
     (n.connection && n.connection.saveData) || false;
   var fine = !!mq && mq("(pointer: fine)").matches;
   root.classList.add("fx-ready", lite ? "fx-lite" : "fx3d");
