@@ -1,5 +1,5 @@
 /* Café Pistazie – 3D-Effekte (nur Business + Premium; Basic bindet diese Datei NICHT ein).
-   Reines CSS-3D (Schicht-Stapel), Dauer-Animationen nur transform, pausiert ohne .fx-run
+   Reines CSS-3D (Schicht-Stapel), Dauer-Animationen nur transform/opacity, pausiert ausserhalb des Viewports (.fx-run)
    (Skript: ../shared/fx3d.js). Ohne JS / im fx-lite-Modus: statische, schoene Pose. */
 
 /* ---------- Gemeinsame Teile: Scheiben-Stapel ---------- */
@@ -19,14 +19,37 @@
 .mc-float { position: absolute; z-index: 3; width: var(--sz, 84px); aspect-ratio: 1; pointer-events: none; left: var(--x); top: var(--y); perspective: 520px; --u: calc(var(--sz, 84px) / 96); }
 .mc-float::before { content: ""; position: absolute; left: 6%; right: 6%; bottom: -10%; height: 30%; border-radius: 50%; background: radial-gradient(closest-side, rgba(74, 52, 40, .3), rgba(74, 52, 40, 0)); }
 .mc-tilt { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(var(--rx, 58deg)) rotateZ(var(--rz, -18deg)) rotateY(var(--ry, 0deg)); }
+/* Bewegung: reines CSS, laeuft auch im fx-lite-Modus (nur bei "Bewegung reduzieren" aus); pausiert nur,
+   wenn die Szene ausserhalb des Viewports ist bzw. der Tab versteckt (Skript ../shared/fx3d.js). Nur transform/opacity. */
 @media (prefers-reduced-motion: no-preference) {
-  .fx3d .mc-float { animation: fx-bob var(--dur, 7s) ease-in-out infinite alternate; animation-play-state: paused; }
-  .fx3d .mc-tilt { animation: fx-wobble calc(var(--dur, 7s) * 2.6) linear infinite; animation-play-state: paused; }
-  .fx3d .fx-run .mc-float, .fx3d .fx-run .mc-tilt { animation-play-state: running; }
-  .fx3d.fx-hidden .mc-float, .fx3d.fx-hidden .mc-tilt { animation-play-state: paused; }
+  .mc-float { animation: fx-bob var(--dur, 7s) ease-in-out var(--ph, 0s) infinite alternate; }
+  .mc-float::before { animation: fx-contact var(--dur, 7s) ease-in-out var(--ph, 0s) infinite alternate; }
+  .mc-tilt { animation: fx-wobble calc(var(--dur, 7s) * 2.4) ease-in-out var(--ph, 0s) infinite; }
+  [aria-hidden] > .mc-float:nth-child(2) { --ph: -3.2s; } [aria-hidden] > .mc-float:nth-child(3) { --ph: -5.6s; }
+  .fx3d [data-fx-scene]:not(.fx-run) .mc-float,
+  .fx3d [data-fx-scene]:not(.fx-run) .mc-float::before,
+  .fx3d [data-fx-scene]:not(.fx-run) .mc-tilt,
+  .fx3d [data-fx-scene]:not(.fx-run) .fx-tart,
+  .fx3d [data-fx-scene]:not(.fx-run) .fx-tart__shadow,
+  .fx3d [data-fx-scene]:not(.fx-run) .fx-tart__spin,
+  .fx3d [data-fx-scene]:not(.fx-run) .fx-tart__top::after,
+  .fx3d.fx-hidden .mc-float,
+  .fx3d.fx-hidden .mc-float::before,
+  .fx3d.fx-hidden .mc-tilt,
+  .fx3d.fx-hidden .fx-tart,
+  .fx3d.fx-hidden .fx-tart__shadow,
+  .fx3d.fx-hidden .fx-tart__spin,
+  .fx3d.fx-hidden .fx-tart__top::after { animation-play-state: paused; }
 }
 @keyframes fx-bob { from { transform: translate3d(0, -7px, 0); } to { transform: translate3d(0, 9px, 0); } }
-@keyframes fx-wobble { from { transform: rotateX(var(--rx, 58deg)) rotateZ(var(--rz, -18deg)) rotateY(0deg); } to { transform: rotateX(var(--rx, 58deg)) rotateZ(var(--rz, -18deg)) rotateY(360deg); } }
+/* Schatten: hoeher = kleiner und heller, tiefer = groesser und dunkler */
+@keyframes fx-contact { from { transform: scale(.82); opacity: .6; } to { transform: scale(1.06); opacity: 1; } }
+/* Wendet sich langsam (zwei Ruhepunkte Oberseite/Unterseite), leichtes Nicken */
+@keyframes fx-wobble {
+  0%   { transform: rotateX(54deg) rotateZ(var(--rz, -18deg)) rotateY(0deg); }
+  50%  { transform: rotateX(63deg) rotateZ(calc(var(--rz, -18deg) + 10deg)) rotateY(180deg); }
+  100% { transform: rotateX(54deg) rotateZ(var(--rz, -18deg)) rotateY(360deg); }
+}
 @media (max-width: 560px) { .mc-float { --sz: 62px !important; } }
 
 /* ---------- Premium: rotierende Torte im Hero ---------- */
@@ -46,11 +69,15 @@
 .fx-tart .dotbox.c { left: 32%; top: 32%; width: 36%; height: 36%; }
 .fx-tart .td { position: absolute; inset: 0; border-radius: 50%; box-shadow: 0 0 0 2px rgba(74, 52, 40, .14), 0 3px 8px rgba(74, 52, 40, .28);
   background: radial-gradient(circle, rgba(255, 255, 255, .8) 0, rgba(255, 255, 255, 0) 46%), radial-gradient(circle, color-mix(in srgb, var(--c), #fff 18%) 0 68%, color-mix(in srgb, var(--c), #4a3428 24%) 72% 100%); }
+.fx-tart__top::after { content: ""; position: absolute; inset: 7%; border-radius: 50%; pointer-events: none; opacity: .15; background: radial-gradient(ellipse 60% 45% at 32% 26%, rgba(255, 255, 255, .8), rgba(255, 255, 255, 0) 70%); }
 @media (prefers-reduced-motion: no-preference) {
-  .fx3d .fx-tart__spin { animation: fx-turn 38s linear infinite; animation-play-state: paused; }
-  .fx3d .fx-run .fx-tart__spin { animation-play-state: running; }
-  .fx3d.fx-hidden .fx-tart__spin { animation-play-state: paused; }
+  .fx-tart__spin { animation: fx-turn 48s linear infinite; }
+  .fx-tart { animation: fx-bob 6.5s ease-in-out infinite alternate; }
+  .fx-tart__shadow { animation: fx-tart-shadow 6.5s ease-in-out infinite alternate; }
+  .fx-tart__top::after { animation: fx-gloss 9s ease-in-out infinite alternate; }
 }
+@keyframes fx-tart-shadow { from { transform: translateY(calc(44 * var(--u) * 1.6)) scale(.98); opacity: .65; } to { transform: translateY(calc(44 * var(--u) * 1.6)) scale(1.14); opacity: 1; } }
+@keyframes fx-gloss { from { opacity: .1; } to { opacity: .6; } }
 @keyframes fx-turn { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @media (max-width: 960px) { .hero-gallery:has(> .fx-tart) { padding-bottom: calc(min(15rem, 56vw) * .3); } .fx-tart { --tart: min(15rem, 56vw); } }
 
@@ -129,10 +156,3 @@ html:not(.fx-ready) .fx-flip__btn { display: none; }
   html.fx3d.fx-pro .logo:hover .logo-mark, html.fx3d.fx-pro .logo:focus-visible .logo-mark { transform: perspective(240px) rotateY(360deg); }
 }
 @keyframes fx-logo { from { transform: perspective(240px) rotateY(-180deg); } to { transform: perspective(240px) rotateY(0deg); } }
-
-/* Immer sichtbare, langsame Bewegung (reines CSS, unabhängig von JS/fx-lite); nur bei „Bewegung reduzieren“ aus */
-@media (prefers-reduced-motion: no-preference) {
-  .fx-tart__spin, .fx3d .fx-tart__spin { animation: fx-turn 48s linear infinite !important; animation-play-state: running !important; }
-  .mc-float, .fx3d .mc-float { animation: fx-bob 9s ease-in-out infinite alternate !important; animation-play-state: running !important; }
-  .mc-tilt, .fx3d .mc-tilt { animation: fx-wobble 12s ease-in-out infinite alternate !important; animation-play-state: running !important; }
-}

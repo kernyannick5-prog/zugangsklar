@@ -626,7 +626,10 @@ th { background: var(--tint); }
 .y3d-tilt { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .3s ease-out; }
 .y3d-scene { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateY(calc(var(--amp, 1) * -18deg)) rotateX(calc(var(--amp, 1) * 9deg)); }
 .y3d-stack { position: absolute; left: 50%; top: 50%; width: var(--mark, calc(var(--art) * .5)); height: var(--mark, calc(var(--art) * .5)); margin: calc(var(--mark, var(--art) * .5) / -2) 0 0 calc(var(--mark, var(--art) * .5) / -2); transform-style: preserve-3d; }
-.y3d-l { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; overflow: visible; transform: translateZ(var(--z, 0px)); }
+.y3d-l { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; overflow: visible; transform: translateZ(calc(var(--z, 0px) * var(--zs, 1))); }
+.y3d-l.f { backface-visibility: hidden; }
+/* Lichtreflex auf der Vorderseite (nur opacity animiert) */
+.y3d-stack::after { content: ""; position: absolute; inset: 0; border-radius: 24%; pointer-events: none; opacity: .12; backface-visibility: hidden; transform: translateZ(calc(19px * var(--zs, 1))); background: linear-gradient(115deg, rgba(255,255,255,0) 32%, rgba(255,255,255,.34) 50%, rgba(255,255,255,0) 68%); }
 .y3d-glow { position: absolute; left: 50%; top: 50%; width: calc(var(--art) * .9); height: calc(var(--art) * .9); margin: calc(var(--art) * -.45) 0 0 calc(var(--art) * -.45); border-radius: 50%; background: radial-gradient(circle, rgba(126,224,200,.30) 0%, rgba(63,55,201,.20) 42%, rgba(63,55,201,0) 70%); }
 .y3d-ring { position: absolute; left: 50%; top: 50%; width: calc(var(--art) * .88); height: calc(var(--art) * .88); margin: calc(var(--art) * -.44) 0 0 calc(var(--art) * -.44); border-radius: 50%; border: 2px solid; border-color: #7EE0C8 rgba(140,134,255,.7) rgba(126,224,200,.3) rgba(140,134,255,.7); transform: rotateX(72deg) rotateZ(0deg); }
 .y3d-ring::after { content: ""; position: absolute; top: -8px; left: 50%; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 3px rgba(126,224,200,.45), 0 0 16px rgba(126,224,200,.9); }
@@ -640,29 +643,50 @@ th { background: var(--tint); }
 .y3d-chip.c2::before { background: #8C86FF; } .y3d-chip.c3::before { background: #FFD27A; } .y3d-chip.c4::before { background: #FF9C8F; } .y3d-chip.c5::before { background: #fff; }
 @media (max-width: 959px) {
   /* Mobil: kompaktes Band über der Überschrift, alles im Fluss und innerhalb der Breite */
-  .hero-art { --art: 150px; --mark: 92px; --amp: .7; position: relative; top: auto; right: auto; width: 100%; height: var(--art); margin: -.25rem 0 .75rem; }
+  .hero-art { --art: 150px; --mark: 92px; --amp: .7; --zs: .55; position: relative; top: auto; right: auto; width: 100%; height: var(--art); margin: -.25rem 0 .75rem; }
   .y3d-chip { padding: .22rem .6rem; font-size: .68rem; }
   .y3d-chip.c1 { --cx: -.9; --cy: -.30; } .y3d-chip.c2 { --cx: .82; --cy: -.36; } .y3d-chip.c3 { --cx: -.98; --cy: .26; }
   .y3d-chip.c4 { --cx: .70; --cy: .30; } .y3d-chip.c5 { --cx: -.08; --cy: .44; }
+}
+/* Kurze Handys (z. B. 360x640): Logo-Band niedriger, damit das URL-Feld im ersten Bildschirm bleibt */
+@media (max-height: 700px) and (max-width: 959px) {
+  .hero-art { --art: 84px; --mark: 52px; margin: -.25rem 0 .1rem; }
+  .y3d-chip.c1 { --cy: -.12; } .y3d-chip.c2 { --cy: -.16; }
+  .y3d-chip { padding: .12rem .45rem; font-size: .6rem; }
+  .hero { padding-top: 1rem; }
+  .hero .eyebrow { font-size: .72rem; margin-bottom: .35rem; }
+  .hero .eyebrow::after { margin-top: .35rem; }
+  .hero h1 { font-size: clamp(1.45rem, 6.6vw, 1.75rem); line-height: 1.15; margin-bottom: .6rem; }
+  .hero .lead { font-size: .92rem; line-height: 1.45; margin-bottom: .5rem; }
+  .hero-path { margin-top: .75rem; font-size: 1rem; }
+  .hero-path + .check-form { margin-top: .35rem; }
 }
 @media (max-width: 400px) {
   .y3d-chip.c1 { --cx: -.70; } .y3d-chip.c2 { --cx: .66; } .y3d-chip.c3 { --cx: -.72; } .y3d-chip.c4 { --cx: .50; }
 }
 
+/* Y-Zeichen: reines CSS (laeuft auch im fx-lite-Modus), nur bei "Bewegung reduzieren" aus. Nur transform/opacity.
+   Desktop: ruhiges Pendeln mit Nicken (ease-in-out). Mobil: vollstaendige Drehung, die auf der Vorderseite verweilt
+   (ease-in-out ueber 360 Grad), dazu leichtes Schweben und ein wandernder Lichtreflex. */
 @media (prefers-reduced-motion: no-preference) {
-  .fx .y3d-scene { animation: y3d-idle 11s ease-in-out infinite alternate; }
-  .fx .y3d-ring { animation: y3d-orbit 15s linear infinite; }
-  .fx .y3d-ring-b { animation-name: y3d-orbit-b; animation-duration: 19s; animation-direction: reverse; }
-  .fx .y3d-cg { animation: y3d-bob 4.6s ease-in-out infinite alternate; }
-  .fx .y3d-cg-b { animation-duration: 5.4s; animation-delay: -2.5s; }
+  .y3d-scene { animation: y3d-idle 11s ease-in-out infinite alternate; }
+  .y3d-stack { animation: y3d-float 5.5s ease-in-out infinite alternate; }
+  .y3d-ring { animation: y3d-orbit 15s linear infinite; }
+  .y3d-ring-b { animation-name: y3d-orbit-b; animation-duration: 19s; animation-direction: reverse; }
+  .y3d-cg { animation: y3d-bob 4.6s ease-in-out infinite alternate; }
+  .y3d-cg-b { animation-duration: 5.4s; animation-delay: -2.5s; }
+  .y3d-stack::after { animation: y3d-sheen 11s ease-in-out infinite alternate; }
   @keyframes y3d-idle { from { transform: translateY(calc(var(--amp, 1) * 6px)) rotateY(calc(var(--amp, 1) * -28deg)) rotateX(calc(var(--amp, 1) * 12deg)); } to { transform: translateY(calc(var(--amp, 1) * -12px)) rotateY(calc(var(--amp, 1) * 18deg)) rotateX(calc(var(--amp, 1) * -6deg)); } }
+  @keyframes y3d-float { from { transform: translateY(3px) rotateZ(-1.5deg); } to { transform: translateY(-5px) rotateZ(1.5deg); } }
+  @keyframes y3d-sheen { from { opacity: .05; } to { opacity: .95; } }
   @keyframes y3d-orbit { from { transform: rotateX(72deg) rotateZ(0deg); } to { transform: rotateX(72deg) rotateZ(360deg); } }
   @keyframes y3d-orbit-b { from { transform: rotateY(68deg) rotateX(12deg) rotateZ(0deg); } to { transform: rotateY(68deg) rotateX(12deg) rotateZ(360deg); } }
   @keyframes y3d-bob { from { transform: translate(-4px, 0); } to { transform: translate(5px, -16px); } }
-  /* Mobil: Y-Zeichen dreht sich langsam komplett um die eigene Achse (eine einzige transform-Animation, GPU-günstig) */
   @media (max-width: 959px) {
-    .fx .y3d-scene { animation: y3d-spin 10s linear infinite; }
+    .y3d-scene { animation: y3d-spin 16s cubic-bezier(.45, 0, .55, 1) infinite; }
+    .y3d-stack::after { animation: y3d-sheen-m 16s cubic-bezier(.45, 0, .55, 1) infinite; }
     @keyframes y3d-spin { from { transform: rotateX(8deg) rotateY(0deg); } to { transform: rotateX(8deg) rotateY(360deg); } }
+    @keyframes y3d-sheen-m { 0%, 100% { opacity: .9; } 22%, 78% { opacity: .05; } }
   }
   /* Scroll-Reveal: nur bis zum Einblenden unsichtbar, danach normale Werte */
   .fx .fx-r:not(.fx-in) { opacity: 0; }
@@ -719,9 +743,3 @@ th { background: var(--tint); }
 .reco .reco-selffix-title { margin: .9rem 0 .35rem; font-size: 1rem; }
 .reco .reco-selffix { margin: 0 0 .5rem; padding-left: 1.25rem; }
 .reco .reco-selffix li { margin-bottom: .3rem; }
-
-/* Mobil: Y-Logo dreht sich immer (reines CSS, unabhängig von JS/fx-lite), nur nicht bei „Bewegung reduzieren“ */
-@keyframes y3d-spin-m { from { transform: rotateX(8deg) rotateY(0deg); } to { transform: rotateX(8deg) rotateY(360deg); } }
-@media (max-width: 959px) and (prefers-reduced-motion: no-preference) {
-  .y3d-scene, .fx .y3d-scene, .fx-lite .y3d-scene { animation: y3d-spin-m 18s linear infinite !important; }
-}

@@ -459,5 +459,248 @@
     "overlayDetected": "accessiBe",
     "note": "Der Check prüft nur die Startseite mit automatischen Regeln. Automatische Tests finden etwa 30 bis 50 % der Barrieren. Tastaturbedienung, Verständlichkeit, Checkout und rechtliche Inhalte prüft der vollständige Report mit einer manuellen Checkliste.",
     "disclaimer": "Automatische Prüfung. Liefert Hinweise, keine Rechtsberatung und keine Garantie für Rechtskonformität."
+  },
+  "deep": {
+    "latest": {
+      "generatedAt": "2026-10-01T03:12:00.000Z",
+      "month": "2026-10",
+      "url": "https://www.beispiel-shop.example/",
+      "system": "shopify",
+      "overall": 80,
+      "prevOverall": 76,
+      "categories": [
+        {
+          "id": "accessibility",
+          "title": "Barrierefreiheit",
+          "score": 70
+        },
+        {
+          "id": "privacy",
+          "title": "Datenschutz",
+          "score": 72
+        },
+        {
+          "id": "legal",
+          "title": "Rechtliches",
+          "score": 88
+        },
+        {
+          "id": "security",
+          "title": "Sicherheit",
+          "score": 90
+        },
+        {
+          "id": "seo",
+          "title": "Technik & SEO",
+          "score": 94
+        }
+      ],
+      "counts": {
+        "kritisch": 2,
+        "hoch": 4,
+        "mittel": 6,
+        "gering": 3
+      },
+      "pagesScanned": 10,
+      "pages": [
+        {
+          "url": "https://www.beispiel-shop.example/",
+          "kind": "desktop",
+          "title": "Startseite",
+          "status": 200
+        },
+        {
+          "url": "https://www.beispiel-shop.example/collections/damen",
+          "kind": "desktop",
+          "title": "Kategorie",
+          "status": 200
+        },
+        {
+          "url": "https://www.beispiel-shop.example/products/leinenhemd",
+          "kind": "desktop",
+          "title": "Produkt",
+          "status": 200
+        },
+        {
+          "url": "https://www.beispiel-shop.example/cart",
+          "kind": "desktop",
+          "title": "Warenkorb",
+          "status": 200
+        },
+        {
+          "url": "https://www.beispiel-shop.example/pages/kontakt",
+          "kind": "desktop",
+          "title": "Kontakt",
+          "status": 200
+        },
+        {
+          "url": "https://www.beispiel-shop.example/pages/impressum",
+          "kind": "desktop",
+          "title": "Impressum",
+          "status": 200
+        },
+        {
+          "url": "https://www.beispiel-shop.example/pages/datenschutz",
+          "kind": "desktop",
+          "title": "Datenschutz",
+          "status": 200
+        },
+        {
+          "url": "https://www.beispiel-shop.example/search",
+          "kind": "desktop",
+          "title": "Suche",
+          "status": 200
+        },
+        {
+          "url": "https://www.beispiel-shop.example/pages/agb",
+          "kind": "desktop",
+          "title": "AGB",
+          "status": 200
+        },
+        {
+          "url": "https://www.beispiel-shop.example/",
+          "kind": "mobil",
+          "title": "Startseite (mobil)",
+          "status": 200
+        }
+      ],
+      "issues": [
+        {
+          "id": "image-alt",
+          "category": "accessibility",
+          "severity": "kritisch",
+          "title": "Bilder ohne Alternativtext (auf 6 Seiten)",
+          "pages": 6,
+          "count": 23,
+          "manual": false
+        },
+        {
+          "id": "priv-google-fonts",
+          "category": "privacy",
+          "severity": "kritisch",
+          "title": "Google Fonts werden vor der Einwilligung von Google-Servern geladen",
+          "pages": 1,
+          "count": 1,
+          "manual": false
+        },
+        {
+          "id": "color-contrast",
+          "category": "accessibility",
+          "severity": "hoch",
+          "title": "Zu geringer Farbkontrast bei Texten",
+          "pages": 8,
+          "count": 41,
+          "manual": false
+        },
+        {
+          "id": "priv-cookies-before-consent",
+          "category": "privacy",
+          "severity": "hoch",
+          "title": "Tracking-Cookies werden vor der Einwilligung gesetzt",
+          "pages": 1,
+          "count": 2,
+          "manual": false
+        },
+        {
+          "id": "label",
+          "category": "accessibility",
+          "severity": "hoch",
+          "title": "Formularfelder ohne Beschriftung (Warenkorb, Suche)",
+          "pages": 3,
+          "count": 5,
+          "manual": false
+        }
+      ],
+      "preConsent": {
+        "requestCount": 64,
+        "thirdPartyRequests": 9,
+        "hosts": [
+          {
+            "host": "fonts.gstatic.com",
+            "service": "Google Fonts",
+            "cat": "fonts",
+            "catLabel": "Schriftarten",
+            "count": 4
+          },
+          {
+            "host": "www.googletagmanager.com",
+            "service": "Google Tag Manager",
+            "cat": "tracking",
+            "catLabel": "Tracking",
+            "count": 2
+          },
+          {
+            "host": "cdn.shopify.com",
+            "service": "Shopify",
+            "cat": "platform",
+            "catLabel": "Plattform",
+            "count": 3
+          }
+        ],
+        "cookies": [
+          {
+            "name": "_ga",
+            "cat": "tracking",
+            "catLabel": "Tracking"
+          },
+          {
+            "name": "_fbp",
+            "cat": "tracking",
+            "catLabel": "Tracking"
+          }
+        ],
+        "consentTools": [],
+        "banner": {
+          "visible": true,
+          "accept": true,
+          "reject": false
+        }
+      },
+      "diff": {
+        "first": false,
+        "newIssues": [
+          {
+            "id": "label",
+            "category": "accessibility",
+            "severity": "hoch",
+            "title": "Formularfelder ohne Beschriftung (Warenkorb, Suche)"
+          }
+        ],
+        "fixedIssues": [
+          {
+            "id": "sec-hsts",
+            "category": "security",
+            "severity": "mittel",
+            "title": "HSTS-Header fehlt"
+          }
+        ]
+      },
+      "hasPdf": true
+    },
+    "history": [
+      {
+        "at": "2026-08-01T03:10:00.000Z",
+        "month": "2026-08",
+        "overall": 72,
+        "hasPdf": true
+      },
+      {
+        "at": "2026-09-01T03:11:00.000Z",
+        "month": "2026-09",
+        "overall": 76,
+        "hasPdf": true
+      },
+      {
+        "at": "2026-10-01T03:12:00.000Z",
+        "month": "2026-10",
+        "overall": 80,
+        "hasPdf": true
+      }
+    ],
+    "months": [
+      "2026-08",
+      "2026-09",
+      "2026-10"
+    ]
   }
 }

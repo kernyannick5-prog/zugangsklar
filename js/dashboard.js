@@ -12,7 +12,7 @@
   var DEFAULT_TITLE = document.title;
 
   var PLAN = { monitoring: 'Monitoring', business: 'Business', agentur: 'Agentur', agentur_plus: 'Agentur Plus', free: 'Free' };
-  var ALERT = { neues_kritisches_problem: 'Kritisch', neues_problem: 'Neu', behoben: 'Behoben', nicht_erreichbar: 'Fehler', score_drop: 'Score gesunken' };
+  var ALERT = { new_critical: 'Kritisch', neues_kritisches_problem: 'Kritisch', neues_problem: 'Neu', behoben: 'Behoben', nicht_erreichbar: 'Fehler', score_drop: 'Score gesunken' };
 
   function str(v) { return v == null ? '' : String(v); }
   function fmtDate(v, time) {
@@ -72,7 +72,7 @@
         if (!s) { var e = new Error('nf'); e.kind = 'auth'; throw e; }
         var out = {}; Object.keys(ex).forEach(function (k) { out[k] = ex[k]; });
         ['id', 'url', 'label', 'score', 'history', 'diff', 'lastRunAt', 'nextRunAt', 'lastError', 'categories', 'summary'].forEach(function (k) { out[k] = s[k]; });
-        if (s.id !== ex.id) out.latest = null; // Demo: Befundliste nur für die erste Website
+        if (s.id !== ex.id) { out.latest = null; out.deep = null; } // Demo: Befundliste und Tiefenprüfung nur für die erste Website
         return out;
       });
     }
@@ -212,6 +212,84 @@
     return ul;
   }
 
+  /* ---------- Tiefenprüfung (monatlich) ---------- */
+  function monthLabel(m) {
+    var d = new Date(str(m) + '-01T12:00:00Z');
+    return isNaN(d) ? str(m) : d.toLocaleDateString('de-DE', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+  }
+  function reportHref(site, month) {
+    if (YQ.MOCK) return YQ.mockUrl('bericht-beispiel.pdf');
+    return YQ.API_BASE + '/api/portfolio/report.pdf?t=' + encodeURIComponent(token) + '&id=' + encodeURIComponent(site.id) + '&month=' + encodeURIComponent(month);
+  }
+  function countsText(c) {
+    c = c || {};
+    return (c.kritisch || 0) + ' kritisch, ' + (c.hoch || 0) + ' hoch, ' + (c.mittel || 0) + ' mittel, ' + (c.gering || 0) + ' gering';
+  }
+  function deepSection(site, parent) {
+    var deep = site.deep || {}, d = deep.latest;
+    parent.appendChild(el('h2', { id: 'deep-h' }, 'Tiefenprüfung (monatlich, bis zu 10 Seiten)'));
+    if (!d) {
+      parent.appendChild(el('p', { class: 'muted' }, 'Die erste Tiefenprüfung läuft zu Beginn des nächsten Monats. Sie prüft bis zu 10 Seiten im echten Browser, misst Drittanbieter vor der Einwilligung und erstellt einen PDF-Bericht.'));
+      return;
+    }
+    var sc = R.clampScore(d.overall);
+    var delta = d.prevOverall != null ? sc - R.clampScore(d.prevOverall) : null;
+    parent.appendChild(el('p', null, 'Geprüft am ' + fmtDate(d.generatedAt, true) + ' · ' + (d.pagesScanned || 0) + ' Seite(n) · ',
+      el('strong', null, 'Gesamtscore ' + sc + '/100'), delta == null ? null : ' · ', delta == null ? null : trendNode({ delta: delta }), delta == null ? null : ' zum Vormonat'));
+    parent.appendChild(el('p', null, 'Befunde: ' + countsText(d.counts)));
+    var cs = cats({ categories: d.categories });
+    if (cs.length) { parent.appendChild(el('h3', null, 'Score je Prüfbereich (Tiefenprüfung)')); parent.appendChild(R.catScores(cs)); }
+
+    parent.appendChild(el('h3', null, 'Wichtigste Befunde'));
+    parent.appendChild(issueList((d.issues || []).slice(0, 5), 'Keine Befunde.'));
+
+    var diff = d.diff || {};
+    parent.appendChild(el('h3', null, 'Neu seit der letzten Tiefenprüfung'));
+    if (diff.first) parent.appendChild(el('p', { class: 'muted' }, 'Das war die erste Tiefenprüfung. Der Vergleich beginnt im nächsten Monat.'));
+    else {
+      parent.appendChild(issueList(diff.newIssues, 'Keine neuen Probleme.'));
+      parent.appendChild(el('h3', null, 'Behoben seit der letzten Tiefenprüfung'));
+      parent.appendChild(issueList(diff.fixedIssues, 'Nichts als behoben erkannt.'));
+    }
+
+    var pc = d.preConsent;
+    parent.appendChild(el('h3', { id: 'deep-pre-h' }, 'Drittanbieter vor der Einwilligung'));
+    if (pc) {
+      var hosts = Array.isArray(pc.hosts) ? pc.hosts : [];
+      parent.appendChild(el('p', null, 'Beim Aufruf der Startseite ohne Klick auf das Cookie-Banner: ' + (pc.requestCount || 0) + ' Anfragen, davon ' + (pc.thirdPartyRequests || 0) + ' an Drittanbieter.'
+        + (pc.banner ? (pc.banner.visible ? ' Cookie-Banner erkannt' + (pc.banner.reject ? ' (Ablehnen auf erster Ebene vorhanden).' : ' (Ablehnen auf erster Ebene nicht erkannt, bitte prüfen).') : ' Kein Cookie-Banner erkannt.') : '')));
+      if (hosts.length) {
+        var tb = el('tbody', null);
+        hosts.forEach(function (h) {
+          tb.appendChild(el('tr', null, el('th', { scope: 'row' }, el('span', { class: 'url-text' }, str(h.host))), el('td', null, str(h.service) || '–'), el('td', null, str(h.catLabel || h.cat) || '–'), el('td', null, String(h.count || 0))));
+        });
+        parent.appendChild(el('div', { class: 'table-wrap', role: 'region', 'aria-labelledby': 'deep-pre-h', tabindex: '0' },
+          el('table', { class: 'dash-table', style: 'min-width:0' }, el('caption', { class: 'visually-hidden' }, 'Drittanbieter-Verbindungen vor der Einwilligung'),
+            el('thead', null, el('tr', null, el('th', { scope: 'col' }, 'Server'), el('th', { scope: 'col' }, 'Dienst'), el('th', { scope: 'col' }, 'Art'), el('th', { scope: 'col' }, 'Anfragen'))), tb)));
+      } else parent.appendChild(el('p', null, 'Es wurden keine Drittanbieter-Verbindungen vor der Einwilligung festgestellt.'));
+      var ck = Array.isArray(pc.cookies) ? pc.cookies : [];
+      if (ck.length) parent.appendChild(el('p', { class: 'muted' }, 'Cookies vor der Einwilligung: ' + ck.map(function (c) { return str(c.name); }).join(', ')));
+    } else parent.appendChild(el('p', { class: 'muted' }, 'Keine Messung vorhanden.'));
+
+    var pages = Array.isArray(d.pages) ? d.pages : [];
+    if (pages.length) {
+      var ul = el('ul', null);
+      pages.forEach(function (p) { ul.appendChild(el('li', null, el('span', { class: 'url-text' }, str(p.url)), p.kind === 'mobil' ? ' (mobil)' : '')); });
+      parent.appendChild(el('details', { class: 'disclosure' }, el('summary', null, 'Geprüfte Seiten (' + pages.length + ')'), ul));
+    }
+
+    parent.appendChild(el('h3', null, 'Monatsberichte (PDF)'));
+    var months = Array.isArray(deep.months) ? deep.months.slice().sort().reverse() : [];
+    if (!months.length) parent.appendChild(el('p', { class: 'muted' }, 'Für diese Website liegt noch kein PDF-Bericht vor.'));
+    else {
+      var list = el('ul', { class: 'no-print' });
+      months.forEach(function (m) {
+        list.appendChild(el('li', null, el('a', { href: reportHref(site, m), download: '', rel: 'noopener' }, 'Monatsbericht ' + monthLabel(m) + ' als PDF herunterladen')));
+      });
+      parent.appendChild(list);
+    }
+  }
+
   function detail(id) {
     root.textContent = '';
     root.setAttribute('aria-busy', 'true');
@@ -245,6 +323,8 @@
 
       var cs = cats(site);
       if (cs.length) { root.appendChild(el('h2', null, 'Score je Prüfbereich')); root.appendChild(R.catScores(cs)); }
+
+      deepSection(site, root);
 
       var diff = site.diff || {};
       root.appendChild(el('h2', null, 'Neu seit letztem Scan'));

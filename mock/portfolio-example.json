@@ -135,7 +135,13 @@
           }
         ]
       },
-      "lastError": null
+      "lastError": null,
+      "deep": {
+        "at": "2026-10-01T03:12:00.000Z",
+        "month": "2026-10",
+        "overall": 80,
+        "hasPdf": true
+      }
     },
     {
       "id": "s2",
