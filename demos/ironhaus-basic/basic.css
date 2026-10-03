@@ -44,5 +44,6 @@
 @media (max-width: 860px) {
   .hero { grid-template-columns: minmax(0, 1fr); }
   .hero-content { padding-block: var(--space-7); }
-  .hero-bg { grid-column: 1; grid-row: 2; min-height: 240px; max-height: 320px; }
+  /* Hochformat-Motiv (Athlet mit Kettlebell): hoeher zeigen und oben ausrichten, damit Kettlebell und Kopf nicht abgeschnitten werden */
+  .hero-bg { grid-column: 1; grid-row: 2; min-height: 340px; max-height: 480px; height: 72vw; object-position: 50% 12%; }
 }

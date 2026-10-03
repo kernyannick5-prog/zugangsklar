@@ -277,6 +277,8 @@ section { padding: var(--space-2xl) clamp(1.25rem, 4vw, 4rem); max-width: 78rem;
 
 @media (max-width: 860px) {
   .brunch { grid-template-columns: 1fr; text-align: center; }
+  /* einspaltig: Querformat-Quellen nicht auf Hochformat zuschneiden */
+  .brunch-image img { aspect-ratio: 4 / 3; }
   .menu-card li { text-align: left; }
 }
 
