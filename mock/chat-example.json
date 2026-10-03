@@ -8,7 +8,7 @@
   "entries": [
     {
       "keywords": ["kost", "preis"],
-      "reply": "Websites gibt es in drei Paketen: Basic, Business und Premium. Die genauen Preise und Leistungen finden Sie auf der Seite Websites. Alle Angaben sind unverbindlich.\nEin verbindliches Angebot erhalten Sie nach einem kurzen Gespräch.",
+      "reply": "Websites gibt es in drei Paketen: Basic, Business und Premium. Die genauen Preise und Leistungen finden Sie auf der Seite Websites. Alle Angaben sind unverbindlich.\nNach Ihrer Anfrage erhalten Sie vorab ein Angebot mit Umfang, Preis und Zeitplan.",
       "sources": [{ "title": "Websites und Pakete", "url": "websites.html" }],
       "mode": "ai",
       "answered": true
