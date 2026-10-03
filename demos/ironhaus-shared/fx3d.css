@@ -229,14 +229,16 @@ html.fx3d main { overflow-x: clip; }
   .fx3d .bb-settle { animation: bb-settle 1.7s cubic-bezier(.2, .8, .25, 1) .15s backwards; }
   .fx3d .bb-layer { animation: bb-in .9s ease-out .15s backwards; }
   .fx3d .bb-floor { animation: bb-in 1.2s ease-out .15s backwards; }
-  .fx3d .bb-float { animation: bb-hover 9s ease-in-out infinite alternate, bb-sway 14s ease-in-out infinite alternate; }
-  .fx3d .bb-floor svg { animation: bb-shadow 9s ease-in-out infinite alternate; }
+  :is(.fx3d, .fx-lite) .bb-float { animation: bb-hover 7s ease-in-out infinite alternate, bb-turn 11s ease-in-out infinite alternate; }
+  :is(.fx3d, .fx-lite) .bb-floor svg { animation: bb-shadow 7s ease-in-out infinite alternate; }
   .fx3d [data-fx-scene]:not(.fx-run) .bb-float,
   .fx3d [data-fx-scene]:not(.fx-run) .bb-floor svg,
   .fx3d.fx-hidden .bb-float, .fx3d.fx-hidden .bb-floor svg { animation-play-state: paused; }
 }
 @keyframes bb-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes bb-settle { 0% { transform: translate3d(0, -26px, 0) rotateZ(-3.2deg); } 55% { transform: translate3d(0, 4px, 0) rotateZ(.9deg); } 78% { transform: translate3d(0, -1.5px, 0) rotateZ(-.3deg); } 100% { transform: none; } }
-@keyframes bb-hover { from { translate: 0 2px; } to { translate: 0 -8px; } }
+@keyframes bb-hover { from { translate: 0 4px; } to { translate: 0 -14px; } }
 @keyframes bb-sway { from { rotate: z -.9deg; } to { rotate: z .9deg; } }
+/* Sichtbare 3D-Drehung um die Hochachse (leicht geneigt): die Tiefenebenen (Scheiben ±46px) verschieben sich gegeneinander. Keine Dauerrotation. */
+@keyframes bb-turn { from { rotate: .18 1 .06 -16deg; } to { rotate: .18 1 .06 16deg; } }
 @keyframes bb-shadow { from { transform: scale(1.03); opacity: 1; } to { transform: scale(.94); opacity: .72; } }
