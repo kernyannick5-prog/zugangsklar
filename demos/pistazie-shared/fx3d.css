@@ -22,7 +22,7 @@
 /* Bewegung: reines CSS, laeuft auch im fx-lite-Modus (nur bei "Bewegung reduzieren" aus); pausiert nur,
    wenn die Szene ausserhalb des Viewports ist bzw. der Tab versteckt (Skript ../shared/fx3d.js). Nur transform/opacity. */
 @media (prefers-reduced-motion: no-preference) {
-  .mc-float { animation: fx-bob var(--dur, 7s) ease-in-out var(--ph, 0s) infinite alternate; }
+  .fx3d .mc-float { animation: fx-bob var(--dur, 7s) ease-in-out var(--ph, 0s) infinite alternate; }
   .mc-float::before { animation: fx-contact var(--dur, 7s) ease-in-out var(--ph, 0s) infinite alternate; }
   .mc-tilt { animation: fx-wobble calc(var(--dur, 7s) * 2.4) ease-in-out var(--ph, 0s) infinite; }
   [aria-hidden] > .mc-float:nth-child(2) { --ph: -3.2s; } [aria-hidden] > .mc-float:nth-child(3) { --ph: -5.6s; }
@@ -46,9 +46,9 @@
 @keyframes fx-contact { from { transform: scale(.82); opacity: .6; } to { transform: scale(1.06); opacity: 1; } }
 /* Wendet sich langsam (zwei Ruhepunkte Oberseite/Unterseite), leichtes Nicken */
 @keyframes fx-wobble {
-  0%   { transform: rotateX(54deg) rotateZ(var(--rz, -18deg)) rotateY(0deg); }
-  50%  { transform: rotateX(63deg) rotateZ(calc(var(--rz, -18deg) + 10deg)) rotateY(180deg); }
-  100% { transform: rotateX(54deg) rotateZ(var(--rz, -18deg)) rotateY(360deg); }
+  0%   { transform: rotateX(56deg) rotateZ(var(--rz, -18deg)) rotateY(-14deg); }
+  50%  { transform: rotateX(62deg) rotateZ(calc(var(--rz, -18deg) + 6deg)) rotateY(14deg); }
+  100% { transform: rotateX(56deg) rotateZ(var(--rz, -18deg)) rotateY(-14deg); }
 }
 @media (max-width: 560px) { .mc-float { --sz: 62px !important; } }
 
@@ -62,23 +62,23 @@
 .fx-tart__top { transform: translateY(calc(-17 * var(--u) * 1.6)); }
 .fx-tart__spin { position: absolute; inset: 0; transform: rotate(20deg); }
 .fx-tart__shadow { position: absolute; inset: 6%; border-radius: 50%; background: radial-gradient(closest-side, rgba(74, 52, 40, .4), rgba(74, 52, 40, .16) 62%, transparent); transform: translateY(calc(44 * var(--u) * 1.6)) scale(1.12); }
-.fx-tart__body .mc-s { transform: translateY(calc(var(--z) * var(--u) * -1.6)); }
+.fx-tart__body .mc-s { box-shadow: inset 0 -2px 0 rgba(74, 52, 40, .16); transform: translateY(calc(var(--z) * var(--u) * -1.6)); }
 .fx-tart__spin > .mc-s { transform: none; }
 .fx-tart .dot { position: absolute; inset: 0; transform: rotate(calc(var(--a) * 1deg)); }
 .fx-tart .dotbox { position: absolute; left: 78%; top: 41%; width: 18%; height: 18%; }
 .fx-tart .dotbox.c { left: 32%; top: 32%; width: 36%; height: 36%; }
-.fx-tart .td { position: absolute; inset: 0; border-radius: 50%; box-shadow: 0 0 0 2px rgba(74, 52, 40, .14), 0 3px 8px rgba(74, 52, 40, .28);
+.fx-tart .td { position: absolute; inset: 0; border-radius: 50%; box-shadow: 0 0 0 1.5px rgba(74, 52, 40, .3), 0 2px 3px rgba(74, 52, 40, .35), inset 0 2px 2px rgba(255, 255, 255, .7);
   background: radial-gradient(circle, rgba(255, 255, 255, .8) 0, rgba(255, 255, 255, 0) 46%), radial-gradient(circle, color-mix(in srgb, var(--c), #fff 18%) 0 68%, color-mix(in srgb, var(--c), #4a3428 24%) 72% 100%); }
 .fx-tart__top::after { content: ""; position: absolute; inset: 7%; border-radius: 50%; pointer-events: none; opacity: .2; background: radial-gradient(ellipse 52% 38% at 30% 24%, rgba(255, 255, 255, .85), rgba(255, 255, 255, 0) 70%); }
 @media (prefers-reduced-motion: no-preference) {
-  .fx-tart__spin { animation: fx-turn 48s linear infinite; }
-  .fx-tart { animation: fx-bob 6.5s ease-in-out infinite alternate; }
-  .fx-tart__shadow { animation: fx-tart-shadow 6.5s ease-in-out infinite alternate; }
-  .fx-tart__top::after { animation: fx-gloss 9s ease-in-out infinite alternate; }
+  .fx3d .fx-tart__spin { animation: fx-turn 20s ease-in-out infinite alternate; }
+  .fx3d .fx-tart { animation: fx-bob 6.5s ease-in-out infinite alternate; }
+  .fx3d .fx-tart__shadow { animation: fx-tart-shadow 6.5s ease-in-out infinite alternate; }
+  .fx3d .fx-tart__top::after { animation: fx-gloss 9s ease-in-out infinite alternate; }
 }
 @keyframes fx-tart-shadow { from { transform: translateY(calc(44 * var(--u) * 1.6)) scale(.98); opacity: .65; } to { transform: translateY(calc(44 * var(--u) * 1.6)) scale(1.14); opacity: 1; } }
 @keyframes fx-gloss { from { opacity: .2; } to { opacity: .55; } }
-@keyframes fx-turn { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes fx-turn { from { transform: rotate(8deg); } to { transform: rotate(34deg); } }
 @media (max-width: 960px) { .hero-gallery:has(> .fx-tart) { padding-bottom: calc(min(15rem, 56vw) * .3); } .fx-tart { --tart: min(15rem, 56vw); } }
 
 /* Parallax-Tiefe der Torbogen-Bilder (Premium) */
