@@ -428,7 +428,7 @@
           mapConsent.innerHTML =
             '<svg class="map-consent__loaded" tabindex="-1" viewBox="0 0 400 240" role="img" aria-labelledby="mapTitle mapDesc" xmlns="http://www.w3.org/2000/svg">' +
             '<title id="mapTitle">Kartenskizze zur Lage von Café Pistazie</title>' +
-            '<desc id="mapDesc">Vereinfachte, nicht maßstabsgetreue Illustration: Café Pistazie liegt an der Steinstraße, wenige Gehminuten von der Königsallee entfernt.</desc>' +
+            '<desc id="mapDesc">Vereinfachte, nicht maßstabsgetreue Illustration: Café Pistazie liegt an der Beispielstraße, wenige Gehminuten von der Königsallee entfernt.</desc>' +
             '<rect width="400" height="240" fill="#f6efe1"/>' +
             '<rect x="20" y="20" width="90" height="60" rx="10" fill="#cfe3c1"/>' +
             '<rect x="140" y="30" width="70" height="50" rx="10" fill="#f6d6d6"/>' +
@@ -441,7 +441,7 @@
             '<path d="M0 120 H400" stroke="#e7ded0" stroke-width="2" stroke-dasharray="6 6"/>' +
             '<path d="M150 0 V240" stroke="#e7ded0" stroke-width="2" stroke-dasharray="6 6"/>' +
             '<g transform="translate(150 118)"><path d="M0 -34c12 0 22 10 22 22 0 16-22 34-22 34s-22-18-22-34c0-12 10-22 22-22z" fill="#4a3428"/><circle cx="0" cy="-12" r="9" fill="#fffaf3"/></g>' +
-            '<text x="175" y="100" font-family="Nunito Sans, sans-serif" font-size="12" font-weight="700" fill="#4a3428">Steinstraße</text>' +
+            '<text x="175" y="100" font-family="Nunito Sans, sans-serif" font-size="12" font-weight="700" fill="#4a3428">Beispielstraße</text>' +
             '<text x="250" y="16" font-family="Nunito Sans, sans-serif" font-size="11" font-weight="700" fill="#4a3428" opacity="0.7">Richtung Königsallee →</text>' +
             "</svg>";
           var svg = mapConsent.querySelector(".map-consent__loaded");

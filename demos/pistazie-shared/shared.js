@@ -33,7 +33,7 @@
     }
     lines.push("SUMMARY:" + icsEscape(opts.title));
     lines.push("DESCRIPTION:" + icsEscape(opts.description || ""));
-    lines.push("LOCATION:" + icsEscape(opts.location || "Café Pistazie, Steinstraße 22, 40212 Düsseldorf"));
+    lines.push("LOCATION:" + icsEscape(opts.location || "Café Pistazie, Beispielstraße 22, 40212 Düsseldorf"));
     lines.push("END:VEVENT", "END:VCALENDAR", "");
     return lines.join("\r\n");
   }

@@ -319,7 +319,7 @@
       "DTEND:" + toICSDate(end),
       "SUMMARY:" + (options.title || "IRONHAUS Termin"),
       "DESCRIPTION:" + (options.description || "").replace(/\n/g, "\\n"),
-      "LOCATION:" + (options.location || "IRONHAUS, Speicherstraße 12, 44147 Dortmund"),
+      "LOCATION:" + (options.location || "IRONHAUS, Beispielkai 12, 44147 Dortmund"),
       "END:VEVENT",
       "END:VCALENDAR"
     ];

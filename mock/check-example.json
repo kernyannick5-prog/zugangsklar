@@ -1,6 +1,6 @@
 {
-  "url": "https://www.beispiel-shop.de",
-  "finalUrl": "https://www.beispiel-shop.de/",
+  "url": "https://www.beispiel-shop.example",
+  "finalUrl": "https://www.beispiel-shop.example/",
   "checkedAt": "2026-10-02T09:41:12.000Z",
   "system": "shopify",
   "score": 78,
@@ -88,12 +88,12 @@
       "fix": "Ergänzen Sie für jedes informative Bild einen kurzen, beschreibenden Alternativtext. Rein dekorative Bilder erhalten alt=\"\". In Shopify pflegen Sie den Text im Admin und geben ihn im Theme mit image_tag aus.",
       "count": 23,
       "examples": [
-        "<img src=\"//www.beispiel-shop.de/cdn/shop/files/DSC_0412_800x.jpg?v=1712\" class=\"product-card__image\">",
-        "<img src=\"//www.beispiel-shop.de/cdn/shop/files/banner-herbst.jpg?v=1698\" width=\"1600\" height=\"600\">"
+        "<img src=\"//www.beispiel-shop.example/cdn/shop/files/DSC_0412_800x.jpg?v=1712\" class=\"product-card__image\">",
+        "<img src=\"//www.beispiel-shop.example/cdn/shop/files/banner-herbst.jpg?v=1698\" width=\"1600\" height=\"600\">"
       ],
       "wcag": "1.1.1",
       "ref": "WCAG 2.2, Erfolgskriterium 1.1.1 Nicht-Text-Inhalt",
-      "affectedUrl": "https://www.beispiel-shop.de/"
+      "affectedUrl": "https://www.beispiel-shop.example/"
     },
     {
       "id": "label",
@@ -109,7 +109,7 @@
       ],
       "wcag": "1.3.1",
       "ref": "WCAG 2.2, Erfolgskriterium 1.3.1 Info und Beziehungen",
-      "affectedUrl": "https://www.beispiel-shop.de/"
+      "affectedUrl": "https://www.beispiel-shop.example/"
     },
     {
       "id": "button-name",
@@ -124,7 +124,7 @@
       ],
       "wcag": "4.1.2",
       "ref": "WCAG 2.2, Erfolgskriterium 4.1.2 Name, Rolle, Wert",
-      "affectedUrl": "https://www.beispiel-shop.de/"
+      "affectedUrl": "https://www.beispiel-shop.example/"
     },
     {
       "id": "color-contrast",
@@ -140,7 +140,7 @@
       ],
       "wcag": "1.4.3",
       "ref": "WCAG 2.2, Erfolgskriterium 1.4.3 Kontrast (Minimum)",
-      "affectedUrl": "https://www.beispiel-shop.de/"
+      "affectedUrl": "https://www.beispiel-shop.example/"
     },
     {
       "id": "heading-order",
@@ -155,7 +155,7 @@
       ],
       "wcag": "1.3.1",
       "ref": "WCAG 2.2, Erfolgskriterium 1.3.1 Info und Beziehungen",
-      "affectedUrl": "https://www.beispiel-shop.de/"
+      "affectedUrl": "https://www.beispiel-shop.example/"
     },
     {
       "id": "google-fonts",
@@ -170,7 +170,7 @@
       ],
       "wcag": null,
       "ref": "LG München I, Urteil vom 20.01.2022, Az. 3 O 17493/20",
-      "affectedUrl": "https://www.beispiel-shop.de/"
+      "affectedUrl": "https://www.beispiel-shop.example/"
     },
     {
       "id": "tracking-before-consent",
@@ -185,7 +185,7 @@
       ],
       "wcag": null,
       "ref": "§ 25 TDDDG, Art. 6 DSGVO",
-      "affectedUrl": "https://www.beispiel-shop.de/"
+      "affectedUrl": "https://www.beispiel-shop.example/"
     },
     {
       "id": "cookie-first-visit",
@@ -200,7 +200,7 @@
       ],
       "wcag": null,
       "ref": "§ 25 TDDDG",
-      "affectedUrl": "https://www.beispiel-shop.de/"
+      "affectedUrl": "https://www.beispiel-shop.example/"
     },
     {
       "id": "imprint-os-link",
@@ -215,7 +215,7 @@
       ],
       "wcag": null,
       "ref": "Verordnung (EU) 2024/3228",
-      "affectedUrl": "https://www.beispiel-shop.de/"
+      "affectedUrl": "https://www.beispiel-shop.example/"
     },
     {
       "id": "imprint-email",
@@ -228,7 +228,7 @@
       "examples": [],
       "wcag": null,
       "ref": "§ 5 DDG",
-      "affectedUrl": "https://www.beispiel-shop.de/"
+      "affectedUrl": "https://www.beispiel-shop.example/"
     },
     {
       "id": "hsts",
@@ -241,7 +241,7 @@
       "examples": [],
       "wcag": null,
       "ref": "MDN: Strict-Transport-Security",
-      "affectedUrl": "https://www.beispiel-shop.de/"
+      "affectedUrl": "https://www.beispiel-shop.example/"
     },
     {
       "id": "csp",
@@ -254,7 +254,7 @@
       "examples": [],
       "wcag": null,
       "ref": "MDN: Content-Security-Policy",
-      "affectedUrl": "https://www.beispiel-shop.de/"
+      "affectedUrl": "https://www.beispiel-shop.example/"
     },
     {
       "id": "meta-description",
@@ -269,7 +269,7 @@
       ],
       "wcag": null,
       "ref": null,
-      "affectedUrl": "https://www.beispiel-shop.de/"
+      "affectedUrl": "https://www.beispiel-shop.example/"
     },
     {
       "id": "canonical",
@@ -282,7 +282,7 @@
       "examples": [],
       "wcag": null,
       "ref": null,
-      "affectedUrl": "https://www.beispiel-shop.de/"
+      "affectedUrl": "https://www.beispiel-shop.example/"
     }
   ],
   "passed": [

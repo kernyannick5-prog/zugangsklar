@@ -24,7 +24,7 @@
     {
       "at": "2026-09-28T04:02:00.000Z",
       "siteId": "s1",
-      "url": "https://www.beispiel-shop.de",
+      "url": "https://www.beispiel-shop.example",
       "type": "neues_problem",
       "text": "Neues Problem: HSTS-Header fehlt."
     },
@@ -39,7 +39,7 @@
   "sites": [
     {
       "id": "s1",
-      "url": "https://www.beispiel-shop.de",
+      "url": "https://www.beispiel-shop.example",
       "label": "Beispiel-Shop (Mode)",
       "lastRunAt": "2026-09-28T04:00:00.000Z",
       "nextRunAt": "2026-10-05T04:00:00.000Z",
