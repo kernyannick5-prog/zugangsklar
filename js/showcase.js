@@ -161,7 +161,7 @@
     if (next.tier) state.tier = next.tier;
     if (next.client) state.client = next.client;
     if (next.device) { state.device = next.device; userDevice = true; }
-    currentPage = 'index.html';
+    // currentPage wird erst beim tatsächlichen Neuladen (load) zurückgesetzt; bleibt der Iframe auf derselben Demo, zeigt er weiter die Unterseite.
     syncControls();
     updateAvailability();
     layout();
@@ -179,6 +179,9 @@
       var m = /\/demos\/([^/]+)\/([^/?#]*)/.exec(frame.contentWindow.location.pathname);
       if (!m) return;
       var folder = m[1];
+      // Verspätetes load-Ereignis der zuvor angezeigten Demo (Tab wurde inzwischen gewechselt, neues src steht noch aus): ignorieren,
+      // sonst würde der Zustand auf die alte Demo zurückspringen. Nur eine echte Navigation im Iframe (anderer Ordner als geladen) zählt.
+      if (loadedKey && loadedKey.split('/')[0] === folder && folderOf(state) !== folder) return;
       currentPage = m[2] || 'index.html';
       loadedKey = folder + '/' + currentPage;
       Object.keys(CLIENTS).forEach(function (cid) {

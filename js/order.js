@@ -18,11 +18,18 @@
     Object.keys(window.YQ_CATALOG.products).forEach(function (id) { NAMES[id] = window.YQ_CATALOG.products[id].orderLabel; });
   }
 
+  var MAX_MESSAGE = 2000; // entspricht dem Limit von POST /api/lead (worker/src/lead.js)
   var q = new URLSearchParams(window.location.search);
   var pre = q.get('produkt');
   if (pre === 'website-basic') pre = 'website-business'; // Basic entfällt (seit 2026-10-03): alte Links landen bei Business
-  if (pre && form.elements.produkt) {
-    Array.prototype.forEach.call(form.querySelectorAll('input[name="produkt"]'), function (r) { r.checked = r.value === pre; });
+  // Unbekannte Werte (?produkt=xyz) ignorieren: sonst wäre kein Produkt gewählt und das Absenden würde fehlschlagen.
+  var preRadio = pre ? Array.prototype.filter.call(form.querySelectorAll('input[name="produkt"]'), function (r) { return r.value === pre; })[0] : null;
+  if (preRadio) {
+    Array.prototype.forEach.call(form.querySelectorAll('input[name="produkt"]'), function (r) { r.checked = r === preRadio; });
+  }
+  if (!form.querySelector('input[name="produkt"]:checked')) {
+    var firstRadio = form.querySelector('input[name="produkt"]');
+    if (firstRadio) firstRadio.checked = true;
   }
   if (q.get('url')) form.elements.url.value = q.get('url');
 
@@ -35,6 +42,8 @@
   var authInput = document.getElementById('o-auth');
   var authField = document.getElementById('o-auth-field');
   var authWeb = document.getElementById('o-auth-web');
+  // Unverbindliche Anfrage mit Angebot (AGB Ziffer 4): Website-Projekte, Yanqiva Pflege, alle Yanqiva-Fix-Leistungen.
+  function isInquiry(v) { return /^(website-(business|premium|pflege)|fix-.+)$/.test(v || ''); }
   function isNewWebsite(v) { return /^website-(business|premium)$/.test(v || ''); }
   function needsAuth() {
     var sel = form.querySelector('input[name="produkt"]:checked');
@@ -50,7 +59,7 @@
     var submit = document.getElementById('o-submit');
     var isProject = !!sel && isNewWebsite(sel.value);
     if (projekt) projekt.hidden = !isProject;
-    if (submit) submit.textContent = isProject ? 'Projekt anfragen (unverbindlich)' : 'Verbindlich bestellen';
+    if (submit) submit.textContent = isProject ? 'Projekt anfragen (unverbindlich)' : (sel && isInquiry(sel.value)) ? 'Anfrage senden (unverbindlich)' : 'Verbindlich bestellen';
     var auth = needsAuth();
     if (authInput) authInput.required = auth;
     if (authField) authField.hidden = !auth;
@@ -74,12 +83,21 @@
     var url = f.url.value.trim();
     if (url && !/^https?:\/\//i.test(url)) url = 'https://' + url;
     var isProject = isNewWebsite(product);
+    var inquiry = isInquiry(product);
     var message = (isProject ? 'PROJEKTANFRAGE (unverbindlich, individuelles Angebot)\n' : '') + 'Produkt: ' + (NAMES[product] || product) + ' [' + product + ']' + '\nFirma: ' + f.firma.value.trim() + (isProject ? '\nProjektbeschreibung: ' + ((f.projekt && f.projekt.value.trim()) || '-') : '') + '\nHinweise: ' + (f.hinweise.value.trim() || '-') + '\nUnternehmer (§ 14 BGB) bestätigt und AGB akzeptiert: ' + (f.consent && f.consent.checked ? 'ja' : 'nein')
       + '\nInhaber der Website oder vom Inhaber beauftragt (Agentur: mit Auftrag des Kunden) bestätigt: ' + (auth ? (authInput.checked ? 'ja' : 'nein') : 'entfällt (neue Website)');
+    // Die API erlaubt höchstens 2000 Zeichen je Nachricht; Projektbeschreibung und Hinweise (je bis 1500) können zusammen darüber liegen.
+    if (message.length > MAX_MESSAGE) {
+      var over = message.length - MAX_MESSAGE;
+      statusEl.textContent = 'Ihre Angaben sind insgesamt ' + over + ' Zeichen zu lang. Bitte kürzen Sie die Projektbeschreibung oder die Hinweise.';
+      var longer = (f.projekt && f.projekt.value.length > f.hinweise.value.length) ? f.projekt : f.hinweise;
+      longer.focus();
+      return;
+    }
     btn.disabled = true;
-    statusEl.textContent = isProject ? 'Anfrage wird gesendet …' : 'Bestellung wird gesendet …';
+    statusEl.textContent = inquiry ? 'Anfrage wird gesendet …' : 'Bestellung wird gesendet …';
     YQ.postJson('/api/lead', { email: email, url: url, consent: true, source: 'bestellung', message: message }).then(function () {
-      var link = isProject ? '' : YQ.PAYMENT_LINKS[product]; // Website-Projekte: erst Angebot, keine Sofortzahlung
+      var link = inquiry ? '' : YQ.PAYMENT_LINKS[product]; // Anfrage-Produkte: erst Angebot, keine Sofortzahlung
       if (link) {
         statusEl.textContent = 'Danke. Sie werden jetzt zur Zahlung weitergeleitet …';
         window.location.href = link + (link.indexOf('?') === -1 ? '?' : '&') + 'prefilled_email=' + encodeURIComponent(email);

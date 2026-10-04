@@ -1,36 +1,104 @@
 {
   "default": {
     "reply": "Dazu habe ich auf der Website keine eindeutige Angabe gefunden. Schreiben Sie uns gern über das Kontaktformular, dann antworten wir persönlich.",
-    "sources": [{ "title": "Kontakt", "url": "kontakt.html" }],
+    "sources": [
+      {
+        "title": "Kontakt",
+        "url": "kontakt.html"
+      }
+    ],
     "mode": "faq",
     "answered": false
   },
   "entries": [
     {
-      "keywords": ["kost", "preis"],
-      "reply": "Websites gibt es in zwei Leistungsstufen: Business (ab 590 €) und Premium (individuelles Angebot, Orientierung ab 1.490 €). Die genauen Leistungen finden Sie auf der Seite Websites. Alle Angaben sind unverbindlich.\nNach Ihrer Anfrage erhalten Sie vorab ein Angebot mit Umfang, Preis und Zeitplan.",
-      "sources": [{ "title": "Websites erstellen", "url": "websites.html" }],
-      "mode": "ai",
-      "answered": true
-    },
-    {
-      "keywords": ["business", "stufe"],
-      "reply": "Die Stufe Business richtet sich an kleinere und mittlere Anforderungen. Welche Leistungen genau enthalten sind, steht im Stufenvergleich.",
-      "sources": [{ "title": "Websites erstellen", "url": "websites.html" }],
-      "mode": "ai",
-      "answered": true
-    },
-    {
-      "keywords": ["zusammenarbeit", "ablauf"],
-      "reply": "Ablauf in Kürze:\n1. Kennenlernen und Anforderungen klären\n2. Entwurf und Abstimmung\n3. Umsetzung und Freigabe\n4. Veröffentlichung und Pflege",
-      "sources": [{ "title": "Websites", "url": "websites.html" }],
+      "keywords": [
+        "support premium",
+        "premium support",
+        "support bei premium"
+      ],
+      "reply": "Bei der Stufe Premium ist Support nach Projektabschluss enthalten: 12 Monate (Umfang laut Angebot).",
+      "sources": [
+        {
+          "title": "Websites erstellen",
+          "url": "websites.html#showcase=premium"
+        }
+      ],
       "mode": "faq",
       "answered": true
     },
     {
-      "keywords": ["kontakt"],
+      "keywords": [
+        "support business",
+        "business support",
+        "support bei business"
+      ],
+      "reply": "Bei der Stufe Business ist Support nach Projektabschluss enthalten: 4 Monate (Umfang laut Angebot).",
+      "sources": [
+        {
+          "title": "Websites erstellen",
+          "url": "websites.html#showcase=business"
+        }
+      ],
+      "mode": "faq",
+      "answered": true
+    },
+    {
+      "keywords": [
+        "kost",
+        "preis"
+      ],
+      "reply": "Websites gibt es in zwei Leistungsstufen: Business (ab 590 €) und Premium (individuelles Angebot, Orientierung ab 1.490 €). Die genauen Leistungen finden Sie auf der Seite Websites. Alle Angaben sind unverbindlich.\nNach Ihrer Anfrage erhalten Sie vorab ein Angebot mit Umfang, Preis und Zeitplan.",
+      "sources": [
+        {
+          "title": "Websites erstellen",
+          "url": "websites.html"
+        }
+      ],
+      "mode": "ai",
+      "answered": true
+    },
+    {
+      "keywords": [
+        "business",
+        "stufe"
+      ],
+      "reply": "Die Stufe Business richtet sich an kleinere und mittlere Anforderungen. Welche Leistungen genau enthalten sind, steht im Stufenvergleich.",
+      "sources": [
+        {
+          "title": "Websites erstellen",
+          "url": "websites.html"
+        }
+      ],
+      "mode": "ai",
+      "answered": true
+    },
+    {
+      "keywords": [
+        "zusammenarbeit",
+        "ablauf"
+      ],
+      "reply": "Ablauf in Kürze:\n1. Kennenlernen und Anforderungen klären\n2. Entwurf und Abstimmung\n3. Umsetzung und Freigabe\n4. Veröffentlichung und Pflege",
+      "sources": [
+        {
+          "title": "Websites",
+          "url": "websites.html"
+        }
+      ],
+      "mode": "faq",
+      "answered": true
+    },
+    {
+      "keywords": [
+        "kontakt"
+      ],
       "reply": "Am einfachsten erreichen Sie uns über das Kontaktformular. Wir antworten in der Regel innerhalb von 24 Stunden (werktags).",
-      "sources": [{ "title": "Kontakt", "url": "kontakt.html" }],
+      "sources": [
+        {
+          "title": "Kontakt",
+          "url": "kontakt.html"
+        }
+      ],
       "mode": "faq",
       "answered": true
     }

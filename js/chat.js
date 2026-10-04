@@ -38,7 +38,7 @@
 
   var history = [];     // {role, content} – nur erfolgreich gesendete/erhaltene Einträge
   var view = [];        // zum Speichern: {r, c, s, m}
-  var built = false, open = false, busy = false;
+  var built = false, open = false, busy = false, gen = 0; // gen: wird bei "Verlauf löschen" erhöht, damit späte Antworten verworfen werden
   var panel, toggle, scrollBox, log, chips, input, send, counter, statusEl, clearBtn, rootEl;
   var mq = window.matchMedia ? window.matchMedia('(max-width: 599px)') : null;
 
@@ -170,8 +170,10 @@
     input.value = ''; updateCounter();
     setBusy(true);
     scrollToMsg(userBox, false);
+    var myGen = gen;
     var payload = history.slice(-MAX_SEND).map(function (m) { return { role: m.role, content: String(m.content).slice(0, MAX_LEN) }; });
     chatRequest(payload).then(function (data) {
+      if (myGen !== gen) { setBusy(false); return; } // Verlauf wurde währenddessen gelöscht
       var sources = Array.isArray(data.sources) ? data.sources : [];
       var mode = data.mode === 'ai' ? 'ai' : 'faq';
       history.push({ role: 'assistant', content: data.reply });
@@ -181,6 +183,7 @@
       var b = renderMsg('assistant', data.reply, { mode: mode, sources: sources });
       scrollToMsg(b, true);
     }, function (e) {
+      if (myGen !== gen) { setBusy(false); return; }
       history.pop();                       // fehlgeschlagene Frage nicht in den Verlauf übernehmen
       var rate = e.status === 429, bad = e.status === 400 || e.status === 415;
       setBusy(false);
@@ -249,7 +252,7 @@
       if (ev.key === 'Enter' && !ev.shiftKey && !ev.isComposing) { ev.preventDefault(); submit(input.value); }
     });
     clearBtn.addEventListener('click', function () {
-      history = []; view = []; saveStore();
+      gen++; history = []; view = []; saveStore();
       while (log.firstChild) log.removeChild(log.firstChild);
       renderMsg('assistant', GREETING);
       removeChips();

@@ -82,6 +82,18 @@
 
   form.addEventListener('submit', function (ev) {
     ev.preventDefault();
+    // Reine Leerzeichen bestehen die native required-Prüfung, ergäben aber leere Pflichtangaben in der Erklärung.
+    var req = [['firma', 'Firma / Betreiber'], ['website', 'Adresse des Online-Shops'], ['beschreibung', 'Allgemeine Beschreibung'], ['erlaeuterung', 'Erläuterung'], ['email', 'E-Mail für Feedback']];
+    for (var i = 0; i < req.length; i++) {
+      var fld = form.elements[req[i][0]];
+      if (!fld.value.trim()) {
+        statusEl.textContent = 'Bitte füllen Sie das Feld „' + req[i][1] + '“ aus.';
+        fld.setAttribute('aria-invalid', 'true');
+        fld.focus();
+        return;
+      }
+      fld.removeAttribute('aria-invalid');
+    }
     sections = build();
     renderPreview(sections);
     out.hidden = false;
