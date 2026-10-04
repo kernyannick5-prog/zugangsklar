@@ -305,7 +305,7 @@
     rootEl = el('div', { class: 'yq-chat-root' });
     toggle = el('button', { type: 'button', class: 'yq-chat-toggle', id: 'yq-chat-toggle', 'aria-expanded': 'false', 'aria-controls': 'yq-chat-panel', 'aria-haspopup': 'dialog' });
     toggle.appendChild(icon(ICON_CHAT));
-    toggle.appendChild(el('span', null, 'Fragen?'));
+    toggle.appendChild(el('span', { class: 'yq-chat-toggle__label' }, 'Fragen?'));
     toggle.appendChild(el('span', { class: 'visually-hidden' }, ' Chat zu Yanqiva öffnen'));
     toggle.addEventListener('click', function () { setOpen(!open); });
     rootEl.appendChild(toggle);

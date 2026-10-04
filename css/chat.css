@@ -81,3 +81,10 @@ html.yq-chat-lock, html.yq-chat-lock body { overflow: hidden; }
 @media (max-height: 420px) and (min-width: 600px) { .yq-chat-panel { height: auto; max-height: calc(100vh - 2 * var(--yq-gap)); top: var(--yq-gap); } }
 @media (forced-colors: active) { .yq-chat-toggle, .yq-chat-send, .yq-chat-chip, .yq-chat-panel { border: 2px solid CanvasText; } }
 @media print { .yq-chat-root { display: none !important; } }
+/* Schmale Bildschirme: kompakter runder Icon-Button, damit beim Scrollen möglichst wenig Inhalt verdeckt wird.
+   Die Beschriftung bleibt für Screenreader erhalten (visuell versteckt). */
+@media (max-width: 1023px) {
+  .yq-chat-toggle { width: 52px; height: 52px; min-width: 52px; padding: 0; justify-content: center; border-radius: 50%; }
+  .yq-chat-toggle svg { width: 22px; height: 22px; }
+  .yq-chat-toggle__label { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+}
