@@ -165,3 +165,6 @@
 @media (prefers-reduced-motion: reduce) {
   .iw-capacity-bar, .iw-switch-track, .iw-switch-track::after { transition: none; }
 }
+/* Zielgrößen ≥ 24px (WCAG 2.5.8): Stufen-Umschalter, Kontaktdaten, Logo-Link */
+.tier-switcher-links a, .contact-info a { display: inline-block; min-height: 24px; padding-block: 2px; }
+.header-inner .brand { display: inline-flex; align-items: center; min-height: 24px; }

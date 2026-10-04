@@ -87,20 +87,45 @@
   }, { passive: true });
   document.addEventListener('mouseleave', function () { reset(cur); cur = null; }, true);
 
-  /* Hero: Parallax-Neigung des 3D-Zeichens */
-  var hero = document.querySelector('.hero'), tilt = hero && hero.querySelector('.y3d-tilt');
-  if (tilt) {
-    var hr = 0, he = null;
-    hero.addEventListener('pointermove', function (e) {
-      he = e;
-      if (hr) return;
-      hr = requestAnimationFrame(function () {
-        hr = 0;
-        var r = hero.getBoundingClientRect(), x = (he.clientX - r.left) / r.width, y = (he.clientY - r.top) / r.height;
-        tilt.style.setProperty('--ry', ((x - 0.5) * 14).toFixed(1) + 'deg');
-        tilt.style.setProperty('--rx', ((0.5 - y) * 9).toFixed(1) + 'deg');
-      });
+  /* Hero: Das 3D-Zeichen richtet sich exakt zum Mauszeiger aus (ganze Seite, nicht nur im Hero).
+     Winkel = atan(Abstand Zeiger zur Zeichen-Mitte / virtuelle Tiefe), weich nachgeführt per rAF, Ruhe = kein rAF.
+     Beim ersten Mauskontakt wird die Grunddrehung/Leerlauf-Animation ruckfrei ausgeblendet (aktuelle Matrix einfrieren, dann zurückblenden). */
+  var hero = document.querySelector('.hero'), tilt = hero && hero.querySelector('.y3d-tilt'),
+      scene = hero && hero.querySelector('.y3d-scene'), mark = hero && hero.querySelector('.y3d-stack');
+  if (tilt && scene && mark) {
+    var DEPTH = 460, MAXY = 34, MAXX = 26;
+    var tx = 0, ty = 0, cx = 0, cy = 0, run = 0, following = false, px = 0, py = 0, hasP = false;
+    function startFollow() {
+      following = true;
+      var m = getComputedStyle(scene).transform;
+      scene.style.transform = m === 'none' ? '' : m;
+      scene.style.animation = 'none';
+      tilt.classList.add('y3d-follow');
+      requestAnimationFrame(function () { requestAnimationFrame(function () { scene.style.transition = 'transform .7s cubic-bezier(.22, 1, .36, 1)'; scene.style.transform = 'none'; }); });
+    }
+    function aim() {
+      var r = mark.getBoundingClientRect();
+      if (!r.width) return;
+      var dx = px - (r.left + r.width / 2), dy = py - (r.top + r.height / 2);
+      ty = Math.max(-MAXY, Math.min(MAXY, Math.atan2(dx, DEPTH) * 180 / Math.PI));
+      tx = Math.max(-MAXX, Math.min(MAXX, Math.atan2(-dy, DEPTH) * 180 / Math.PI));
+    }
+    function frame() {
+      if (hasP) aim();
+      cx += (tx - cx) * 0.2; cy += (ty - cy) * 0.2;
+      tilt.style.setProperty('--rx', cx.toFixed(2) + 'deg');
+      tilt.style.setProperty('--ry', cy.toFixed(2) + 'deg');
+      if (Math.abs(tx - cx) < 0.05 && Math.abs(ty - cy) < 0.05 || de.classList.contains('fx-paused')) { run = 0; return; }
+      run = requestAnimationFrame(frame);
+    }
+    function kick() { if (!run) run = requestAnimationFrame(frame); }
+    document.addEventListener('pointermove', function (e) {
+      if (e.pointerType && e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
+      px = e.clientX; py = e.clientY; hasP = true;
+      if (!following) startFollow();
+      kick();
     }, { passive: true });
-    hero.addEventListener('pointerleave', function () { tilt.style.removeProperty('--ry'); tilt.style.removeProperty('--rx'); });
+    window.addEventListener('scroll', function () { if (hasP) kick(); }, { passive: true });
+    document.documentElement.addEventListener('mouseleave', function () { hasP = false; tx = 0; ty = 0; kick(); });
   }
 })();

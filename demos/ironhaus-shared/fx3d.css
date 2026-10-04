@@ -31,7 +31,8 @@
   background: #1a1b1d; box-shadow: inset 0 0 0 1px #34373c;
   transform: translateZ(calc(var(--z) * 1px));
 }
-.fx-sl:nth-child(odd) { background: #202225; }
+.fx-sl { background: linear-gradient(115deg, #3d4046, #1e1f22 45%, #121314); }
+.fx-sl:nth-child(odd) { background: linear-gradient(115deg, #34373c, #1a1b1d 45%, #101112); }
 .fx-face {
   position: absolute; inset: 0; border-radius: 50%; backface-visibility: hidden;
   transform: translateZ(calc(var(--z) * 1px)) rotateY(var(--ry, 0deg));
@@ -42,16 +43,7 @@
     conic-gradient(from 20deg, #2c2e32, #3f434a 12%, #2a2c30 25%, #3c4046 40%, #2a2c30 55%, #3f434a 70%, #2a2c30 85%, #2c2e32);
   box-shadow: inset 0 0 0 5px #17181a, inset 0 0 0 8px #ffd400, inset 0 0 0 11px #17181a, 0 0 0 1px #0d0d0e;
 }
-.fx-plate::after {
-  content: "20"; position: absolute; inset: 0; border-radius: 50%; backface-visibility: hidden;
-  transform: translateZ(-15px) rotateY(180deg); display: grid; place-items: center; padding-top: .1em;
-  font: italic 800 58px/1 var(--font-display); color: #fff;
-  background:
-    radial-gradient(circle, #0c0c0d 0 12%, #4a4d53 12.5% 14%, transparent 14.5%),
-    conic-gradient(from 20deg, #2c2e32, #3f434a 12%, #2a2c30 25%, #3c4046 40%, #2a2c30 55%, #3f434a 70%, #2a2c30 85%, #2c2e32);
-  box-shadow: inset 0 0 0 5px #17181a, inset 0 0 0 8px #ffd400, inset 0 0 0 11px #17181a, 0 0 0 1px #0d0d0e;
-}
-.fx-plate.is-sm::after { font-size: 40px; }
+/* Rueckseite entfaellt: die Scheibe dreht nie ueber +-90 Grad (und WebKit zeigte sie faelschlich vorn) */
 .fx-face svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .fx-face text { font-family: var(--font-display); font-style: italic; font-weight: 800; }
 
@@ -72,13 +64,16 @@
    Nur mit JS-Klasse .fx3d (also nicht im fx-lite-Modus) und nur bei "Bewegung erlaubt". */
 @media (prefers-reduced-motion: no-preference) {
   .fx3d .fx-obj { animation: fx-rock 11s ease-in-out infinite alternate; }
-  .fx3d [data-fx-scene]:not(.fx-run) .fx-obj,
-  .fx3d.fx-hidden .fx-obj { animation-play-state: paused; }
+  .fx3d .fx-face::after { animation: fx-glint 11s ease-in-out infinite alternate; }
+  .fx3d [data-fx-scene]:not(.fx-run) .fx-obj, .fx3d [data-fx-scene]:not(.fx-run) .fx-face::after,
+  .fx3d.fx-hidden .fx-obj, .fx3d.fx-hidden .fx-face::after { animation-play-state: paused; }
 }
+/* Reflex schwenkt mit der Neigung (Rotation einer kreisrunden Gradientflaeche: bleibt exakt in der Scheibe) */
+@keyframes fx-glint { from { transform: rotate(-34deg); } to { transform: rotate(34deg); } }
 @keyframes fx-rock { from { transform: rotateY(-7deg) rotateX(-3deg); } to { transform: rotateY(9deg) rotateX(3deg); } }
 /* Statischer Glanz auf der Frontflaeche (Licht links oben) */
-.fx-face::after { content: ""; position: absolute; inset: 0; border-radius: 50%; pointer-events: none; opacity: .5;
-  background: linear-gradient(115deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, .34) 48%, rgba(255, 255, 255, 0) 66%); }
+.fx-face::after { content: ""; position: absolute; inset: 0; border-radius: 50%; pointer-events: none; opacity: .55;
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, .30) 48%, rgba(255, 255, 255, .06) 56%, rgba(255, 255, 255, 0) 64%); }
 .fx3d [data-fx-scene] .fx-par { transform: rotateX(calc(var(--py, 0) * -7deg)) rotateY(calc(var(--px, 0) * 12deg)); }
 
 @media (min-width: 1000px) {
@@ -206,7 +201,7 @@ html.fx3d main { overflow-x: clip; }
    Licht: oben links. Animiert wird ausschliesslich transform/opacity.
    ========================================================================== */
 .fx-hero3d.is-pro { height: auto; aspect-ratio: 900 / 380; max-width: 560px; margin: 0 0 var(--space-3); perspective: none; }
-.fx-bb { position: absolute; inset: 0; perspective: 1100px; --bb-rx: 3deg; --bb-ry: -9deg; }
+.fx-bb { position: absolute; inset: 0; perspective: 1100px; --bb-rx: 3deg; --bb-ry: -4deg; }
 .bb-floor { position: absolute; inset: 0; }
 .bb-floor svg, .bb-layer { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .bb-tilt, .bb-settle, .bb-float { position: absolute; inset: 0; transform-style: preserve-3d; }
@@ -214,8 +209,10 @@ html.fx3d main { overflow-x: clip; }
 /* Alle Ebenen liegen in einer Ebene: so sitzt die Stange in jeder Drehphase exakt in den Scheibenlöchern.
    Die Tiefe entsteht durch die perspektivische Drehung (vordere Scheibe wächst, hintere schrumpft). */
 .bb-l { filter: brightness(.86); }
-.bb-r { transform: none; }
-.bb-l { filter: brightness(.86); }
+/* Scheibenvorderseiten als eigene Ebenen: Breite = sin(Gierwinkel), Position = cos(Gierwinkel) (Skript); Basis = Pose bei 30 Grad */
+.bb-face { position: absolute; overflow: hidden; border-radius: 50%; transform-origin: 50% 50%; will-change: transform; pointer-events: none; }
+.bb-face svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; }
+.bb-face i { position: absolute; inset: 0; border-radius: 50%; will-change: transform; background: linear-gradient(105deg, rgba(255,255,255,0) 28%, rgba(255,255,255,.17) 50%, rgba(255,255,255,0) 72%); }
 /* Eigene Bühne unter dem Foto-Hero: die Hantel liegt nicht über dem Foto, sondern wie ein Produktfoto auf dunklem Grund. */
 .bb-stage { position: relative; overflow: hidden; padding: clamp(3rem, 8vw, 6rem) 0 clamp(2.5rem, 6vw, 4.5rem);
   background: radial-gradient(ellipse 60% 70% at 70% 62%, #2a2c31 0%, #17181b 58%, #111214 100%); }
@@ -229,9 +226,11 @@ html.fx3d main { overflow-x: clip; }
    Einschwingen einmalig beim Erscheinen. Schleifen pausieren ausserhalb des Viewports (.fx-run) und bei versteckter Seite. */
 @media (prefers-reduced-motion: no-preference) {
   .fx3d .bb-settle { animation: bb-settle 1.7s cubic-bezier(.2, .8, .25, 1) .15s backwards; }
-  .fx3d .bb-layer { animation: bb-in .9s ease-out .15s backwards; }
+  .fx3d .bb-layer, .fx3d .bb-face { animation: bb-in .9s ease-out .15s backwards; }
   .fx3d .bb-floor { animation: bb-in 1.2s ease-out .15s backwards; }
-  :is(.fx3d, .fx-lite) .bb-float { animation: bb-hover 7s ease-in-out infinite alternate, bb-turn 11s ease-in-out infinite alternate; }
+  .fx3d .bb-float { animation: bb-hover 7s ease-in-out infinite alternate; }
+  /* Lite (schwache Geraete): nur einfaches CSS-Pendeln, keine Skript-Schleife */
+  .fx-lite .bb-float { animation: bb-hover 7s ease-in-out infinite alternate, bb-turn 11s ease-in-out infinite alternate; }
   :is(.fx3d, .fx-lite) .bb-floor svg { animation: bb-shadow 7s ease-in-out infinite alternate; }
   .fx3d [data-fx-scene]:not(.fx-run) .bb-float,
   .fx3d [data-fx-scene]:not(.fx-run) .bb-floor svg,
@@ -242,5 +241,12 @@ html.fx3d main { overflow-x: clip; }
 @keyframes bb-hover { from { translate: 0 4px; } to { translate: 0 -14px; } }
 @keyframes bb-sway { from { rotate: z -.9deg; } to { rotate: z .9deg; } }
 /* Sichtbare 3D-Drehung um die Hochachse (leicht geneigt): die Tiefenebenen (Scheiben ±46px) verschieben sich gegeneinander. Keine Dauerrotation. */
-@keyframes bb-turn { from { rotate: y -16deg; } to { rotate: y 16deg; } }
+@keyframes bb-turn { from { rotate: y -10deg; } to { rotate: y 10deg; } }
 @keyframes bb-shadow { from { transform: scale(1.03); opacity: 1; } to { transform: scale(.94); opacity: .72; } }
+
+/* Interaktion: Ziehen = drehen, Tippen = Anheben (nur wenn das Skript laeuft) */
+.fx-hero3d.is-pro .fx-bb[data-bb-live] { pointer-events: auto; cursor: grab; touch-action: pan-y; -webkit-tap-highlight-color: transparent; }
+.fx-hero3d.is-pro .fx-bb[data-bb-live]:active { cursor: grabbing; }
+.bb-stage__hint { display: none; margin: 1.25rem 0 0; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: #a9acb3; }
+.bb-stage__hint::before { content: ""; display: inline-block; width: 28px; height: 1px; background: #ffd400; vertical-align: middle; margin-right: .75rem; }
+html.fx3d .bb-stage__hint { display: block; }

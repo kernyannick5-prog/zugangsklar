@@ -146,4 +146,120 @@
   }
   window.addEventListener("scroll", function () { if (!sraf) sraf = requestAnimationFrame(sframe); }, { passive: true });
 
+  /* ---- Langhantel (IRONHAUS Premium): echte Gierwinkel-Projektion ----
+     Alle Teile liegen auf EINER Achse (y = 190) und werden aus demselben Gierwinkel psi berechnet:
+       x-Lage / Dicke  ~ cos(psi)   (Position entlang der Stange)
+       Scheibenflaeche ~ sin(psi)   (Ellipsenbreite der Scheibenvorderseite / des Lochs)
+     Die Stange kann das Scheibenloch daher in keiner Phase verlassen (gleiche Achse, gleiche Basis).
+     Basis-Markup = Pose bei psi0 = 30 Grad (ohne JS / Lite exakt diese Pose). Antrieb: Scroll (gedaempft), leichtes Atmen,
+     Ziehen (Trägheit), Tippen = gedaempftes Anheben. Schleife laeuft nur im Viewport und bei sichtbarer Seite. */
+  (function () {
+    var bb = d.querySelector(".fx-bb");
+    if (!bb || !bb.querySelector("[data-gl]")) return;
+    var RAD = Math.PI / 180, P0 = 30, PMIN = 18, PMAX = 46, C0 = Math.cos(P0 * RAD), S0 = Math.sin(P0 * RAD);
+    var scene = bb.closest("[data-fx-scene]") || bb, settle = bb.querySelector(".bb-settle");
+    var gx = d.getElementById("bb-gx");
+    var items = [], sh = [], faces = Array.prototype.map.call(bb.querySelectorAll(".bb-face"), function (el) { return { el: el, cx: +el.getAttribute("data-cx"), sh: el.querySelector("i") }; }), pxu = bb.offsetWidth / 900;
+    Array.prototype.forEach.call(bb.querySelectorAll(".bb-layer > g *"), function (el) {
+      var t = el.tagName.toLowerCase(), m;
+      if (t === "rect") items.push({ el: el, t: 0, x: +el.getAttribute("x"), w: +el.getAttribute("width") });
+      else if (t === "ellipse") items.push({ el: el, t: 1, x: +el.getAttribute("cx"), w: +el.getAttribute("rx") });
+    });
+    Array.prototype.forEach.call(bb.querySelectorAll(".bb-floor ellipse"), function (el) {
+      sh.push({ el: el, x: +el.getAttribute("cx"), w: +el.getAttribute("rx") });
+    });
+    var psi = P0, psiV = 0, lastDraw = -99, user = 0, down = false, moved = false, lx = 0, sx0 = 0, dv = 0;
+    var lift = 0, liftV = 0, liftDraw = 0, run = false, raf = 0, last = 0, t0 = 0;
+    function draw() {
+      var k = Math.cos(psi * RAD) / C0, s = Math.sin(psi * RAD) / S0, i, it, f = 1 - 0.012 * lift;
+      for (i = 0; i < items.length; i++) {
+        it = items[i];
+        if (it.t === 0) { it.el.setAttribute("x", (500 + (it.x - 500) * k).toFixed(2)); it.el.setAttribute("width", (it.w * k).toFixed(2)); }
+        else if (it.t === 1) { it.el.setAttribute("cx", (500 + (it.x - 500) * k).toFixed(2)); it.el.setAttribute("rx", (it.w * s).toFixed(2)); }
+      }
+      /* Scheibenvorderseiten: eigene Compositor-Ebenen (nur transform, kein Neu-Rastern der Beschriftung) */
+      var sn = Math.sin(psi * RAD).toFixed(4), so = ((psi - P0) * 2.4).toFixed(2);
+      for (i = 0; i < faces.length; i++) {
+        faces[i].el.style.transform = "translate3d(" + ((faces[i].cx - 500) * (k - 1) * pxu).toFixed(2) + "px,0,0) scale(" + sn + ",1)";
+        faces[i].sh.style.transform = "translate3d(" + so + "%,0,0)";
+      }
+      for (i = 0; i < sh.length; i++) {
+        sh[i].el.setAttribute("cx", (500 + (sh[i].x - 500) * k).toFixed(2));
+        sh[i].el.setAttribute("rx", (sh[i].w * k * f).toFixed(2));
+        sh[i].el.setAttribute("opacity", (1 - 0.018 * lift).toFixed(3));
+      }
+      /* Lichtreflex wandert mit dem Drehwinkel ueber Stange und Scheiben */
+      var off = (psi - P0) * 15;
+      if (gx) { gx.setAttribute("x1", (500 + off - 90).toFixed(1)); gx.setAttribute("x2", (500 + off + 90).toFixed(1)); }
+      lastDraw = psi;
+    }
+    function tick(now) {
+      raf = 0;
+      if (!run) return;
+      var dt = Math.min(0.05, last ? (now - last) / 1000 : 0.016); last = now;
+      if (!t0) t0 = now;
+      var r = scene.getBoundingClientRect(), vh = window.innerHeight || 1;
+      var p = Math.max(0, Math.min(1, (vh - r.top) / (vh + r.height)));
+      if (!down) user *= Math.exp(-dt / 2.4);
+      var target = 18 + 24 * p + user;
+      target = Math.max(PMIN, Math.min(PMAX, target));
+      psiV += (26 * (target - psi) - 8.6 * psiV) * dt; psi += psiV * dt;
+      psi = Math.max(PMIN - 2, Math.min(PMAX + 2, psi));
+      if (Math.abs(psi - lastDraw) > 0.004 || lift !== liftDraw) {
+        draw();
+      }
+      if (lift !== 0 || liftV !== 0) {
+        liftV += (-70 * lift - 9 * liftV) * dt; lift += liftV * dt;
+        if (Math.abs(lift) < 0.05 && Math.abs(liftV) < 0.5) { lift = 0; liftV = 0; }
+        if (settle) settle.style.translate = "0 " + (-lift).toFixed(2) + "px";
+        liftDraw = lift;
+      }
+      /* ruht die Hantel (kein Scrollen/Ziehen, Feder ausgeschwungen), endet die Schleife: kein Dauer-rAF */
+      if (down || lift !== 0 || liftV !== 0 || Math.abs(psiV) > 0.02 || Math.abs(target - psi) > 0.02) raf = requestAnimationFrame(tick);
+      else { psi = target; draw(); }
+    }
+    function kick() { if (run && !raf) { last = 0; raf = requestAnimationFrame(tick); } }
+    function sync() {
+      var go = vis && !d.hidden;
+      if (go && !run) { run = true; last = 0; if (!raf) raf = requestAnimationFrame(tick); }
+      else if (!go && run) { run = false; if (raf) cancelAnimationFrame(raf); raf = 0; }
+    }
+    var vis = false, io = null;
+    if ("IntersectionObserver" in window) {
+      io = new IntersectionObserver(function (es) { vis = es[es.length - 1].isIntersecting; sync(); }, { rootMargin: "60px" });
+      io.observe(scene);
+    }
+    function onVis() { sync(); }
+    function onSize() { pxu = bb.offsetWidth / 900; if (run) { lastDraw = -99; kick(); } }
+    window.addEventListener("resize", onSize);
+    d.addEventListener("visibilitychange", onVis);
+    window.addEventListener("scroll", kick, { passive: true });
+    /* Interaktion: Ziehen = drehen (mit Traegheit), Tippen/Klick = kurzes, gedaempftes Anheben (reine Bewegung, keine Verformung) */
+    bb.setAttribute("data-bb-live", "");
+    function pd(e) { kick(); if (e.pointerType === "mouse" && e.button !== 0) return; down = true; moved = false; lx = sx0 = e.clientX; dv = 0; try { bb.setPointerCapture(e.pointerId); } catch (x) { /* ok */ } }
+    function pm(e) {
+      if (!down) return;
+      if (!moved && Math.abs(e.clientX - sx0) > 6) moved = true;
+      kick();
+      if (moved) { var dx = e.clientX - lx; user += dx * 0.16; user = Math.max(-30, Math.min(30, user)); dv = dx; }
+      lx = e.clientX;
+    }
+    function pu() {
+      if (!down) return; down = false;
+      if (moved) psiV += dv * 9; else { liftV = 330; psiV += 40; }
+      kick();
+    }
+    function pc() { down = false; }
+    bb.addEventListener("pointerdown", pd); bb.addEventListener("pointermove", pm);
+    bb.addEventListener("pointerup", pu); bb.addEventListener("pointercancel", pc);
+    window.addEventListener("pagehide", function () {
+      run = false; if (raf) cancelAnimationFrame(raf); if (io) io.disconnect();
+      d.removeEventListener("visibilitychange", onVis); window.removeEventListener("scroll", kick); window.removeEventListener("resize", onSize);
+      bb.removeEventListener("pointerdown", pd); bb.removeEventListener("pointermove", pm);
+      bb.removeEventListener("pointerup", pu); bb.removeEventListener("pointercancel", pc);
+    });
+    /* fuer Tests: Winkel fest setzen (haelt die Schleife an) */
+    bb.__setPsi = function (v) { run = false; if (raf) cancelAnimationFrame(raf); raf = 0; psi = v; draw(); };
+  })();
+
 })();

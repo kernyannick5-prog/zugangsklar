@@ -123,3 +123,95 @@
 .payment-options { display: flex; flex-direction: column; gap: var(--space-2); margin: var(--space-4) 0; }
 .payment-options label { display: flex; align-items: center; gap: var(--space-2); font-weight: 600; }
 .empty-cart { text-align: center; padding: var(--space-7) var(--space-5); color: var(--color-grey-text); border: 2px dashed #cfcfd2; }
+
+
+/* ==========================================================================
+   Premium-Feinschliff: individuellere Typografie, Linien, Texturen, Uebergaenge, Hover-Zustaende.
+   Nur Farben/Tokens aus base.css (Gelb/Anthrazit). Nur CSS, nur Gestaltung (keine Inhalte/Struktur geaendert).
+   ========================================================================== */
+main { counter-reset: sec; }
+.section { counter-increment: sec; }
+
+/* Typografie: groessere Skala, engere Laufweite, redaktionelle Eyebrows mit Nummer + Haarlinie */
+.section-title { font-size: clamp(2.1rem, 5.2vw, 3.7rem); line-height: 1.02; letter-spacing: -0.012em; max-width: 17ch; margin-bottom: var(--space-4); }
+.section-lead { max-width: 52ch; }
+.eyebrow { display: flex; align-items: center; gap: 0.85rem; font-size: 0.74rem; letter-spacing: 0.22em; }
+.eyebrow::before { content: ""; flex: none; width: 34px; height: 1px; background: currentColor; opacity: 0.7; }
+.section .eyebrow::before {
+  content: counter(sec, decimal-leading-zero) " \2014";
+  content: counter(sec, decimal-leading-zero) " \2014" / "";
+  width: auto; height: auto; background: none; opacity: 1; font-variant-numeric: tabular-nums;
+}
+.hero-title { letter-spacing: -0.015em; line-height: 0.96; }
+.hero-lead { max-width: 44ch; }
+
+/* Sektionsuebergaenge: dunkle Sektionen mit schraeger Oberkante, feines Raster + Lichtschein */
+.section-dark.section {
+  --cut: clamp(18px, 3.2vw, 46px);
+  position: relative; margin-top: calc(var(--cut) * -1); padding-top: calc(var(--space-9) + var(--cut));
+  clip-path: polygon(0 var(--cut), 100% 0, 100% 100%, 0 100%);
+  background-color: var(--color-anthracite);
+  background-image:
+    radial-gradient(55% 60% at 88% 0%, rgba(255, 212, 0, 0.075), transparent 70%),
+    linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+  background-size: auto, 64px 64px, 64px 64px;
+}
+.section:not(.section-dark) + .section-dark.section { box-shadow: none; }
+
+/* Feature-Karten: Verlauf, Haarlinien-Rahmen, goldener Akzent der beim Hover waechst */
+.feature-card {
+  position: relative; border-top: 0;
+  background: linear-gradient(165deg, #2a2c30 0%, var(--color-anthracite) 62%);
+  box-shadow: inset 0 3px 0 var(--color-yellow), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  transition: box-shadow var(--transition-med);
+}
+.feature-card:hover { box-shadow: inset 0 5px 0 var(--color-yellow), inset 0 0 0 1px rgba(255, 212, 0, 0.35), 0 24px 40px -26px rgba(0, 0, 0, 0.7); }
+.feature-icon { padding: 9px; box-sizing: content-box; width: 30px; height: 30px; border: 1px solid rgba(255, 212, 0, 0.45); border-radius: 50%; }
+
+/* Buttons: Glanzlauf beim Hover */
+.btn-yellow {
+  background-image: linear-gradient(100deg, transparent 32%, rgba(255, 255, 255, 0.5) 50%, transparent 68%);
+  background-size: 260% 100%; background-position: 130% 0; background-repeat: no-repeat;
+  transition: transform var(--transition-fast), background-color var(--transition-fast), background-position 700ms cubic-bezier(.22, 1, .36, 1);
+}
+.btn-yellow:hover { background-position: -30% 0; }
+.btn-ghost, .btn-outline-dark { position: relative; }
+
+/* Navigation: Unterstreichung faehrt ein */
+.nav-list a { background: linear-gradient(var(--color-yellow), var(--color-yellow)) 0 100% / 0 2px no-repeat; transition: color var(--transition-fast), background-size var(--transition-med); }
+.nav-list a:hover, .nav-list a[aria-current="page"] { background-size: 100% 2px; }
+
+/* Unterseiten-Kopf: diagonale Streifen als Tiefenebene */
+.page-head { position: relative; overflow: hidden; background-image: radial-gradient(50% 120% at 100% 0%, rgba(255, 212, 0, 0.09), transparent 70%); }
+.page-head > * { position: relative; z-index: 1; }
+.page-head::before, .page-head::after { content: ""; position: absolute; top: -20%; height: 140%; background: var(--color-yellow); transform: skewX(-22deg); pointer-events: none; }
+.page-head::before { right: 14%; width: 10px; opacity: 0.16; }
+.page-head::after { right: 8%; width: 3px; opacity: 0.3; }
+.page-head h1 { font-size: clamp(2.2rem, 5.4vw, 3.8rem); line-height: 1; letter-spacing: -0.012em; }
+
+/* Bewertungen: grosses Anfuehrungszeichen, Karten-Hover */
+.review-card { position: relative; overflow: hidden; transition: background var(--transition-med), box-shadow var(--transition-med); }
+.review-card::after { content: "\201C"; position: absolute; right: 14px; top: -14px; font: italic 800 7rem/1 var(--font-display); color: var(--color-yellow); opacity: 0.1; pointer-events: none; }
+.review-card:hover { background: #31343a; box-shadow: 0 20px 36px -24px rgba(0, 0, 0, 0.7); }
+
+/* Preis-Karten: hervorgehobener Plan mit Goldkante und feinem Muster */
+.price-card { transition: box-shadow var(--transition-med), border-color var(--transition-med); }
+.price-card:hover { box-shadow: 0 26px 40px -28px rgba(0, 0, 0, 0.55); }
+.price-card-featured { border-color: var(--color-yellow); background-image: radial-gradient(70% 40% at 100% 0%, rgba(255, 212, 0, 0.12), transparent 70%); }
+
+/* Live-Auslastung, Newsletter, CTA: feine Details */
+.occupancy-widget { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05); background-image: linear-gradient(100deg, rgba(255, 212, 0, 0.06), transparent 40%); }
+.occupancy-fill { background-image: linear-gradient(90deg, #e0ba00, var(--color-yellow)); }
+.newsletter-box { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06), inset 0 3px 0 var(--color-yellow); background-image: radial-gradient(60% 90% at 100% 0%, rgba(255, 212, 0, 0.07), transparent 70%); }
+.cta-band-inner { background-image: repeating-linear-gradient(115deg, rgba(0, 0, 0, 0.04) 0 2px, transparent 2px 16px); }
+.cta-title { font-size: clamp(2rem, 5vw, 3.3rem); line-height: 1; letter-spacing: -0.012em; }
+.site-footer { border-top: 1px solid rgba(255, 212, 0, 0.4); background-image: linear-gradient(180deg, rgba(255, 212, 0, 0.05), transparent 120px); }
+
+/* Karten ohne Tilt-Konflikt: Produkte */
+.product-card { transition: box-shadow var(--transition-med), border-color var(--transition-med); }
+.product-card:hover { border-color: var(--color-anthracite); box-shadow: 0 22px 36px -26px rgba(0, 0, 0, 0.5); }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-yellow, .nav-list a, .feature-card, .price-card, .review-card, .product-card { transition: none; }
+}

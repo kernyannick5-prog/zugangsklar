@@ -433,7 +433,7 @@ address { font-style: normal; line-height: 1.7; }
 .footer-hours strong { color: var(--color-white); }
 .footer-grid h2 { font-family: var(--font-body); font-style: normal; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.08em; color: var(--color-grey-text); margin-bottom: var(--space-3); font-weight: 700; }
 .footer-grid ul li { margin-bottom: var(--space-2); }
-.footer-grid a { text-decoration: none; color: var(--color-grey-text); }
+.footer-grid a { text-decoration: none; color: var(--color-grey-text); display: inline-block; min-height: 24px; padding-block: 2px; } /* Zielgröße ≥ 24px (WCAG 2.5.8) */
 .footer-grid a:hover { color: var(--color-yellow); }
 .footer-grid a[aria-disabled="true"] { cursor: not-allowed; opacity: 0.6; }
 .social-row { display: flex; gap: var(--space-3); margin-top: var(--space-4); }
