@@ -318,7 +318,8 @@ input[type="checkbox"], input[type="radio"] { width: 1.4rem; height: 1.4rem; mar
 .price small { font-size: 1rem; font-weight: 600; color: var(--muted); }
 .price-note { font-size: .9rem; color: var(--muted); margin-bottom: 1rem; }
 /* Befristeter Einführungspreis (kein Streichpreis): Kontrast Text #0B4F41 auf #E6F5F1 ca. 8:1, bricht bei 320px um */
-.badge-intro { display: inline-block; max-width: 100%; padding: .2rem .55rem; border: 1px solid var(--accent); border-radius: 999px; background: #E6F5F1; color: #0B4F41; font-size: .8rem; font-weight: 600; line-height: 1.35; white-space: normal; overflow-wrap: anywhere; }
+.badge-intro { display: inline-block; max-width: 100%; padding: .25rem .65rem; border: 1px solid #9A3412; border-radius: 999px; background: #C2410C; color: #FFFFFF; font-size: .8rem; font-weight: 700; line-height: 1.35; white-space: normal; overflow-wrap: anywhere; box-shadow: 0 0 0 3px rgba(194,65,12,.18); }   /* befristetes Einführungsangebot: auffälliges Orange, Weiß auf #C2410C = 5,2:1 */
+.badge-intro::before { content: "\23F3\FE0E\00A0"; content: "\23F3\FE0E\00A0" / ""; }   /* Sanduhr, rein dekorativ */
 .price + .badge-intro, .cmp-card h3 + .badge-intro { margin-bottom: .5rem; }
 .choice-price .badge-intro { display: block; max-width: 15rem; margin-top: .3rem; border-radius: .6rem; text-align: left; }
 .intro-note { font-size: .85rem; color: var(--muted); margin: 0 0 1rem; }
