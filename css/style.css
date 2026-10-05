@@ -662,7 +662,13 @@ th { background: var(--tint); }
   .y3d-chip.c4 { --cx: .70; --cy: .30; } .y3d-chip.c5 { --cx: -.08; --cy: .44; }
 }
 /* Handy: Band etwas hoeher, damit das Zeichen praesenter ist */
-@media (max-width: 599px) and (min-height: 701px) { .hero-art { --art: 172px; --mark: 104px; } }
+@media (max-width: 599px) and (min-height: 701px) {
+  .hero-art { --art: 172px; --mark: 104px; }
+  /* Chips nach Displaybreite verteilen (nicht nach Logo-Größe), damit z. B. „Recht“ auf keinem Handy aus dem Bild rutscht */
+  .y3d-chip { --px: calc((50vw - 2.6rem) * var(--sx, 0)); }
+  .y3d-chip.c1 { --sx: -.7; } .y3d-chip.c2 { --sx: .68; } .y3d-chip.c3 { --sx: -.72; } .y3d-chip.c4 { --sx: .74; --cy: .4; } .y3d-chip.c5 { --sx: -.06; }
+}
+@media (max-width: 349px) and (min-height: 701px) { .hero-art { --mark: 78px; } } /* sehr schmale Handys: kleineres Zeichen, damit die Chips daneben Platz haben */
 /* Tablet hoch: breites Band, Zeichen deutlich groesser statt klein in viel Leerraum */
 @media (min-width: 600px) and (max-width: 959px) and (min-height: 701px) {
   .hero-art { --art: 230px; --mark: 140px; margin: 0 0 1rem; }
