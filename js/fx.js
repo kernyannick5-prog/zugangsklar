@@ -66,42 +66,69 @@
 
   if (!fine) return;
 
-  /* Hero: Das 3D-Zeichen richtet sich exakt zum Mauszeiger aus (ganze Seite, nicht nur im Hero).
-     Winkel = atan(Abstand Zeiger zur Zeichen-Mitte / virtuelle Tiefe), weich nachgeführt per rAF, Ruhe = kein rAF.
-     Die räumliche Schwebe-Animation läuft dabei weiter (sonst steht das Zeichen frontal und wirkt am Desktop flach);
-     die Mausneigung kommt auf dem übergeordneten .y3d-tilt dazu, daher etwas dezentere Maximalwinkel. */
+  /* Hero: Das 3D-Zeichen schaut zum Mauszeiger (ganze Seite, nicht nur im Hero).
+     - Bewegt sich die Maus, gleitet das Zeichen aus der Drehung (y3d-spin) in eine schräge Grundhaltung (bleibt räumlich,
+       nicht frontal) und folgt nur noch der Maus; ruht die Maus IDLE_MS, gleitet es zurück in die Drehung.
+     - Winkel = atan(Abstand Zeiger zur Mitte / virtuelle Tiefe), zeitbasiert geglättet (gleich bei 60/120/144 Hz).
+     - Mitte aus dem unbewegten .hero-art, nur nach Scrollen/Größenänderung neu gemessen (kein Layout pro Bild, kein Zittern). */
   var hero = document.querySelector('.hero'), tilt = hero && hero.querySelector('.y3d-tilt'),
-      scene = hero && hero.querySelector('.y3d-scene'), mark = hero && hero.querySelector('.y3d-stack');
-  if (tilt && scene && mark) {
-    var DEPTH = 460, MAXY = 24, MAXX = 16;
-    var tx = 0, ty = 0, cx = 0, cy = 0, run = 0, following = false, px = 0, py = 0, hasP = false;
-    function startFollow() {
-      following = true;
+      scene = hero && hero.querySelector('.y3d-scene'), art = hero && hero.querySelector('.hero-art');
+  if (tilt && scene && art) {
+    var DEPTH = 460, MAXY = 26, MAXX = 18, IDLE_MS = 3000, TAU = 0.11; // TAU: Glättungszeit in s
+    var BASE = 'rotateX(12deg) rotateY(-16deg)';   // Grundhaltung beim Folgen: schräg, damit die Ebenen sichtbar bleiben
+    var SPIN0 = 'rotateX(8deg) rotateY(0deg)';     // erstes Bild von y3d-spin (nahtloser Wiedereinstieg)
+    var tx = 0, ty = 0, cx = 0, cy = 0, run = 0, last = 0, px = 0, py = 0, hasP = false, mode = 'spin', idleT = 0, backT = 0, rect = null;
+    function stopSpin() {
+      clearTimeout(backT);
+      if (mode === 'follow') return;
+      var m = getComputedStyle(scene).transform;   // aktuelle Drehung einfrieren, dann weich in die Grundhaltung
+      scene.style.transition = 'none';
+      scene.style.transform = m === 'none' ? SPIN0 : m;
+      scene.style.animation = 'none';
       tilt.classList.add('y3d-follow');
+      mode = 'follow';
+      requestAnimationFrame(function () { requestAnimationFrame(function () {
+        if (mode !== 'follow') return;
+        scene.style.transition = 'transform .9s cubic-bezier(.22, 1, .36, 1)'; scene.style.transform = BASE;
+      }); });
+    }
+    function resumeSpin() {
+      if (mode !== 'follow') return;
+      mode = 'back';
+      scene.style.transition = 'transform .9s cubic-bezier(.45, 0, .55, 1)'; scene.style.transform = SPIN0;
+      backT = setTimeout(function () {             // Animation startet bei SPIN0 -> kein Sprung
+        if (mode !== 'back') return;
+        scene.style.transition = ''; scene.style.transform = ''; scene.style.animation = '';
+        mode = 'spin';
+      }, 950);
     }
     function aim() {
-      var r = mark.getBoundingClientRect();
+      var r = rect || (rect = art.getBoundingClientRect());
       if (!r.width) return;
       var dx = px - (r.left + r.width / 2), dy = py - (r.top + r.height / 2);
       ty = Math.max(-MAXY, Math.min(MAXY, Math.atan2(dx, DEPTH) * 180 / Math.PI));
       tx = Math.max(-MAXX, Math.min(MAXX, Math.atan2(-dy, DEPTH) * 180 / Math.PI));
     }
-    function frame() {
+    function frame(t) {
+      var dt = last ? Math.min(0.05, (t - last) / 1000) : 0.016; last = t;
       if (hasP) aim();
-      cx += (tx - cx) * 0.2; cy += (ty - cy) * 0.2;
+      var k = 1 - Math.exp(-dt / TAU);
+      cx += (tx - cx) * k; cy += (ty - cy) * k;
       tilt.style.setProperty('--rx', cx.toFixed(2) + 'deg');
       tilt.style.setProperty('--ry', cy.toFixed(2) + 'deg');
-      if (Math.abs(tx - cx) < 0.05 && Math.abs(ty - cy) < 0.05 || de.classList.contains('fx-paused')) { run = 0; return; }
+      if (Math.abs(tx - cx) < 0.05 && Math.abs(ty - cy) < 0.05 || de.classList.contains('fx-paused')) { run = 0; last = 0; return; }
       run = requestAnimationFrame(frame);
     }
     function kick() { if (!run) run = requestAnimationFrame(frame); }
     document.addEventListener('pointermove', function (e) {
       if (e.pointerType && e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
       px = e.clientX; py = e.clientY; hasP = true;
-      if (!following) startFollow();
+      stopSpin();
+      clearTimeout(idleT); idleT = setTimeout(resumeSpin, IDLE_MS);
       kick();
     }, { passive: true });
-    window.addEventListener('scroll', function () { if (hasP) kick(); }, { passive: true });
-    document.documentElement.addEventListener('mouseleave', function () { hasP = false; tx = 0; ty = 0; kick(); });
+    window.addEventListener('scroll', function () { rect = null; if (hasP) kick(); }, { passive: true });
+    window.addEventListener('resize', function () { rect = null; }, { passive: true });
+    document.documentElement.addEventListener('mouseleave', function () { hasP = false; tx = 0; ty = 0; kick(); clearTimeout(idleT); idleT = setTimeout(resumeSpin, 600); });
   }
 })();
