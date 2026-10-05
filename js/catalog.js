@@ -8,10 +8,15 @@ window.YQ_CATALOG = {
    "price": 299,
    "priceFrom": false,
    "billing": "einmalig",
-   "priceText": "299 €",
-   "priceTextShort": "299 €",
+   "priceText": "299 € (Einführungspreis bis 31.12.2026, danach 349 €)",
+   "priceTextShort": "299 € (Einführungspreis bis 31.12.2026)",
    "amountText": "299 €",
-   "orderLabel": "Website Basic (299 €, einmalig, unverbindliche Anfrage, Angebot vorab)"
+   "orderLabel": "Website Basic (299 €, Einführungspreis bis 31.12.2026 (danach 349 €), einmalig, unverbindliche Anfrage, Angebot vorab)",
+   "introActive": true,
+   "introLine": "Einführungspreis bis 31.12.2026 · danach 349 €",
+   "introSentence": "Einführungspreis 299 € für Anfragen bis 31.12.2026, danach 349 €",
+   "regularPrice": 349,
+   "introUntil": "2026-12-31"
   },
   "website-business": {
    "id": "website-business",

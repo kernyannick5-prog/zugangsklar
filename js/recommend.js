@@ -42,7 +42,7 @@
     'fix-security-header': { name: 'Security-Header einrichten', price: '149 €', amount: 149 },
     'fix-a11y': { name: 'Barrierefreiheits-Fix-Paket', price: 'ab 249 €', amount: 249 },
     'fix-individuell': { name: 'Individuelle Umsetzung', price: '75 €/Std.' },
-    'website-basic': { name: 'Neue Website Basic', price: '299 €' },
+    'website-basic': { name: 'Neue Website Basic', price: /*YQ:priceTextShort:website-basic*/'299 € (Einführungspreis bis 31.12.2026)'/*YQ*/, intro: /*YQ:introSentence:website-basic*/'Einführungspreis 299 € für Anfragen bis 31.12.2026, danach 349 €'/*YQ*/ },
     'website-business': { name: 'Neue Website Business', price: 'ab 590 €' },
     'website-premium': { name: 'Neue Website Premium', price: 'ab 1.490 €' }
   };
@@ -53,6 +53,7 @@
     for (var x in f) o[x] = f[x];
     if (c) {
       if (c.priceTextShort) o.price = c.priceTextShort;
+      if (k === 'website-basic') o.intro = c.introSentence || '';
       if (f.amount != null && typeof c.price === 'number') o.amount = c.price;
     }
     PRODUCTS[k] = o;
@@ -216,7 +217,7 @@
       if (a11yOthers) why.push(plural(a11yOthers, 'Barrierefreiheits-Befund', 'Barrierefreiheits-Befunde') + ' kommen dazu.');
       why.push('Bei so vielen Baustellen ist ein Neubau oft günstiger als die Reparatur der alten Seite.');
       if (isShop) notes.push('Erkanntes Shop-System: ' + system.charAt(0).toUpperCase() + system.slice(1) + '. Für Shops mit größerem Funktionsumfang (Shop, Mitgliederbereich) passt Premium, ein individuelles Angebot mit Orientierung ' + PRODUCTS['website-premium'].price + '.');
-      notes.push('Für ein kleines Projekt mit 1–3 Seiten reicht eventuell Website Basic (' + PRODUCTS['website-basic'].price + ', Festpreis).');
+      notes.push('Für ein kleines Projekt mit 1–3 Seiten reicht eventuell Website Basic (' + (PRODUCTS['website-basic'].intro || PRODUCTS['website-basic'].price + ', Festpreis') + ').');
       notes.push('Wenn Sie vorher den Website-Report (' + PRODUCTS.report.price + ') bestellen, wird der Preis bei einem späteren Website-Auftrag angerechnet.');
       return done('poor', item(up, { cta: 'Website-Projekt anfragen' }),
         [reportAlt, item('fix-a11y', { why: 'Reparatur der bestehenden Seite, Festpreis nach Sichtung' })],
