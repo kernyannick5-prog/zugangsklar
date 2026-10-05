@@ -105,13 +105,13 @@
     else if (q.scaled > MAX_QTY * 1000) r.errors.qty = 'Die Menge darf höchstens 1.000.000 betragen.';
     var p = parseNumber(it.price, PRICE_DEC);
     if (!p.ok) r.errors.price = p.empty ? 'Bitte einen Einzelpreis eingeben.' : p.error;
-    else if (Math.abs(p.scaled) > MAX_PRICE * pow10(PRICE_DEC)) r.errors.price = 'Der Einzelpreis darf höchstens 10.000.000 € betragen.';
+    else if (Math.abs(p.scaled) > MAX_PRICE * pow10(PRICE_DEC)) r.errors.price = 'Der Einzelpreis darf höchstens 10 Mio. Euro betragen.';
     if (mode === 'regel') {
       var rate = parseInt(it.rate, 10);
       if (RATES.indexOf(rate) === -1) r.errors.rate = 'Bitte einen Steuersatz wählen.'; else r.rate = rate;
     }
     if (!r.errors.qty && !r.errors.price) {
-      if (Math.abs(q.scaled * p.scaled) / 1e7 > MAX_TOTAL_CENTS / 100) r.errors.price = 'Die Positionssumme darf höchstens 10.000.000 € betragen.';
+      if (Math.abs(q.scaled * p.scaled) / 1e7 > MAX_TOTAL_CENTS / 100) r.errors.price = 'Die Positionssumme darf höchstens 10 Mio. Euro betragen.';
       else { r.cents = lineCents(q.scaled, p.scaled); r.qtyScaled = q.scaled; r.priceScaled = p.scaled; }
     }
     r.ok = Object.keys(r.errors).length === 0;
@@ -140,7 +140,7 @@
     }
     var gross = net + vat;
     var errors = {};
-    if (Math.abs(net) > MAX_TOTAL_CENTS || Math.abs(gross) > MAX_TOTAL_CENTS) errors.total = 'Der Gesamtbetrag darf höchstens 10.000.000 € betragen.';
+    if (Math.abs(net) > MAX_TOTAL_CENTS || Math.abs(gross) > MAX_TOTAL_CENTS) errors.total = 'Der Gesamtbetrag darf höchstens 10 Mio. Euro betragen.';
     else if (net < 0 || gross < 0) errors.total = 'Der Gesamtbetrag darf nicht negativ sein. Prüfen Sie Ihre Rabatt-Positionen.';
     var validCount = lines.filter(function (l) { return l.ok; }).length;
     var hasErrors = !!errors.total || lines.some(function (l) { return !l.empty && !l.ok; });
