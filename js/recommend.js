@@ -6,7 +6,7 @@
 
    Regeln (erste passende gewinnt):
    P  "poor"   Gesamt-Score < 50, ODER >= 3 Bereiche < 60, ODER veraltetes jQuery (sec-old-jquery) + >= 4 Barrierefreiheits-Befunde
-               -> neues Website-Projekt (Business ab 790 EUR als Projektanfrage; bei Shop-System shopify/woocommerce/shopware zusätzlich Premium als Hinweis).
+               -> neues Website-Projekt (Business ab 590 EUR als Projektanfrage; bei Shop-System shopify/woocommerce/shopware zusätzlich Premium als Hinweis).
                Alternativen: Website-Report 149 EUR (wird bei Website-Bestellung angerechnet), Fix-Paket ab 490 EUR.
    H  "heavy"  Barrierefreiheit (ohne Erklärungs-Link): >= 3 Befunde kritisch/hoch ODER >= 6 Befunde insgesamt
                -> Website-Report 149 EUR als erster Schritt ("damit Sie wissen, was genau zu tun ist"); Alternative Fix-Paket ab 490 EUR.
@@ -42,8 +42,8 @@
     'fix-security-header': { name: 'Security-Header einrichten', price: '149 €', amount: 149 },
     'fix-a11y': { name: 'Barrierefreiheits-Fix-Paket', price: 'ab 490 €', amount: 490 },
     'fix-individuell': { name: 'Individuelle Umsetzung', price: '75 €/Std.' },
-    'website-business': { name: 'Neue Website Business', price: 'ab 790 €' },
-    'website-premium': { name: 'Neue Website Premium', price: 'ab 2.490 €' }
+    'website-business': { name: 'Neue Website Business', price: 'ab 590 €' },
+    'website-premium': { name: 'Neue Website Premium', price: 'ab 1.490 €' }
   };
   var CAT = (root.YQ_CATALOG && root.YQ_CATALOG.products) || {};
   var PRODUCTS = {};

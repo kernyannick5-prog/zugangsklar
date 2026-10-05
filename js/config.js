@@ -46,7 +46,7 @@
    * Im Mock-Modus wird nichts gesendet.
    */
   // E-Mail aus dem Impressum: Ausweg, wenn die API nicht erreichbar ist (Anfragen sollen nicht verloren gehen).
-  var CONTACT_EMAIL = 'yanqiva@gmail.com';
+  var CONTACT_EMAIL = 'support@yanqiva.de';
   /** Schreibt eine Fehlermeldung plus mailto-Link (vorausgefüllt) in el – nur Textknoten, kein HTML. */
   function mailFallback(target, text, subject, body) {
     target.textContent = '';

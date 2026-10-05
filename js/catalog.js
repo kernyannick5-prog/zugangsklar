@@ -5,26 +5,26 @@ window.YQ_CATALOG = {
    "id": "website-business",
    "name": "Website Business",
    "group": "website",
-   "price": 790,
+   "price": 590,
    "priceFrom": true,
    "billing": "einmalig",
-   "priceText": "ab 790 €",
-   "priceTextShort": "ab 790 €",
-   "amountText": "790 €",
-   "orderLabel": "Website Business (ab 790 €, einmalig, unverbindliche Anfrage, individuelles Angebot vorab)"
+   "priceText": "ab 590 €",
+   "priceTextShort": "ab 590 €",
+   "amountText": "590 €",
+   "orderLabel": "Website Business (ab 590 €, einmalig, unverbindliche Anfrage, individuelles Angebot vorab)"
   },
   "website-premium": {
    "id": "website-premium",
    "offerLabel": "Individuelles Angebot",
    "name": "Website Premium",
    "group": "website",
-   "price": 2490,
+   "price": 1490,
    "priceFrom": true,
    "billing": "einmalig",
-   "priceText": "ab 2.490 €",
-   "priceTextShort": "ab 2.490 €",
-   "amountText": "2.490 €",
-   "orderLabel": "Website Premium (individuelles Angebot, Orientierung ab 2.490 €, einmalig, unverbindliche Anfrage)"
+   "priceText": "ab 1.490 €",
+   "priceTextShort": "ab 1.490 €",
+   "amountText": "1.490 €",
+   "orderLabel": "Website Premium (individuelles Angebot, Orientierung ab 1.490 €, einmalig, unverbindliche Anfrage)"
   },
   "website-pflege": {
    "id": "website-pflege",

@@ -8,7 +8,7 @@
   var done = document.getElementById('order-done');
   // Fallback-Namen (Stand 2026-10-03). Maßgeblich ist window.YQ_CATALOG (js/catalog.js, generiert aus tools/site-build/catalog.mjs).
   var NAMES = {
-    'website-business': 'Website Business (ab 790 €, einmalig, unverbindliche Anfrage, individuelles Angebot vorab)', 'website-pflege': 'Yanqiva Pflege (ab 29 €/Monat)', 'website-premium': 'Website Premium (individuelles Angebot, Orientierung ab 2.490 €, einmalig, unverbindliche Anfrage)',
+    'website-business': 'Website Business (ab 590 €, einmalig, unverbindliche Anfrage, individuelles Angebot vorab)', 'website-pflege': 'Yanqiva Pflege (ab 29 €/Monat)', 'website-premium': 'Website Premium (individuelles Angebot, Orientierung ab 1.490 €, einmalig, unverbindliche Anfrage)',
     report: 'Website-Report (149 €, einmalig)', monitoring: 'Monitoring (29 € pro Monat)', business: 'Monitoring Plus (79 € pro Monat)',
     agentur: 'Agentur (99 € pro Monat)', agentur_plus: 'Agentur Plus (249 € pro Monat)',
     'fix-google-fonts': 'Fix: Google Fonts lokal einbinden (149 €)', 'fix-erklaerung': 'Fix: Barrierefreiheitserklärung erstellen (99 €)',

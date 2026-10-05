@@ -11,6 +11,6 @@
     t.textContent = abm ? 'Sie erhalten keine weiteren Newsletter. Ihre E-Mail-Adresse haben wir gelöscht; zurück bleibt nur ein Sperrvermerk (Hash), damit keine weitere Zusendung erfolgt.' : 'Vielen Dank, Ihre Einwilligung ist bestätigt. Sie erhalten künftig unseren Newsletter und können sich jederzeit mit einem Klick abmelden.';
   } else if (s === 'ungueltig') {
     h.textContent = 'Link ungültig';
-    t.textContent = abm ? 'Der Abmeldelink ist ungültig. Bitte schreiben Sie uns an yanqiva@gmail.com, wir melden Sie ab.' : 'Der Bestätigungslink ist ungültig, abgelaufen oder wurde bereits verwendet. Bitte melden Sie sich erneut an.';
+    t.textContent = abm ? 'Der Abmeldelink ist ungültig. Bitte schreiben Sie uns an support@yanqiva.de, wir melden Sie ab.' : 'Der Bestätigungslink ist ungültig, abgelaufen oder wurde bereits verwendet. Bitte melden Sie sich erneut an.';
   }
 })();
