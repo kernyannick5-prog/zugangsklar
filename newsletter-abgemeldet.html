@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-WJGOEVi8cYaTXcwa1Y32BpQH8GQIzw8uwEEzXAxzu0c='; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://yanqiva-api.yanqiva-api.workers.dev; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-sZ62+BOZBliR2/9pnJBhxVHA8PBNLXjMtgIWwzl6Q/k='; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://yanqiva-api.yanqiva-api.workers.dev; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Newsletter-Abmeldung | Yanqiva</title>
@@ -21,7 +21,7 @@
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/chat.css">
 <link rel="stylesheet" href="css/notice.css">
-<script>var d=document.documentElement,n=navigator;d.className+=" js";if(matchMedia("(prefers-reduced-motion: reduce)").matches||n.hardwareConcurrency<4||n.deviceMemory<4||(n.connection&&n.connection.saveData))d.className+=" fx-lite"</script>
+<script>var d=document.documentElement,n=navigator,w=n.hardwareConcurrency<4||n.deviceMemory<4||!!(n.connection&&n.connection.saveData);d.className+=" js";if(matchMedia("(prefers-reduced-motion: reduce)").matches||w)d.className+=" fx-lite";if(!w&&window.WebGLRenderingContext)d.className+=" h3d-wait"</script>
 
 </head>
 <body>

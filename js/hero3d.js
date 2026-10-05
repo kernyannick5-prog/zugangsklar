@@ -9,12 +9,17 @@
    Bildrate: Desktop konstant 60 (kein Wechsel = kein Ruck beim Erkennen der Maus), Mobil 30; misst die Bildzeit und schaltet bei Ueberlast selbst herunter. */
 const art = document.querySelector('.hero .hero-art');
 
-if (art && 'IntersectionObserver' in window && 'ResizeObserver' in window) {
+if (art && !('IntersectionObserver' in window && 'ResizeObserver' in window)) art.classList.add('h3d-fail');
+else if (art) {
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
   const nav = navigator, dpr = window.devicePixelRatio || 1;
-  /* Schwache Geraete (wie html.fx-lite: < 4 Kerne, < 4 GB, Datensparen) bekommen gar kein 3D, nur die CSS-Grafik */
-  const weak = !still && (nav.hardwareConcurrency < 4 || nav.deviceMemory < 4 || !!(nav.connection && nav.connection.saveData));
+  /* Ob 3D kommt, entscheidet das Kopf-Skript vor dem ersten Bild (html.h3d-wait: nicht schwach, WebGL vorhanden);
+     schwache Geraete/Datensparen behalten die CSS-Grafik. Klappt 3D nicht oder dauert zu lange: Ersatz-Kachel (h3d-fail). */
+  const weak = !document.documentElement.classList.contains('h3d-wait');
+  let gaveUp = false;
+  const fail = () => { gaveUp = true; art.classList.add('h3d-fail'); };
+  const failTimer = weak ? 0 : setTimeout(() => { if (!art.classList.contains('h3d-on')) fail(); }, 7500); /* vor der CSS-Absicherung (8 s) */
   const lite = !fine || innerWidth < 960 || nav.hardwareConcurrency <= 4; /* leichtere Variante */
   let started = false;
 
@@ -23,7 +28,7 @@ if (art && 'IntersectionObserver' in window && 'ResizeObserver' in window) {
     if (!es.some((e) => e.isIntersecting) || started || weak) return;
     started = true;
     io.disconnect();
-    const go = () => start().catch(() => {});
+    const go = () => start().then((ok) => { if (!ok) fail(); }, fail);
     /* frueh starten (Modul laeuft nach dem Parsen), aber erst im naechsten Leerlauf: Partikel und Zeichen sind fast sofort da */
     if ('requestIdleCallback' in window) requestIdleCallback(go, { timeout: 300 }); else setTimeout(go, 50);
   });
@@ -35,7 +40,7 @@ if (art && 'IntersectionObserver' in window && 'ResizeObserver' in window) {
     /* failIfMajorPerformanceCaveat: kein 3D bei Software-Rendering (frisst CPU); Kantenglaettung nur bei niedriger Pixeldichte noetig */
     const opts = { alpha: true, antialias: dpr < 2, powerPreference: 'low-power', failIfMajorPerformanceCaveat: true };
     const gl = canvas.getContext('webgl2', opts) || canvas.getContext('webgl', opts);
-    if (!gl) return;
+    if (!gl || gaveUp) return false;
     /* schlankes Teilpaket (nur die hier genutzten Teile + RoomEnvironment), gebaut mit tools/three-bundle */
     const THREE = await import('./vendor/three/three-hero.min.js');
     const { RoomEnvironment } = THREE;
@@ -209,7 +214,9 @@ if (art && 'IntersectionObserver' in window && 'ResizeObserver' in window) {
     size();
     /* Shader vorab im Hintergrund uebersetzen (parallel, falls vom Treiber unterstuetzt): kein Haenger beim ersten Bild/Mauskontakt */
     try { await renderer.compileAsync(scene, camera); } catch (e) { /* aelterer Treiber: Uebersetzung beim ersten Bild */ }
-    if (!canvas.isConnected) return;
+    if (!canvas.isConnected) return true;
+    if (gaveUp) { canvas.remove(); renderer.dispose(); return true; } /* zu spaet: Ersatz-Kachel bleibt, kein Wechsel mehr */
+    clearTimeout(failTimer);
     t0 = performance.now();
     draw(still ? 9000 : t0, still);
     canvas.classList.add('on');
@@ -259,7 +266,8 @@ if (art && 'IntersectionObserver' in window && 'ResizeObserver' in window) {
       scene.traverse((o) => { if (o.geometry) o.geometry.dispose(); if (o.material) { o.material.map && o.material.map.dispose(); o.material.dispose(); } });
       glowTex.dispose(); dotTex.dispose(); envRT.dispose(); pmrem.dispose(); renderer.dispose();
     };
-    canvas.addEventListener('webglcontextlost', (e) => { e.preventDefault(); dispose(); canvas.remove(); art.classList.remove('h3d-on', 'h3d-idle'); });
+    canvas.addEventListener('webglcontextlost', (e) => { e.preventDefault(); dispose(); canvas.remove(); art.classList.remove('h3d-on', 'h3d-idle'); art.classList.add('h3d-fail'); });
     addEventListener('pagehide', dispose, { once: true });
+    return true;
   }
 }

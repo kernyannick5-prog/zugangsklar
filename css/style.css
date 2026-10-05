@@ -628,14 +628,23 @@ th { background: var(--tint); }
 .hero-art { --art: clamp(300px, 34vw, 400px); position: absolute; z-index: 0; right: 0; top: 4.5rem; width: var(--art); height: var(--art); pointer-events: none; }
 @media (min-width: 960px) { .hero-wrap .hero-main { max-width: min(640px, calc(100% - clamp(300px, 34vw, 400px) - 1.5rem)); } }
 /* Hero-3D-Canvas (hero3d.js): liegt hinter dem Logo-Zeichen, blendet erst nach dem ersten Bild ein; ohne WebGL fehlt er einfach */
-.h3d { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 1; pointer-events: none; }
+.h3d { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 1; pointer-events: none; opacity: 0; transition: opacity .9s ease; }
+.h3d.on { opacity: 1; }
+/* Geraete mit 3D (html.h3d-wait, gesetzt im Kopf-Skript): alte CSS-Kachel nie zeigen, bis dahin nur ein ruhiges Leuchten;
+   klappt 3D nicht (hero-art.h3d-fail), erscheint die Kachel als Ersatz */
+.h3d-wait .hero-art:not(.h3d-fail) .y3d { visibility: hidden; opacity: 0; }
+/* Absicherung ohne JS-Ergebnis (Skript nicht geladen o. Ae.): nach 8 s kommt die Kachel trotzdem */
+.h3d-wait .hero-art:not(.h3d-on):not(.h3d-fail) .y3d { animation: h3d-reveal .7s ease 8s forwards; }
+@keyframes h3d-reveal { from { visibility: visible; opacity: 0; } to { visibility: visible; opacity: 1; } }
+.h3d-wait .hero-art::before { content: ""; position: absolute; inset: 12%; border-radius: 50%; pointer-events: none; background: radial-gradient(circle, rgba(126,224,200,.16), rgba(99,90,235,.12) 42%, rgba(63,55,201,0) 70%); transition: opacity .9s ease; }
+.h3d-wait .hero-art.h3d-on::before, .h3d-wait .hero-art.h3d-fail::before { opacity: 0; }
 /* Sobald der 3D-Canvas rendert, ersetzt er die CSS-Kachel (Ueberblendung); Chips bleiben, Fallback ohne WebGL unveraendert */
 .y3d { transition: opacity .7s ease; }
 .hero-art.h3d-on .y3d { opacity: 0; visibility: hidden; transition: opacity .7s ease, visibility 0s .7s; }
 .hero-art.h3d-on .y3d-chips { z-index: 2; }
 /* Nach der Ueberblendung: verdeckte CSS-Kachel komplett aus dem Rendering nehmen (keine Endlosanimationen im Hintergrund) */
 .hero-art.h3d-idle .y3d { display: none; }
-@media (prefers-reduced-motion: reduce) { .y3d, .hero-art.h3d-on .y3d { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .y3d, .hero-art.h3d-on .y3d, .h3d, .h3d-wait .hero-art::before { transition: none; } }
 .y3d-defs { position: absolute; }
 .y3d { position: absolute; inset: 0; perspective: 900px; }
 .y3d-tilt { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .9s cubic-bezier(.22, 1, .36, 1); }
