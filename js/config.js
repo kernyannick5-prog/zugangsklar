@@ -3,7 +3,7 @@
   'use strict';
 
   // Basis-URL der API (Cloudflare Worker). PLATZHALTER: nach dem Deployment durch die echte Worker-URL ersetzen.
-  var API_BASE = 'https://yanqiva-api.orchid-game.workers.dev';
+  var API_BASE = 'https://yanqiva-api.yanqiva-api.workers.dev';
 
   // Zahlungslinks (z. B. Stripe Payment Links). Leer = Rechnungs-Fallback ("Wir melden uns innerhalb von 24 Stunden").
   var PAYMENT_LINKS = {
