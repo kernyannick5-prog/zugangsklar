@@ -704,8 +704,9 @@ th { background: var(--tint); }
   @keyframes y3d-orbit { from { transform: rotateX(72deg) rotateZ(0deg); } to { transform: rotateX(72deg) rotateZ(360deg); } }
   @keyframes y3d-orbit-b { from { transform: rotateY(68deg) rotateX(12deg) rotateZ(0deg); } to { transform: rotateY(68deg) rotateX(12deg) rotateZ(360deg); } }
   @keyframes y3d-bob { from { transform: translate(-4px, 0); } to { transform: translate(5px, -16px); } }
-  /* Drehung um die eigene Achse auf allen Geraeten (vorher nur Mobil; am Desktop wirkte das nur leicht schwingende Zeichen flach) */
-  @media (min-width: 0px) {
+  /* Mobil (ohne Maus): Drehung um die eigene Achse. Desktop: raeumliches Schwingen (y3d-idle) plus Mausneigung,
+     keine 360-Grad-Drehung, damit schnelle Mausbewegungen nie zu Umdrehungen fuehren */
+  @media (max-width: 959px) {
     .y3d-scene { animation: y3d-spin 16s cubic-bezier(.45, 0, .55, 1) infinite; }
     .y3d-stack::after { animation: y3d-sheen-m 16s cubic-bezier(.45, 0, .55, 1) infinite; }
     .y3d::after { animation: y3d-shadow-m 5.5s ease-in-out infinite alternate; }
