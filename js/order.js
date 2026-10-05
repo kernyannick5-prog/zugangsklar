@@ -68,8 +68,48 @@
   form.addEventListener('change', function (e) { if (e.target && e.target.name === 'produkt') syncUrlRequired(); });
   syncUrlRequired();
 
+  // Vor Tätigkeitsbeginn (YQ.prestartActive, Schalter in js/config.js): Hinweis vor dem Absenden.
+  // Bestätigt der Nutzer, geht die Bestellung als unverbindliche Anfrage ein. Ab dem Starttermin automatisch aus.
+  var prestartConfirmed = false;
+  function prestart() { return !!(YQ.prestartActive && YQ.prestartActive()) && !(navigator.webdriver && !/[?&]hinweis=1/.test(location.search)); }
+  function showPrestartDialog() {
+    var dlg = document.createElement('dialog');
+    dlg.className = 'yq-notice';
+    dlg.setAttribute('aria-labelledby', 'yq-order-pre-h');
+    dlg.setAttribute('aria-describedby', 'yq-order-pre-t');
+    var start = new Date(YQ.START_DATE + 'T00:00:00').toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
+    var h = document.createElement('h2'); h.id = 'yq-order-pre-h'; h.textContent = 'Hinweis: Bestellungen erst ab ' + start;
+    var t = document.createElement('div'); t.id = 'yq-order-pre-t';
+    var p1 = document.createElement('p'); p1.textContent = 'Yanqiva nimmt die gewerbliche Tätigkeit voraussichtlich am ' + start + ' auf. Bis dahin kommt kein Vertrag zustande und es entstehen keine Kosten.';
+    var p2 = document.createElement('p'); p2.textContent = 'Sie können Ihre Angaben schon jetzt als unverbindliche Anfrage senden. Wir melden uns ab dem Start bei Ihnen.';
+    t.appendChild(p1); t.appendChild(p2);
+    var actions = document.createElement('div'); actions.className = 'yq-notice-actions';
+    var go = document.createElement('button'); go.type = 'button'; go.className = 'btn'; go.textContent = 'Als unverbindliche Anfrage senden';
+    var cancel = document.createElement('button'); cancel.type = 'button'; cancel.className = 'btn btn-secondary'; cancel.textContent = 'Abbrechen';
+    actions.appendChild(go); actions.appendChild(cancel);
+    dlg.appendChild(h); dlg.appendChild(t); dlg.appendChild(actions);
+    var submitBtn = form.querySelector('button[type="submit"]');
+    function close(send) {
+      if (dlg.open) dlg.close();
+      dlg.remove();
+      if (send) { prestartConfirmed = true; if (form.requestSubmit) form.requestSubmit(); else form.dispatchEvent(new Event('submit', { cancelable: true })); }
+      else if (submitBtn) submitBtn.focus();
+    }
+    go.addEventListener('click', function () { close(true); });
+    cancel.addEventListener('click', function () { close(false); });
+    dlg.addEventListener('cancel', function (e) { e.preventDefault(); close(false); });
+    document.body.appendChild(dlg);
+    if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
+    go.focus();
+  }
+
   form.addEventListener('submit', function (ev) {
     ev.preventDefault();
+    if (prestart() && !prestartConfirmed) {
+      // Formular erst prüfen (Browser-Validierung lief bereits), dann Hinweis zeigen
+      showPrestartDialog();
+      return;
+    }
     var f = form.elements;
     var product = form.querySelector('input[name="produkt"]:checked').value;
     var btn = form.querySelector('button[type="submit"]');
@@ -84,7 +124,7 @@
     if (url && !/^https?:\/\//i.test(url)) url = 'https://' + url;
     var isProject = isNewWebsite(product);
     var inquiry = isInquiry(product);
-    var message = (isProject ? 'PROJEKTANFRAGE (unverbindlich, individuelles Angebot)\n' : '') + 'Produkt: ' + (NAMES[product] || product) + ' [' + product + ']' + '\nFirma: ' + f.firma.value.trim() + (isProject ? '\nProjektbeschreibung: ' + ((f.projekt && f.projekt.value.trim()) || '-') : '') + '\nHinweise: ' + (f.hinweise.value.trim() || '-') + '\nUnternehmer (§ 14 BGB) bestätigt und AGB akzeptiert: ' + (f.consent && f.consent.checked ? 'ja' : 'nein')
+    var message = (prestart() ? 'VOR TÄTIGKEITSBEGINN (' + YQ.START_DATE + ') EINGEGANGEN – unverbindliche Anfrage\n' : '') + (isProject ? 'PROJEKTANFRAGE (unverbindlich, individuelles Angebot)\n' : '') + 'Produkt: ' + (NAMES[product] || product) + ' [' + product + ']' + '\nFirma: ' + f.firma.value.trim() + (isProject ? '\nProjektbeschreibung: ' + ((f.projekt && f.projekt.value.trim()) || '-') : '') + '\nHinweise: ' + (f.hinweise.value.trim() || '-') + '\nUnternehmer (§ 14 BGB) bestätigt und AGB akzeptiert: ' + (f.consent && f.consent.checked ? 'ja' : 'nein')
       + '\nInhaber der Website oder vom Inhaber beauftragt (Agentur: mit Auftrag des Kunden) bestätigt: ' + (auth ? (authInput.checked ? 'ja' : 'nein') : 'entfällt (neue Website)');
     // Die API erlaubt höchstens 2000 Zeichen je Nachricht; Projektbeschreibung und Hinweise (je bis 1500) können zusammen darüber liegen.
     if (message.length > MAX_MESSAGE) {

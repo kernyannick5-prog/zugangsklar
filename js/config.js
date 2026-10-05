@@ -103,6 +103,12 @@
   }
 
   // Newsletter-Anmeldung: false = Formular und Footer-Link bleiben verborgen (Funktion im Worker ist erst nach Aktivierung verfügbar, siehe worker/README.md).
+  // Vor Tätigkeitsbeginn: Starthinweis (notice.js) und Hinweis beim Bestellen (order.js).
+  // Ab START_DATE schalten sich beide automatisch ab; PRESTART = false schaltet sie sofort ab.
+  // Der kostenlose Website-Check ist davon nicht betroffen.
+  var START_DATE = '2026-10-15';
+  var PRESTART = true;
+  function prestartActive() { return PRESTART && new Date() < new Date(START_DATE + 'T00:00:00'); }
   var NEWSLETTER = false;
   var NEWSLETTER_CONSENT_VERSION = '2026-10-05'; // muss zum Einwilligungstext in ratgeber/index.html passen (Worker: CONSENT_VERSIONS)
 
@@ -123,5 +129,5 @@
   // Footer-Link "Newsletter" (im HTML mit hidden) nur zeigen, wenn die Anmeldung aktiv ist.
   if (NEWSLETTER) Array.prototype.forEach.call(document.querySelectorAll('[data-newsletter-link]'), function (a) { a.hidden = false; });
 
-  window.YQ = { NEWSLETTER: NEWSLETTER, NEWSLETTER_CONSENT_VERSION: NEWSLETTER_CONSENT_VERSION, guard: guard, hpField: hpField, API_BASE: API_BASE, PAYMENT_LINKS: PAYMENT_LINKS, ANALYTICS: ANALYTICS, MOCK: MOCK, MOCK_URL: MOCK_URL, mockUrl: mockUrl, el: el, postJson: postJson, getJson: getJson, CONTACT_EMAIL: CONTACT_EMAIL, mailFallback: mailFallback };
+  window.YQ = { START_DATE: START_DATE, prestartActive: prestartActive, NEWSLETTER: NEWSLETTER, NEWSLETTER_CONSENT_VERSION: NEWSLETTER_CONSENT_VERSION, guard: guard, hpField: hpField, API_BASE: API_BASE, PAYMENT_LINKS: PAYMENT_LINKS, ANALYTICS: ANALYTICS, MOCK: MOCK, MOCK_URL: MOCK_URL, mockUrl: mockUrl, el: el, postJson: postJson, getJson: getJson, CONTACT_EMAIL: CONTACT_EMAIL, mailFallback: mailFallback };
 })();

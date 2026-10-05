@@ -4,10 +4,12 @@
    In automatisierten Tests (navigator.webdriver) aus, außer mit ?hinweis=1. Keine Abhängigkeiten. */
 (function () {
   'use strict';
-  var START = new Date(2026, 9, 15); // 15.10.2026 (Monat 0-basiert), lokale Zeit – bei Verschiebung hier anpassen
+  // Startdatum und Schalter zentral in js/config.js (YQ.START_DATE, YQ.prestartActive); Fallback 15.10.2026
+  var YQ = window.YQ;
+  var START = YQ && YQ.START_DATE ? new Date(YQ.START_DATE + 'T00:00:00') : new Date(2026, 9, 15);
   var KEY = 'yq-hinweis-start-2026-10';
   var force = /[?&]hinweis=1/.test(location.search);
-  if (!force && (new Date() >= START || navigator.webdriver)) return;
+  if (!force && (new Date() >= START || navigator.webdriver || (YQ && YQ.prestartActive && !YQ.prestartActive()))) return;
   if (window.top !== window.self) return; // nicht in eingebetteten Vorschauen
   function seen() {
     try { if (localStorage.getItem(KEY) === '1') return true; } catch (e) { /* Speicher gesperrt */ }

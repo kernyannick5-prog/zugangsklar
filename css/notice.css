@@ -5,8 +5,8 @@
   overflow: auto;
   margin: auto;
   padding: 1.5rem 1.5rem 1.25rem;
-  border: 1px solid rgba(47, 42, 133, .18);
-  border-top: 4px solid var(--primary, #2F2A85);
+  border: 3px solid #B42318;          /* roter Rand: Hinweis zum Tätigkeitsbeginn (Kontrast 6,6:1 auf Weiß) */
+  border-top-width: 8px;
   border-radius: var(--radius, 14px);
   background: #fff;
   color: var(--text, #17172B);
@@ -14,7 +14,10 @@
   font: inherit;
 }
 .yq-notice::backdrop { background: rgba(15, 14, 46, .55); }
-.yq-notice h2 { margin: 0 0 .75rem; font-size: 1.2rem; line-height: 1.3; color: var(--ink, #0F0E2E); }
+.yq-notice h2 { margin: 0 0 .75rem; font-size: 1.2rem; line-height: 1.3; color: #B42318; display: flex; gap: .5rem; align-items: flex-start; }
+.yq-notice h2::before { content: "\26A0"; flex: none; font-size: 1.15em; line-height: 1.1; } /* Warnsymbol, nicht nur Farbe */
+.yq-notice-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: .5rem; }
+.yq-notice-actions .btn { min-height: 44px; }
 .yq-notice p { margin: 0 0 .75rem; line-height: 1.55; }
 .yq-notice-ok { display: inline-flex; min-height: 44px; margin-top: .5rem; }
 .yq-notice-fallback { position: fixed; inset: 0; z-index: 1000; height: fit-content; }
