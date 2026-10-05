@@ -47,7 +47,7 @@
 
 /* Modal (Buchung, Login, Warenkorb-Hinweise) */
 .iw-modal-overlay {
-  position: fixed; inset: 0; z-index: 500; background: rgba(10, 11, 12, 0.72);
+  position: fixed; inset: 0; z-index: 9996; background: rgba(10, 11, 12, 0.72);
   display: flex; align-items: center; justify-content: center; padding: var(--space-5);
 }
 .iw-modal-overlay[hidden] { display: none; }

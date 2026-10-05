@@ -273,7 +273,8 @@
       var base = option ? Number(option.getAttribute("data-price")) : 0;
       var sizeInput = cakeForm.querySelector('input[name="cakeSize"]:checked');
       var multiplier = sizeInput ? Number(sizeInput.value) : 1;
-      var count = Math.max(1, Number(document.getElementById("cakeCount").value) || 1);
+      // Anzahl: ganze Zahl 1..10 (wie max-Attribut); alles andere wird für die Anzeige begrenzt, beim Absenden aber abgelehnt
+      var count = Math.min(10, Math.max(1, Math.floor(Number(document.getElementById("cakeCount").value)) || 1));
       return { base: base, multiplier: multiplier, count: count, total: base * multiplier * count, sizeLabel: sizeInput ? sizeInput.closest(".choice-option").querySelector("strong").textContent : "" };
     }
 
@@ -309,6 +310,13 @@
       var dateErr = document.getElementById("cakeDateError");
       dateErr.textContent = dateOk ? "" : "Bitte wähle ein Abholdatum ab dem " + minDateStr.split("-").reverse().join(".") + ".";
       if (!dateOk) ok = false;
+      var rawCount = document.getElementById("cakeCount");
+      var countNum = Number(rawCount.value);
+      var countOk = rawCount.value.trim() !== "" && isFinite(countNum) && countNum === Math.floor(countNum) && countNum >= 1 && countNum <= 10;
+      var countErr = document.getElementById("cakeCountError");
+      if (countErr) countErr.textContent = countOk ? "" : "Bitte eine ganze Zahl von 1 bis 10 eingeben.";
+      rawCount.setAttribute("aria-invalid", countOk ? "false" : "true");
+      if (!countOk) ok = false;
       S.setFieldError(name, name.value.trim() ? "" : (ok = false, "Bitte gib deinen Namen an."));
       S.setFieldError(email, S.validEmail(email.value.trim()) ? "" : (ok = false, "Bitte gib eine gültige E-Mail-Adresse ein."));
       if (!ok) return;

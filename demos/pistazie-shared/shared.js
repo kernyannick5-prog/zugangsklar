@@ -10,7 +10,7 @@
   function pad2(n) { return (n < 10 ? "0" : "") + n; }
   function ymd(d) { return d.getFullYear() + "" + pad2(d.getMonth() + 1) + "" + pad2(d.getDate()); }
   function icsEscape(str) {
-    return String(str).replace(/[\\,;]/g, function (m) { return "\\" + m; }).replace(/\n/g, "\\n");
+    return String(str).replace(/[\\,;]/g, function (m) { return "\\" + m; }).replace(/\r\n|\r|\n/g, "\\n");
   }
 
   function buildICS(opts) {
@@ -35,7 +35,18 @@
     lines.push("DESCRIPTION:" + icsEscape(opts.description || ""));
     lines.push("LOCATION:" + icsEscape(opts.location || "Café Pistazie, Beispielstraße 22, 40212 Düsseldorf"));
     lines.push("END:VEVENT", "END:VCALENDAR", "");
-    return lines.join("\r\n");
+    // RFC 5545: Zeilen höchstens 75 Oktette, Fortsetzung mit CRLF + Leerzeichen (nicht mitten im UTF-8-Zeichen trennen)
+    function fold(line) {
+      var out = [], cur = "", bytes = 0;
+      Array.from(line).forEach(function (ch) {
+        var b = unescape(encodeURIComponent(ch)).length;
+        if (bytes + b > 75) { out.push(cur); cur = " "; bytes = 1; }
+        cur += ch; bytes += b;
+      });
+      out.push(cur);
+      return out.join("\r\n");
+    }
+    return lines.map(fold).join("\r\n");
   }
 
   function downloadICS(filename, icsString) {

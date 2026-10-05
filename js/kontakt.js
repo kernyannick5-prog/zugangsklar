@@ -16,15 +16,14 @@
     if (url && !/^https?:\/\//i.test(url)) url = 'https://' + url;
     btn.disabled = true;
     statusEl.textContent = 'Nachricht wird gesendet …';
-    YQ.postJson('/api/lead', { email: f.email.value.trim(), url: url, consent: true, source: 'kontakt', message: 'Name: ' + f.name.value.trim() + '\n' + f.nachricht.value.trim() }).then(function () {
+    YQ.postJson('/api/lead', { email: f.email.value.trim(), url: url, consent: true, source: 'kontakt', message: 'Name: ' + f.name.value.trim() + '\n' + f.nachricht.value.trim() }, { timeout: 20000 }).then(function () {
       statusEl.textContent = 'Vielen Dank. Wir antworten in der Regel innerhalb von 24 Stunden (werktags).';
       form.reset();
       btn.disabled = false;
     }, function (e) {
       btn.disabled = false;
-      statusEl.textContent = e.kind === 'network'
-        ? 'Das Formular ist gerade nicht erreichbar. Bitte schreiben Sie uns direkt per E-Mail.'
-        : 'Fehler: ' + e.message;
+      if (e.kind === 'network') YQ.mailFallback(statusEl, 'Das Formular ist gerade nicht erreichbar. Bitte schreiben Sie uns direkt per', 'Kontaktanfrage über yanqiva', f.nachricht.value.trim());
+      else statusEl.textContent = 'Fehler: ' + e.message;
     });
   });
 })();

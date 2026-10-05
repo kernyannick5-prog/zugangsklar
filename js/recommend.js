@@ -125,8 +125,9 @@
 
   function recommend(result) {
     var r = result || {};
-    var issues = Array.isArray(r.issues) ? r.issues : [];
-    var score = Math.max(0, Math.min(100, Math.round(Number(r.score)) || 0));
+    var issues = (Array.isArray(r.issues) ? r.issues : []).filter(function (i) { return i && typeof i === 'object'; });
+    var rawScore = (r.score === null || r.score === undefined || r.score === '' || typeof r.score === 'boolean') ? NaN : Number(r.score);
+    var score = Math.round(rawScore);
     var system = String(r.system || '').toLowerCase();
     var isShop = SHOPS.indexOf(system) !== -1;
     var ids = {}, sev = { kritisch: 0, hoch: 0 };
@@ -139,11 +140,20 @@
       if (cat === 'accessibility' && id !== 'a11y-statement') { a11yOthers++; if (severe) a11ySevere++; }
       else if (severe && id !== 'a11y-statement' && id !== 'privacy-google-fonts' && HEADER_IDS.indexOf(id) === -1) uncoveredSevere++;
     });
-    var cats = Array.isArray(r.categories) ? r.categories : [];
+    var cats = (Array.isArray(r.categories) ? r.categories : []).filter(function (c) { return c && typeof c === 'object'; });
     var lowCats = cats.filter(function (c) { return Number(c.score) < 60; }).length;
     var oldJq = !!ids['sec-old-jquery'];
     var headerIssues = HEADER_IDS.filter(function (id) { return ids[id]; }).length;
     var notes = [], why = [];
+    // Fehlender, nicht numerischer oder außerhalb 0-100 liegender Score: keine Aussage über Zustand oder Neubau erfinden.
+    // Sicherer Standard: Report als Überblick (ohne Score-Aussage).
+    if (!isFinite(score) || score < 0 || score > 100) {
+      why.push('Der Score konnte nicht ausgewertet werden. Der Report zeigt technisch genau, was auf allen wichtigen Seiten zu tun ist.');
+      var pr = item('report', { cta: 'Website-Report bestellen' });
+      return { rule: 'report', assessment: 'Das Ergebnis des kostenlosen Checks konnte nicht vollständig ausgewertet werden. Einzelne Punkte konnten automatisch nicht abschließend geprüft werden.', selfFix: [], primary: pr,
+        alternatives: [item('monitoring', { why: 'Wöchentlicher Scan und Score-Verlauf' })], reason: 'Erst den Überblick über alle Befunde schaffen.', why: why, notes: notes, disclaimer: DISCLAIMER,
+        leadLine: 'Empfehlung: report (' + pr.price + ') | Score nicht auswertbar | Erst den Überblick über alle Befunde schaffen.' };
+    }
     var mittelCount = issues.filter(function (i) { return i.severity === 'mittel'; }).length;
 
     var noneEligible = score >= 95 && sev.kritisch === 0 && sev.hoch === 0 && mittelCount <= 3;

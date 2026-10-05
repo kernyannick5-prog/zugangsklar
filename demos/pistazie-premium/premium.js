@@ -134,7 +134,21 @@
      Warenkorb (localStorage, seitenübergreifend)
      --------------------------------------------------------- */
   var CART_KEY = "pistazie-premium:cart_v1";
-  function cartRead() { return S.readJSON(CART_KEY, []); }
+  var MAX_QTY = 99;
+  // Nur bekannte Produkte, ganzzahlige Mengen 1..99, Preis aus dem Katalog (manipulierter localStorage ergibt sonst negative/NaN-Summen)
+  function cartRead() {
+    var raw = S.readJSON(CART_KEY, []);
+    if (!Array.isArray(raw)) return [];
+    var out = [];
+    raw.forEach(function (it) {
+      if (!it) return;
+      var p = PRODUCTS.find(function (x) { return x.id === it.id; });
+      var q = Math.floor(Number(it.qty));
+      if (!p || !isFinite(q) || q < 1) return;
+      out.push({ id: p.id, name: p.name, price: p.price, qty: Math.min(MAX_QTY, q) });
+    });
+    return out;
+  }
   function cartWrite(items) {
     S.writeJSON(CART_KEY, items);
     window.dispatchEvent(new CustomEvent("cp:cart-changed"));
@@ -142,13 +156,13 @@
   function cartAdd(product, qty) {
     var items = cartRead();
     var existing = items.find(function (it) { return it.id === product.id; });
-    if (existing) existing.qty += qty;
+    if (existing) existing.qty = Math.min(MAX_QTY, existing.qty + qty);
     else items.push({ id: product.id, name: product.name, price: product.price, qty: qty });
     cartWrite(items);
   }
   function cartUpdateQty(id, qty) {
     var items = cartRead();
-    items.forEach(function (it) { if (it.id === id) it.qty = Math.max(1, qty); });
+    items.forEach(function (it) { if (it.id === id) it.qty = Math.min(MAX_QTY, Math.max(1, qty)); });
     cartWrite(items);
   }
   function cartRemove(id) { cartWrite(cartRead().filter(function (it) { return it.id !== id; })); }

@@ -487,7 +487,18 @@
   var productGrid = document.getElementById("product-grid");
   var refreshCartUI = null; // wird gesetzt, sobald die Warenkorb-Sektion auf der Seite existiert
   function getCart() {
-    try { return JSON.parse(localStorage.getItem("ironhaus-premium-cart") || "[]"); } catch (e) { return []; }
+    var raw;
+    try { raw = JSON.parse(localStorage.getItem("ironhaus-premium-cart") || "[]"); } catch (e) { return []; }
+    if (!Array.isArray(raw)) return [];
+    // Nur bekannte Produkte, ganzzahlige Mengen 1..99 (manipulierter localStorage ergäbe sonst negative oder NaN-Summen)
+    var clean = [];
+    raw.forEach(function (i) {
+      if (!i || !DATA.products.some(function (p) { return p.id === i.id; })) return;
+      var q = Math.floor(Number(i.qty));
+      if (!isFinite(q) || q < 1) return;
+      clean.push({ id: i.id, qty: Math.min(99, q) });
+    });
+    return clean;
   }
   function saveCart(cart) {
     try { localStorage.setItem("ironhaus-premium-cart", JSON.stringify(cart)); } catch (e) { /* ignore */ }
@@ -522,7 +533,7 @@
       if (!btn) return;
       var cart = getCart();
       var existing = cart.filter(function (i) { return i.id === btn.dataset.productId; })[0];
-      if (existing) { existing.qty += 1; } else { cart.push({ id: btn.dataset.productId, qty: 1 }); }
+      if (existing) { existing.qty = Math.min(99, existing.qty + 1); } else { cart.push({ id: btn.dataset.productId, qty: 1 }); }
       saveCart(cart);
       var original = btn.textContent;
       btn.textContent = "Hinzugefügt ✓";
@@ -566,11 +577,11 @@
       var plusId = e.target.getAttribute("data-qty-plus");
       var minusId = e.target.getAttribute("data-qty-minus");
       var removeId = e.target.getAttribute("data-remove");
-      if (plusId) { cart.filter(function (i) { return i.id === plusId; })[0].qty += 1; }
+      if (plusId) { var plusItem = cart.filter(function (i) { return i.id === plusId; })[0]; if (plusItem) plusItem.qty = Math.min(99, plusItem.qty + 1); }
       if (minusId) {
         var item = cart.filter(function (i) { return i.id === minusId; })[0];
-        item.qty -= 1;
-        if (item.qty <= 0) cart = cart.filter(function (i) { return i.id !== minusId; });
+        if (item) item.qty -= 1;
+        if (item && item.qty <= 0) cart = cart.filter(function (i) { return i.id !== minusId; });
       }
       if (removeId) cart = cart.filter(function (i) { return i.id !== removeId; });
       if (plusId || minusId || removeId) { saveCart(cart); renderCart(); }

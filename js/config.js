@@ -45,12 +45,24 @@
    * POST JSON an die API. Wirft {kind:'network'} bei Netzwerkfehlern und {kind:'api', message} bei {"error":"..."}.
    * Im Mock-Modus wird nichts gesendet.
    */
-  function postJson(path, payload) {
+  // E-Mail aus dem Impressum: Ausweg, wenn die API nicht erreichbar ist (Anfragen sollen nicht verloren gehen).
+  var CONTACT_EMAIL = 'yanqiva@gmail.com';
+  /** Schreibt eine Fehlermeldung plus mailto-Link (vorausgefüllt) in el – nur Textknoten, kein HTML. */
+  function mailFallback(target, text, subject, body) {
+    target.textContent = '';
+    target.appendChild(document.createTextNode(text + ' '));
+    var a = document.createElement('a');
+    a.href = 'mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent(subject || 'Anfrage über yanqiva') + (body ? '&body=' + encodeURIComponent(String(body).slice(0, 1800)) : '');
+    a.textContent = 'E-Mail an ' + CONTACT_EMAIL;
+    target.appendChild(a);
+    target.appendChild(document.createTextNode('.'));
+  }
+  function postJson(path, payload, opts) {
     if (MOCK) {
       return new Promise(function (resolve) { setTimeout(function () { resolve({ ok: true, mock: true }); }, 500); });
     }
     var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
-    var timer = controller ? setTimeout(function () { controller.abort(); }, 60000) : null;
+    var timer = controller ? setTimeout(function () { controller.abort(); }, (opts && opts.timeout) || 60000) : null;
     return fetch(API_BASE + path, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -90,5 +102,5 @@
     }).then(function (d) { if (timer) clearTimeout(timer); return d; }, function (e) { if (timer) clearTimeout(timer); throw e; });
   }
 
-  window.YQ = { API_BASE: API_BASE, PAYMENT_LINKS: PAYMENT_LINKS, ANALYTICS: ANALYTICS, MOCK: MOCK, MOCK_URL: MOCK_URL, mockUrl: mockUrl, el: el, postJson: postJson, getJson: getJson };
+  window.YQ = { API_BASE: API_BASE, PAYMENT_LINKS: PAYMENT_LINKS, ANALYTICS: ANALYTICS, MOCK: MOCK, MOCK_URL: MOCK_URL, mockUrl: mockUrl, el: el, postJson: postJson, getJson: getJson, CONTACT_EMAIL: CONTACT_EMAIL, mailFallback: mailFallback };
 })();

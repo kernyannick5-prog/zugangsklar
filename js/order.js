@@ -96,7 +96,7 @@
     }
     btn.disabled = true;
     statusEl.textContent = inquiry ? 'Anfrage wird gesendet …' : 'Bestellung wird gesendet …';
-    YQ.postJson('/api/lead', { email: email, url: url, consent: true, source: 'bestellung', message: message }).then(function () {
+    YQ.postJson('/api/lead', { email: email, url: url, consent: true, source: 'bestellung', message: message }, { timeout: 20000 }).then(function () {
       var link = inquiry ? '' : YQ.PAYMENT_LINKS[product]; // Anfrage-Produkte: erst Angebot, keine Sofortzahlung
       if (link) {
         statusEl.textContent = 'Danke. Sie werden jetzt zur Zahlung weitergeleitet …';
@@ -109,9 +109,8 @@
       done.focus();
     }, function (e) {
       btn.disabled = false;
-      statusEl.textContent = e.kind === 'network'
-        ? 'Die Bestellung konnte gerade nicht gesendet werden. Bitte versuchen Sie es später erneut oder nutzen Sie die Kontaktseite.'
-        : 'Fehler: ' + e.message;
+      if (e.kind === 'network') YQ.mailFallback(statusEl, (inquiry ? 'Ihre Anfrage' : 'Ihre Bestellung') + ' konnte gerade nicht gesendet werden. Bitte versuchen Sie es später erneut oder senden Sie sie direkt per', (inquiry ? 'Anfrage: ' : 'Bestellung: ') + (NAMES[product] || product), message + '\nE-Mail: ' + email + (url ? '\nWebsite: ' + url : ''));
+      else statusEl.textContent = 'Fehler: ' + e.message;
     });
   });
 })();

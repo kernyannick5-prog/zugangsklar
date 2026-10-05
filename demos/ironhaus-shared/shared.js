@@ -305,6 +305,8 @@
     }
     var start = options.start;
     var end = new Date(start.getTime() + (options.durationMinutes || 60) * 60000);
+    // RFC 5545: Backslash, Semikolon, Komma und Zeilenumbrüche in Textfeldern maskieren
+    function esc(t) { return String(t).replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\r\n|\r|\n/g, "\\n"); }
     var uid = "ironhaus-" + Date.now() + "@ironhaus-dortmund.example";
     var lines = [
       "BEGIN:VCALENDAR",
@@ -317,13 +319,24 @@
       "DTSTAMP:" + toICSDate(new Date()),
       "DTSTART:" + toICSDate(start),
       "DTEND:" + toICSDate(end),
-      "SUMMARY:" + (options.title || "IRONHAUS Termin"),
-      "DESCRIPTION:" + (options.description || "").replace(/\n/g, "\\n"),
-      "LOCATION:" + (options.location || "IRONHAUS, Beispielkai 12, 44147 Dortmund"),
+      "SUMMARY:" + esc(options.title || "IRONHAUS Termin"),
+      "DESCRIPTION:" + esc(options.description || ""),
+      "LOCATION:" + esc(options.location || "IRONHAUS, Beispielkai 12, 44147 Dortmund"),
       "END:VEVENT",
       "END:VCALENDAR"
     ];
-    downloadTextFile(options.filename || "ironhaus-termin.ics", lines.join("\r\n"), "text/calendar;charset=utf-8");
+    // RFC 5545: Zeilen höchstens 75 Oktette, Fortsetzung mit CRLF + Leerzeichen (nicht mitten im UTF-8-Zeichen trennen)
+    function fold(line) {
+      var out = [], cur = "", bytes = 0;
+      Array.from(line).forEach(function (ch) {
+        var b = unescape(encodeURIComponent(ch)).length;
+        if (bytes + b > 75) { out.push(cur); cur = " "; bytes = 1; }
+        cur += ch; bytes += b;
+      });
+      out.push(cur);
+      return out.join("\r\n");
+    }
+    downloadTextFile(options.filename || "ironhaus-termin.ics", lines.map(fold).join("\r\n") + "\r\n", "text/calendar;charset=utf-8");
   }
 
   /**

@@ -245,3 +245,6 @@
   .hero-gallery .arch-3 img { object-position: 40% 50%; }
   .photo-grid img { object-position: 50% 38%; }
 }
+
+/* Das hidden-Attribut muss auch gegen display-Regeln gewinnen */
+[hidden] { display: none !important; }
