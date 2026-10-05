@@ -206,7 +206,32 @@
     }
     return out;
   }
+  // Feste Antworten direkt im Browser (js/chat-faq.js, gleiche Logik + Wissensbasis wie der Server-FAQ-Modus).
+  // Kein Server nötig, Fragen verlassen den Browser nicht. Das Bündel wird erst beim ersten Öffnen geladen.
+  var LOCAL = !/[?&]chat=api/.test(location.search); // ?chat=api: Server-Modus (Worker), z. B. für tools/site-build/chat.e2e.mjs
+  var faqPromise = null;
+  function loadFaq() {
+    if (window.YQFaq) return Promise.resolve(window.YQFaq);
+    if (!faqPromise) {
+      faqPromise = new Promise(function (resolve, reject) {
+        var s = document.createElement('script');
+        s.src = siteUrl('js/chat-faq.js');
+        s.async = true;
+        s.onload = function () { if (window.YQFaq) resolve(window.YQFaq); else { faqPromise = null; var e = new Error('load'); e.status = 0; reject(e); } };
+        s.onerror = function () { faqPromise = null; var e = new Error('network'); e.status = 0; reject(e); };
+        document.head.appendChild(s);
+      });
+    }
+    return faqPromise;
+  }
   function chatRequest(messages) {
+    if (LOCAL && !YQ.MOCK) {
+      return loadFaq().then(function (faq) {
+        var r = faq.answer(messages);
+        // kurze Pause, damit die Antwort nicht „springt“ und der Status angesagt werden kann
+        return new Promise(function (res) { setTimeout(function () { res({ reply: r.reply, sources: r.sources || [], mode: 'faq', answered: r.answered }); }, 250); });
+      });
+    }
     if (YQ.MOCK) {
       return fetch(YQ.mockUrl('chat-example.json')).then(function (r) { return r.json(); }).then(function (d) {
         var q = (messages[messages.length - 1].content || '').toLowerCase();
@@ -282,6 +307,7 @@
   /* ---------- Panel ---------- */
   function build() {
     built = true;
+    if (LOCAL && !YQ.MOCK) loadFaq().catch(function () { /* Fehler zeigt erst die erste Frage */ });
     var title = el('h2', { class: 'yq-chat-title', id: 'yq-chat-title' }, 'Fragen zu Yanqiva');
     var closeBtn = el('button', { type: 'button', 'aria-label': 'Chat schließen' });
     closeBtn.appendChild(icon(ICON_CLOSE));
@@ -289,7 +315,7 @@
 
     scrollBox = el('div', { class: 'yq-chat-scroll' });
     var notice = el('p', { class: 'yq-chat-notice', id: 'yq-chat-notice' },
-      'Automatische Antworten auf Basis der Website-Inhalte, ohne Gewähr; keine Rechtsberatung, keine verbindlichen Angebote. Bitte geben Sie keine personenbezogenen Daten ein. Ihre Fragen werden zur Beantwortung an unseren KI-Dienstleister übermittelt und nicht gespeichert. Mehr in der ',
+      'Automatische Antworten aus den Inhalten dieser Website, ohne Gewähr; keine Rechtsberatung, keine verbindlichen Angebote. Der Chat läuft vollständig in Ihrem Browser: Ihre Fragen werden nicht an uns oder Dritte übertragen. Mehr in der ',
       el('a', { href: siteUrl('datenschutz.html#chatbot') }, 'Datenschutzerklärung'), '.');
     log = el('div', { class: 'yq-chat-log', role: 'log', 'aria-live': 'polite', 'aria-relevant': 'additions', 'aria-label': 'Chatverlauf' });
     scrollBox.appendChild(notice);
