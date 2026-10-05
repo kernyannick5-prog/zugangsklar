@@ -7,10 +7,10 @@
    Regeln (erste passende gewinnt):
    P  "poor"   Gesamt-Score < 50, ODER >= 3 Bereiche < 60, ODER veraltetes jQuery (sec-old-jquery) + >= 4 Barrierefreiheits-Befunde
                -> neues Website-Projekt (Business ab 590 EUR als Projektanfrage; bei Shop-System shopify/woocommerce/shopware zusätzlich Premium als Hinweis).
-               Alternativen: Website-Report 149 EUR (wird bei Website-Bestellung angerechnet), Fix-Paket ab 490 EUR.
+               Alternativen: Website-Report 149 EUR (wird bei Website-Bestellung angerechnet), Fix-Paket ab 249 EUR.
    H  "heavy"  Barrierefreiheit (ohne Erklärungs-Link): >= 3 Befunde kritisch/hoch ODER >= 6 Befunde insgesamt
-               -> Website-Report 149 EUR als erster Schritt ("damit Sie wissen, was genau zu tun ist"); Alternative Fix-Paket ab 490 EUR.
-   A  "a11y"   1-5 Barrierefreiheits-Befunde (ohne Erklärungs-Link), nicht heavy -> Barrierefreiheits-Fix-Paket ab 490 EUR;
+               -> Website-Report 149 EUR als erster Schritt ("damit Sie wissen, was genau zu tun ist"); Alternative Fix-Paket ab 249 EUR.
+   A  "a11y"   1-5 Barrierefreiheits-Befunde (ohne Erklärungs-Link), nicht heavy -> Barrierefreiheits-Fix-Paket ab 249 EUR;
                Alternativen: Report 149 EUR, ggf. Einzel-Fixes (Erklärung/Fonts).
    F  "fixes"  Keine sonstigen Barrierefreiheits-Befunde, aber Einzel-Fixes möglich:
                Erklärung fehlt (a11y-statement) 99 EUR; Google Fonts extern (privacy-google-fonts) 149 EUR;
@@ -20,7 +20,7 @@
                Primaer = "Kein Kauf noetig" (ohne Preis, ohne Bestell-CTA), Liste "Kleinigkeiten zum Selbermachen" (max. 3),
                CTA nur "in ein paar Monaten erneut kostenlos pruefen". Monitoring nur als kleine Textnotiz, nie als Empfehlung.
    G  "good"   Score >= 85, keine kritisch/hoch, nicht "none": ein Fix hat Vorrang, wenn er sich wirklich lohnt
-               (>= 3 Barrierefreiheits-Befunde -> Fix-Paket ab 490 EUR; Security-Header mit mittel-Befund und Serverzugriff -> 149 EUR;
+               (>= 3 Barrierefreiheits-Befunde -> Fix-Paket ab 249 EUR; Security-Header mit mittel-Befund und Serverzugriff -> 149 EUR;
                siehe auch F). Sonst Regel "monitoring".
    M  "monitoring" Score 85-94 (oder >= 95 mit > 3 mittel) ohne kritisch/hoch und ohne lohnenden Fix: Monitoring 29 EUR/Monat,
                ehrlich gerahmt ("gut, aber kleine Luecken; meldet, wenn Updates neue Probleme bringen"), plus Selbermach-Liste,
@@ -40,8 +40,9 @@
     'fix-erklaerung': { name: 'Barrierefreiheitserklärung + Footer-Link', price: '99 €', amount: 99 },
     'fix-google-fonts': { name: 'Google Fonts lokal einbinden', price: '149 €', amount: 149 },
     'fix-security-header': { name: 'Security-Header einrichten', price: '149 €', amount: 149 },
-    'fix-a11y': { name: 'Barrierefreiheits-Fix-Paket', price: 'ab 490 €', amount: 490 },
+    'fix-a11y': { name: 'Barrierefreiheits-Fix-Paket', price: 'ab 249 €', amount: 249 },
     'fix-individuell': { name: 'Individuelle Umsetzung', price: '75 €/Std.' },
+    'website-basic': { name: 'Neue Website Basic', price: '299 €' },
     'website-business': { name: 'Neue Website Business', price: 'ab 590 €' },
     'website-premium': { name: 'Neue Website Premium', price: 'ab 1.490 €' }
   };
@@ -215,6 +216,7 @@
       if (a11yOthers) why.push(plural(a11yOthers, 'Barrierefreiheits-Befund', 'Barrierefreiheits-Befunde') + ' kommen dazu.');
       why.push('Bei so vielen Baustellen ist ein Neubau oft günstiger als die Reparatur der alten Seite.');
       if (isShop) notes.push('Erkanntes Shop-System: ' + system.charAt(0).toUpperCase() + system.slice(1) + '. Für Shops mit größerem Funktionsumfang (Shop, Mitgliederbereich) passt Premium, ein individuelles Angebot mit Orientierung ' + PRODUCTS['website-premium'].price + '.');
+      notes.push('Für ein kleines Projekt mit 1–3 Seiten reicht eventuell Website Basic (' + PRODUCTS['website-basic'].price + ', Festpreis).');
       notes.push('Wenn Sie vorher den Website-Report (' + PRODUCTS.report.price + ') bestellen, wird der Preis bei einem späteren Website-Auftrag angerechnet.');
       return done('poor', item(up, { cta: 'Website-Projekt anfragen' }),
         [reportAlt, item('fix-a11y', { why: 'Reparatur der bestehenden Seite, Festpreis nach Sichtung' })],

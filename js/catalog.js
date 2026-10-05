@@ -1,6 +1,18 @@
 /* GENERIERT von tools/site-build/build.mjs aus tools/site-build/catalog.mjs. Nicht von Hand ändern. */
 window.YQ_CATALOG = {
  "products": {
+  "website-basic": {
+   "id": "website-basic",
+   "name": "Website Basic",
+   "group": "website",
+   "price": 299,
+   "priceFrom": false,
+   "billing": "einmalig",
+   "priceText": "299 €",
+   "priceTextShort": "299 €",
+   "amountText": "299 €",
+   "orderLabel": "Website Basic (299 €, einmalig, unverbindliche Anfrage, Angebot vorab)"
+  },
   "website-business": {
    "id": "website-business",
    "name": "Website Business",
@@ -39,7 +51,7 @@ window.YQ_CATALOG = {
    "orderLabel": "Yanqiva Pflege (ab 29 €/Monat)",
    "tiers": [
     {
-     "label": "kompakte Business-Websites (bis 3 Seiten)",
+     "label": "Basic- und kompakte Websites (bis 3 Seiten)",
      "price": 29
     },
     {
@@ -148,13 +160,13 @@ window.YQ_CATALOG = {
    "id": "fix-a11y",
    "name": "Barrierefreiheits-Fix-Paket",
    "group": "fix",
-   "price": 490,
+   "price": 249,
    "priceFrom": true,
    "billing": "einmalig",
-   "priceText": "ab 490 €",
-   "priceTextShort": "ab 490 €",
-   "amountText": "490 €",
-   "orderLabel": "Fix: Barrierefreiheits-Fix-Paket (ab 490 €)"
+   "priceText": "ab 249 €",
+   "priceTextShort": "ab 249 €",
+   "amountText": "249 €",
+   "orderLabel": "Fix: Barrierefreiheits-Fix-Paket (ab 249 €)"
   },
   "fix-individuell": {
    "id": "fix-individuell",

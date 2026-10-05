@@ -21,8 +21,13 @@
     try { sessionStorage.setItem(KEY, '1'); } catch (e) { /* dann erscheint der Hinweis erneut */ }
   }
   if (!force && seen()) return;
+  // Gilt schon beim Anzeigen als gesehen: auch ohne Klick auf „Verstanden“ (Weiterklicken, Zurück, Tab schließen) erscheint er nicht erneut
+  var shownThisPage = false;
 
   function build() {
+    if (shownThisPage) return;
+    shownThisPage = true;
+    remember();
     var dlg = document.createElement('dialog');
     dlg.className = 'yq-notice';
     dlg.setAttribute('aria-labelledby', 'yq-notice-h');

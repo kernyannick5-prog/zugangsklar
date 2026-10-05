@@ -8,7 +8,7 @@
   // Zahlungslinks (z. B. Stripe Payment Links). Leer = Rechnungs-Fallback ("Wir melden uns innerhalb von 24 Stunden").
   var PAYMENT_LINKS = {
     report: '', monitoring: '', business: '', agentur: '', agentur_plus: '',
-    'website-business': '', 'website-premium': '', 'website-pflege': '',
+    'website-basic': '', 'website-business': '', 'website-premium': '', 'website-pflege': '',
     'fix-google-fonts': '', 'fix-erklaerung': '', 'fix-security-header': '', 'fix-a11y': '', 'fix-individuell': ''
   };
 
