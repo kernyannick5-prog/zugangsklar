@@ -1,7 +1,7 @@
 /* Hinweisfenster zum Start der gewerblichen Tätigkeit.
-   Erscheint bis einschließlich zum Vortag des Starttermins: auf der Startseite bei jedem Aufruf (auch per Zurück-Button),
-   auf allen anderen Seiten nur beim ersten Besuch.
-   Gespeichert wird nur ein Merkzeichen ohne personenbezogene Daten (localStorage, Fallback sessionStorage).
+   Erscheint bis einschließlich zum Vortag des Starttermins, insgesamt höchstens MAX_SHOWS-mal: auf der Startseite bei jedem
+   Aufruf (auch per Zurück-Button), auf allen anderen Seiten nur, solange er noch gar nicht erschienen ist.
+   Gespeichert wird nur ein Anzeigezähler ohne personenbezogene Daten (localStorage, Fallback sessionStorage).
    In automatisierten Tests (navigator.webdriver) aus, außer mit ?hinweis=1. Keine Abhängigkeiten. */
 (function () {
   'use strict';
@@ -12,23 +12,28 @@
   var force = /[?&]hinweis=1/.test(location.search);
   if (!force && (new Date() >= START || navigator.webdriver || (YQ && YQ.prestartActive && !YQ.prestartActive()))) return;
   if (window.top !== window.self) return; // nicht in eingebetteten Vorschauen
-  function seen() {
-    try { if (localStorage.getItem(KEY) === '1') return true; } catch (e) { /* Speicher gesperrt */ }
-    try { if (sessionStorage.getItem(KEY) === '1') return true; } catch (e) { /* Speicher gesperrt */ }
-    return false;
+  var MAX_SHOWS = 3; // Entscheidung Eigentümer 2026-10-05: höchstens 3 Anzeigen insgesamt
+  // Bisherige Anzeigen; der frühere Wert '1' (Version „nur einmal“) zählt als eine Anzeige
+  function shows() {
+    var n = 0;
+    try { n = Math.max(n, parseInt(localStorage.getItem(KEY), 10) || 0); } catch (e) { /* Speicher gesperrt */ }
+    try { n = Math.max(n, parseInt(sessionStorage.getItem(KEY), 10) || 0); } catch (e) { /* Speicher gesperrt */ }
+    return n;
   }
   function remember() {
-    try { localStorage.setItem(KEY, '1'); return; } catch (e) { /* Speicher gesperrt */ }
-    try { sessionStorage.setItem(KEY, '1'); } catch (e) { /* dann erscheint der Hinweis erneut */ }
+    var n = String(shows() + 1);
+    try { localStorage.setItem(KEY, n); return; } catch (e) { /* Speicher gesperrt */ }
+    try { sessionStorage.setItem(KEY, n); } catch (e) { /* dann erscheint der Hinweis erneut */ }
   }
-  // Startseite: bei jedem Aufruf (Entscheidung Eigentümer 2026-10-05); sonst nur einmal
+  // Startseite: bei jedem Aufruf bis zum Limit; andere Seiten nur, solange er noch nie erschienen ist
   var isHome = /^\/(index(\.html)?)?$/.test(location.pathname);
-  if (!force && !isHome && seen()) return;
+  function allowed() { return force || shows() < (isHome ? MAX_SHOWS : 1); }
+  if (!allowed()) return;
   // Gilt schon beim Anzeigen als gesehen: auch ohne Klick auf „Verstanden“ (Weiterklicken, Zurück, Tab schließen) erscheint er nicht erneut
   var shownThisPage = false;
 
   function build() {
-    if (shownThisPage) return;
+    if (shownThisPage || !allowed()) return;
     shownThisPage = true;
     remember();
     var dlg = document.createElement('dialog');
@@ -55,7 +60,6 @@
     dlg.appendChild(btn);
     var opener = document.activeElement;
     function close() {
-      remember();
       if (dlg.open) dlg.close();
       dlg.remove();
       if (opener && opener.focus && document.contains(opener)) opener.focus();
