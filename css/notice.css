@@ -1,0 +1,22 @@
+/* Hinweisfenster zum Tätigkeitsbeginn (js/notice.js) */
+.yq-notice {
+  width: min(32rem, calc(100vw - 2rem));
+  max-height: calc(100vh - 2rem);
+  overflow: auto;
+  margin: auto;
+  padding: 1.5rem 1.5rem 1.25rem;
+  border: 1px solid rgba(47, 42, 133, .18);
+  border-top: 4px solid var(--primary, #2F2A85);
+  border-radius: var(--radius, 14px);
+  background: #fff;
+  color: var(--text, #17172B);
+  box-shadow: var(--shadow-pop, 0 14px 32px rgba(23,23,43,.10));
+  font: inherit;
+}
+.yq-notice::backdrop { background: rgba(15, 14, 46, .55); }
+.yq-notice h2 { margin: 0 0 .75rem; font-size: 1.2rem; line-height: 1.3; color: var(--ink, #0F0E2E); }
+.yq-notice p { margin: 0 0 .75rem; line-height: 1.55; }
+.yq-notice-ok { display: inline-flex; min-height: 44px; margin-top: .5rem; }
+.yq-notice-fallback { position: fixed; inset: 0; z-index: 1000; height: fit-content; }
+@media (max-width: 480px) { .yq-notice { padding: 1.25rem 1.1rem 1rem; } .yq-notice-ok { width: 100%; justify-content: center; } }
+@media print { .yq-notice { display: none !important; } }
