@@ -13,7 +13,8 @@
   var STORE_KEY = 'yq-chat-v1';
   var TIMEOUT_MS = 30000;
   var OWN_HOSTS = ['yanqiva.de', 'www.yanqiva.de'];
-  var SUGGESTIONS = ['Was steht in den Verträgen?', 'Wie funktioniert ein Vertragsabschluss?', 'Welche Kündigungsfristen gibt es?', 'Welche Kosten entstehen?', 'Kannst du mir einen Vertrag einfach erklären?'];
+  // Kurze Standardfragen (Eigentümer 2026-10-06); jede ist in worker/test/chat.test.js mit erwarteter Antwort abgesichert
+  var SUGGESTIONS = ['Was kostet eine Website?', 'Ist der Check kostenlos?', 'Was ist das BFSG?', 'Was kostet Monitoring?', 'Wie lange dauert eine Website?', 'Kann ich monatlich kündigen?', 'Wie erreiche ich euch?'];
   var GREETING = 'Hallo! Ich beantworte Fragen zu Yanqiva: Leistungen, Preise, Bestellablauf und unsere Vertragsbedingungen (AGB). Begriffe erkläre ich allgemein, das ist keine Rechtsberatung. Wählen Sie eine Frage oder schreiben Sie Ihre eigene.';
   var ERR_RATE = 'Sie haben gerade viele Fragen gestellt. Bitte versuchen Sie es später erneut.';
   var ERR_DOWN = 'Der Chat ist gerade nicht erreichbar. Versuchen Sie es erneut oder nutzen Sie das Kontaktformular.';
@@ -229,7 +230,7 @@
       return loadFaq().then(function (faq) {
         var r = faq.answer(messages);
         // kurze Pause, damit die Antwort nicht „springt“ und der Status angesagt werden kann
-        return new Promise(function (res) { setTimeout(function () { res({ reply: r.reply, sources: r.sources || [], mode: 'faq', answered: r.answered }); }, 250); });
+        return new Promise(function (res) { setTimeout(function () { res({ reply: r.reply, sources: r.sources || [], mode: 'faq', answered: r.answered, smalltalk: r.smalltalk }); }, 250); });
       });
     }
     if (YQ.MOCK) {
@@ -292,6 +293,8 @@
       saveStore();
       setBusy(false);
       place(renderMsg('assistant', data.reply, { mode: mode, sources: sources, copy: true }));
+      // Nach Smalltalk („Hallo“) oder „weiß ich nicht“: Standardfragen erneut anbieten, damit man direkt weiterklicken kann
+      if (data.smalltalk || data.answered === false) { showChips(); if (stick) scrollBox.scrollTop = scrollBox.scrollHeight; }
     }, function (e) {
       if (myGen !== gen) { setBusy(false); return; }
       stick = nearBottom();

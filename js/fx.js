@@ -68,19 +68,16 @@
 
   /* Hero: Das 3D-Zeichen richtet sich exakt zum Mauszeiger aus (ganze Seite, nicht nur im Hero).
      Winkel = atan(Abstand Zeiger zur Zeichen-Mitte / virtuelle Tiefe), weich nachgeführt per rAF, Ruhe = kein rAF.
-     Beim ersten Mauskontakt wird die Grunddrehung/Leerlauf-Animation ruckfrei ausgeblendet (aktuelle Matrix einfrieren, dann zurückblenden). */
+     Die räumliche Schwebe-Animation läuft dabei weiter (sonst steht das Zeichen frontal und wirkt am Desktop flach);
+     die Mausneigung kommt auf dem übergeordneten .y3d-tilt dazu, daher etwas dezentere Maximalwinkel. */
   var hero = document.querySelector('.hero'), tilt = hero && hero.querySelector('.y3d-tilt'),
       scene = hero && hero.querySelector('.y3d-scene'), mark = hero && hero.querySelector('.y3d-stack');
   if (tilt && scene && mark) {
-    var DEPTH = 460, MAXY = 34, MAXX = 26;
+    var DEPTH = 460, MAXY = 24, MAXX = 16;
     var tx = 0, ty = 0, cx = 0, cy = 0, run = 0, following = false, px = 0, py = 0, hasP = false;
     function startFollow() {
       following = true;
-      var m = getComputedStyle(scene).transform;
-      scene.style.transform = m === 'none' ? '' : m;
-      scene.style.animation = 'none';
       tilt.classList.add('y3d-follow');
-      requestAnimationFrame(function () { requestAnimationFrame(function () { scene.style.transition = 'transform .7s cubic-bezier(.22, 1, .36, 1)'; scene.style.transform = 'none'; }); });
     }
     function aim() {
       var r = mark.getBoundingClientRect();
