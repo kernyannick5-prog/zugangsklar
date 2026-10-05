@@ -1,5 +1,6 @@
 /* Hinweisfenster zum Start der gewerblichen Tätigkeit.
-   Erscheint beim ersten Besuch bis einschließlich zum Vortag des Starttermins, danach nie wieder.
+   Erscheint bis einschließlich zum Vortag des Starttermins: auf der Startseite bei jedem Aufruf (auch per Zurück-Button),
+   auf allen anderen Seiten nur beim ersten Besuch.
    Gespeichert wird nur ein Merkzeichen ohne personenbezogene Daten (localStorage, Fallback sessionStorage).
    In automatisierten Tests (navigator.webdriver) aus, außer mit ?hinweis=1. Keine Abhängigkeiten. */
 (function () {
@@ -20,7 +21,9 @@
     try { localStorage.setItem(KEY, '1'); return; } catch (e) { /* Speicher gesperrt */ }
     try { sessionStorage.setItem(KEY, '1'); } catch (e) { /* dann erscheint der Hinweis erneut */ }
   }
-  if (!force && seen()) return;
+  // Startseite: bei jedem Aufruf (Entscheidung Eigentümer 2026-10-05); sonst nur einmal
+  var isHome = /^\/(index(\.html)?)?$/.test(location.pathname);
+  if (!force && !isHome && seen()) return;
   // Gilt schon beim Anzeigen als gesehen: auch ohne Klick auf „Verstanden“ (Weiterklicken, Zurück, Tab schließen) erscheint er nicht erneut
   var shownThisPage = false;
 
@@ -70,4 +73,10 @@
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
   else build();
+  // Rückkehr per Zurück-Button lädt die Seite aus dem Cache neu, ohne das Skript erneut auszuführen
+  if (isHome) window.addEventListener('pageshow', function (e) {
+    if (!e.persisted || document.querySelector('dialog.yq-notice')) return;
+    shownThisPage = false;
+    build();
+  });
 })();
