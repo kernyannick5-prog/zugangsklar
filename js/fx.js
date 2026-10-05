@@ -4,6 +4,12 @@
 (function () {
   'use strict';
   var de = document.documentElement;
+  /* Hero-Logo: Endlosanimation erst starten, wenn die Seite geladen ist und der Browser frei hat (html.anim-go).
+     Bis dahin steht das Logo in der Ausgangsposition (pausiert bei 0), daher startet es nahtlos ohne Sprung und
+     wird nicht von Layout-/Skriptarbeit beim Öffnen ausgebremst. */
+  function animGo() { requestAnimationFrame(function () { requestAnimationFrame(function () { de.classList.add('anim-go'); }); }); }
+  function animIdle() { if ('requestIdleCallback' in window) requestIdleCallback(animGo, { timeout: 1200 }); else setTimeout(animGo, 300); }
+  if (document.readyState === 'complete') animIdle(); else window.addEventListener('load', animIdle, { once: true });
   var force = /[?&]fx=1/.test(location.search);
   if (!('IntersectionObserver' in window) || document.getElementById('dash-header')) return;
   /* Pause: Endlosanimationen nur im Sichtfeld und im sichtbaren Tab */
