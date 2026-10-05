@@ -77,10 +77,10 @@
 <h2 id="buttons">Fehler 2: Icon-Buttons ohne Namen</h2>
 <p>Warenkorb, Suche, Menü, Konto: Oft stecken hier nur SVG-Icons in einem Link oder Button. Ohne Text oder Namen liest ein Screenreader nur „Schaltfläche“ vor.</p>
 <pre tabindex="0" aria-label="HTML-Codebeispiel"><code>&lt;!-- vorher --&gt;
-&lt;a href="../{{ routes.cart_url }}"&gt;{% render 'icon-cart' %}&lt;/a&gt;
+&lt;a href="{{ routes.cart_url }}"&gt;{% render 'icon-cart' %}&lt;/a&gt;
 
 &lt;!-- nachher --&gt;
-&lt;a href="../{{ routes.cart_url }}"&gt;
+&lt;a href="{{ routes.cart_url }}"&gt;
   {% render 'icon-cart' %}
   &lt;span class="visually-hidden"&gt;Warenkorb, {{ cart.item_count }} Artikel&lt;/span&gt;
 &lt;/a&gt;</code></pre>
