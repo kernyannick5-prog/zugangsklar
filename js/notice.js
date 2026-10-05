@@ -1,7 +1,8 @@
 /* Hinweisfenster zum Start der gewerblichen Tätigkeit.
-   Erscheint bis einschließlich zum Vortag des Starttermins, insgesamt höchstens MAX_SHOWS-mal: auf der Startseite bei jedem
-   Aufruf (auch per Zurück-Button), auf allen anderen Seiten nur, solange er noch gar nicht erschienen ist.
-   Gespeichert wird nur ein Anzeigezähler ohne personenbezogene Daten (localStorage, Fallback sessionStorage).
+   Erscheint bis einschließlich zum Vortag des Starttermins, höchstens MAX_SHOWS-mal pro Besuch: auf der Startseite bei jedem
+   Aufruf (auch per Zurück-Button), auf allen anderen Seiten nur, solange er im Besuch noch gar nicht erschienen ist.
+   Gespeichert wird nur ein Anzeigezähler ohne personenbezogene Daten im Sitzungsspeicher (sessionStorage): neuer Tab bzw.
+   neuer Besuch = Zähler wieder bei 0.
    In automatisierten Tests (navigator.webdriver) aus, außer mit ?hinweis=1. Keine Abhängigkeiten. */
 (function () {
   'use strict';
@@ -12,18 +13,16 @@
   var force = /[?&]hinweis=1/.test(location.search);
   if (!force && (new Date() >= START || navigator.webdriver || (YQ && YQ.prestartActive && !YQ.prestartActive()))) return;
   if (window.top !== window.self) return; // nicht in eingebetteten Vorschauen
-  var MAX_SHOWS = 3; // Entscheidung Eigentümer 2026-10-05: höchstens 3 Anzeigen insgesamt
-  // Bisherige Anzeigen; der frühere Wert '1' (Version „nur einmal“) zählt als eine Anzeige
+  var MAX_SHOWS = 3; // Entscheidung Eigentümer 2026-10-05: höchstens 3 Anzeigen pro Besuch
+  // Früheren dauerhaften Zähler (localStorage, Versionen bis 2026-10-05) entfernen
+  try { localStorage.removeItem(KEY); } catch (e) { /* Speicher gesperrt */ }
+  var memo = 0; // Ersatz, wenn auch der Sitzungsspeicher gesperrt ist (gilt dann nur für die aktuelle Seite)
   function shows() {
-    var n = 0;
-    try { n = Math.max(n, parseInt(localStorage.getItem(KEY), 10) || 0); } catch (e) { /* Speicher gesperrt */ }
-    try { n = Math.max(n, parseInt(sessionStorage.getItem(KEY), 10) || 0); } catch (e) { /* Speicher gesperrt */ }
-    return n;
+    try { return parseInt(sessionStorage.getItem(KEY), 10) || 0; } catch (e) { return memo; }
   }
   function remember() {
-    var n = String(shows() + 1);
-    try { localStorage.setItem(KEY, n); return; } catch (e) { /* Speicher gesperrt */ }
-    try { sessionStorage.setItem(KEY, n); } catch (e) { /* dann erscheint der Hinweis erneut */ }
+    memo = shows() + 1;
+    try { sessionStorage.setItem(KEY, String(memo)); } catch (e) { /* Speicher gesperrt */ }
   }
   // Startseite: bei jedem Aufruf bis zum Limit; andere Seiten nur, solange er noch nie erschienen ist
   var isHome = /^\/(index(\.html)?)?$/.test(location.pathname);
