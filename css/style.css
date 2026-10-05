@@ -867,3 +867,22 @@ th { background: var(--tint); }
 
 /* Spamschutz: Honeypot-Feld, außerhalb des sichtbaren Bereichs (nicht display:none), für Screenreader per aria-hidden verborgen */
 .hp-field { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+
+/* ---- Mobil/Tablet-Feinschliff (2026-10-05) ---- */
+/* Tablet: bei ungerader Kartenzahl im 2-Spalten-Raster die letzte Karte auf volle Breite (keine Leerzelle, z. B. Premium) */
+@media (min-width: 600px) and (max-width: 893px) {
+  .grid-3:not(.mod-grid) > :last-child:nth-child(odd) { grid-column: 1 / -1; }
+}
+@media (max-width: 480px) {
+  /* Footer: Markenblock oben, Linklisten zweispaltig (Tippflaechen bleiben 44 px hoch) */
+  .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem 1rem; }
+  .footer-grid > :first-child { grid-column: 1 / -1; }
+  /* Rechtliches ueber volle Breite, zwei Spalten nach Wortlaenge (keine Trennung mitten in „Barrierefreiheitserklaerung“) */
+  .footer-grid > nav:last-child { grid-column: 1 / -1; }
+  .footer-grid > nav:last-child ul { display: grid; grid-auto-flow: column; grid-template-rows: repeat(3, auto); grid-template-columns: auto 1fr; column-gap: 1.5rem; }
+  /* Preiskarten kompakter: weniger Innenabstand, engere Listen, Preis etwas kleiner */
+  .price-card { padding: 1.1rem 1.15rem; }
+  .price-card .price { font-size: 2.05rem; }
+  .price-card .check-ul li { margin-bottom: .2rem; line-height: 1.45; }
+  .grid { gap: 1rem; }
+}
