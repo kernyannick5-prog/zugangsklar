@@ -3,6 +3,8 @@
  * Panel-DOM wird erst beim ersten Öffnen erzeugt. Antworten werden ausschließlich als Text gerendert. */
 (function () {
   'use strict';
+  // Version der nachgeladenen Wissensdatei (vom Build als data-faq-v gesetzt), damit Browser keine veraltete Fassung aus dem Cache nehmen
+  var FAQ_V = (document.currentScript && document.currentScript.getAttribute('data-faq-v')) || '';
   var YQ = window.YQ;
   var root0 = document.documentElement;
   if (!YQ || root0.hasAttribute('data-no-chat') || document.getElementById('yq-chat-toggle')) return;
@@ -216,7 +218,7 @@
     if (!faqPromise) {
       faqPromise = new Promise(function (resolve, reject) {
         var s = document.createElement('script');
-        s.src = siteUrl('js/chat-faq.js');
+        s.src = siteUrl('js/chat-faq.js') + (FAQ_V && FAQ_V.charAt(0) !== '%' ? '?v=' + FAQ_V : '');
         s.async = true;
         s.onload = function () { if (window.YQFaq) resolve(window.YQFaq); else { faqPromise = null; var e = new Error('load'); e.status = 0; reject(e); } };
         s.onerror = function () { faqPromise = null; var e = new Error('network'); e.status = 0; reject(e); };
