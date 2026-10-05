@@ -86,8 +86,8 @@
     var req = [['firma', 'Firma / Betreiber'], ['website', 'Adresse des Online-Shops'], ['beschreibung', 'Allgemeine Beschreibung'], ['erlaeuterung', 'Erläuterung'], ['email', 'E-Mail für Feedback']];
     for (var i = 0; i < req.length; i++) {
       var fld = form.elements[req[i][0]];
-      if (!fld.value.trim()) {
-        statusEl.textContent = 'Bitte füllen Sie das Feld „' + req[i][1] + '“ aus.';
+      if (!fld.value.trim() || /[Bitte ergänzen/.test(fld.value)) {
+        statusEl.textContent = 'Bitte füllen Sie das Feld „' + req[i][1] + '“ aus' + (fld.value.trim() ? ' und ersetzen Sie den Platzhalter in eckigen Klammern.' : '.');
         fld.setAttribute('aria-invalid', 'true');
         fld.focus();
         return;

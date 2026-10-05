@@ -133,11 +133,13 @@
   }
 
   function leadForm(opts, suffix, onDone) {
-    var emailId = 'lead-email-' + suffix, consentId = 'lead-consent-' + suffix, msgId = 'lead-status-' + suffix;
+    var emailId = 'lead-email-' + suffix, consentId = 'lead-consent-' + suffix, promoId = 'lead-promo-' + suffix, msgId = 'lead-status-' + suffix;
     var f = el('form', { class: 'lead-form', id: 'lead-form-' + suffix },
       el('div', { class: 'field' }, el('label', { for: emailId }, 'E-Mail-Adresse'), el('input', { type: 'email', id: emailId, name: 'email', autocomplete: 'email', required: true, placeholder: 'name@firma.de' })),
       el('div', { class: 'field' }, el('label', { class: 'check-line', for: consentId }, el('input', { type: 'checkbox', id: consentId, name: 'consent', required: true }),
-        el('span', null, 'Ich willige ein, dass Yanqiva mir das Ergebnis und einen Vorschlag zur Behebung per E-Mail sendet und meine Daten dafür speichert. Details in der ', el('a', { href: 'datenschutz.html' }, 'Datenschutzerklärung'), '. Widerruf jederzeit möglich.'))),
+        el('span', null, 'Ich willige ein, dass Yanqiva meine E-Mail-Adresse speichert, um mir alle Befunde freizuschalten und das Ergebnis per E-Mail zu senden. Details in der ', el('a', { href: 'datenschutz.html' }, 'Datenschutzerklärung'), '. Widerruf jederzeit möglich.'))),
+      el('div', { class: 'field' }, el('label', { class: 'check-line', for: promoId }, el('input', { type: 'checkbox', id: promoId, name: 'promo' }),
+        el('span', null, 'Optional: Ich möchte zusätzlich einen unverbindlichen Vorschlag zur Behebung der Befunde (Angebot) per E-Mail erhalten. Widerruf jederzeit möglich.'))),
       YQ.hpField('lead-hp-' + suffix),
       el('button', { type: 'submit', class: 'btn' }, 'Befunde freischalten'),
       el('p', { id: msgId, class: 'status-msg', role: 'status', 'aria-live': 'polite' }));
@@ -148,7 +150,7 @@
       var btn = f.querySelector('button');
       var msg = f.querySelector('#' + msgId);
       btn.disabled = true; msg.textContent = 'Wird gesendet …';
-      opts.postLead(email, YQ.guard(f)).then(function () {
+      opts.postLead(email, YQ.guard(f), !!f.elements.promo.checked).then(function () {
         onDone();
       }, function (e) {
         btn.disabled = false;
@@ -308,7 +310,7 @@
         h(level + 1, null, 'Das Ergebnis per E-Mail erhalten'),
         leadForm(opts, sfx + '-legacy', function () {
           var m = container.querySelector('#lead-status-' + sfx + '-legacy');
-          if (m) m.textContent = 'Danke. Wir melden uns mit Ihrem Ergebnis und einem Vorschlag, wie Sie die wichtigsten Punkte beheben.';
+          if (m) m.textContent = 'Danke. Wir senden Ihnen das Ergebnis per E-Mail.';
         })));
     }
 

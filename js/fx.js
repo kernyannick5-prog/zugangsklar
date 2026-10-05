@@ -1,12 +1,20 @@
-/* Yanqiva Effekte: Scroll-Reveal, Score-Count-up, Karten-Tilt, 3D-Hero-Parallax, Pause ausserhalb des Sichtfelds.
+/* Yanqiva Effekte: Scroll-Reveal, Score-Count-up, 3D-Hero-Zeigerfuehrung, Pause ausserhalb des Sichtfelds.
    Nur transform/opacity. Aus bei prefers-reduced-motion, schwacher Hardware (html.fx-lite), Datensparen und Automatisierung
    (navigator.webdriver; zum Testen mit ?fx=1 erzwingbar). Ohne JS bleibt alles sichtbar. */
 (function () {
   'use strict';
   var de = document.documentElement;
   var force = /[?&]fx=1/.test(location.search);
-  if (de.classList.contains('fx-lite') || (navigator.webdriver && !force) || !('IntersectionObserver' in window)) return;
-  if (document.getElementById('dash-header')) return;
+  if (!('IntersectionObserver' in window) || document.getElementById('dash-header')) return;
+  /* Pause: Endlosanimationen nur im Sichtfeld und im sichtbaren Tab */
+  var live = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { e.target.classList.toggle('fx-off', !e.isIntersecting); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.hero'), function (el) { live.observe(el); });
+  document.addEventListener('visibilitychange', function () { de.classList.toggle('fx-paused', document.hidden); });
+
+  /* Ab hier nur die Bewegungseffekte (nicht bei fx-lite, reduzierter Bewegung, Automatisierung) */
+  if (de.classList.contains('fx-lite') || (navigator.webdriver && !force)) return;
   de.classList.add('fx');
   var fine = window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches;
   var vh = window.innerHeight || 800;
@@ -50,42 +58,7 @@
     }, { threshold: 0.45 }).observe(prot);
   });
 
-  /* Pause: Endlosanimationen nur im Sichtfeld und im sichtbaren Tab */
-  var live = new IntersectionObserver(function (es) {
-    es.forEach(function (e) { e.target.classList.toggle('fx-off', !e.isIntersecting); });
-  });
-  Array.prototype.forEach.call(document.querySelectorAll('.hero, .cta-band'), function (el) { live.observe(el); });
-  document.addEventListener('visibilitychange', function () { de.classList.toggle('fx-paused', document.hidden); });
-
   if (!fine) return;
-
-  /* Karten: leichter 3D-Tilt und Lichtreflex */
-  var TILT = '.mod-card, .pkg-card, .pkg-teaser, .path-card, .stepup-card';
-  var cur = null, ev = null, raf = 0;
-  function reset(el) {
-    if (!el) return;
-    el.classList.remove('fx-tilt');
-    el.style.removeProperty('--tx');
-    el.style.removeProperty('--ty');
-  }
-  function paint() {
-    raf = 0;
-    if (!cur || !ev) return;
-    var r = cur.getBoundingClientRect(), x = (ev.clientX - r.left) / r.width, y = (ev.clientY - r.top) / r.height;
-    cur.style.setProperty('--tx', ((x - 0.5) * 6).toFixed(2) + 'deg');
-    cur.style.setProperty('--ty', ((0.5 - y) * 6).toFixed(2) + 'deg');
-    cur.style.setProperty('--mx', (x * 100).toFixed(1) + '%');
-    cur.style.setProperty('--my', (y * 100).toFixed(1) + '%');
-    cur.classList.add('fx-tilt');
-  }
-  document.addEventListener('pointermove', function (e) {
-    if (e.pointerType && e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
-    var t = e.target.closest ? e.target.closest(TILT) : null;
-    if (t !== cur) { reset(cur); cur = t; }
-    ev = e;
-    if (cur && !raf) raf = requestAnimationFrame(paint);
-  }, { passive: true });
-  document.addEventListener('mouseleave', function () { reset(cur); cur = null; }, true);
 
   /* Hero: Das 3D-Zeichen richtet sich exakt zum Mauszeiger aus (ganze Seite, nicht nur im Hero).
      Winkel = atan(Abstand Zeiger zur Zeichen-Mitte / virtuelle Tiefe), weich nachgeführt per rAF, Ruhe = kein rAF.

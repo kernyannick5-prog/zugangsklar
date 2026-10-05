@@ -27,7 +27,7 @@
   var portfolio = null;
   var DEFAULT_TITLE = document.title;
 
-  var PLAN = { monitoring: 'Monitoring', business: 'Business', agentur: 'Agentur', agentur_plus: 'Agentur Plus', free: 'Free' };
+  var PLAN = { monitoring: 'Monitoring', business: 'Monitoring Plus', agentur: 'Agentur', agentur_plus: 'Agentur Plus', free: 'Free' };
   var ALERT = { new_critical: 'Kritisch', neues_kritisches_problem: 'Kritisch', neues_problem: 'Neu', behoben: 'Behoben', nicht_erreichbar: 'Fehler', score_drop: 'Score gesunken' };
 
   function str(v) { return v == null ? '' : String(v); }
@@ -336,7 +336,7 @@
       h1.textContent = title;
       if (YQ.MOCK) root.appendChild(el('p', { class: 'notice info' }, 'Demo-Daten (mock=1): Die Befundliste ist ein Beispiel und nur für die erste Website hinterlegt.'));
       root.appendChild(el('p', { class: 'muted' }, el('span', { class: 'url-text' }, str(site.url)), ' · Letzter Scan: ' + fmtDate(site.lastRunAt, true) + ' · Nächster Scan: ' + fmtDate(site.nextRunAt, true)));
-      if (site.lastError) root.appendChild(el('div', { class: 'notice error' }, el('p', null, el('strong', null, 'Letzter Scan fehlgeschlagen. '), str(site.lastError))));
+      if (site.lastError) root.appendChild(el('div', { class: 'notice error' }, el('p', null, el('strong', null, 'Letzter Scan fehlgeschlagen. '), str((site.lastError && site.lastError.message) || ''))));
       root.appendChild(el('div', { class: 'btn-row no-print' }, printBtn()));
 
       var sc = R.clampScore(site.score);
