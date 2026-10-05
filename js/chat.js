@@ -13,11 +13,12 @@
   var STORE_KEY = 'yq-chat-v1';
   var TIMEOUT_MS = 30000;
   var OWN_HOSTS = ['yanqiva.de', 'www.yanqiva.de'];
-  var SUGGESTIONS = ['Was kostet eine Website?', 'Was kostet eine Premium-Website?', 'Wie läuft die Zusammenarbeit ab?', 'Wie kann ich Yanqiva kontaktieren?'];
-  var GREETING = 'Hallo! Ich beantworte Fragen zu Yanqiva, unseren Websites und Leistungen. Wählen Sie einen Vorschlag oder stellen Sie Ihre Frage.';
+  var SUGGESTIONS = ['Was steht in den Verträgen?', 'Wie funktioniert ein Vertragsabschluss?', 'Welche Kündigungsfristen gibt es?', 'Welche Kosten entstehen?', 'Kannst du mir einen Vertrag einfach erklären?'];
+  var GREETING = 'Hallo! Ich beantworte Fragen zu Yanqiva: Leistungen, Preise, Bestellablauf und unsere Vertragsbedingungen (AGB). Begriffe erkläre ich allgemein, das ist keine Rechtsberatung. Wählen Sie eine Frage oder schreiben Sie Ihre eigene.';
   var ERR_RATE = 'Sie haben gerade viele Fragen gestellt. Bitte versuchen Sie es später erneut.';
-  var ERR_DOWN = 'Der Chat ist gerade nicht erreichbar. Nutzen Sie gern das Kontaktformular.';
+  var ERR_DOWN = 'Der Chat ist gerade nicht erreichbar. Versuchen Sie es erneut oder nutzen Sie das Kontaktformular.';
   var ERR_BAD = 'Ihre Frage konnte nicht verarbeitet werden. Bitte kürzen oder ändern Sie sie und versuchen Sie es erneut.';
+  var NEAR_BOTTOM_PX = 48;
 
   var scriptSrc = document.currentScript && document.currentScript.src;
   var siteRoot = scriptSrc ? new URL('../', scriptSrc) : new URL('./', window.location.href);
@@ -39,7 +40,7 @@
   var history = [];     // {role, content} – nur erfolgreich gesendete/erhaltene Einträge
   var view = [];        // zum Speichern: {r, c, s, m}
   var built = false, open = false, busy = false, gen = 0; // gen: wird bei "Verlauf löschen" erhöht, damit späte Antworten verworfen werden
-  var panel, toggle, scrollBox, log, chips, input, send, counter, statusEl, clearBtn, rootEl;
+  var panel, toggle, scrollBox, log, chips, input, send, counter, statusEl, clearBtn, rootEl, typing, jumpBtn, pendingBox, statusTimer;
   var mq = window.matchMedia ? window.matchMedia('(max-width: 599px)') : null;
 
   function isMobile() { return !!(mq && mq.matches); }
@@ -83,10 +84,17 @@
     if (isBot) box.appendChild(el('span', { class: 'visually-hidden' }, 'Antwort: '));
     else box.appendChild(el('span', { class: 'visually-hidden' }, 'Sie: '));
     box.appendChild(el('span', { class: 'yq-chat-text' }, text));   // textContent, Zeilenumbrüche via white-space: pre-wrap
-    if (opts.errorLink) {
-      box.appendChild(document.createElement('br'));
-      box.appendChild(el('a', { href: siteUrl('kontakt.html') }, 'Zum Kontaktformular'));
+    if (opts.errorLink || opts.retry) {
+      var actions = el('div', { class: 'yq-chat-actions' });
+      if (opts.retry) {
+        var rb = el('button', { type: 'button', class: 'yq-chat-action' }, 'Erneut versuchen');
+        rb.addEventListener('click', function () { if (!busy) { input.value = ''; updateCounter(); submit(opts.retry); } });
+        actions.appendChild(rb);
+      }
+      if (opts.errorLink) actions.appendChild(el('a', { href: siteUrl('kontakt.html') }, 'Zum Kontaktformular'));
+      box.appendChild(actions);
     }
+    var linkTexts = [];
     if (isBot && (opts.mode === 'ai' || (opts.sources && opts.sources.length))) {
       var meta = el('div', { class: 'yq-chat-meta' });
       if (opts.mode === 'ai') meta.appendChild(el('span', { class: 'yq-chat-badge' }, 'KI-generiert'));
@@ -96,6 +104,7 @@
         if (!href) return;
         var title = (typeof s.title === 'string' && s.title.trim()) ? s.title.trim().slice(0, 120) : href;
         links.push(el('li', null, el('a', { href: href }, title)));
+        linkTexts.push(title + ': ' + href);
       });
       if (links.length) {
         var ul = el('ul', { class: 'yq-chat-sources', 'aria-label': 'Quellen' });
@@ -104,21 +113,76 @@
       }
       if (meta.childNodes.length) box.appendChild(meta);
     }
+    if (isBot && opts.copy) {
+      var copyText = text + (linkTexts.length ? '\n\nQuellen:\n' + linkTexts.join('\n') : '');
+      var cb = el('button', { type: 'button', class: 'yq-chat-copy', 'aria-label': 'Antwort kopieren' }, 'Kopieren');
+      cb.addEventListener('click', function () { copyToClipboard(copyText, cb); });
+      box.appendChild(cb);
+    }
     log.appendChild(box);
     return box;
   }
 
-  function scrollToMsg(box, toTop) {
-    scrollBox.scrollTop = toTop && box ? Math.max(0, box.offsetTop - log.offsetTop - 4 + log.offsetTop) : scrollBox.scrollHeight;
+  /* ---------- Kopieren (Clipboard-API mit Fallback) ---------- */
+  function announce(msg) {
+    if (statusTimer) clearTimeout(statusTimer);
+    statusEl.textContent = msg;
+    statusTimer = setTimeout(function () { if (!busy) statusEl.textContent = ''; }, 2500);
+  }
+  function legacyCopy(t) {
+    var ta = document.createElement('textarea');
+    ta.value = t; ta.setAttribute('readonly', ''); ta.setAttribute('aria-hidden', 'true'); ta.tabIndex = -1;
+    ta.style.position = 'fixed'; ta.style.top = '-1000px'; ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    var active = document.activeElement, ok = false;
+    try { ta.select(); ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    if (active && active.focus) active.focus();
+    return ok;
+  }
+  function copyToClipboard(t, btn) {
+    function done(ok) {
+      announce(ok ? 'Kopiert.' : 'Kopieren nicht möglich. Bitte markieren Sie den Text und kopieren Sie ihn manuell.');
+      if (ok) {
+        btn.textContent = 'Kopiert';
+        setTimeout(function () { btn.textContent = 'Kopieren'; }, 2000);
+      }
+    }
+    if (navigator.clipboard && window.isSecureContext && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(t).then(function () { done(true); }, function () { done(legacyCopy(t)); });
+    } else done(legacyCopy(t));
   }
 
+  /* ---------- Scrollen: ans Ende, außer der Nutzer hat hochgescrollt ---------- */
+  function nearBottom() { return scrollBox.scrollHeight - scrollBox.scrollTop - scrollBox.clientHeight < NEAR_BOTTOM_PX; }
+  function scrollToEnd() { scrollBox.scrollTop = scrollBox.scrollHeight; }
+  function revealAnswer(box) {
+    // Lange Antworten: Anfang der Antwort zeigen; kurze: ans Ende.
+    var top = box.offsetTop - 8;
+    scrollBox.scrollTop = box.offsetHeight > scrollBox.clientHeight ? top : scrollBox.scrollHeight;
+  }
+  function showJump(box) { pendingBox = box; jumpBtn.hidden = false; }
+  function hideJump() { pendingBox = null; if (jumpBtn) jumpBtn.hidden = true; }
+
   function removeChips() { if (chips && chips.parentNode) chips.parentNode.removeChild(chips); chips = null; }
+  function showChips() {
+    removeChips();
+    chips = el('div', { class: 'yq-chat-chips', role: 'group', 'aria-label': 'Vorschläge' });
+    SUGGESTIONS.forEach(function (s) {
+      var c = el('button', { type: 'button', class: 'yq-chat-chip' }, s);
+      c.addEventListener('click', function () { submit(s); });
+      chips.appendChild(c);
+    });
+    scrollBox.insertBefore(chips, typing);
+  }
 
   function setBusy(b) {
     busy = b;
     send.disabled = b;
     send.setAttribute('aria-disabled', b ? 'true' : 'false');
     log.setAttribute('aria-busy', b ? 'true' : 'false');
+    typing.hidden = !b;
+    if (statusTimer) { clearTimeout(statusTimer); statusTimer = null; }
     statusEl.textContent = b ? 'Antwort wird erstellt …' : '';
   }
 
@@ -127,6 +191,21 @@
   }
 
   /* ---------- Senden ---------- */
+  // Verlauf für die API: neueste zuerst, höchstens MAX_SEND Nachrichten und MAX_TOTAL Zeichen (Server-Limit 4000).
+  // Lange Antworten (z. B. Vertragstexte) werden gekürzt, damit Folgefragen nicht am Gesamtlimit scheitern.
+  var MAX_TOTAL = 3800, MAX_ASSISTANT = 600;
+  function buildPayload() {
+    var out = [], total = 0;
+    for (var i = history.length - 1; i >= 0 && out.length < MAX_SEND; i--) {
+      var m = history[i];
+      var c = String(m.content).slice(0, m.role === 'assistant' ? MAX_ASSISTANT : MAX_LEN).replace(/^\s+|\s+$/g, '');
+      if (!c) continue;
+      if (total + c.length > MAX_TOTAL) break;
+      total += c.length;
+      out.unshift({ role: m.role, content: c });
+    }
+    return out;
+  }
   function chatRequest(messages) {
     if (YQ.MOCK) {
       return fetch(YQ.mockUrl('chat-example.json')).then(function (r) { return r.json(); }).then(function (d) {
@@ -165,31 +244,38 @@
     if (busy || !text) return;
     if (text.length > MAX_LEN) text = text.slice(0, MAX_LEN);
     removeChips();
-    var userBox = renderMsg('user', text);
+    hideJump();
+    renderMsg('user', text);
     history.push({ role: 'user', content: text });
     input.value = ''; updateCounter();
     setBusy(true);
-    scrollToMsg(userBox, false);
+    scrollToEnd();                         // eigene Frage: immer ans Ende (Tipp-Indikator sichtbar)
     var myGen = gen;
-    var payload = history.slice(-MAX_SEND).map(function (m) { return { role: m.role, content: String(m.content).slice(0, MAX_LEN) }; });
+    var payload = buildPayload();
+    function place(b) {
+      // Nur mitscrollen, wenn der Nutzer unten war; sonst Hinweis-Schaltfläche statt Wegspringen.
+      if (stick) revealAnswer(b); else showJump(b);
+    }
+    var stick;
     chatRequest(payload).then(function (data) {
       if (myGen !== gen) { setBusy(false); return; } // Verlauf wurde währenddessen gelöscht
+      stick = nearBottom();
       var sources = Array.isArray(data.sources) ? data.sources : [];
       var mode = data.mode === 'ai' ? 'ai' : 'faq';
       history.push({ role: 'assistant', content: data.reply });
       view.push({ r: 'u', c: text }, { r: 'a', c: data.reply, s: sources.slice(0, 5), m: mode });
       saveStore();
       setBusy(false);
-      var b = renderMsg('assistant', data.reply, { mode: mode, sources: sources });
-      scrollToMsg(b, true);
+      place(renderMsg('assistant', data.reply, { mode: mode, sources: sources, copy: true }));
     }, function (e) {
       if (myGen !== gen) { setBusy(false); return; }
+      stick = nearBottom();
       history.pop();                       // fehlgeschlagene Frage nicht in den Verlauf übernehmen
-      var rate = e.status === 429, bad = e.status === 400 || e.status === 415;
+      var rate = e.status === 429, bad = e.status === 400 || e.status === 413 || e.status === 415;
       setBusy(false);
-      var b = renderMsg('assistant', rate ? ERR_RATE : (bad ? ERR_BAD : ERR_DOWN), { error: true, errorLink: !rate && !bad });
+      var b = renderMsg('assistant', rate ? ERR_RATE : (bad ? ERR_BAD : ERR_DOWN), { error: true, errorLink: !rate && !bad, retry: (!rate && !bad) ? text : null });
       input.value = text; updateCounter();  // Eingabe zum erneuten Versuch wiederherstellen
-      scrollToMsg(b, true);
+      place(b);
     });
   }
 
@@ -208,6 +294,13 @@
     log = el('div', { class: 'yq-chat-log', role: 'log', 'aria-live': 'polite', 'aria-relevant': 'additions', 'aria-label': 'Chatverlauf' });
     scrollBox.appendChild(notice);
     scrollBox.appendChild(log);
+    // Tipp-Indikator: rein visuell (Status wird über role=status angesagt), außerhalb des Logs
+    typing = el('div', { class: 'yq-chat-typing', 'aria-hidden': 'true', hidden: true },
+      el('span', { class: 'yq-chat-dot' }), el('span', { class: 'yq-chat-dot' }), el('span', { class: 'yq-chat-dot' }));
+    scrollBox.appendChild(typing);
+    jumpBtn = el('button', { type: 'button', class: 'yq-chat-jump', hidden: true }, 'Neue Antwort anzeigen');
+    jumpBtn.addEventListener('click', function () { var b = pendingBox; hideJump(); if (b) { revealAnswer(b); b.setAttribute('tabindex', '-1'); b.focus({ preventScroll: true }); } });
+    scrollBox.addEventListener('scroll', function () { if (pendingBox && nearBottom()) hideJump(); }, { passive: true });
 
     statusEl = el('div', { class: 'yq-chat-status', role: 'status' });
 
@@ -221,7 +314,7 @@
       el('div', { class: 'yq-chat-foot' }, counter, clearBtn));
 
     panel = el('div', { class: 'yq-chat-panel', id: 'yq-chat-panel', role: 'dialog', 'aria-modal': 'false', 'aria-labelledby': 'yq-chat-title', hidden: true },
-      el('div', { class: 'yq-chat-head' }, title, closeBtn), scrollBox, statusEl, form);
+      el('div', { class: 'yq-chat-head' }, title, closeBtn), el('div', { class: 'yq-chat-body' }, scrollBox, jumpBtn), statusEl, form);
     rootEl.appendChild(panel);
 
     // Begrüßung und gespeicherter Verlauf
@@ -233,17 +326,9 @@
       var content = m.c.slice(0, MAX_LEN * 4);
       history.push({ role: role, content: content });
       view.push(m.r === 'a' ? { r: 'a', c: content, s: Array.isArray(m.s) ? m.s : [], m: m.m } : { r: 'u', c: content });
-      renderMsg(role, content, role === 'assistant' ? { mode: m.m === 'ai' ? 'ai' : 'faq', sources: Array.isArray(m.s) ? m.s : [] } : null);
+      renderMsg(role, content, role === 'assistant' ? { mode: m.m === 'ai' ? 'ai' : 'faq', sources: Array.isArray(m.s) ? m.s : [], copy: true } : null);
     });
-    if (!saved.length) {
-      chips = el('div', { class: 'yq-chat-chips', role: 'group', 'aria-label': 'Vorschläge' });
-      SUGGESTIONS.forEach(function (s) {
-        var c = el('button', { type: 'button', class: 'yq-chat-chip' }, s);
-        c.addEventListener('click', function () { submit(s); });
-        chips.appendChild(c);
-      });
-      scrollBox.appendChild(chips);
-    }
+    if (!saved.length) showChips();
     updateCounter();
 
     form.addEventListener('submit', function (ev) { ev.preventDefault(); submit(input.value); input.focus(); });
@@ -255,8 +340,9 @@
       gen++; history = []; view = []; saveStore();
       while (log.firstChild) log.removeChild(log.firstChild);
       renderMsg('assistant', GREETING);
-      removeChips();
-      statusEl.textContent = 'Verlauf gelöscht.';
+      hideJump();
+      showChips();
+      announce('Verlauf gelöscht.');
       input.focus();
     });
   }
