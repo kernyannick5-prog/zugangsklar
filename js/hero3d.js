@@ -6,7 +6,7 @@
    und wird erst ausgeblendet, wenn der Canvas rendert (hero-art.h3d-on). Ohne WebGL: still die CSS-Grafik, keine Konsolenfehler.
    prefers-reduced-motion: ein statisches Einzelbild. Pause ausserhalb des Sichtfelds und im verdeckten Tab. Canvas aria-hidden.
    Energie: Leistungsstufen (schwache Geraete/Datensparen = gar kein 3D, Software-Rendering = kein 3D, Mobil = leicht),
-   Bildrate: Desktop konstant 60 (kein Wechsel = kein Ruck beim Erkennen der Maus), Mobil 30; misst die Bildzeit und schaltet bei Ueberlast selbst herunter. */
+   Bildrate 60 nur waehrend Mausfuehrung und Einflug, sonst 30; misst die Bildzeit und schaltet bei Ueberlast selbst herunter. */
 const art = document.querySelector('.hero .hero-art');
 
 if (art && 'IntersectionObserver' in window && 'ResizeObserver' in window) {
@@ -24,8 +24,8 @@ if (art && 'IntersectionObserver' in window && 'ResizeObserver' in window) {
     started = true;
     io.disconnect();
     const go = () => start().catch(() => {});
-    /* frueh starten (Modul laeuft nach dem Parsen), aber erst im naechsten Leerlauf: Partikel und Zeichen sind fast sofort da */
-    if ('requestIdleCallback' in window) requestIdleCallback(go, { timeout: 300 }); else setTimeout(go, 50);
+    const idle = () => ('requestIdleCallback' in window ? requestIdleCallback(go, { timeout: 2500 }) : setTimeout(go, 400));
+    if (document.readyState === 'complete') idle(); else addEventListener('load', idle, { once: true });
   });
   io.observe(art);
 
@@ -178,12 +178,12 @@ if (art && 'IntersectionObserver' in window && 'ResizeObserver' in window) {
       orbit.rotation.z = -0.25 + s * 0.05;
       dots.rotation.z = s * 0.08;
       const a = s * 0.55; bead.position.set(Math.cos(a) * ringR, Math.sin(a) * ringR, 0);
-      /* Ring und Partikel sind von Anfang an voll da; nur das Zeichen fliegt ein */
+      orbit.scale.setScalar(0.85 + 0.15 * k2);
       /* Hintergrund: langsames Driften + Parallaxe gegen die Zeigerrichtung (Tiefenwirkung) */
-      bg.rotation.z = s * 0.012; bg.position.x = -cx * 0.45; bg.position.y = cy * 0.35;
+      bg.rotation.z = s * 0.012; bg.position.x = -cx * 0.45; bg.position.y = cy * 0.35; bg.material.opacity = 0.75 * k2;
       renderer.render(scene, camera);
     };
-    /* Bildrate: Desktop gleichmaessig 60, Mobil/leicht 30 (ohne Wechsel, sonst sieht man einen Ruck). Ueberlast-Erkennung:
+    /* Bildrate: 60 waehrend Mausfuehrung und Einflug, sonst 30 (Pendeln/Schweben ist langsam). Ueberlast-Erkennung:
        sind die Bilder dauerhaft zu langsam, erst Aufloesung/Hintergrund reduzieren, danach nur noch ein stehendes Bild. */
     const degrade = () => {
       level++;
@@ -193,8 +193,9 @@ if (art && 'IntersectionObserver' in window && 'ResizeObserver' in window) {
     const loop = (t) => {
       raf = 0;
       if (!visible || document.hidden || frozen) { lastT = 0; lastFrame = 0; return; }
-      const step = level === 0 ? 1000 / 60 : 1000 / 30;
-      if (t - lastFrame >= step * 0.8) { /* Toleranz: bei 120/144 Hz gleichmaessig jedes 2. Bild */
+      const active = t - t0 < 1800 || (hasP && t - lastMove < 1500) || (follow > 0 && follow < 1);
+      const step = active && level < 2 ? 1000 / 60 : 1000 / 30;
+      if (t - lastFrame >= step - 2) {
         const gap = lastFrame ? t - lastFrame : step; lastFrame = t;
         draw(t);
         if (t - t0 > 2500) { /* Einflug und Shader-Aufbau nicht mitzaehlen */
@@ -207,9 +208,6 @@ if (art && 'IntersectionObserver' in window && 'ResizeObserver' in window) {
     const kick = () => { if (!still && !frozen && !raf && visible && !document.hidden) raf = requestAnimationFrame(loop); };
 
     size();
-    /* Shader vorab im Hintergrund uebersetzen (parallel, falls vom Treiber unterstuetzt): kein Haenger beim ersten Bild/Mauskontakt */
-    try { await renderer.compileAsync(scene, camera); } catch (e) { /* aelterer Treiber: Uebersetzung beim ersten Bild */ }
-    if (!canvas.isConnected) return;
     t0 = performance.now();
     draw(still ? 9000 : t0, still);
     canvas.classList.add('on');
