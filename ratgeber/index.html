@@ -52,6 +52,18 @@
 <p>Prüfen Sie sie kostenlos in 30 Sekunden oder erstellen Sie den Entwurf Ihrer Barrierefreiheitserklärung.</p>
 <a class="btn" href="../index.html#check">Website prüfen</a> <a class="btn btn-secondary" href="../barrierefreiheitserklaerung-generator.html">Erklärungs-Generator</a>
 </div>
+<section id="newsletter" class="lead-box" aria-labelledby="nl-h" hidden>
+<h2 id="nl-h" style="font-size:1.4rem">Newsletter</h2>
+<p>Gelegentlich Informationen zu BFSG, Datenschutz und neuen Funktionen von Yanqiva per E-Mail. Kein Tracking, Abmeldung jederzeit mit einem Klick.</p>
+<form id="newsletter-form">
+<div class="field"><label for="nl-name">Vorname (optional)</label><input type="text" id="nl-name" name="name" autocomplete="given-name" maxlength="60"></div>
+<div class="field"><label for="nl-email">E-Mail-Adresse <span class="req" aria-hidden="true">*</span></label><input type="email" id="nl-email" name="email" autocomplete="email" required></div>
+<div class="hp-field" aria-hidden="true"><label for="nl-hp">Bitte leer lassen</label><input type="text" id="nl-hp" name="homepage" tabindex="-1" autocomplete="off"></div>
+<div class="field"><label class="check-line" for="nl-consent"><input type="checkbox" id="nl-consent" name="consent" required><span>Ich möchte den Yanqiva-Newsletter mit Informationen zu Website-Prüfung, Barrierefreiheit und Datenschutz sowie zu Angeboten von Yanqiva per E-Mail erhalten. Ich willige ein, dass Yanqiva (Yannick Kern) dafür meine E-Mail-Adresse und gegebenenfalls meinen Vornamen speichert und über den Versanddienst Resend verarbeiten lässt. Die Anmeldung wird erst mit dem Link in einer Bestätigungs-E-Mail wirksam (Double-Opt-in). Ich kann meine Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen, zum Beispiel über den Abmeldelink in jeder E-Mail. Details in der <a href="../datenschutz.html#newsletter">Datenschutzerklärung</a>. <span class="req" aria-hidden="true">*</span></span></label></div>
+<button type="submit" class="btn">Zum Newsletter anmelden</button>
+<p id="nl-status" class="status-msg" role="status" aria-live="polite"></p>
+</form>
+</section>
 </div>
 </section>
 
@@ -95,6 +107,7 @@
 <li><a href="../nutzungsbedingungen.html">Nutzungsbedingungen</a></li>
 <li><a href="../barrierefreiheit.html">Barrierefreiheitserklärung</a></li>
 <li><a href="../kontakt.html">Kontakt</a></li>
+<li><a href="../ratgeber/index.html#newsletter" data-newsletter-link hidden>Newsletter</a></li>
 </ul>
 </nav>
 </div>
@@ -102,6 +115,7 @@
 </footer>
 <script src="../js/config.js"></script>
 <script src="../js/nav.js"></script>
+<script src="../js/newsletter.js"></script>
 <script src="../js/fx.js" defer></script>
 <script src="../js/chat.js" defer></script>
 <script src="../js/notice.js" defer></script>

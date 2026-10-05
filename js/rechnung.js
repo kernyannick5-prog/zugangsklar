@@ -129,6 +129,7 @@
   function readState() {
     return {
       senderName: $('s-name').value, senderAddress: $('s-addr').value, senderMail: $('s-mail').value, senderTel: $('s-tel').value, senderTaxId: $('s-tax').value,
+      senderTaxKind: $('s-taxkind').value, startDate: $('s-start').value, exemptNote: $('t-exempt').value,
       recipientName: $('r-name').value, recipientAddress: $('r-addr').value,
       number: $('i-nr').value, date: $('i-date').value,
       serviceMode: serviceMode(), serviceDate: $('l-date').value, serviceFrom: $('l-from').value, serviceTo: $('l-to').value,
@@ -137,9 +138,11 @@
       items: items.map(function (it) { return { desc: it.desc, qty: it.qty, unit: it.unit, price: it.price, rate: it.rate }; })
     };
   }
-  var MAP = { senderName: 's-name', senderAddress: 's-addr', senderMail: 's-mail', senderTel: 's-tel', senderTaxId: 's-tax', recipientName: 'r-name', recipientAddress: 'r-addr', number: 'i-nr', date: 'i-date', serviceDate: 'l-date', serviceFrom: 'l-from', serviceTo: 'l-to', days: 'i-days', holder: 'p-holder', iban: 'p-iban', bic: 'p-bic', notes: 'n-notes' };
+  var TAX_KINDS = { stnr: 'Steuernummer', ustid: 'USt-IdNr.', kuid: 'Kleinunternehmer-ID' };
+  var MAP = { startDate: 's-start', exemptNote: 't-exempt', senderName: 's-name', senderAddress: 's-addr', senderMail: 's-mail', senderTel: 's-tel', senderTaxId: 's-tax', recipientName: 'r-name', recipientAddress: 'r-addr', number: 'i-nr', date: 'i-date', serviceDate: 'l-date', serviceFrom: 'l-from', serviceTo: 'l-to', days: 'i-days', holder: 'p-holder', iban: 'p-iban', bic: 'p-bic', notes: 'n-notes' };
   function writeState(s) {
     Object.keys(MAP).forEach(function (k) { if (typeof s[k] === 'string') $(MAP[k]).value = str(s[k], 600); });
+    $('s-taxkind').value = Object.prototype.hasOwnProperty.call(TAX_KINDS, s.senderTaxKind) ? s.senderTaxKind : 'stnr';
     var tm = s.mode === 'regel' ? 'regel' : 'klein', lm = s.serviceMode === 'zeitraum' ? 'zeitraum' : 'datum';
     form.querySelector('input[name="tm"][value="' + tm + '"]').checked = true;
     form.querySelector('input[name="lm"][value="' + lm + '"]').checked = true;
@@ -158,6 +161,7 @@
     function chk(id, msg) { if (setError($(id), msg)) bad.push(id); }
     var days = I.parseDays(st.days);
     chk('i-days', st.days.trim() !== '' && days === null ? 'Bitte ganze Tage von 0 bis 365 eingeben.' : '');
+    chk('s-start', st.startDate && !I.isIsoDate(st.startDate) ? 'Bitte ein gültiges Datum eingeben.' : '');
     chk('i-date', st.date && !I.isIsoDate(st.date) ? 'Bitte ein gültiges Datum eingeben.' : (!st.date && (touched['i-date'] || submitted) ? 'Bitte ein Rechnungsdatum angeben.' : ''));
     if (st.serviceMode === 'zeitraum') {
       chk('l-from', st.serviceFrom && !I.isIsoDate(st.serviceFrom) ? 'Bitte ein gültiges Datum eingeben.' : '');
@@ -213,7 +217,7 @@
     if (st.serviceMode === 'zeitraum') lv = I.isIsoDate(st.serviceFrom) && I.isIsoDate(st.serviceTo) ? I.formatDate(st.serviceFrom) + ' bis ' + I.formatDate(st.serviceTo) : '';
     else lv = I.formatDate(st.serviceDate);
     metaRow(meta, st.serviceMode === 'zeitraum' ? 'Leistungszeitraum' : 'Leistungsdatum', lv || ph('Leistungszeitpunkt'));
-    if (due) metaRow(meta, 'Fällig am', I.formatDate(due));
+    if (due) metaRow(meta, 'Zahlbar bis', I.formatDate(due));
     var rec = el('div', { class: 'inv-recipient' }, el('div', { class: 'inv-small' }, 'Rechnung an'),
       block('inv-rec-lines', [st.recipientName.trim()].concat(lines(st.recipientAddress)).filter(Boolean), 'Empfänger und Anschrift'));
     sheet.appendChild(el('div', { class: 'inv-top' }, rec, meta));
@@ -250,7 +254,9 @@
       metaRowTotal(tot, 'Rechnungsbetrag (brutto)', I.formatCents(calc.gross), true);
     }
     sheet.appendChild(tot);
-    if (klein) sheet.appendChild(el('p', { class: 'inv-taxnote' }, 'Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.'));
+    // Kleinunternehmer: nur Gesamtbetrag, kein Steuersatz, kein Steuerbetrag (auch nicht 0 %), Pflichthinweis nach § 34a Nr. 5 UStDV
+    if (klein) sheet.appendChild(el('p', { class: 'inv-taxnote' }, I.KU_NOTE));
+    else if (hasZero(calc) && st.exemptNote.trim()) sheet.appendChild(block('inv-taxnote', lines(st.exemptNote), ''));
 
     var pay = el('div', { class: 'inv-pay' });
     var iban = I.validateIban(st.iban);
@@ -270,10 +276,17 @@
     var col2 = [];
     if (st.senderMail.trim()) col2.push(st.senderMail.trim());
     if (st.senderTel.trim()) col2.push('Tel. ' + st.senderTel.trim());
-    if (st.senderTaxId.trim()) col2.push('Steuernummer / USt-IdNr.: ' + st.senderTaxId.trim());
+    if (st.senderTaxId.trim()) col2.push((TAX_KINDS[st.senderTaxKind] || TAX_KINDS.stnr) + ': ' + st.senderTaxId.trim());
     if (col1.length) foot.appendChild(block('inv-foot-col', col1, ''));
     if (col2.length) foot.appendChild(block('inv-foot-col', col2, ''));
     if (foot.children.length) sheet.appendChild(foot);
+  }
+  function hasZero(calc) { return calc.groups.some(function (g) { return g.rate === 0; }); }
+  function vatMention(st) {
+    if (st.mode === 'regel') return false;
+    var texts = [st.notes];
+    st.items.forEach(function (it) { texts.push(it.desc, it.unit); });
+    return I.mentionsVat(texts);
   }
   function metaRowTotal(dl, k, v, strong) {
     dl.appendChild(el('div', { class: strong ? 'is-total' : null }, el('dt', null, k), el('dd', null, v)));
@@ -282,16 +295,28 @@
   function renderChecklist(st, calc) {
     var list = $('inv-check-list');
     list.textContent = '';
+    $('inv-check-h').textContent = I.checklistTitle(st.mode);
+    var vm = vatMention(st);
     I.checklist({
       senderName: st.senderName, senderAddress: st.senderAddress, senderTaxId: st.senderTaxId, recipientName: st.recipientName, recipientAddress: st.recipientAddress,
       date: st.date, number: st.number, serviceMode: st.serviceMode, serviceDate: st.serviceDate, serviceFrom: st.serviceFrom, serviceTo: st.serviceTo,
-      mode: st.mode, validCount: calc.validCount, hasErrors: calc.hasErrors
+      mode: st.mode, validCount: calc.validCount, hasErrors: calc.hasErrors, gross: calc.gross, hasZeroRate: st.mode === 'regel' && hasZero(calc), exemptNote: st.exemptNote
     }).forEach(function (c) {
-      list.appendChild(el('li', { class: c.ok ? 'is-ok' : 'is-missing' },
-        el('span', { class: 'inv-mark', 'aria-hidden': 'true' }, c.ok ? '✓' : '!'),
+      var rec = c.level === 'empfohlen';
+      list.appendChild(el('li', { class: (c.ok ? 'is-ok' : (rec ? 'is-optional' : 'is-missing')) },
+        el('span', { class: 'inv-mark', 'aria-hidden': 'true' }, c.ok ? '✓' : (rec ? 'i' : '!')),
         el('span', { class: 'visually-hidden' }, c.ok ? 'Vorhanden: ' : 'Fehlt: '),
-        el('span', null, c.label)));
+        el('span', null, c.label, rec ? el('span', { class: 'inv-level' }, ' (empfohlen)') : null)));
     });
+    var notes = I.notices({ mode: st.mode, gross: calc.gross, hasErrors: calc.hasErrors, vatMention: vm })
+      .concat(I.dateWarnings({ startDate: st.startDate, date: st.date, serviceMode: st.serviceMode, serviceDate: st.serviceDate, serviceFrom: st.serviceFrom }).map(function (w) { return { key: w.key, level: 'warn', text: w.text }; }));
+    var nl = $('inv-notice-list');
+    nl.textContent = '';
+    notes.forEach(function (n) {
+      nl.appendChild(el('li', { class: n.level === 'warn' ? 'is-warn' : 'is-info' },
+        el('span', { class: 'visually-hidden' }, n.level === 'warn' ? 'Bitte prüfen: ' : 'Information: '), n.text));
+    });
+    $('inv-notices').hidden = !notes.length;
   }
 
   // ---------- Gesamtupdate ----------
@@ -301,6 +326,8 @@
     var isRegel = st.mode === 'regel';
     var rows = itemsBox.querySelectorAll('.inv-rate');
     for (var i = 0; i < rows.length; i++) rows[i].hidden = !isRegel;
+    $('tm-hint-klein').hidden = isRegel;
+    $('tm-regel-box').hidden = !isRegel;
     $('l-single').hidden = st.serviceMode === 'zeitraum';
     $('l-range').hidden = st.serviceMode !== 'zeitraum';
     var calc = I.calcInvoice({ mode: st.mode, items: st.items });
@@ -376,7 +403,7 @@
   // Absender speichern / Daten löschen
   $('sender-save').addEventListener('click', function () {
     var st = readState();
-    var ok = store(KEY_SENDER, JSON.stringify({ senderName: st.senderName, senderAddress: st.senderAddress, senderMail: st.senderMail, senderTel: st.senderTel, senderTaxId: st.senderTaxId, holder: st.holder, iban: st.iban, bic: st.bic, days: st.days, mode: st.mode }));
+    var ok = store(KEY_SENDER, JSON.stringify({ senderName: st.senderName, senderAddress: st.senderAddress, senderMail: st.senderMail, senderTel: st.senderTel, senderTaxId: st.senderTaxId, senderTaxKind: st.senderTaxKind, startDate: st.startDate, holder: st.holder, iban: st.iban, bic: st.bic, days: st.days, mode: st.mode }));
     say(ok ? 'Absender und Zahlungsinformationen wurden auf diesem Gerät gespeichert.' : 'Speichern ist in diesem Browser nicht möglich (Speicher gesperrt oder deaktiviert).');
   });
   $('data-clear').addEventListener('click', function () {
@@ -399,7 +426,7 @@
 
   $('inv-new').addEventListener('click', function () {
     if (!window.confirm('Eine neue Rechnung beginnen? Empfänger, Positionen, Daten und Hinweise dieser Rechnung werden zurückgesetzt. Absender und Zahlungsinformationen bleiben erhalten.')) return;
-    ['r-name', 'r-addr', 'l-date', 'l-from', 'l-to', 'n-notes'].forEach(function (id) { $(id).value = ''; });
+    ['r-name', 'r-addr', 'l-date', 'l-from', 'l-to', 'n-notes', 't-exempt'].forEach(function (id) { $(id).value = ''; });
     $('i-date').value = todayIso();
     form.querySelector('input[name="lm"][value="datum"]').checked = true;
     items = [newItem()];

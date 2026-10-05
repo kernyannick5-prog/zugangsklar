@@ -39,7 +39,8 @@
 <p class="eyebrow">Werkzeug</p>
 <h1>Rechnungsgenerator</h1>
 <p class="lead">Erstellen Sie eine Rechnung direkt im Browser und speichern Sie sie als PDF. Alle Eingaben bleiben auf Ihrem Gerät: Es wird nichts an einen Server gesendet, es gibt kein Tracking.</p>
-<div class="notice info"><p><strong>Hinweis, keine Steuerberatung.</strong> Der Generator hilft beim Aufbau einer Rechnung und zeigt, welche üblichen Pflichtangaben noch fehlen. Er garantiert nicht, dass Ihre Rechnung rechtlich oder steuerlich korrekt ist. Prüfen Sie Inhalt und Beträge selbst und lassen Sie sich im Zweifel beraten.</p></div>
+<div class="notice info"><p><strong>Hinweis, keine Steuerberatung.</strong> Der Generator hilft beim Aufbau einer Rechnung und zeigt, welche üblichen Pflichtangaben noch fehlen. Er garantiert nicht, dass Ihre Rechnung rechtlich oder steuerlich korrekt ist. Prüfen Sie Inhalt und Beträge selbst und lassen Sie sich im Zweifel beraten.</p>
+<p>Der Generator erstellt eine Rechnung zum Drucken oder als PDF, keine E-Rechnung (XRechnung oder ZUGFeRD). Kleinunternehmer dürfen nach derzeitiger Rechtslage weiterhin so abrechnen (§ 34a UStDV); für den Versand als PDF per E-Mail braucht es die Zustimmung des Empfängers, die üblicherweise formlos erfolgt, etwa indem er PDF-Rechnungen akzeptiert. Bei Regelbesteuerung gilt im Inland zwischen Unternehmen schrittweise die E-Rechnungspflicht (spätestens für Leistungen ab 2028).</p></div>
 </div>
 
 <div class="inv-layout">
@@ -53,7 +54,12 @@
 <div class="field"><label for="s-addr">Anschrift <span class="req" aria-hidden="true">*</span></label><textarea id="s-addr" rows="3" maxlength="300" autocomplete="street-address"></textarea></div>
 <div class="field"><label for="s-mail">E-Mail-Adresse</label><input type="email" id="s-mail" maxlength="120" autocomplete="email"></div>
 <div class="field"><label for="s-tel">Telefon (optional)</label><input type="text" id="s-tel" maxlength="40" inputmode="tel" autocomplete="tel"></div>
-<div class="field"><label for="s-tax">Steuernummer oder USt-IdNr. <span class="req" aria-hidden="true">*</span></label><input type="text" id="s-tax" maxlength="40"></div>
+<div class="inv-two">
+<div class="field"><label for="s-taxkind">Art der Nummer</label><select id="s-taxkind"><option value="stnr">Steuernummer</option><option value="ustid">USt-IdNr.</option><option value="kuid">Kleinunternehmer-ID</option></select></div>
+<div class="field"><label for="s-tax">Nummer <span class="req" aria-hidden="true">*</span></label><input type="text" id="s-tax" maxlength="40" aria-describedby="s-tax-hint"></div>
+</div>
+<p class="hint" id="s-tax-hint">Die Steuernummer vom Finanzamt oder die USt-IdNr. vom Bundeszentralamt für Steuern. Noch keine Nummer erhalten? Dann ist die Rechnung üblicherweise unvollständig. Häufig wird mit der Rechnung gewartet, bis die Nummer vorliegt, oder die Nummer wird durch eine berichtigte Rechnung nachgereicht. Klären Sie das Vorgehen im Zweifel mit Ihrem Finanzamt oder Ihrer Steuerberatung.</p>
+<div class="field"><label for="s-start">Beginn Ihrer Tätigkeit (optional)</label><input type="date" id="s-start" aria-describedby="s-start-hint"><p class="hint" id="s-start-hint">Nur für einen Hinweis, falls Rechnungs- oder Leistungsdatum davor liegen. Wird nicht auf die Rechnung gedruckt.</p></div>
 <div class="btn-row">
 <button type="button" class="btn btn-secondary" id="sender-save">Absender auf diesem Gerät speichern</button>
 <button type="button" class="btn btn-secondary" id="data-clear">Gespeicherte Daten löschen</button>
@@ -69,10 +75,11 @@
 
 <fieldset class="inv-box">
 <legend>3. Rechnungsdaten</legend>
-<div class="field"><label for="i-nr">Rechnungsnummer <span class="req" aria-hidden="true">*</span></label><input type="text" id="i-nr" maxlength="40" aria-describedby="i-nr-hint"><p class="hint" id="i-nr-hint">Vorschlag aus Datum und laufender Nummer. Sie können ihn ändern; die Nummer sollte einmalig und fortlaufend sein.</p></div>
+<div class="field"><label for="i-nr">Rechnungsnummer</label><input type="text" id="i-nr" maxlength="40" aria-describedby="i-nr-hint"><p class="hint" id="i-nr-hint">Vorschlag aus Datum und laufender Nummer. Sie können ihn ändern. Jede Nummer darf nur einmal vergeben werden; bei Regelbesteuerung ist eine fortlaufende Nummer Pflicht, als Kleinunternehmer ist sie üblich und empfohlen. Der Zähler gilt nur in diesem Browser: Führen Sie Ihre Nummern zusätzlich selbst fort.</p></div>
 <div class="field"><label for="i-date">Rechnungsdatum <span class="req" aria-hidden="true">*</span></label><input type="date" id="i-date"></div>
 <fieldset class="inv-sub">
-<legend>Leistungszeitpunkt <span class="req" aria-hidden="true">*</span></legend>
+<legend>Leistungszeitpunkt</legend>
+<p class="hint inv-sub-hint" id="l-hint">Bei Regelbesteuerung Pflicht, als Kleinunternehmer empfohlen. Bei länger dauernden Leistungen genügt üblicherweise der Zeitraum (zum Beispiel ein Monat).</p>
 <div class="inv-radios">
 <label class="check-line"><input type="radio" name="lm" value="datum" checked><span>Leistungsdatum</span></label>
 <label class="check-line"><input type="radio" name="lm" value="zeitraum"><span>Leistungszeitraum</span></label>
@@ -83,7 +90,7 @@
 <div class="field"><label for="l-to">Leistung bis</label><input type="date" id="l-to"></div>
 </div>
 </fieldset>
-<div class="field"><label for="i-days">Zahlungsziel in Tagen</label><input type="text" id="i-days" inputmode="numeric" maxlength="3" value="14" aria-describedby="i-days-hint"><p class="hint" id="i-days-hint" aria-live="polite">Fällig am: <span id="i-due">–</span></p></div>
+<div class="field"><label for="i-days">Zahlungsziel in Tagen</label><input type="text" id="i-days" inputmode="numeric" maxlength="3" value="14" aria-describedby="i-days-hint"><p class="hint" id="i-days-hint" aria-live="polite">Zahlbar bis: <span id="i-due">–</span></p></div>
 </fieldset>
 
 <fieldset class="inv-box">
@@ -91,6 +98,11 @@
 <div class="inv-radios inv-radios-col">
 <label class="check-line"><input type="radio" name="tm" value="klein" checked><span>Kleinunternehmer (§ 19 UStG, keine USt)</span></label>
 <label class="check-line"><input type="radio" name="tm" value="regel"><span>Regelbesteuerung (Steuersatz je Position)</span></label>
+</div>
+<p class="hint" id="tm-hint-klein">Die Rechnung enthält dann keinen Steuersatz und keinen Steuerbetrag, sondern automatisch den Hinweis: „Gemäß § 19 UStG wird keine Umsatzsteuer berechnet (Steuerbefreiung für Kleinunternehmer).“ Weisen Sie auch in Beschreibungen und Hinweisen keine Umsatzsteuer aus.</p>
+<div id="tm-regel-box" hidden>
+<p class="hint">Für Leistungen an Unternehmen im Inland ist bei Regelbesteuerung grundsätzlich eine E-Rechnung vorgeschrieben. Übergangsweise bleiben Papier oder (mit Zustimmung des Empfängers) PDF zulässig: für Leistungen bis Ende 2026, wenn die Rechnung bis 31.12.2026 übermittelt wird, und bei einem Vorjahresumsatz bis 800.000&nbsp;€ für Leistungen im Jahr 2027, wenn die Rechnung bis 31.12.2027 übermittelt wird (§ 27 Abs. 38 UStG). Kleinbetragsrechnungen bis 250&nbsp;€ sind ausgenommen.</p>
+<div class="field"><label for="t-exempt">Hinweis zum Steuersatz 0 %</label><textarea id="t-exempt" rows="2" maxlength="300" aria-describedby="t-exempt-hint"></textarea><p class="hint" id="t-exempt-hint">Nur nötig, wenn eine Position 0 % hat: Nennen Sie den Grund, zum Beispiel die Steuerbefreiung mit Vorschrift oder „Steuerschuldnerschaft des Leistungsempfängers“ (§ 13b UStG). Erscheint unter den Summen.</p></div>
 </div>
 </fieldset>
 
@@ -136,9 +148,10 @@
 <p id="inv-status" class="status-msg" role="status" aria-live="polite"></p>
 </div>
 <section class="inv-checklist no-print" aria-labelledby="inv-check-h">
-<h3 id="inv-check-h">Für eine ordnungsgemäße Rechnung nach § 14 UStG / § 34a UStDV (Kleinunternehmer) üblicherweise erforderlich</h3>
+<h3 id="inv-check-h">Für Rechnungen von Kleinunternehmern (§ 34a UStDV) üblicherweise erforderlich</h3>
 <ul id="inv-check-list" class="inv-check-list"></ul>
-<p class="hint">Hinweis, keine Steuerberatung: Die Liste ersetzt keine Prüfung. Erfüllte Punkte garantieren keine rechtlich korrekte Rechnung.</p>
+<div id="inv-notices" hidden><h4 class="inv-notices-h">Hinweise</h4><ul id="inv-notice-list" class="inv-notice-list"></ul></div>
+<p class="hint">Hinweis, keine Steuerberatung: Die Liste ersetzt keine Prüfung. Erfüllte Punkte garantieren keine rechtlich korrekte Rechnung. Bewahren Sie eine Kopie jeder Rechnung auf, üblicherweise acht Jahre (§ 14b UStG); der Generator speichert keine ausgestellten Rechnungen.</p>
 </section>
 <div class="inv-scroll" id="inv-scroll" tabindex="0" role="region" aria-labelledby="inv-preview-h">
 <article class="inv-sheet" id="inv-sheet" aria-label="Rechnung"></article>
@@ -188,6 +201,7 @@
 <li><a href="nutzungsbedingungen.html">Nutzungsbedingungen</a></li>
 <li><a href="barrierefreiheit.html">Barrierefreiheitserklärung</a></li>
 <li><a href="kontakt.html">Kontakt</a></li>
+<li><a href="ratgeber/index.html#newsletter" data-newsletter-link hidden>Newsletter</a></li>
 </ul>
 </nav>
 </div>

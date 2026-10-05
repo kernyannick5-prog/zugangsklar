@@ -5,26 +5,26 @@ window.YQ_CATALOG = {
    "id": "website-business",
    "name": "Website Business",
    "group": "website",
-   "price": 590,
+   "price": 790,
    "priceFrom": true,
    "billing": "einmalig",
-   "priceText": "ab 590 €",
-   "priceTextShort": "ab 590 €",
-   "amountText": "590 €",
-   "orderLabel": "Website Business (ab 590 €, einmalig, unverbindliche Anfrage, individuelles Angebot vorab)"
+   "priceText": "ab 790 €",
+   "priceTextShort": "ab 790 €",
+   "amountText": "790 €",
+   "orderLabel": "Website Business (ab 790 €, einmalig, unverbindliche Anfrage, individuelles Angebot vorab)"
   },
   "website-premium": {
    "id": "website-premium",
    "offerLabel": "Individuelles Angebot",
    "name": "Website Premium",
    "group": "website",
-   "price": 1490,
+   "price": 2490,
    "priceFrom": true,
    "billing": "einmalig",
-   "priceText": "ab 1.490 €",
-   "priceTextShort": "ab 1.490 €",
-   "amountText": "1.490 €",
-   "orderLabel": "Website Premium (individuelles Angebot, Orientierung ab 1.490 €, einmalig, unverbindliche Anfrage)"
+   "priceText": "ab 2.490 €",
+   "priceTextShort": "ab 2.490 €",
+   "amountText": "2.490 €",
+   "orderLabel": "Website Premium (individuelles Angebot, Orientierung ab 2.490 €, einmalig, unverbindliche Anfrage)"
   },
   "website-pflege": {
    "id": "website-pflege",
@@ -74,7 +74,7 @@ window.YQ_CATALOG = {
   },
   "business": {
    "id": "business",
-   "name": "Business",
+   "name": "Monitoring Plus",
    "group": "check",
    "price": 79,
    "priceFrom": false,
@@ -82,7 +82,7 @@ window.YQ_CATALOG = {
    "priceText": "79 € pro Monat",
    "priceTextShort": "79 €/Monat",
    "amountText": "79 €",
-   "orderLabel": "Business (79 € pro Monat)"
+   "orderLabel": "Monitoring Plus (79 € pro Monat)"
   },
   "agentur": {
    "id": "agentur",
@@ -160,13 +160,13 @@ window.YQ_CATALOG = {
    "id": "fix-individuell",
    "name": "Individuelle Umsetzung",
    "group": "fix",
-   "price": null,
+   "price": 75,
    "priceFrom": false,
-   "billing": "nach Angebot",
-   "priceText": "nach Angebot",
-   "priceTextShort": "nach Angebot",
-   "amountText": "nach Angebot",
-   "orderLabel": "Fix: individuelle Umsetzung (nach Angebot)"
+   "billing": "pro Stunde",
+   "priceText": "75 € pro Stunde",
+   "priceTextShort": "75 €/Std.",
+   "amountText": "75 €",
+   "orderLabel": "Fix: individuelle Umsetzung (75 € pro Stunde)"
   }
  },
  "endpreiseHinweis": "Alle Preise sind Endpreise. Als Kleinunternehmer im Sinne von § 19 UStG berechnen wir keine Umsatzsteuer.",

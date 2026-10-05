@@ -102,5 +102,26 @@
     }).then(function (d) { if (timer) clearTimeout(timer); return d; }, function (e) { if (timer) clearTimeout(timer); throw e; });
   }
 
-  window.YQ = { API_BASE: API_BASE, PAYMENT_LINKS: PAYMENT_LINKS, ANALYTICS: ANALYTICS, MOCK: MOCK, MOCK_URL: MOCK_URL, mockUrl: mockUrl, el: el, postJson: postJson, getJson: getJson, CONTACT_EMAIL: CONTACT_EMAIL, mailFallback: mailFallback };
+  // Newsletter-Anmeldung: false = Formular und Footer-Link bleiben verborgen (Funktion im Worker ist erst nach Aktivierung verfügbar, siehe worker/README.md).
+  var NEWSLETTER = false;
+  var NEWSLETTER_CONSENT_VERSION = '2026-10-05'; // muss zum Einwilligungstext in ratgeber/index.html passen (Worker: CONSENT_VERSIONS)
+
+  // Spamschutz ohne Drittanbieter: Honeypot (name="homepage", für Menschen unsichtbar) + Startzeit des Formulars.
+  var PAGE_START = Date.now();
+  /** { hp, ts } für den Request-Body: hp = Wert des Honeypot-Feldes (bei Menschen leer), ts = Startzeit des Formulars (ms). */
+  function guard(form) {
+    var f = form && form.querySelector ? form.querySelector('input[name="homepage"]') : null;
+    return { hp: f ? f.value : '', ts: (form && form._yqTs) || PAGE_START };
+  }
+  /** Honeypot-Feld als DOM (für dynamisch erzeugte Formulare). */
+  function hpField(id) {
+    var w = el('div', { class: 'hp-field', 'aria-hidden': 'true' });
+    w.appendChild(el('label', { for: id }, 'Bitte leer lassen'));
+    w.appendChild(el('input', { type: 'text', id: id, name: 'homepage', tabindex: '-1', autocomplete: 'off' }));
+    return w;
+  }
+  // Footer-Link "Newsletter" (im HTML mit hidden) nur zeigen, wenn die Anmeldung aktiv ist.
+  if (NEWSLETTER) Array.prototype.forEach.call(document.querySelectorAll('[data-newsletter-link]'), function (a) { a.hidden = false; });
+
+  window.YQ = { NEWSLETTER: NEWSLETTER, NEWSLETTER_CONSENT_VERSION: NEWSLETTER_CONSENT_VERSION, guard: guard, hpField: hpField, API_BASE: API_BASE, PAYMENT_LINKS: PAYMENT_LINKS, ANALYTICS: ANALYTICS, MOCK: MOCK, MOCK_URL: MOCK_URL, mockUrl: mockUrl, el: el, postJson: postJson, getJson: getJson, CONTACT_EMAIL: CONTACT_EMAIL, mailFallback: mailFallback };
 })();

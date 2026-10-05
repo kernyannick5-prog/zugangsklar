@@ -202,23 +202,76 @@
     return 'RE-' + String(iso || '').replace(/-/g, '') + '-' + pad(counter, 3);
   }
 
-  // ---------- Checkliste (Hinweis, keine Rechtsberatung) ----------
+  // ---------- Steuerhinweise (Hinweis, keine Steuerberatung) ----------
+  /* Pflichthinweis nach § 34a Satz 1 Nr. 5 UStDV: Die Rechnung muss darauf hinweisen, dass die Steuerbefreiung
+     für Kleinunternehmer gilt (§ 19 UStG); eine eindeutige umgangssprachliche Angabe genügt (Abschn. 14.7a Abs. 1 UStAE). */
+  var KU_NOTE = 'Gemäß § 19 UStG wird keine Umsatzsteuer berechnet (Steuerbefreiung für Kleinunternehmer).';
+  var SMALL_LIMIT_CENTS = 25000; // Kleinbetragsrechnung: Gesamtbetrag bis 250 € (§ 33 UStDV)
+
+  function isSmallAmount(grossCents) { return typeof grossCents === 'number' && grossCents > 0 && grossCents <= SMALL_LIMIT_CENTS; }
+
+  /* Findet Texte, die im Kleinunternehmer-Modus einen Umsatzsteuer-Ausweis nahelegen (z. B. "zzgl. 19 % MwSt.").
+     Bedingung: Steuerwort und eine Zahl bzw. ein Prozentzeichen im selben Text. "USt-IdNr." und ein Hinweis auf § 19 UStG zählen nicht. */
+  var VAT_WORDS = /(^|[^a-zäöüß])(ust|mwst|mehrwertsteuer|umsatzsteuer)(?![a-zäöüß-])/i;
+  function mentionsVat(texts) {
+    return (texts || []).some(function (t) {
+      var s = String(t == null ? '' : t);
+      return VAT_WORDS.test(s) && /[0-9%]/.test(s.replace(/§\s*\d+[a-z]?/gi, '')) && !/§\s*19\s*UStG|kleinunternehm/i.test(s);
+    });
+  }
+
+  /* Liegt das Datum vor dem (optional angegebenen) Beginn der Tätigkeit? Nur Hinweis, blockiert nichts. */
+  function dateWarnings(d) {
+    var w = [];
+    if (!isIsoDate(d.startDate)) return w;
+    var start = d.startDate, f = formatDate(start);
+    if (isIsoDate(d.date) && d.date < start) w.push({ key: 'date-before-start', text: 'Das Rechnungsdatum liegt vor dem angegebenen Beginn Ihrer Tätigkeit (' + f + '). Bitte prüfen Sie, ob das so gewollt ist.' });
+    var svc = d.serviceMode === 'zeitraum' ? d.serviceFrom : d.serviceDate;
+    if (isIsoDate(svc) && svc < start) w.push({ key: 'service-before-start', text: 'Die Leistung liegt (teilweise) vor dem angegebenen Beginn Ihrer Tätigkeit (' + f + '). Bitte prüfen Sie Leistungsdatum und Tätigkeitsbeginn.' });
+    return w;
+  }
+
+  // ---------- Checkliste (Hinweis, keine Steuerberatung) ----------
+  /* level 'pflicht': nach § 14 Abs. 4 UStG bzw. § 34a / § 33 UStDV üblicherweise erforderlich.
+     level 'empfohlen': gesetzlich in diesem Fall nicht vorgeschrieben, für Buchhaltung und Zuordnung aber üblich. */
   function checklist(d) {
     var has = function (v) { return String(v == null ? '' : v).trim() !== ''; };
+    var regel = d.mode === 'regel';
+    var small = isSmallAmount(d.gross) && !d.hasErrors && !(regel && d.hasZeroRate); // § 33 UStDV (nicht bei § 13b UStG, daher bei 0 % keine Erleichterung)
+    var amountOk = d.validCount > 0 && !d.hasErrors;
     var serviceOk = d.serviceMode === 'zeitraum' ? (isIsoDate(d.serviceFrom) && isIsoDate(d.serviceTo) && d.serviceFrom <= d.serviceTo) : isIsoDate(d.serviceDate);
+    var lvl = function (required) { return required ? 'pflicht' : 'empfohlen'; };
     var items = [
-      { key: 'sender', label: 'Name und Anschrift des Leistenden (Absender)', ok: has(d.senderName) && has(d.senderAddress) },
-      { key: 'taxid', label: 'Steuernummer oder USt-IdNr. des Leistenden', ok: has(d.senderTaxId) },
-      { key: 'recipient', label: 'Name und Anschrift des Leistungsempfängers', ok: has(d.recipientName) && has(d.recipientAddress) },
-      { key: 'date', label: 'Ausstellungsdatum', ok: isIsoDate(d.date) },
-      { key: 'number', label: 'Fortlaufende, einmalige Rechnungsnummer', ok: has(d.number) },
-      { key: 'service', label: 'Zeitpunkt oder Zeitraum der Leistung', ok: serviceOk },
-      { key: 'items', label: 'Menge und Art der Leistung (mindestens eine vollständige Position)', ok: d.validCount > 0 && !d.hasErrors },
-      { key: 'amount', label: 'Entgelt (Gesamtbetrag)', ok: d.validCount > 0 && !d.hasErrors }
+      { key: 'sender', level: 'pflicht', label: 'Vollständiger Name und Anschrift des Leistenden (Absender)', ok: has(d.senderName) && has(d.senderAddress) },
+      { key: 'taxid', level: lvl(!small), label: regel ? 'Steuernummer oder USt-IdNr. des Leistenden' : 'Steuernummer, USt-IdNr. oder Kleinunternehmer-ID des Leistenden', ok: has(d.senderTaxId) },
+      { key: 'recipient', level: lvl(!small), label: 'Vollständiger Name und Anschrift des Leistungsempfängers', ok: has(d.recipientName) && has(d.recipientAddress) },
+      { key: 'date', level: 'pflicht', label: 'Ausstellungsdatum (Rechnungsdatum)', ok: isIsoDate(d.date) },
+      { key: 'number', level: lvl(regel && !small), label: regel && !small ? 'Fortlaufende, einmalig vergebene Rechnungsnummer' : 'Einmalige, möglichst fortlaufende Rechnungsnummer', ok: has(d.number) },
+      { key: 'service', level: lvl(regel && !small), label: 'Zeitpunkt oder Zeitraum der Leistung', ok: serviceOk },
+      { key: 'items', level: 'pflicht', label: 'Menge und Art der Leistung (mindestens eine vollständige Position)', ok: amountOk },
+      { key: 'amount', level: 'pflicht', label: regel ? 'Entgelt, nach Steuersätzen aufgeschlüsselt' : 'Entgelt in einer Summe', ok: amountOk }
     ];
-    if (d.mode === 'regel') items.push({ key: 'vat', label: 'Steuersatz und Steuerbetrag, getrennt ausgewiesen (wird automatisch berechnet)', ok: d.validCount > 0 && !d.hasErrors });
-    else items.push({ key: 'kleinhinweis', label: 'Hinweis auf die Kleinunternehmerregelung (wird automatisch ergänzt)', ok: true });
+    if (regel) {
+      items.push({ key: 'vat', level: 'pflicht', label: 'Steuersatz und Steuerbetrag (wird automatisch berechnet und ausgewiesen)', ok: amountOk });
+      if (d.hasZeroRate) items.push({ key: 'exempt', level: 'pflicht', label: 'Hinweis auf den Grund für 0 % (z. B. Steuerbefreiung oder Steuerschuldnerschaft des Leistungsempfängers)', ok: has(d.exemptNote) });
+    } else {
+      items.push({ key: 'kleinhinweis', level: 'pflicht', label: 'Hinweis auf die Steuerbefreiung für Kleinunternehmer (§ 19 UStG, wird automatisch ergänzt)', ok: true });
+    }
     return items;
+  }
+
+  /* Allgemeine Hinweise je nach Modus und Betrag (ohne Datumshinweise). */
+  function notices(d) {
+    var n = [];
+    if (d.mode !== 'regel' && d.vatMention) n.push({ key: 'vat-mention', level: 'warn', text: 'Eine Beschreibung oder ein Hinweis nennt Umsatzsteuer bzw. MwSt. zusammen mit einer Zahl. Bitte prüfen Sie, dass kein Steuersatz und kein Steuerbetrag ausgewiesen wird: Als Kleinunternehmer dürfen Sie keine Umsatzsteuer ausweisen; ein dennoch ausgewiesener Betrag wird in der Regel dem Finanzamt geschuldet (§ 14c UStG).' });
+    if (isSmallAmount(d.gross) && !d.hasErrors) n.push({ key: 'small', level: 'info', text: 'Gesamtbetrag bis 250 €: Für Kleinbetragsrechnungen (§ 33 UStDV) sind weniger Angaben vorgeschrieben, zum Beispiel sind Empfänger und Steuernummer dann nicht zwingend. Das gilt nicht bei Steuerschuldnerschaft des Leistungsempfängers (§ 13b UStG) und bestimmten Lieferungen in andere EU-Staaten. Vollständige Angaben schaden nicht.' });
+    return n;
+  }
+
+  function checklistTitle(mode) {
+    return mode === 'regel'
+      ? 'Für eine Rechnung nach § 14 Abs. 4 UStG üblicherweise erforderlich'
+      : 'Für Rechnungen von Kleinunternehmern (§ 34a UStDV) üblicherweise erforderlich';
   }
 
   return {
@@ -226,6 +279,8 @@
     parseNumber: parseNumber, divRound: divRound, lineCents: lineCents, calcLine: calcLine, calcInvoice: calcInvoice,
     formatCents: formatCents, formatQty: formatQty, formatPrice: formatPrice,
     normalizeIban: normalizeIban, formatIban: formatIban, validateIban: validateIban, validateBic: validateBic,
-    isIsoDate: isIsoDate, addDays: addDays, formatDate: formatDate, parseDays: parseDays, suggestNumber: suggestNumber, checklist: checklist
+    isIsoDate: isIsoDate, addDays: addDays, formatDate: formatDate, parseDays: parseDays, suggestNumber: suggestNumber,
+    KU_NOTE: KU_NOTE, SMALL_LIMIT_CENTS: SMALL_LIMIT_CENTS, isSmallAmount: isSmallAmount, mentionsVat: mentionsVat, dateWarnings: dateWarnings,
+    checklist: checklist, notices: notices, checklistTitle: checklistTitle
   };
 });

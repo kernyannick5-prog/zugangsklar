@@ -16,7 +16,8 @@
     if (url && !/^https?:\/\//i.test(url)) url = 'https://' + url;
     btn.disabled = true;
     statusEl.textContent = 'Nachricht wird gesendet …';
-    YQ.postJson('/api/lead', { email: f.email.value.trim(), url: url, consent: true, source: 'kontakt', message: 'Name: ' + f.name.value.trim() + '\n' + f.nachricht.value.trim() }, { timeout: 20000 }).then(function () {
+    var g = YQ.guard(form);
+    YQ.postJson('/api/lead', { hp: g.hp, ts: g.ts, email: f.email.value.trim(), url: url, consent: true, source: 'kontakt', message: 'Name: ' + f.name.value.trim() + '\n' + f.nachricht.value.trim() }, { timeout: 20000 }).then(function () {
       statusEl.textContent = 'Vielen Dank. Wir antworten in der Regel innerhalb von 24 Stunden (werktags).';
       form.reset();
       btn.disabled = false;

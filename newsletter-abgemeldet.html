@@ -4,19 +4,18 @@
 <meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-WJGOEVi8cYaTXcwa1Y32BpQH8GQIzw8uwEEzXAxzu0c='; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://yanqiva-api.yanqiva-api.workers.dev; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta name="robots" content="noindex, nofollow"><!-- VORLAUNCH: entfernen, sobald echte Impressumsdaten drin sind -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kontakt: Fragen zu Website-Check und Websites | Yanqiva</title>
-<meta name="description" content="Fragen zu Website-Check, Report, Monitoring oder Umsetzung? Schreiben Sie uns, wir antworten in der Regel innerhalb von 24 Stunden.">
+<title>Newsletter-Abmeldung | Yanqiva</title>
+<meta name="description" content="Bestätigung der Newsletter-Abmeldung.">
+<meta name="robots" content="noindex">
 
-<link rel="canonical" href="https://yanqiva.de/kontakt.html">
 <meta name="theme-color" content="#2F2A85">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="de_DE">
 <meta property="og:site_name" content="Yanqiva">
-<meta property="og:title" content="Kontakt: Fragen zu Website-Check und Websites | Yanqiva">
-<meta property="og:description" content="Fragen zu Website-Check, Report, Monitoring oder Umsetzung? Schreiben Sie uns, wir antworten in der Regel innerhalb von 24 Stunden.">
-<meta property="og:url" content="https://yanqiva.de/kontakt.html">
+<meta property="og:title" content="Newsletter-Abmeldung | Yanqiva">
+<meta property="og:description" content="Bestätigung der Newsletter-Abmeldung.">
+<meta property="og:url" content="https://yanqiva.de/newsletter-abgemeldet.html">
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="css/style.css">
@@ -37,22 +36,11 @@
 <main id="main" tabindex="-1">
 <section>
 <div class="wrap narrow">
-<p class="eyebrow">Kontakt</p>
-<h1>Schreiben Sie uns</h1>
-<p class="lead">Fragen zu Check, Report, Monitoring, Agentur-Paket oder Yanqiva Fix? Wir antworten in der Regel innerhalb von 24 Stunden (werktags).</p>
-<form id="contact-form">
-<p class="hint">Felder mit <span class="req" aria-hidden="true">*</span><span class="visually-hidden">Stern</span> sind Pflichtfelder.</p>
-<div class="field"><label for="k-name">Name <span class="req" aria-hidden="true">*</span></label><input type="text" id="k-name" name="name" autocomplete="name" maxlength="100" required></div>
-<div class="field"><label for="k-email">E-Mail-Adresse <span class="req" aria-hidden="true">*</span></label><input type="email" id="k-email" name="email" autocomplete="email" required></div>
-<div class="field"><label for="k-url">Adresse Ihrer Website (optional)</label><input type="text" id="k-url" name="url" maxlength="300" inputmode="url" autocomplete="url"></div>
-<div class="field"><label for="k-msg">Ihre Nachricht <span class="req" aria-hidden="true">*</span></label><textarea id="k-msg" name="nachricht" maxlength="1500" required></textarea></div>
-<div class="field"><label class="check-line" for="k-consent"><input type="checkbox" id="k-consent" name="consent" required><span>Ich willige ein, dass meine Angaben zur Bearbeitung meiner Anfrage gespeichert werden. Details in der <a href="datenschutz.html">Datenschutzerklärung</a>. Widerruf jederzeit möglich. <span class="req" aria-hidden="true">*</span></span></label></div>
-<div class="hp-field" aria-hidden="true"><label for="k-hp">Bitte leer lassen</label><input type="text" id="k-hp" name="homepage" tabindex="-1" autocomplete="off"></div>
-<button type="submit" class="btn">Nachricht senden</button>
-<p id="contact-status" class="status-msg" role="status" aria-live="polite"></p>
-</form>
-<h2 style="margin-top:2.5rem;font-size:1.4rem">Lieber per E-Mail?</h2>
-<p>Schreiben Sie an <a href="mailto:yanqiva@gmail.com">yanqiva@gmail.com</a>.</p>
+<p class="eyebrow">Newsletter</p>
+<h1 id="nl-title" tabindex="-1">Newsletter-Abmeldung</h1>
+<p id="nl-text" class="lead">Wenn Ihr Abmeldelink gültig war, sind Sie abgemeldet und erhalten keine weiteren Newsletter. Ihre E-Mail-Adresse haben wir gelöscht und nur einen Sperrvermerk (Hash) behalten, damit keine weitere Zusendung erfolgt.</p>
+<p>Sie haben sich versehentlich abgemeldet? Dann können Sie sich auf der Seite <a href="ratgeber/index.html#newsletter">Ratgeber</a> erneut anmelden, sofern der Newsletter dort angeboten wird.</p>
+<p><a class="btn" href="index.html">Zur Startseite</a></p>
 </div>
 </section>
 
@@ -104,7 +92,7 @@
 </footer>
 <script src="js/config.js"></script>
 <script src="js/nav.js"></script>
-<script src="js/kontakt.js"></script>
+<script src="js/newsletter-status.js"></script>
 <script src="js/fx.js" defer></script>
 <script src="js/chat.js" defer></script>
 <script src="js/notice.js" defer></script>

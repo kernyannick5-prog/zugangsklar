@@ -138,15 +138,17 @@
       el('div', { class: 'field' }, el('label', { for: emailId }, 'E-Mail-Adresse'), el('input', { type: 'email', id: emailId, name: 'email', autocomplete: 'email', required: true, placeholder: 'name@firma.de' })),
       el('div', { class: 'field' }, el('label', { class: 'check-line', for: consentId }, el('input', { type: 'checkbox', id: consentId, name: 'consent', required: true }),
         el('span', null, 'Ich willige ein, dass Yanqiva mir das Ergebnis und einen Vorschlag zur Behebung per E-Mail sendet und meine Daten dafür speichert. Details in der ', el('a', { href: 'datenschutz.html' }, 'Datenschutzerklärung'), '. Widerruf jederzeit möglich.'))),
+      YQ.hpField('lead-hp-' + suffix),
       el('button', { type: 'submit', class: 'btn' }, 'Befunde freischalten'),
       el('p', { id: msgId, class: 'status-msg', role: 'status', 'aria-live': 'polite' }));
+    f._yqTs = Date.now();
     f.addEventListener('submit', function (ev) {
       ev.preventDefault();
       var email = f.elements.email.value.trim();
       var btn = f.querySelector('button');
       var msg = f.querySelector('#' + msgId);
       btn.disabled = true; msg.textContent = 'Wird gesendet …';
-      opts.postLead(email).then(function () {
+      opts.postLead(email, YQ.guard(f)).then(function () {
         onDone();
       }, function (e) {
         btn.disabled = false;

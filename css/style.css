@@ -793,6 +793,13 @@ th { background: var(--tint); }
 .inv-mark { flex: none; width: 1.4rem; height: 1.4rem; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: .85rem; line-height: 1; margin-top: .1rem; }
 .inv-check-list .is-ok .inv-mark { background: #EBF6F3; color: var(--ok); border: 1.5px solid var(--ok); }
 .inv-check-list .is-missing .inv-mark { background: #FFF4E8; color: var(--warn); border: 1.5px solid var(--warn); }
+.inv-check-list .is-optional .inv-mark { background: #fff; color: var(--muted); border: 1.5px dashed var(--muted); font-style: italic; }
+.inv-level { color: var(--muted); font-size: .92em; }
+.inv-notices-h { font-size: 1rem; margin: .9rem 0 .4rem; }
+.inv-notice-list { list-style: none; padding: 0; margin: 0 0 .5rem; }
+.inv-notice-list li { border-left: 4px solid var(--primary); background: var(--tint); padding: .45rem .7rem; margin: 0 0 .4rem; font-size: .95rem; border-radius: 0 var(--radius-btn) var(--radius-btn) 0; }
+.inv-notice-list .is-warn { border-left-color: var(--warn); background: #FFF4E8; }
+.inv-sub-hint { margin: -.2rem 0 .6rem; }
 .inv-scroll { container-type: inline-size; background: #E9E9F2; padding: clamp(8px, 2cqw, 20px); border-radius: var(--radius); overflow-x: auto; }
 .inv-scroll:focus-visible { outline-offset: 2px; }
 
@@ -850,3 +857,6 @@ th { background: var(--tint); }
   .inv-sheet .inv-title { font-size: 20pt; }
   .inv-top { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); }
 }
+
+/* Spamschutz: Honeypot-Feld, außerhalb des sichtbaren Bereichs (nicht display:none), für Screenreader per aria-hidden verborgen */
+.hp-field { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }

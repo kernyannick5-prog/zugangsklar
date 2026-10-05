@@ -42,8 +42,8 @@
     setStatus(unreachable ? FALLBACK : 'Fehler: ' + msg);
   }
 
-  function postLead(email) {
-    var body = { email: email, url: currentUrl, consent: true, source: 'schnellcheck' };
+  function postLead(email, g) {
+    var body = { email: email, url: currentUrl, consent: true, source: 'schnellcheck', hp: g ? g.hp : '', ts: g ? g.ts : undefined };
     // Empfehlung vorn in die Nachricht (Lead-Liste zeigt nur die ersten Zeichen)
     if (lastData && YQ.recommend) { try { body.message = YQ.recommend.recommend(lastData).leadLine.slice(0, 600); } catch (e) { /* Empfehlung ist optional */ } }
     return YQ.postJson('/api/lead', body);
