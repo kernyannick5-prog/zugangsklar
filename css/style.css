@@ -671,7 +671,10 @@ th { background: var(--tint); }
 /* Kurze Handys (z. B. 360x640): Logo-Band niedriger, damit das URL-Feld im ersten Bildschirm bleibt */
 @media (max-height: 700px) and (max-width: 959px) {
   .hero-art { --art: 84px; --mark: 52px; margin: -.25rem 0 .1rem; }
-  .y3d-chip.c1 { --cy: -.12; } .y3d-chip.c2 { --cy: -.16; }
+  /* Flaches Band: Chips nach Bandbreite statt Logo-Größe verteilen (links/rechts vom Logo), sonst überlappen sie sich und das Zeichen */
+  .y3d-chip { --px: calc((50vw - 2.6rem) * var(--sx, 0)); }
+  .y3d-chip.c1 { --sx: -.74; --cy: -.27; } .y3d-chip.c3 { --sx: -.74; --cy: .27; } .y3d-chip.c5 { --sx: -.5; --cy: 0; }
+  .y3d-chip.c2 { --sx: .70; --cy: -.27; } .y3d-chip.c4 { --sx: .62; --cy: .27; }
   .y3d-chip { padding: .12rem .45rem; font-size: .6rem; }
   .hero { padding-top: 1rem; }
   .hero .eyebrow { font-size: .72rem; margin-bottom: .35rem; }
