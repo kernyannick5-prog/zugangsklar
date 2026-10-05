@@ -92,10 +92,8 @@
       run = requestAnimationFrame(frame);
     }
     function kick() { if (!run) run = requestAnimationFrame(frame); }
-    var art3d = tilt.closest('.hero-art');
     document.addEventListener('pointermove', function (e) {
       if (e.pointerType && e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
-      if (art3d && art3d.classList.contains('h3d-on')) return; /* 3D-Canvas (hero3d.js) fuehrt selbst; verdeckte Kachel nicht mitbewegen */
       px = e.clientX; py = e.clientY; hasP = true;
       if (!following) startFollow();
       kick();

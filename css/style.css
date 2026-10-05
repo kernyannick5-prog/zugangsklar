@@ -627,15 +627,6 @@ th { background: var(--tint); }
 .hero-main { position: relative; z-index: 1; }
 .hero-art { --art: clamp(300px, 34vw, 400px); position: absolute; z-index: 0; right: 0; top: 4.5rem; width: var(--art); height: var(--art); pointer-events: none; }
 @media (min-width: 960px) { .hero-wrap .hero-main { max-width: min(640px, calc(100% - clamp(300px, 34vw, 400px) - 1.5rem)); } }
-/* Hero-3D-Canvas (hero3d.js): liegt hinter dem Logo-Zeichen, blendet erst nach dem ersten Bild ein; ohne WebGL fehlt er einfach */
-.h3d { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 1; pointer-events: none; }
-/* Sobald der 3D-Canvas rendert, ersetzt er die CSS-Kachel (Ueberblendung); Chips bleiben, Fallback ohne WebGL unveraendert */
-.y3d { transition: opacity .7s ease; }
-.hero-art.h3d-on .y3d { opacity: 0; visibility: hidden; transition: opacity .7s ease, visibility 0s .7s; }
-.hero-art.h3d-on .y3d-chips { z-index: 2; }
-/* Nach der Ueberblendung: verdeckte CSS-Kachel komplett aus dem Rendering nehmen (keine Endlosanimationen im Hintergrund) */
-.hero-art.h3d-idle .y3d { display: none; }
-@media (prefers-reduced-motion: reduce) { .y3d, .hero-art.h3d-on .y3d { transition: none; } }
 .y3d-defs { position: absolute; }
 .y3d { position: absolute; inset: 0; perspective: 900px; }
 .y3d-tilt { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .9s cubic-bezier(.22, 1, .36, 1); }
