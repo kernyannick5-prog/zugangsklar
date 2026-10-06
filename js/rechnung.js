@@ -223,28 +223,33 @@
     sheet.appendChild(el('div', { class: 'inv-top' }, rec, meta));
     sheet.appendChild(el('h3', { class: 'inv-title' }, 'Rechnung'));
 
-    var thead = el('tr', null, el('th', { scope: 'col', class: 'c-pos' }, 'Pos.'), el('th', { scope: 'col' }, 'Beschreibung'), el('th', { scope: 'col', class: 'c-num' }, 'Menge'), el('th', { scope: 'col', class: 'c-num' }, 'Einzelpreis'));
-    if (!klein) thead.appendChild(el('th', { scope: 'col', class: 'c-num' }, 'USt'));
-    thead.appendChild(el('th', { scope: 'col', class: 'c-num' }, klein ? 'Betrag' : 'Netto'));
-    var tbody = el('tbody');
+    // Explizite Tabellenrollen: auf schmalen Vorschauen wird die Tabelle per CSS zu Karten umgebaut (display: grid),
+    // die Rollen erhalten dabei die Tabellensemantik für Screenreader.
+    var amountLabel = klein ? 'Betrag' : 'Netto';
+    var th = function (cls, text) { return el('th', { scope: 'col', role: 'columnheader', class: cls }, text); };
+    var td = function (attrs, content) { attrs.role = 'cell'; return el('td', attrs, content); };
+    var thead = el('tr', { role: 'row' }, th('c-pos', 'Pos.'), th('c-desc', 'Beschreibung'), th('c-num', 'Menge'), th('c-num', 'Einzelpreis'));
+    if (!klein) thead.appendChild(th('c-num', 'USt'));
+    thead.appendChild(th('c-num', amountLabel));
+    var tbody = el('tbody', { role: 'rowgroup' });
     var pos = 0, any = false;
     calc.lines.forEach(function (l, i) {
       if (l.empty) return;
       any = true; pos += 1;
       var it = st.items[i];
-      var tr = el('tr', null, el('td', { class: 'c-pos' }, String(pos)), el('td', { class: 'c-desc' }, it.desc.trim() || ph('Beschreibung')));
+      var tr = el('tr', { role: 'row' }, td({ class: 'c-pos' }, String(pos)), td({ class: 'c-desc' }, it.desc.trim() || ph('Beschreibung')));
       if (l.ok) {
-        tr.appendChild(el('td', { class: 'c-num' }, I.formatQty(l.qtyScaled) + (it.unit.trim() ? ' ' + it.unit.trim() : '')));
-        tr.appendChild(el('td', { class: 'c-num' }, I.formatPrice(l.priceScaled)));
-        if (!klein) tr.appendChild(el('td', { class: 'c-num' }, l.rate + ' %'));
-        tr.appendChild(el('td', { class: 'c-num' }, I.formatCents(l.cents)));
+        tr.appendChild(td({ class: 'c-num', 'data-label': 'Menge' }, I.formatQty(l.qtyScaled) + (it.unit.trim() ? ' ' + it.unit.trim() : '')));
+        tr.appendChild(td({ class: 'c-num', 'data-label': 'Einzelpreis' }, I.formatPrice(l.priceScaled)));
+        if (!klein) tr.appendChild(td({ class: 'c-num', 'data-label': 'USt' }, l.rate + ' %'));
+        tr.appendChild(td({ class: 'c-num c-total', 'data-label': amountLabel }, I.formatCents(l.cents)));
       } else {
-        tr.appendChild(el('td', { class: 'c-num', colspan: klein ? '3' : '4' }, ph('Angaben unvollständig')));
+        tr.appendChild(td({ class: 'c-num c-wide', colspan: klein ? '3' : '4' }, ph('Angaben unvollständig')));
       }
       tbody.appendChild(tr);
     });
-    if (!any) tbody.appendChild(el('tr', null, el('td', { colspan: klein ? '5' : '6', class: 'c-desc' }, ph('Noch keine Positionen'))));
-    sheet.appendChild(el('table', { class: 'inv-table' }, el('caption', { class: 'visually-hidden' }, 'Positionen'), el('thead', null, thead), tbody));
+    if (!any) tbody.appendChild(el('tr', { role: 'row' }, td({ colspan: klein ? '5' : '6', class: 'c-desc c-wide' }, ph('Noch keine Positionen'))));
+    sheet.appendChild(el('table', { class: 'inv-table', role: 'table' }, el('caption', { class: 'visually-hidden' }, 'Positionen'), el('thead', { role: 'rowgroup' }, thead), tbody));
 
     var tot = el('dl', { class: 'inv-totals' });
     if (klein) metaRowTotal(tot, 'Gesamtbetrag', I.formatCents(calc.gross), true);

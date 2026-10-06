@@ -836,7 +836,8 @@ th { background: var(--tint); }
 .inv-meta dt { color: #4B4B63; }
 .inv-meta dd { margin: 0; font-weight: 600; text-align: right; }
 .inv-sheet .inv-title { font-size: 1.8em; color: var(--primary) !important; margin: 0 0 .6em; letter-spacing: -.01em; }
-.inv-table { width: 100%; border-collapse: collapse; margin-bottom: 1em; }
+.inv-table { width: 100%; min-width: 0; background: none; border-collapse: collapse; margin-bottom: 1em; }
+.inv-table th, .inv-table td { border: 0; background: none; }
 .inv-table th { text-align: left; font-weight: 700; font-size: .85em; padding: .45em .4em; border-bottom: 2px solid var(--primary); }
 .inv-table td { padding: .5em .4em; border-bottom: 1px solid #E3E3EE; vertical-align: top; }
 .inv-table .c-num { text-align: right; white-space: nowrap; }
@@ -844,6 +845,20 @@ th { background: var(--tint); }
 .inv-table .c-pos { width: 2.6em; }
 .inv-table .c-desc { white-space: pre-line; }
 .inv-table tr { break-inside: avoid; }
+/* Schmale Vorschau (Smartphone): Positionen als Karten statt fünf/sechs gequetschter Spalten. Druck bleibt Tabelle (dort kein Container). */
+@container (max-width: 34rem) {
+  .inv-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .inv-table, .inv-table tbody { display: block; }
+  .inv-table tr { display: grid; grid-template-columns: 1.6em minmax(0, 1fr); column-gap: .5em; padding: .6em 0; border-bottom: 1px solid #E3E3EE; }
+  .inv-table tbody tr:first-child { border-top: 2px solid var(--primary); }
+  .inv-table td { display: block; padding: .12em 0; border: 0; }
+  .inv-table td.c-pos { grid-row: 1 / span 6; font-weight: 700; color: #555; }
+  .inv-table td.c-desc { grid-column: 2; font-weight: 650; padding-bottom: .3em; }
+  .inv-table td.c-num { grid-column: 2; display: flex; justify-content: space-between; gap: 1em; text-align: right; white-space: nowrap; }
+  .inv-table td.c-num::before { content: attr(data-label); color: #555; font-weight: 400; text-align: left; }
+  .inv-table td.c-total { font-weight: 700; }
+  .inv-table td.c-wide { grid-column: 1 / -1; justify-content: flex-start; white-space: normal; }
+}
 .inv-totals { margin: 0 0 1em auto; width: min(100%, 24em); display: grid; gap: .2em; }
 .inv-totals > div { display: flex; justify-content: space-between; gap: 1em; }
 .inv-totals dt { color: #333; }
