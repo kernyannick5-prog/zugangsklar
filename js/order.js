@@ -9,11 +9,11 @@
   var done = document.getElementById('order-done');
   // Fallback-Namen (Stand 2026-10-03). Maßgeblich ist window.YQ_CATALOG (js/catalog.js, generiert aus tools/site-build/catalog.mjs).
   var NAMES = {
-    'website-basic': /*YQ:orderLabel:website-basic*/'Website Basic (299 €, Einführungspreis bis 31.12.2026 (danach 349 €), einmalig, unverbindliche Anfrage, Angebot vorab)'/*YQ*/, 'website-business': 'Website Business (ab 590 €, einmalig, unverbindliche Anfrage, individuelles Angebot vorab)', 'website-pflege': 'Yanqiva Pflege (ab 29 €/Monat)', 'website-premium': 'Website Premium (individuelles Angebot, Orientierung ab 1.490 €, einmalig, unverbindliche Anfrage)',
-    report: 'Website-Report (149 €, einmalig)', monitoring: 'Monitoring (29 € pro Monat)', business: 'Monitoring Plus (79 € pro Monat)',
-    agentur: 'Agentur (99 € pro Monat)', agentur_plus: 'Agentur Plus (249 € pro Monat)',
-    'fix-google-fonts': 'Fix: Google Fonts lokal einbinden (149 €)', 'fix-erklaerung': 'Fix: Barrierefreiheitserklärung erstellen (99 €)',
-    'fix-security-header': 'Fix: Security-Header einrichten (149 €)', 'fix-a11y': 'Fix: Barrierefreiheits-Fix-Paket (ab 249 €)', 'fix-individuell': 'Fix: individuelle Umsetzung (nach Angebot)'
+    'website-basic': /*YQ:orderLabel:website-basic*/'Website Basic (299 €, Einführungspreis bis 31.12.2026 (danach 349 €), einmalig, unverbindliche Anfrage, Angebot vorab)'/*YQ*/, 'website-business': 'Website Business (ab 590 €, einmalig, unverbindliche Anfrage, individuelles Angebot vorab)', 'website-pflege': 'Yanqiva Pflege (39 € pro Monat)', 'website-premium': 'Website Premium (individuelles Angebot, Orientierung ab 1.490 €, einmalig, unverbindliche Anfrage)',
+    report: 'Website-Report (149 €, einmalig)', monitoring: 'Monitoring (29 € pro Monat)',
+    agentur: 'Agentur (99 € pro Monat)',
+    'fix-google-fonts': 'Fix: Google Fonts lokal einbinden (149 €)', 'fix-erklaerung': 'Fix: Barrierefreiheitserklärung erstellen (149 €)',
+    'fix-security-header': 'Fix: Security-Header einrichten (149 €)', 'fix-a11y': 'Fix: Barrierefreiheits-Fix-Paket (ab 249 €)', 'fix-individuell': 'Fix: individuelle Umsetzung (75 € pro Stunde)'
   };
   if (window.YQ_CATALOG && window.YQ_CATALOG.products) {
     Object.keys(window.YQ_CATALOG.products).forEach(function (id) { NAMES[id] = window.YQ_CATALOG.products[id].orderLabel; });
@@ -22,6 +22,22 @@
   var MAX_MESSAGE = 3500; // entspricht MESSAGE_MAX von POST /api/lead (worker/src/lead.js): Projektbeschreibung + Hinweise je 1500 passen zusammen
   var q = new URLSearchParams(window.location.search);
   var pre = q.get('produkt');
+  // Alte Links (entfallene Angebote) und der gemeinsame Einzel-Fix: auf bestehende Produkte abbilden.
+  // Fallback, maßgeblich ist YQ_CATALOG.redirects (generiert aus tools/site-build/catalog.mjs: LEGACY_PRODUCTS).
+  var REDIRECTS = (window.YQ_CATALOG && window.YQ_CATALOG.redirects) || { business: 'monitoring', agentur_plus: 'agentur' };
+  var redirectNote = document.getElementById('order-redirect');
+  if (pre && Object.prototype.hasOwnProperty.call(REDIRECTS, pre)) {
+    var target = REDIRECTS[pre];
+    if (redirectNote) {
+      redirectNote.textContent = target === 'agentur'
+        ? 'Das Angebot, über das Sie hierher gekommen sind, gibt es nicht mehr. Wir haben „Agentur“ (bis zu 10 Websites) für Sie vorausgewählt. Für mehr als 10 Websites schreiben Sie uns bitte über das Kontaktformular.'
+        : 'Das Angebot, über das Sie hierher gekommen sind, gibt es nicht mehr. Wir haben „Monitoring“ (1 Website) für Sie vorausgewählt. Mehrere Websites überwachen Sie mit dem Agentur-Plan (bis zu 10 Websites); für mehr schreiben Sie uns bitte über das Kontaktformular.';
+      redirectNote.hidden = false;
+    }
+    pre = target;
+  } else if (pre === 'einzel-fix') {
+    pre = 'fix-google-fonts'; // Einzel-Fix: erste Variante vorausgewählt, die Variante wählen Sie im Formular
+  }
   // Unbekannte Werte (?produkt=xyz) ignorieren: sonst wäre kein Produkt gewählt und das Absenden würde fehlschlagen.
   var preRadio = pre ? Array.prototype.filter.call(form.querySelectorAll('input[name="produkt"]'), function (r) { return r.value === pre; })[0] : null;
   if (preRadio) {

@@ -27,7 +27,7 @@
   var portfolio = null;
   var DEFAULT_TITLE = document.title;
 
-  var PLAN = { monitoring: 'Monitoring', business: 'Monitoring Plus', agentur: 'Agentur', agentur_plus: 'Agentur Plus', free: 'Free' };
+  var PLAN = { monitoring: 'Monitoring', business: 'Monitoring (5 Websites)', agentur: 'Agentur', agentur_plus: 'Agentur (50 Websites)', free: 'Free' };
   var ALERT = { new_critical: 'Kritisch', neues_kritisches_problem: 'Kritisch', neues_problem: 'Neu', behoben: 'Behoben', nicht_erreichbar: 'Fehler', score_drop: 'Score gesunken' };
 
   function str(v) { return v == null ? '' : String(v); }

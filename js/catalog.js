@@ -47,23 +47,13 @@ window.YQ_CATALOG = {
    "id": "website-pflege",
    "name": "Yanqiva Pflege",
    "group": "website",
-   "price": 29,
-   "priceFrom": true,
+   "price": 39,
+   "priceFrom": false,
    "billing": "monatlich",
-   "priceText": "ab 29 € pro Monat",
-   "priceTextShort": "ab 29 €/Monat",
-   "amountText": "29 €",
-   "orderLabel": "Yanqiva Pflege (ab 29 €/Monat)",
-   "tiers": [
-    {
-     "label": "Basic- und kompakte Websites (bis 3 Seiten)",
-     "price": 29
-    },
-    {
-     "label": "größere Business- und Premium-Websites",
-     "price": 49
-    }
-   ]
+   "priceText": "39 € pro Monat",
+   "priceTextShort": "39 €/Monat",
+   "amountText": "39 €",
+   "orderLabel": "Yanqiva Pflege (39 €/Monat)"
   },
   "report": {
    "id": "report",
@@ -89,18 +79,6 @@ window.YQ_CATALOG = {
    "amountText": "29 €",
    "orderLabel": "Monitoring (29 € pro Monat)"
   },
-  "business": {
-   "id": "business",
-   "name": "Monitoring Plus",
-   "group": "check",
-   "price": 79,
-   "priceFrom": false,
-   "billing": "monatlich",
-   "priceText": "79 € pro Monat",
-   "priceTextShort": "79 €/Monat",
-   "amountText": "79 €",
-   "orderLabel": "Monitoring Plus (79 € pro Monat)"
-  },
   "agentur": {
    "id": "agentur",
    "name": "Agentur",
@@ -112,18 +90,6 @@ window.YQ_CATALOG = {
    "priceTextShort": "99 €/Monat",
    "amountText": "99 €",
    "orderLabel": "Agentur (99 € pro Monat)"
-  },
-  "agentur_plus": {
-   "id": "agentur_plus",
-   "name": "Agentur Plus",
-   "group": "agentur",
-   "price": 249,
-   "priceFrom": false,
-   "billing": "monatlich",
-   "priceText": "249 € pro Monat",
-   "priceTextShort": "249 €/Monat",
-   "amountText": "249 €",
-   "orderLabel": "Agentur Plus (249 € pro Monat)"
   },
   "fix-google-fonts": {
    "id": "fix-google-fonts",
@@ -141,13 +107,13 @@ window.YQ_CATALOG = {
    "id": "fix-erklaerung",
    "name": "Barrierefreiheitserklärung",
    "group": "fix",
-   "price": 99,
+   "price": 149,
    "priceFrom": false,
    "billing": "einmalig",
-   "priceText": "99 €",
-   "priceTextShort": "99 €",
-   "amountText": "99 €",
-   "orderLabel": "Fix: Barrierefreiheitserklärung erstellen (99 €)"
+   "priceText": "149 €",
+   "priceTextShort": "149 €",
+   "amountText": "149 €",
+   "orderLabel": "Fix: Barrierefreiheitserklärung erstellen (149 €)"
   },
   "fix-security-header": {
    "id": "fix-security-header",
@@ -185,6 +151,10 @@ window.YQ_CATALOG = {
    "amountText": "75 €",
    "orderLabel": "Fix: individuelle Umsetzung (75 € pro Stunde)"
   }
+ },
+ "redirects": {
+  "business": "monitoring",
+  "agentur_plus": "agentur"
  },
  "endpreiseHinweis": "Alle Preise sind Endpreise. Als Kleinunternehmer im Sinne von § 19 UStG berechnen wir keine Umsatzsteuer.",
  "reportCredit": "Ein bereits gekaufter Website-Report wird beim Website-Auftrag voll angerechnet."

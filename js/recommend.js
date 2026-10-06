@@ -37,7 +37,7 @@
   var FALLBACK_PRODUCTS = {
     'report': { name: 'Website-Report', price: '149 €', short: 'Analyse bis zu 10 Seiten, PDF mit Code-Fixes' },
     'monitoring': { name: 'Monitoring', price: '29 €/Monat', short: 'wöchentlicher Scan, Score-Verlauf, Alerts' },
-    'fix-erklaerung': { name: 'Barrierefreiheitserklärung + Footer-Link', price: '99 €', amount: 99 },
+    'fix-erklaerung': { name: 'Barrierefreiheitserklärung + Footer-Link', price: '149 €', amount: 149 },
     'fix-google-fonts': { name: 'Google Fonts lokal einbinden', price: '149 €', amount: 149 },
     'fix-security-header': { name: 'Security-Header einrichten', price: '149 €', amount: 149 },
     'fix-a11y': { name: 'Barrierefreiheits-Fix-Paket', price: 'ab 249 €', amount: 249 },
@@ -263,7 +263,7 @@
         if (primary.key === 'fix-google-fonts') why.push('Schriften werden von Google-Servern geladen. Lokal eingebunden entfällt die Übermittlung der IP-Adresse.');
         if (primary.key === 'fix-security-header') why.push('Es fehlen Security-Header (geringes bis mittleres Risiko), die sich in der Server-Konfiguration setzen lassen.');
       } else {
-        primary = { key: 'fix-bundle', name: 'Einzel-Fixes im Paket', price: eur(total), items: fixes, cta: 'Fixes bestellen' };
+        primary = { key: 'fix-bundle', name: 'Mehrere Einzel-Fixes', price: eur(total), items: fixes, cta: 'Fixes bestellen' };
         why.push('Mehrere klar abgegrenzte Einzel-Fixes: ' + fixes.map(function (f) { return f.name + ' ' + f.price; }).join(' + ') + ' = ' + eur(total) + '.');
       }
       var altsF = [reportAlt];

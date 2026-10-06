@@ -6,7 +6,7 @@
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bestellen: Website-Projekt, Report, Monitoring | Yanqiva</title>
-<meta name="description" content="Website-Projekt anfragen oder Report (149 €), Monitoring (ab 29 €/Monat), Agentur und Fix bestellen. Endpreise ohne Umsatzsteuer.">
+<meta name="description" content="Website-Projekt anfragen oder Report (149 €), Monitoring (29 €/Monat), Agentur und Fix bestellen. Endpreise ohne Umsatzsteuer.">
 
 <link rel="canonical" href="https://yanqiva.de/bestellen">
 <meta name="theme-color" content="#2F2A85">
@@ -14,7 +14,7 @@
 <meta property="og:locale" content="de_DE">
 <meta property="og:site_name" content="Yanqiva">
 <meta property="og:title" content="Bestellen: Website-Projekt, Report, Monitoring | Yanqiva">
-<meta property="og:description" content="Website-Projekt anfragen oder Report (149 €), Monitoring (ab 29 €/Monat), Agentur und Fix bestellen. Endpreise ohne Umsatzsteuer.">
+<meta property="og:description" content="Website-Projekt anfragen oder Report (149 €), Monitoring (29 €/Monat), Agentur und Fix bestellen. Endpreise ohne Umsatzsteuer.">
 <meta property="og:url" content="https://yanqiva.de/bestellen">
 <meta property="og:image" content="https://yanqiva.de/img/og-yanqiva.jpg">
 <meta property="og:image:type" content="image/jpeg">
@@ -24,9 +24,9 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://yanqiva.de/img/og-yanqiva.jpg">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/chat.css">
-<link rel="stylesheet" href="css/notice.css">
+<link rel="stylesheet" href="css/style.css?v=1ce8a0dae5">
+<link rel="stylesheet" href="css/chat.css?v=c99624898a">
+<link rel="stylesheet" href="css/notice.css?v=ac7ff0849d">
 <script>var d=document.documentElement,n=navigator;d.className+=" js";if(matchMedia("(prefers-reduced-motion: reduce)").matches||n.hardwareConcurrency<4||n.deviceMemory<4||(n.connection&&n.connection.saveData))d.className+=" fx-lite"</script>
 
 </head>
@@ -52,6 +52,8 @@
 <p>Website-Report: PDF innerhalb von 48 Stunden nach Zahlungseingang. Monitoring: Nach der Einrichtung senden wir Ihnen Ihren persönlichen Dashboard-Link per E-Mail. Fix: Sie erhalten vorab ein schriftliches Angebot mit Umfang und Festpreis. Website-Projekt: Wir prüfen Ihre Anforderungen und melden uns mit einem individuellen Angebot zu Umfang, Preis und Ablauf; Hosting und Domain sind nicht enthalten.</p>
 </div>
 
+<p id="order-redirect" class="notice" role="status" tabindex="-1" hidden></p>
+
 <form id="order-form" aria-describedby="order-intro">
 <p id="order-intro" class="hint">Felder mit <span class="req" aria-hidden="true">*</span><span class="visually-hidden">Stern</span> sind Pflichtfelder. Unser Angebot richtet sich nur an Unternehmer.</p>
 <fieldset>
@@ -65,23 +67,25 @@
 </fieldset>
 <fieldset>
 <legend>Yanqiva Pflege (optional, monatlich)</legend>
-<label class="choice"><input type="radio" name="produkt" value="website-pflege"><span><strong>Yanqiva Pflege</strong>Hosting, Updates, Backups und monatliches Monitoring Ihrer Website. Monatlich kündbar, Domainkosten kommen hinzu.</span><span class="choice-price">ab 29&nbsp;€/Monat</span></label>
+<label class="choice"><input type="radio" name="produkt" value="website-pflege"><span><strong>Yanqiva Pflege</strong>Für Basic- und Business-Websites: Hosting, technische Updates, Backups und Monitoring (wöchentlicher Schnellcheck, monatliche Tiefenprüfung). Inhaltsänderungen (75&nbsp;€ pro Stunde) und E-Mail-Postfächer sind nicht enthalten, die Domain kommt hinzu. Monatlich kündbar. Für Premium-Websites: Pflege laut Angebot.</span><span class="choice-price">39&nbsp;€/Monat</span></label>
 </fieldset>
 <fieldset>
-<legend>Prüfung und Monitoring</legend>
+<legend>Prüfen und Überwachen</legend>
 <label class="choice"><input type="radio" name="produkt" value="report" checked><span><strong>Website-Report</strong>Bis zu 10 Seiten, alle Prüfbereiche, PDF mit Code-Fixes, Entwurf Barrierefreiheitserklärung, 1 Nachscan in 30 Tagen. Einmalig.</span><span class="choice-price">149&nbsp;€</span></label>
 <label class="choice"><input type="radio" name="produkt" value="monitoring"><span><strong>Monitoring</strong>1 Website, wöchentlicher Schnellcheck, monatliche Tiefenprüfung von bis zu 10 Unterseiten, Score-Verlauf, neue und behobene Probleme, Monats-PDF. Monatlich kündbar.</span><span class="choice-price">29&nbsp;€ / Monat</span></label>
-<label class="choice"><input type="radio" name="produkt" value="business"><span><strong>Monitoring Plus</strong>Wie Monitoring für bis zu 5 Websites. Monatlich kündbar.</span><span class="choice-price">79&nbsp;€ / Monat</span></label>
-<label class="choice"><input type="radio" name="produkt" value="agentur"><span><strong>Agentur</strong>Bis zu 10 Websites, Portfolio-Dashboard, White-Label. Monatlich kündbar.</span><span class="choice-price">99&nbsp;€ / Monat</span></label>
-<label class="choice"><input type="radio" name="produkt" value="agentur_plus"><span><strong>Agentur Plus</strong>Bis zu 50 Websites, Portfolio-Dashboard, White-Label. Monatlich kündbar.</span><span class="choice-price">249&nbsp;€ / Monat</span></label>
+<label class="choice"><input type="radio" name="produkt" value="agentur"><span><strong>Agentur</strong>Bis zu 10 Websites, Portfolio-Dashboard, White-Label. Mehr als 10 Websites auf Anfrage (<a href="kontakt?quelle=agentur-mehr-websites">Kontakt</a>). Monatlich kündbar.</span><span class="choice-price">99&nbsp;€ / Monat</span></label>
 </fieldset>
 <fieldset>
-<legend>Yanqiva Fix (Festpreis)</legend>
-<label class="choice"><input type="radio" name="produkt" value="fix-google-fonts"><span><strong>Google Fonts lokal einbinden</strong>Schriften vom eigenen Server ausliefern, Nachscan.</span><span class="choice-price">149&nbsp;€</span></label>
-<label class="choice"><input type="radio" name="produkt" value="fix-erklaerung"><span><strong>Barrierefreiheitserklärung erstellen</strong>Entwurf auf Basis Ihrer Angaben als Seite anlegen und im Footer verlinken. Technische Umsetzung, keine rechtliche Prüfung.</span><span class="choice-price">99&nbsp;€</span></label>
-<label class="choice"><input type="radio" name="produkt" value="fix-security-header"><span><strong>Security-Header einrichten</strong>Bei Zugriff auf Server- oder Hosting-Konfiguration.</span><span class="choice-price">149&nbsp;€</span></label>
-<label class="choice"><input type="radio" name="produkt" value="fix-a11y"><span><strong>Barrierefreiheits-Fix-Paket</strong>Alternativtexte, Labels, Kontraste, Überschriften im Theme. Festpreis nach Sichtung.</span><span class="choice-price">ab 249&nbsp;€</span></label>
-<label class="choice"><input type="radio" name="produkt" value="fix-individuell"><span><strong>Individuelle Umsetzung</strong>Nach Aufwand, Aufwandsschätzung nach Sichtung Ihrer Befunde, Abrechnung je angefangene 15 Minuten.</span><span class="choice-price">75&nbsp;€/Std.</span></label>
+<legend>Yanqiva Fix: Einzel-Fix, 149&nbsp;€ je Befund (inklusive Nachscan)</legend>
+<p class="hint">Wählen Sie den Befund, den wir beheben sollen. Der Preis ist für alle drei Varianten gleich.</p>
+<label class="choice"><input type="radio" name="produkt" value="fix-google-fonts"><span><strong>Google Fonts lokal einbinden</strong>Schriften vom eigenen Server ausliefern, externe Google-Aufrufe entfernen.</span><span class="choice-price">149&nbsp;€</span></label>
+<label class="choice"><input type="radio" name="produkt" value="fix-security-header"><span><strong>Security-Header einrichten</strong>Voraussetzung: Zugriff auf Server- oder Hosting-Konfiguration.</span><span class="choice-price">149&nbsp;€</span></label>
+<label class="choice"><input type="radio" name="produkt" value="fix-erklaerung"><span><strong>Barrierefreiheitserklärung erstellen</strong>Entwurf auf Basis Ihrer Angaben als Seite anlegen und im Footer verlinken. Technische Umsetzung, keine rechtliche Prüfung.</span><span class="choice-price">149&nbsp;€</span></label>
+</fieldset>
+<fieldset>
+<legend>Yanqiva Fix: weitere Leistungen</legend>
+<label class="choice"><input type="radio" name="produkt" value="fix-a11y"><span><strong>Barrierefreiheits-Fix-Paket für Online-Shops</strong>Alternativtexte, Labels, Kontraste, Überschriften im Theme. Festpreis nach Sichtung.</span><span class="choice-price">ab 249&nbsp;€</span></label>
+<label class="choice"><input type="radio" name="produkt" value="fix-individuell"><span><strong>Alles andere nach Aufwand</strong>Aufwandsschätzung vorab nach Sichtung Ihrer Befunde, Abrechnung je angefangene 15 Minuten.</span><span class="choice-price">75&nbsp;€/Std.</span></label>
 <p class="hint">Alle Preise sind Endpreise. Als Kleinunternehmer im Sinne von § 19 UStG berechnen wir keine Umsatzsteuer.</p>
 </fieldset>
 <div class="field"><label for="o-url">Adresse der Website <span class="req" id="o-url-req" aria-hidden="true">*</span><span class="muted" id="o-url-opt" hidden> (optional bei neuer Website)</span></label><input type="text" id="o-url" name="url" maxlength="300" inputmode="url" autocomplete="url" required placeholder="www.ihre-website.de"></div>
@@ -101,7 +105,7 @@
 <ol>
 <li>Sie senden die Bestellung oder Projektanfrage ab. Wir bestätigen sie per E-Mail.</li>
 <li>Bei Website-Projekten prüfen wir Ihre Anforderungen und senden Ihnen ein individuelles Angebot. Bei den übrigen Produkten erhalten Sie eine Rechnung oder einen Zahlungslink.</li>
-<li>Nach Zahlungseingang prüfen wir Ihre Website und liefern den Report innerhalb von 48 Stunden. Bei Monitoring und Agentur richten wir Ihr Dashboard ein. Bei Fix-Paketen stimmen wir Zugang und Termin mit Ihnen ab.</li>
+<li>Nach Zahlungseingang prüfen wir Ihre Website und liefern den Report innerhalb von 48 Stunden. Bei Monitoring, Pflege und Agentur richten wir Ihr Dashboard ein. Bei Fix-Paketen stimmen wir Zugang und Termin mit Ihnen ab.</li>
 </ol>
 <p class="hint">Die Leistungen sind technische Prüfungen und Umsetzungen und keine Rechtsberatung. Mehr dazu in den <a href="agb">AGB</a>.</p>
 </div>
@@ -153,12 +157,12 @@
 </div>
 <div class="wrap"><p class="footer-note footer-login">Monitoring-Kunden: Ihren persönlichen Dashboard-Link finden Sie in Ihrer Willkommens-E-Mail.</p><p class="footer-copy">© 2026 Yanqiva. Alle Preise sind Endpreise; gemäß § 19 UStG wird keine Umsatzsteuer berechnet. Automatische Prüfung. Liefert Hinweise, keine Rechtsberatung und keine Garantie für Rechtskonformität.</p></div>
 </footer>
-<script src="js/config.js"></script>
-<script src="js/catalog.js"></script>
-<script src="js/nav.js"></script>
-<script src="js/order.js"></script>
-<script src="js/fx.js" defer></script>
-<script src="js/chat.js" defer data-faq-v="%FAQV%"></script>
-<script src="js/notice.js" defer></script>
+<script src="js/config.js?v=e5e39c3628"></script>
+<script src="js/catalog.js?v=5027e0870a"></script>
+<script src="js/nav.js?v=cc783f0b1a"></script>
+<script src="js/order.js?v=8a2ff339a1"></script>
+<script src="js/fx.js?v=932a6bbc85" defer></script>
+<script src="js/chat.js?v=6b1ba96598" defer data-faq-v="f4ac704c88"></script>
+<script src="js/notice.js?v=95e21a7bdd" defer></script>
 </body>
 </html>
