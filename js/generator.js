@@ -84,6 +84,9 @@
     ev.preventDefault();
     // Reine Leerzeichen bestehen die native required-Prüfung, ergäben aber leere Pflichtangaben in der Erklärung.
     var req = [['firma', 'Firma / Betreiber'], ['website', 'Adresse des Online-Shops'], ['beschreibung', 'Allgemeine Beschreibung'], ['erlaeuterung', 'Erläuterung'], ['email', 'E-Mail für Feedback']];
+    // Bei „teilweise“/„nicht vereinbar“ muss Abschnitt 4 die Einschränkungen nennen (sonst widerspricht Abschnitt 4 dem Abschnitt 3)
+    if (form.elements.stand && form.elements.stand.value !== 'vollstaendig') req.push(['einschraenkungen', 'Bekannte Einschränkungen (bei teilweiser oder fehlender Vereinbarkeit erforderlich)']);
+    if (form.elements.einschraenkungen) form.elements.einschraenkungen.removeAttribute('aria-invalid');
     for (var i = 0; i < req.length; i++) {
       var fld = form.elements[req[i][0]];
       if (!fld.value.trim() || /\[Bitte ergänzen/.test(fld.value)) {

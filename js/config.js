@@ -75,6 +75,9 @@
           e.kind = (data && data.error) ? 'api' : (res.status >= 500 ? 'network' : 'api');
           throw e;
         }
+        if (data === null) { // keine gültige Antwort (z. B. WLAN-Anmeldeseite) -> nicht als gesendet melden
+          var n = new Error('Keine gültige Antwort vom Server.'); n.kind = 'network'; throw n;
+        }
         return data;
       });
     }, function () {

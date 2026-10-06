@@ -14,7 +14,7 @@
 
   function normalize(raw) {
     var v = (raw || '').trim();
-    if (!v) return null;
+    if (!v || v.length > 2000) return null;
     if (!/^https?:\/\//i.test(v)) v = 'https://' + v;
     try {
       var u = new URL(v);

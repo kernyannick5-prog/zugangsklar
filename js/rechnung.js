@@ -457,6 +457,7 @@
     var nr = r.st.number.trim();
     oldTitle = document.title;
     document.title = 'Rechnung' + (nr ? ' ' + nr : '');
+    say('');
     window.print();
   });
   window.addEventListener('afterprint', function () { document.title = oldTitle; });

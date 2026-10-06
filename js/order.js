@@ -19,7 +19,7 @@
     Object.keys(window.YQ_CATALOG.products).forEach(function (id) { NAMES[id] = window.YQ_CATALOG.products[id].orderLabel; });
   }
 
-  var MAX_MESSAGE = 2000; // entspricht dem Limit von POST /api/lead (worker/src/lead.js)
+  var MAX_MESSAGE = 3500; // entspricht MESSAGE_MAX von POST /api/lead (worker/src/lead.js): Projektbeschreibung + Hinweise je 1500 passen zusammen
   var q = new URLSearchParams(window.location.search);
   var pre = q.get('produkt');
   // Unbekannte Werte (?produkt=xyz) ignorieren: sonst wäre kein Produkt gewählt und das Absenden würde fehlschlagen.
@@ -163,6 +163,7 @@
       done.focus();
     }, function (e) {
       btn.disabled = false;
+      if (!document.activeElement || document.activeElement === document.body) btn.focus(); // Tastaturposition behalten
       if (e.kind === 'network') YQ.mailFallback(statusEl, (inquiry ? 'Ihre Anfrage' : 'Ihre Bestellung') + ' konnte gerade nicht gesendet werden. Bitte versuchen Sie es später erneut oder senden Sie sie direkt per', (inquiry ? 'Anfrage: ' : 'Bestellung: ') + (NAMES[product] || product), message + '\nE-Mail: ' + email + (url ? '\nWebsite: ' + url : ''));
       else statusEl.textContent = 'Fehler: ' + e.message;
     });
