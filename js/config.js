@@ -73,6 +73,7 @@
         if (!res.ok || (data && data.error)) {
           var e = new Error((data && data.error) || 'Die Anfrage konnte nicht verarbeitet werden (Status ' + res.status + ').');
           e.kind = (data && data.error) ? 'api' : (res.status >= 500 ? 'network' : 'api');
+          if (data && typeof data.code === 'string') e.code = data.code; // Fehlercode der API (docs/CHECKER_V3.md §5), nur ergänzend
           throw e;
         }
         if (data === null) { // keine gültige Antwort (z. B. WLAN-Anmeldeseite) -> nicht als gesendet melden
@@ -83,6 +84,86 @@
     }, function () {
       var e = new Error('Netzwerkfehler'); e.kind = 'network'; throw e;
     }).then(function (d) { if (timer) clearTimeout(timer); return d; }, function (e) { if (timer) clearTimeout(timer); throw e; });
+  }
+
+
+  /**
+   * POST JSON mit NDJSON-Fortschritt (Accept: application/x-ndjson). Löst mit dem Ergebnis (`result.data`) auf.
+   * opts: { onEvent(event) für jedes Ereignis außer dem Endergebnis, timeout (ms, Standard 60000) }.
+   * Antwortet der Server nicht mit NDJSON (alte API, Validierungs-/Limit-Fehler), wird die Antwort wie bei postJson als JSON
+   * gelesen, inklusive Fehlerarten. Fehler: kind 'api' (mit .code) oder 'network' (mit .timeout bei Zeitüberschreitung).
+   * Ohne ReadableStream/TextDecoder: Rückfall auf postJson (kein Fortschritt).
+   */
+  function postNdjson(path, payload, opts) {
+    opts = opts || {};
+    if (MOCK || typeof fetch !== 'function' || typeof TextDecoder === 'undefined' || typeof ReadableStream === 'undefined') return postJson(path, payload, opts);
+    var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    var timedOut = false;
+    var timer = controller ? setTimeout(function () { timedOut = true; controller.abort(); }, opts.timeout || 60000) : null;
+    function netError(msg) { var e = new Error(msg || 'Netzwerkfehler'); e.kind = 'network'; if (timedOut) e.timeout = true; return e; }
+    function apiError(msg, code, status) {
+      var e = new Error(msg || ('Die Anfrage konnte nicht verarbeitet werden' + (status ? ' (Status ' + status + ')' : '') + '.'));
+      e.kind = 'api'; if (code) e.code = String(code); return e;
+    }
+    function done() { if (timer) clearTimeout(timer); }
+    return fetch(API_BASE + path, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/x-ndjson' },
+      body: JSON.stringify(payload),
+      signal: controller ? controller.signal : undefined
+    }).then(function (res) {
+      var type = (res.headers.get('content-type') || '').toLowerCase();
+      if (type.indexOf('application/x-ndjson') === -1 || !res.body || typeof res.body.getReader !== 'function') {
+        // Kein Stream: wie postJson auswerten
+        return res.json().catch(function () { return null; }).then(function (data) {
+          if (!res.ok || (data && data.error)) {
+            var e = new Error((data && data.error) || 'Die Anfrage konnte nicht verarbeitet werden (Status ' + res.status + ').');
+            e.kind = (data && data.error) ? 'api' : (res.status >= 500 ? 'network' : 'api');
+            if (data && typeof data.code === 'string') e.code = data.code;
+            throw e;
+          }
+          if (data === null) throw netError('Keine gültige Antwort vom Server.');
+          return data;
+        });
+      }
+      var reader = res.body.getReader(), decoder = new TextDecoder('utf-8'), buffer = '', result = null, failure = null;
+      function handleLine(line) {
+        line = line.trim();
+        if (!line || result || failure) return;
+        var ev;
+        try { ev = JSON.parse(line); } catch (err) { return; } // unvollständige/ungültige Zeile ignorieren
+        if (!ev || typeof ev !== 'object') return;
+        if (ev.type === 'result') { if (ev.data && typeof ev.data === 'object') result = ev.data; else failure = apiError('Keine gültige Antwort vom Server.'); }
+        else if (ev.type === 'error') failure = apiError(typeof ev.error === 'string' ? ev.error : '', ev.code);
+        else if (typeof opts.onEvent === 'function') { try { opts.onEvent(ev); } catch (err) { /* Anzeige darf den Abruf nicht stören */ } }
+      }
+      function drain(final) {
+        var idx;
+        while ((idx = buffer.indexOf('\n')) !== -1) { handleLine(buffer.slice(0, idx)); buffer = buffer.slice(idx + 1); }
+        if (final) { handleLine(buffer); buffer = ''; }
+      }
+      function pump() {
+        return reader.read().then(function (chunk) {
+          if (chunk.done) {
+            buffer += decoder.decode();
+            drain(true);
+            if (failure) throw failure;
+            if (result) return result;
+            throw netError('Die Verbindung wurde vor dem Ergebnis beendet.');
+          }
+          buffer += decoder.decode(chunk.value, { stream: true });
+          drain(false);
+          if (failure) { try { reader.cancel(); } catch (err) { /* egal */ } throw failure; }
+          if (result) { try { reader.cancel(); } catch (err) { /* egal */ } return result; }
+          return pump();
+        });
+      }
+      return pump();
+    }, function () { throw netError(); }).then(function (d) { done(); return d; }, function (e) {
+      done();
+      if (e && e.kind) throw e;
+      throw netError(); // Abbruch/Lesefehler mitten im Stream
+    });
   }
 
   /** GET JSON von der API. Fehler: kind 'auth' (401/403/404), 'api' (sonstiger Status), 'network'. */
@@ -233,5 +314,5 @@
   // Footer-Link "Newsletter" (im HTML mit hidden) nur zeigen, wenn die Anmeldung aktiv ist.
   if (NEWSLETTER) Array.prototype.forEach.call(document.querySelectorAll('[data-newsletter-link]'), function (a) { a.hidden = false; });
 
-  window.YQ = { START_DATE: START_DATE, prestartActive: prestartActive, NEWSLETTER: NEWSLETTER, NEWSLETTER_CONSENT_VERSION: NEWSLETTER_CONSENT_VERSION, guard: guard, pow: { watch: powWatch, withPow: withPow, solve: powSolve, supported: powSupported }, hpField: hpField, API_BASE: API_BASE, PAYMENT_LINKS: PAYMENT_LINKS, ANALYTICS: ANALYTICS, MOCK: MOCK, MOCK_URL: MOCK_URL, mockUrl: mockUrl, el: el, postJson: postJson, getJson: getJson, CONTACT_EMAIL: CONTACT_EMAIL, mailFallback: mailFallback };
+  window.YQ = { START_DATE: START_DATE, prestartActive: prestartActive, NEWSLETTER: NEWSLETTER, NEWSLETTER_CONSENT_VERSION: NEWSLETTER_CONSENT_VERSION, guard: guard, pow: { watch: powWatch, withPow: withPow, solve: powSolve, supported: powSupported }, hpField: hpField, API_BASE: API_BASE, PAYMENT_LINKS: PAYMENT_LINKS, ANALYTICS: ANALYTICS, MOCK: MOCK, MOCK_URL: MOCK_URL, mockUrl: mockUrl, el: el, postJson: postJson, postNdjson: postNdjson, getJson: getJson, CONTACT_EMAIL: CONTACT_EMAIL, mailFallback: mailFallback };
 })();

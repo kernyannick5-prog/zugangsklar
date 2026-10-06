@@ -24,7 +24,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://yanqiva.de/img/og-yanqiva.jpg">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="css/style.css?v=b1f4725a76">
+<link rel="stylesheet" href="css/style.css?v=1ce8a0dae5">
 <link rel="stylesheet" href="css/chat.css?v=c99624898a">
 <link rel="stylesheet" href="css/notice.css?v=ac7ff0849d">
 <script>var d=document.documentElement,n=navigator;d.className+=" js";if(matchMedia("(prefers-reduced-motion: reduce)").matches||n.hardwareConcurrency<4||n.deviceMemory<4||(n.connection&&n.connection.saveData))d.className+=" fx-lite"</script>
@@ -36,7 +36,7 @@
 <div class="wrap header-inner">
 <a class="logo" href="./" aria-label="Yanqiva – Startseite"><svg class="logo-mark" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x=".5" y=".5" width="31" height="31" rx="7.5" fill="#2F2A85" stroke="rgba(255,255,255,.3)"/><g fill="none" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 8 L16 17.5 V26" stroke="#fff"/><path d="M23.5 8 L16 17.5" stroke="#7EE0C8"/></g></svg><span class="logo-word">Yanqiva</span></a>
 <div class="header-actions"><a class="btn btn-small header-cta" href="./#check"><span class="cta-pre">Website </span>prüfen</a><button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav"><span class="nav-toggle-bars" aria-hidden="true"></span><span class="visually-hidden">Menü</span></button></div>
-<nav id="site-nav" class="site-nav" aria-label="Hauptnavigation"><ul class="nav-list"><li class="nav-drop-li"><details class="nav-drop"><summary class="is-current">Prüfbereiche</summary><ul class="nav-drop-list"><li><a href="barrierefreiheit-check">Barrierefreiheit (BFSG)</a></li><li><a href="dsgvo-check">Datenschutz (DSGVO)</a></li><li><a href="impressum-check" aria-current="page">Rechtliches (Impressum)</a></li><li><a href="sicherheit-check">Sicherheit</a></li><li><a href="seo-check">Technik &amp; SEO</a></li></ul></details></li><li><a href="websites">Websites</a></li><li><a href="preise">Preise</a></li><li><a href="agenturen">Agenturen</a></li><li><a href="fix">Fix</a></li><li><a href="ratgeber/">Ratgeber</a></li></ul></nav>
+<nav id="site-nav" class="site-nav" aria-label="Hauptnavigation"><ul class="nav-list"><li class="nav-drop-li"><details class="nav-drop"><summary class="is-current">Prüfbereiche</summary><ul class="nav-drop-list"><li><a href="barrierefreiheit-check">Barrierefreiheit (BFSG)</a></li><li><a href="dsgvo-check">Datenschutz (DSGVO)</a></li><li><a href="impressum-check" aria-current="page">Rechtliches (Impressum)</a></li><li><a href="sicherheit-check">Sicherheit</a></li><li><a href="seo-check">SEO</a></li></ul></details></li><li><a href="websites">Websites</a></li><li><a href="preise">Preise</a></li><li><a href="agenturen">Agenturen</a></li><li><a href="fix">Fix</a></li><li><a href="ratgeber/">Ratgeber</a></li></ul></nav>
 </div>
 </header>
 <main id="main" tabindex="-1">
@@ -48,12 +48,12 @@
 <p class="lead">Fehlt das Impressum, ist es schwer zu finden oder unvollständig? Der Check sucht Impressum und Datenschutzerklärung auf Ihrer Startseite und weist auf typische Lücken hin.</p>
 <form id="check" class="check-form" aria-labelledby="check-title" data-focus="legal">
 <h2 id="check-title" class="visually-hidden">Kostenloser Website-Check</h2>
-<label for="check-url">Adresse Ihrer Website</label>
+<label for="check-url">Website-Adresse</label>
 <div class="check-row">
-<input type="text" id="check-url" name="url" inputmode="url" autocomplete="url" placeholder="www.ihre-website.de" aria-describedby="check-hint check-terms" required>
-<button type="submit" class="btn">Website prüfen</button>
+<input type="text" id="check-url" name="url" inputmode="url" autocomplete="url" autocapitalize="none" spellcheck="false" placeholder="https://beispiel.de" aria-describedby="check-hint check-terms" required>
+<button type="submit" class="btn">Website analysieren</button>
 </div>
-<p id="check-hint" class="hint">Kein Konto, keine E-Mail-Adresse nötig. Geprüft wird die Startseite in allen fünf Bereichen.</p>
+<p id="check-hint" class="hint">Kostenlos, ohne Konto. Geprüft wird die Startseite in acht Bereichen.</p>
 <p id="check-terms" class="hint check-terms">Mit dem Start der Prüfung akzeptieren Sie die <a href="nutzungsbedingungen">Nutzungsbedingungen</a>. Abgerufen werden nur öffentlich zugängliche Inhalte. Bitte keine Massenabfragen und keine Nutzung zur Suche nach Abmahnzielen.</p>
 <p id="check-status" class="status-msg" role="status" aria-live="polite" aria-busy="false"></p>
 </form>
@@ -118,14 +118,14 @@
 <section class="section-alt" aria-labelledby="mod-h">
 <div class="wrap">
 <h2 id="mod-h">Weitere Prüfbereiche</h2>
-<ul class="grid grid-4 mod-grid" style="list-style:none;padding:0"><li class="card"><h3><a href="barrierefreiheit-check">Barrierefreiheit (BFSG)</a></h3><p>Alternativtexte, Kontraste, Formulare, Tastatur: BFSG-Pflichten prüfen.</p></li><li class="card"><h3><a href="dsgvo-check">Datenschutz (DSGVO)</a></h3><p>Google Fonts, Tracker vor Einwilligung, Cookies.</p></li><li class="card"><h3><a href="sicherheit-check">Sicherheit</a></h3><p>HTTPS, Security-Header, Mixed Content.</p></li><li class="card"><h3><a href="seo-check">Technik &amp; SEO</a></h3><p>Indexierbarkeit, Title, Description, Canonical, Mobile.</p></li></ul>
+<ul class="grid grid-4 mod-grid" style="list-style:none;padding:0"><li class="card"><h3><a href="barrierefreiheit-check">Barrierefreiheit (BFSG)</a></h3><p>Alternativtexte, Formulare, Überschriften, ARIA, Sprache: typische BFSG-Barrieren finden.</p></li><li class="card"><h3><a href="dsgvo-check">Datenschutz (DSGVO)</a></h3><p>Google Fonts, Tracker vor Einwilligung, Cookies.</p></li><li class="card"><h3><a href="sicherheit-check">Sicherheit</a></h3><p>HTTPS, Security-Header, Mixed Content.</p></li><li class="card"><h3><a href="seo-check">SEO</a></h3><p>Indexierbarkeit, Title, Description, Canonical, strukturierte Daten.</p></li></ul>
 </div>
 </section>
 
 <section class="cta-band on-dark" aria-labelledby="cta-h">
 <div class="wrap narrow" style="text-align:center">
 <h2 id="cta-h">Wissen Sie, wo Ihre Website steht?</h2>
-<p>Der Check dauert 30 Sekunden und kostet nichts.</p>
+<p>Der Check dauert meist unter 30 Sekunden und kostet nichts.</p>
 <p><a class="btn btn-light" href="#check">Website kostenlos prüfen</a></p>
 </div>
 </section>
@@ -145,7 +145,7 @@
 <li><a href="dsgvo-check">Datenschutz (DSGVO)</a></li>
 <li><a href="impressum-check">Rechtliches (Impressum)</a></li>
 <li><a href="sicherheit-check">Sicherheit</a></li>
-<li><a href="seo-check">Technik &amp; SEO</a></li>
+<li><a href="seo-check">SEO</a></li>
 </ul>
 </nav>
 <nav aria-label="Produkt und Wissen">
@@ -176,14 +176,14 @@
 </div>
 <div class="wrap"><p class="footer-note footer-login">Monitoring-Kunden: Ihren persönlichen Dashboard-Link finden Sie in Ihrer Willkommens-E-Mail.</p><p class="footer-copy">© 2026 Yanqiva. Alle Preise sind Endpreise; gemäß § 19 UStG wird keine Umsatzsteuer berechnet. Automatische Prüfung. Liefert Hinweise, keine Rechtsberatung und keine Garantie für Rechtskonformität.</p></div>
 </footer>
-<script src="js/config.js?v=5dfeaa5da0"></script>
+<script src="js/config.js?v=197e761677"></script>
 <script src="js/catalog.js?v=ef8cc89a74"></script>
 <script src="js/nav.js?v=cc783f0b1a"></script>
-<script src="js/recommend.js?v=f5acc2854f"></script>
-<script src="js/report-render.js?v=90677a782b"></script>
-<script src="js/check.js?v=22142db596"></script>
+<script src="js/recommend.js?v=4633d06d18"></script>
+<script src="js/report-render.js?v=911dea9723"></script>
+<script src="js/check.js?v=b4ae89f419"></script>
 <script src="js/fx.js?v=932a6bbc85" defer></script>
-<script src="js/chat.js?v=6b1ba96598" defer data-faq-v="302298ba9e"></script>
+<script src="js/chat.js?v=6b1ba96598" defer data-faq-v="73dcfeaaba"></script>
 <script src="js/notice.js?v=95e21a7bdd" defer></script>
 </body>
 </html>

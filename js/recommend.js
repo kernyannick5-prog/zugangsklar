@@ -70,6 +70,9 @@
     if (/^legal-/.test(id)) return 'legal';
     if (/^sec-/.test(id)) return 'security';
     if (/^seo-/.test(id)) return 'seo';
+    if (/^tech-/.test(id)) return 'technical';
+    if (/^perf-/.test(id)) return 'performance';
+    if (/^mob-/.test(id)) return 'mobile';
     return 'accessibility';
   }
   function item(key, extra) {
@@ -82,12 +85,12 @@
   function firstSentence(t) { t = String(t).trim(); var m = /[.!] /.exec(t); return m ? t.slice(0, m.index + 1) : t; }
   function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
 
-  var CAT_NAMES = { accessibility: 'Barrierefreiheit', privacy: 'Datenschutz', legal: 'Pflichtangaben', security: 'Sicherheit', seo: 'Technik & SEO' };
+  var CAT_NAMES = { accessibility: 'Barrierefreiheit', privacy: 'Datenschutz', legal: 'Pflichtangaben', security: 'Sicherheit', seo: 'SEO', technical: 'Technik', performance: 'Performance', mobile: 'Mobil' };
   function joinDe(a) { return a.length < 2 ? a.join('') : a.slice(0, -1).join(', ') + ' und ' + a[a.length - 1]; }
 
   /* Kurze, individuelle Einschätzung (2-3 Sätze, Sie-Ansprache). Nie "rechtskonform": unauffällig statt konform. */
   function assess(score, cats, issues, system, sevCount, a11yVerify, noneMode) {
-    var named = cats.filter(function (c) { return CAT_NAMES[c.id] && isFinite(Number(c.score)); }).map(function (c) { return { id: c.id, name: CAT_NAMES[c.id], score: Math.round(Number(c.score)) }; });
+    var named = cats.filter(function (c) { return CAT_NAMES[c.id] && c.score !== null && c.score !== undefined && c.score !== '' && isFinite(Number(c.score)); }).map(function (c) { return { id: c.id, name: CAT_NAMES[c.id], score: Math.round(Number(c.score)) }; });
     var sysName = system && system !== 'unbekannt' ? ({ woocommerce: 'WooCommerce', shopify: 'Shopify', shopware: 'Shopware' }[system] || system.charAt(0).toUpperCase() + system.slice(1)) : '';
     var subject = 'Ihre Website' + (sysName ? ' (' + sysName + ')' : '');
     var s1 = subject + ' erreicht ' + score + '/100';
@@ -143,7 +146,10 @@
       else if (severe && id !== 'a11y-statement' && id !== 'privacy-google-fonts' && HEADER_IDS.indexOf(id) === -1) uncoveredSevere++;
     });
     var cats = (Array.isArray(r.categories) ? r.categories : []).filter(function (c) { return c && typeof c === 'object'; });
-    var lowCats = cats.filter(function (c) { return Number(c.score) < 60; }).length;
+    // Bereiche ohne Bewertung (score null, "nicht bewertet") zählen nicht als schwach. Ab 8 Bereichen (API v3) liegt die Schwelle bei 4 statt 3.
+    var scoredCats = cats.filter(function (c) { return c.score !== null && c.score !== undefined && c.score !== '' && isFinite(Number(c.score)); });
+    var lowCats = scoredCats.filter(function (c) { return Number(c.score) < 60; }).length;
+    var lowCatsLimit = cats.length > 5 ? 4 : 3;
     var oldJq = !!ids['sec-old-jquery'];
     var headerIssues = HEADER_IDS.filter(function (id) { return ids[id]; }).length;
     var notes = [], why = [];
@@ -209,10 +215,10 @@
     }
 
     // P: sehr schlechtes Gesamtbild -> Neubau
-    if (score < 50 || lowCats >= 3 || (oldJq && a11yOthers >= 4)) {
+    if (score < 50 || lowCats >= lowCatsLimit || (oldJq && a11yOthers >= 4)) {
       var up = 'website-business'; // Website-Projekte nur als Projektanfrage (individuelles Angebot)
       if (score < 50) why.push('Der Gesamt-Score liegt bei ' + score + ' von 100.');
-      if (lowCats >= 3) why.push(lowCats + ' von ' + cats.length + ' Prüfbereichen liegen unter 60 von 100.');
+      if (lowCats >= lowCatsLimit) why.push(lowCats + ' von ' + scoredCats.length + ' Prüfbereichen liegen unter 60 von 100.');
       if (oldJq) why.push('Es wird ein veraltetes jQuery verwendet, das auf eine alte technische Basis hinweist.');
       if (a11yOthers) why.push(plural(a11yOthers, 'Barrierefreiheits-Befund', 'Barrierefreiheits-Befunde') + ' kommen dazu.');
       why.push('Bei so vielen Baustellen ist ein Neubau oft günstiger als die Reparatur der alten Seite.');

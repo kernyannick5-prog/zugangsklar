@@ -9,6 +9,12 @@
   var quelle = (new URLSearchParams(window.location.search).get('quelle') || '').replace(/[^a-z0-9_-]/gi, '').slice(0, 40);
   if (quelle === 'agentur-probe-report' && form.elements.nachricht && !form.elements.nachricht.value) form.elements.nachricht.value = 'Bitte senden Sie mir einen kostenlosen Probe-Report für einen Kundenshop. Adresse des Shops: ';
   if (quelle === 'agentur-partner' && form.elements.nachricht && !form.elements.nachricht.value) form.elements.nachricht.value = 'Ich interessiere mich für die Partnerprovision. Unsere Agentur: ';
+  // Aus dem Website-Check: geprüfte Adresse vorbelegen (nur http/https, gekürzt; Wert landet nur im Eingabefeld)
+  if (quelle === 'check' && form.elements.url && !form.elements.url.value) {
+    var checked = (new URLSearchParams(window.location.search).get('url') || '').trim().slice(0, 300);
+    if (/^https?:\/\/[^\s]+$/i.test(checked)) form.elements.url.value = checked;
+    if (form.elements.nachricht && !form.elements.nachricht.value) form.elements.nachricht.value = 'Ich habe meine Website mit dem Website-Check geprüft und möchte wissen, welche Punkte sich zu beheben lohnen.';
+  }
   function kfields(f, url) {
     var o = { name: f.name.value.trim(), message: f.nachricht.value.trim() };
     if (url) o.website = url;

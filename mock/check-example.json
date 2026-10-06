@@ -1,349 +1,1042 @@
 {
+  "apiVersion": 3,
   "url": "https://www.beispiel-shop.example",
   "finalUrl": "https://www.beispiel-shop.example/",
-  "checkedAt": "2026-10-02T09:41:12.000Z",
+  "checkedAt": "2026-10-06T09:41:12.000Z",
+  "durationMs": 5180,
   "system": "shopify",
-  "score": 78,
+  "score": 74,
+  "rating": {
+    "id": "verbesserungswuerdig",
+    "label": "Verbesserungswürdig"
+  },
+  "scoreCap": {
+    "max": 74,
+    "reasons": [
+      {
+        "id": "privacy-no-consent-tool",
+        "title": "Einwilligungs-Tool (Cookie-Banner)"
+      }
+    ]
+  },
   "categories": [
     {
       "id": "accessibility",
       "title": "Barrierefreiheit",
-      "score": 74,
-      "weight": 30,
-      "counts": {
-        "kritisch": 3,
-        "hoch": 1,
-        "mittel": 1,
-        "gering": 0
+      "weight": 20,
+      "score": 69,
+      "rating": {
+        "id": "verbesserungswuerdig",
+        "label": "Verbesserungswürdig"
       },
-      "issueCount": 5
+      "counts": {
+        "kritisch": 0,
+        "hoch": 3,
+        "mittel": 1,
+        "gering": 2
+      },
+      "issueCount": 6,
+      "points": {
+        "earned": 42.5,
+        "possible": 62
+      },
+      "checked": 12,
+      "passedCount": 6,
+      "uncheckedCount": 0,
+      "manual": [
+        "Farbkontraste (brauchen die gerenderte Seite)",
+        "Bedienbarkeit per Tastatur",
+        "Sichtbarer Fokus in allen Zuständen",
+        "Verständlichkeit mit einem Screenreader",
+        "Qualität und Passgenauigkeit der Alternativtexte",
+        "Untertitel und Transkripte für Video und Audio"
+      ],
+      "error": false
     },
     {
       "id": "privacy",
       "title": "Datenschutz",
-      "score": 64,
-      "weight": 25,
-      "counts": {
-        "kritisch": 0,
-        "hoch": 3,
-        "mittel": 0,
-        "gering": 0
+      "weight": 15,
+      "score": 50,
+      "rating": {
+        "id": "verbesserungswuerdig",
+        "label": "Verbesserungswürdig"
       },
-      "issueCount": 3
+      "counts": {
+        "kritisch": 1,
+        "hoch": 1,
+        "mittel": 0,
+        "gering": 1
+      },
+      "issueCount": 3,
+      "points": {
+        "earned": 17,
+        "possible": 34
+      },
+      "checked": 5,
+      "passedCount": 2,
+      "uncheckedCount": 1,
+      "manual": [
+        "Inhalt und Vollständigkeit der Datenschutzerklärung",
+        "Dienste, die erst per JavaScript nachgeladen werden"
+      ],
+      "error": false
     },
     {
       "id": "legal",
       "title": "Rechtliches",
-      "score": 85,
-      "weight": 20,
+      "weight": 10,
+      "score": 94,
+      "rating": {
+        "id": "sehr-gut",
+        "label": "Sehr gut"
+      },
       "counts": {
         "kritisch": 0,
         "hoch": 0,
-        "mittel": 1,
+        "mittel": 0,
         "gering": 1
       },
-      "issueCount": 2
+      "issueCount": 1,
+      "points": {
+        "earned": 25.5,
+        "possible": 27
+      },
+      "checked": 4,
+      "passedCount": 3,
+      "uncheckedCount": 0,
+      "manual": [
+        "Vollständigkeit und Richtigkeit der Pflichtangaben"
+      ],
+      "error": false
     },
     {
       "id": "security",
       "title": "Sicherheit",
-      "score": 88,
       "weight": 15,
+      "score": 87,
+      "rating": {
+        "id": "gut",
+        "label": "Gut"
+      },
       "counts": {
         "kritisch": 0,
         "hoch": 0,
         "mittel": 1,
-        "gering": 1
+        "gering": 2
       },
-      "issueCount": 2
+      "issueCount": 3,
+      "points": {
+        "earned": 29.5,
+        "possible": 34
+      },
+      "checked": 7,
+      "passedCount": 4,
+      "uncheckedCount": 0,
+      "manual": [],
+      "error": false
     },
     {
       "id": "seo",
-      "title": "Technik & SEO",
-      "score": 92,
+      "title": "SEO",
+      "weight": 12,
+      "score": 90,
+      "rating": {
+        "id": "sehr-gut",
+        "label": "Sehr gut"
+      },
+      "counts": {
+        "kritisch": 0,
+        "hoch": 0,
+        "mittel": 1,
+        "gering": 2
+      },
+      "issueCount": 3,
+      "points": {
+        "earned": 41.5,
+        "possible": 46
+      },
+      "checked": 8,
+      "passedCount": 5,
+      "uncheckedCount": 1,
+      "manual": [
+        "Inhalte, Keywords und Suchintention",
+        "Backlinks und Autorität der Domain"
+      ],
+      "error": false
+    },
+    {
+      "id": "technical",
+      "title": "Technik",
       "weight": 10,
+      "score": 87,
+      "rating": {
+        "id": "gut",
+        "label": "Gut"
+      },
       "counts": {
         "kritisch": 0,
         "hoch": 0,
         "mittel": 1,
         "gering": 1
       },
-      "issueCount": 2
+      "issueCount": 2,
+      "points": {
+        "earned": 22.5,
+        "possible": 26
+      },
+      "checked": 7,
+      "passedCount": 5,
+      "uncheckedCount": 0,
+      "manual": [],
+      "error": false
+    },
+    {
+      "id": "performance",
+      "title": "Performance",
+      "weight": 10,
+      "score": 79,
+      "rating": {
+        "id": "gut",
+        "label": "Gut"
+      },
+      "counts": {
+        "kritisch": 0,
+        "hoch": 1,
+        "mittel": 1,
+        "gering": 3
+      },
+      "issueCount": 5,
+      "points": {
+        "earned": 33,
+        "possible": 42
+      },
+      "checked": 9,
+      "passedCount": 4,
+      "uncheckedCount": 0,
+      "manual": [
+        "Ladezeit im Browser (Core Web Vitals)"
+      ],
+      "error": false
+    },
+    {
+      "id": "mobile",
+      "title": "Mobil",
+      "weight": 8,
+      "score": 83,
+      "rating": {
+        "id": "gut",
+        "label": "Gut"
+      },
+      "counts": {
+        "kritisch": 0,
+        "hoch": 0,
+        "mittel": 1,
+        "gering": 2
+      },
+      "issueCount": 3,
+      "points": {
+        "earned": 22.5,
+        "possible": 27
+      },
+      "checked": 5,
+      "passedCount": 2,
+      "uncheckedCount": 0,
+      "manual": [
+        "Darstellung und Bedienbarkeit auf echten Geräten"
+      ],
+      "error": false
     }
   ],
   "summary": {
-    "kritisch": 3,
-    "hoch": 4,
-    "mittel": 4,
-    "gering": 3,
-    "bestanden": 11
+    "kritisch": 1,
+    "hoch": 5,
+    "mittel": 6,
+    "gering": 14,
+    "bestanden": 31,
+    "nichtGeprueft": 2
   },
   "issues": [
     {
       "id": "img-alt",
-      "category": "accessibility",
-      "severity": "kritisch",
-      "title": "Bilder ohne Alternativtext",
-      "description": "Informative Bilder haben kein alt-Attribut. Screenreader lesen stattdessen den Dateinamen vor oder überspringen das Bild.",
-      "fix": "Ergänzen Sie für jedes informative Bild einen kurzen, beschreibenden Alternativtext. Rein dekorative Bilder erhalten alt=\"\". In Shopify pflegen Sie den Text im Admin und geben ihn im Theme mit image_tag aus.",
-      "count": 23,
+      "check": "img-alt",
+      "severity": "hoch",
+      "kind": "fehler",
+      "count": 14,
       "examples": [
         "<img src=\"//www.beispiel-shop.example/cdn/shop/files/DSC_0412_800x.jpg?v=1712\" class=\"product-card__image\">",
         "<img src=\"//www.beispiel-shop.example/cdn/shop/files/banner-herbst.jpg?v=1698\" width=\"1600\" height=\"600\">"
       ],
       "wcag": "1.1.1",
       "ref": "WCAG 2.2, Erfolgskriterium 1.1.1 Nicht-Text-Inhalt",
-      "affectedUrl": "https://www.beispiel-shop.example/"
+      "affectedUrl": "https://www.beispiel-shop.example/",
+      "title": "Bilder ohne Alternativtext",
+      "description": "14 informative Bilder haben kein alt-Attribut. Screenreader lesen stattdessen den Dateinamen vor oder überspringen das Bild.",
+      "impact": "Blinde und sehbehinderte Kundinnen und Kunden erfahren nicht, was die Produktbilder zeigen.",
+      "fix": "Ergänzen Sie für jedes informative Bild einen kurzen, beschreibenden Alternativtext. Rein dekorative Bilder erhalten alt=\"\". In Shopify pflegen Sie den Text im Admin und geben ihn im Theme mit image_tag aus.",
+      "category": "accessibility",
+      "points": {
+        "lost": 6,
+        "max": 8
+      }
     },
     {
       "id": "form-label",
-      "category": "accessibility",
-      "severity": "kritisch",
-      "title": "Formularfelder ohne Beschriftung",
-      "description": "Das Suchfeld und das Newsletter-Feld haben kein zugehöriges Label. Nutzer von Sprachsteuerung und Screenreadern können sie nicht gezielt ansprechen.",
-      "fix": "Verknüpfen Sie jedes Feld mit einem <label for=\"…\"> oder ergänzen Sie ein aria-label. Ein Platzhalter ersetzt keine Beschriftung.",
+      "check": "form-label",
+      "severity": "hoch",
+      "kind": "fehler",
       "count": 2,
       "examples": [
         "<input type=\"search\" name=\"q\" placeholder=\"Suchen\" class=\"search__input\">",
-        "<input type=\"email\" name=\"contact[email]\" placeholder=\"E-Mail-Adresse\">"
+        "<input type=\"text\" name=\"contact[email]\" placeholder=\"E-Mail-Adresse\">"
       ],
       "wcag": "1.3.1",
       "ref": "WCAG 2.2, Erfolgskriterium 1.3.1 Info und Beziehungen",
-      "affectedUrl": "https://www.beispiel-shop.example/"
+      "affectedUrl": "https://www.beispiel-shop.example/",
+      "title": "Formularfelder ohne Beschriftung",
+      "description": "Das Suchfeld und das Newsletter-Feld haben kein zugehöriges Label.",
+      "impact": "Nutzer von Sprachsteuerung und Screenreadern können die Felder nicht gezielt ansprechen. Ein Platzhalter verschwindet beim Tippen.",
+      "fix": "Verknüpfen Sie jedes Feld mit einem <label for=\"…\"> oder ergänzen Sie ein aria-label. Ein Platzhalter ersetzt keine Beschriftung.",
+      "category": "accessibility",
+      "points": {
+        "lost": 6,
+        "max": 8
+      }
     },
     {
       "id": "button-name",
-      "category": "accessibility",
-      "severity": "kritisch",
-      "title": "Buttons ohne Namen",
-      "description": "Der Warenkorb-Button und der Menü-Button enthalten nur ein Icon. Ihr Zweck wird nicht vorgelesen.",
-      "fix": "Ergänzen Sie einen sichtbaren Text oder ein aria-label, zum Beispiel aria-label=\"Warenkorb öffnen\". Das Icon erhält aria-hidden=\"true\".",
+      "check": "button-name",
+      "severity": "hoch",
+      "kind": "fehler",
       "count": 2,
       "examples": [
         "<button class=\"header__icon cart-toggle\"><svg class=\"icon icon-cart\">…</svg></button>"
       ],
       "wcag": "4.1.2",
       "ref": "WCAG 2.2, Erfolgskriterium 4.1.2 Name, Rolle, Wert",
-      "affectedUrl": "https://www.beispiel-shop.example/"
+      "affectedUrl": "https://www.beispiel-shop.example/",
+      "title": "Buttons ohne Namen",
+      "description": "Der Warenkorb-Button und der Menü-Button enthalten nur ein Icon. Ihr Zweck wird nicht vorgelesen.",
+      "impact": "Screenreader sagen nur „Schaltfläche“. Der Warenkorb ist ohne Sicht schwer zu finden.",
+      "fix": "Ergänzen Sie einen sichtbaren Text oder ein aria-label, zum Beispiel aria-label=\"Warenkorb öffnen\". Das Icon erhält aria-hidden=\"true\".",
+      "category": "accessibility",
+      "points": {
+        "lost": 4.5,
+        "max": 6
+      }
     },
     {
-      "id": "viewport-zoom",
-      "category": "accessibility",
-      "severity": "hoch",
-      "title": "Zoomen auf mobilen Geräten ist blockiert",
-      "description": "Das viewport-Meta-Tag verhindert das Vergrößern der Seite (user-scalable=no oder maximum-scale unter 2). Menschen mit Sehbehinderung sind aber auf das Zoomen angewiesen.",
-      "fix": "Setzen Sie das viewport-Tag auf <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> und entfernen Sie user-scalable=no sowie maximum-scale.",
-      "count": 1,
-      "examples": [
-        "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\">"
-      ],
-      "wcag": "1.4.4",
-      "ref": "WCAG 2.2, Erfolgskriterium 1.4.4 Textgröße ändern",
-      "affectedUrl": "https://www.beispiel-shop.example/"
-    },
-    {
-      "id": "heading-skip",
-      "category": "accessibility",
-      "severity": "mittel",
-      "title": "Überschriftenebenen werden übersprungen",
-      "description": "Auf der Startseite folgt auf eine h1 direkt eine h4. Die Gliederung ist für Screenreader-Nutzer nicht nachvollziehbar.",
-      "fix": "Verwenden Sie die Ebenen lückenlos (h1, h2, h3) und steuern Sie die Schriftgröße über CSS.",
+      "id": "heading-order",
+      "check": "heading-order",
+      "severity": "gering",
+      "kind": "fehler",
       "count": 6,
       "examples": [
         "<h4 class=\"collection-list__title\">Beliebte Kategorien</h4>"
       ],
       "wcag": "1.3.1",
       "ref": "WCAG 2.2, Erfolgskriterium 1.3.1 Info und Beziehungen",
-      "affectedUrl": "https://www.beispiel-shop.example/"
+      "affectedUrl": "https://www.beispiel-shop.example/",
+      "title": "Überschriftenebenen werden übersprungen",
+      "description": "Auf der Startseite folgt auf eine h1 direkt eine h4.",
+      "impact": "Die Gliederung ist für Screenreader-Nutzer schwerer nachvollziehbar.",
+      "fix": "Verwenden Sie die Ebenen lückenlos (h1, h2, h3) und steuern Sie die Schriftgröße über CSS.",
+      "category": "accessibility",
+      "points": {
+        "lost": 1,
+        "max": 4
+      }
+    },
+    {
+      "id": "a11y-statement",
+      "check": "a11y-statement",
+      "severity": "mittel",
+      "kind": "empfehlung",
+      "count": 1,
+      "examples": [],
+      "wcag": null,
+      "ref": "Anlage 3 BFSG",
+      "affectedUrl": "https://www.beispiel-shop.example/",
+      "title": "Kein Link zur Barrierefreiheitserklärung gefunden",
+      "description": "Im Quelltext der Startseite wurde kein Link zu einer Barrierefreiheitserklärung gefunden.",
+      "impact": "Wenn das BFSG für Sie gilt, müssen Verbraucher über die Barrierefreiheit Ihres Angebots informiert werden. Ob das auf Sie zutrifft, klären Sie im Einzelfall.",
+      "fix": "Legen Sie eine Seite „Barrierefreiheit“ an und verlinken Sie sie im Footer. Einen Entwurf erstellt unser kostenloser Generator.",
+      "category": "accessibility",
+      "points": {
+        "lost": 1.5,
+        "max": 3
+      }
+    },
+    {
+      "id": "skip-link",
+      "check": "skip-link",
+      "severity": "gering",
+      "kind": "empfehlung",
+      "count": 1,
+      "examples": [],
+      "wcag": "2.4.1",
+      "ref": "WCAG 2.2, Erfolgskriterium 2.4.1 Bereiche umgehen",
+      "affectedUrl": "https://www.beispiel-shop.example/",
+      "title": "Kein Sprunglink zum Hauptinhalt",
+      "description": "Es wurde kein Link gefunden, der Tastaturnutzern erlaubt, die Navigation zu überspringen.",
+      "impact": "Wer ohne Maus arbeitet, muss bei jeder Seite zuerst durch das gesamte Menü tabben.",
+      "fix": "Ergänzen Sie als erstes Element im body einen Link „Zum Inhalt springen“ auf das main-Element.",
+      "category": "accessibility",
+      "points": {
+        "lost": 0.5,
+        "max": 2
+      }
+    },
+    {
+      "id": "privacy-no-consent-tool",
+      "check": "privacy-no-consent-tool",
+      "severity": "kritisch",
+      "kind": "warnung",
+      "count": 1,
+      "examples": [],
+      "wcag": null,
+      "ref": "§ 25 TDDDG, Art. 6 DSGVO",
+      "affectedUrl": "https://www.beispiel-shop.example/",
+      "title": "Kein Einwilligungs-Tool erkannt",
+      "description": "Im Quelltext wurde kein gängiges Consent-Werkzeug gefunden, obwohl Dienste von Dritten eingebunden sind.",
+      "impact": "Ohne Einwilligungsabfrage dürfen Dienste, die Endgeräte-Zugriffe oder Datenübermittlungen auslösen, nicht vor der Zustimmung laden.",
+      "fix": "Prüfen Sie, ob ein Consent-Werkzeug eingesetzt wird, das nur nachträglich geladen wird. Falls nicht, führen Sie eines ein und laden Sie Dienste erst nach Einwilligung.",
+      "category": "privacy",
+      "points": {
+        "lost": 10,
+        "max": 10
+      }
     },
     {
       "id": "privacy-google-fonts",
-      "category": "privacy",
+      "check": "privacy-google-fonts",
       "severity": "hoch",
-      "title": "Google Fonts werden von Google-Servern geladen",
-      "description": "Beim Seitenaufruf lädt der Browser Schriften von fonts.googleapis.com. Dabei wird die IP-Adresse der Besucher an Google übermittelt, bevor jemand eingewilligt hat.",
-      "fix": "Laden Sie die Schriftdateien herunter, legen Sie sie auf Ihrem eigenen Server ab, deklarieren Sie sie per @font-face und entfernen Sie den Link auf fonts.googleapis.com.",
+      "kind": "fehler",
       "count": 2,
       "examples": [
         "<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap\">"
       ],
       "wcag": null,
       "ref": "LG München I, Urteil vom 20.01.2022, Az. 3 O 17493/20",
-      "affectedUrl": "https://www.beispiel-shop.example/"
-    },
-    {
-      "id": "privacy-trackers",
+      "affectedUrl": "https://www.beispiel-shop.example/",
+      "title": "Google Fonts werden von Google-Servern geladen",
+      "description": "Beim Seitenaufruf lädt der Browser Schriften von fonts.googleapis.com. Dabei wird die IP-Adresse der Besucher an Google übermittelt, bevor jemand eingewilligt hat.",
+      "impact": "Datenübermittlung an einen Drittanbieter ohne Rechtsgrundlage. Das war Gegenstand von Abmahnungen.",
+      "fix": "Laden Sie die Schriftdateien herunter, legen Sie sie auf Ihrem eigenen Server ab, deklarieren Sie sie per @font-face und entfernen Sie den Link auf fonts.googleapis.com.",
       "category": "privacy",
-      "severity": "hoch",
-      "title": "Tracking-Dienste werden direkt geladen",
-      "description": "Ein Meta-Pixel ist direkt im Quelltext eingebunden. Es wird geladen, bevor Besucher eine Auswahl treffen können.",
-      "fix": "Laden Sie das Skript erst nach Einwilligung, zum Beispiel über Ihr Consent-Werkzeug, oder entfernen Sie es, wenn Sie es nicht brauchen.",
-      "count": 1,
-      "examples": [
-        "<script src=\"https://connect.facebook.net/de_DE/fbevents.js\" async></script>"
-      ],
-      "wcag": null,
-      "ref": "§ 25 TDDDG, Art. 6 DSGVO",
-      "affectedUrl": "https://www.beispiel-shop.example/"
+      "points": {
+        "lost": 6,
+        "max": 8
+      }
     },
     {
-      "id": "privacy-cookies-early",
-      "category": "privacy",
-      "severity": "hoch",
-      "title": "Cookies vor Einwilligung gesetzt",
-      "description": "Der Server setzt schon in der Antwort auf die erste Anfrage ein Cookie, das nicht erkennbar technisch notwendig ist.",
-      "fix": "Prüfen Sie, welches Plugin oder Skript das Cookie setzt, und setzen Sie es erst nach Einwilligung, sofern es nicht unbedingt erforderlich ist.",
-      "count": 1,
-      "examples": [
-        "Set-Cookie: _fbp=…; Max-Age=7776000; Path=/"
-      ],
-      "wcag": null,
-      "ref": "§ 25 TDDDG",
-      "affectedUrl": "https://www.beispiel-shop.example/"
-    },
-    {
-      "id": "legal-odr-link",
-      "category": "legal",
-      "severity": "mittel",
-      "title": "Veralteter Link zur EU-OS-Plattform",
-      "description": "Die Seite verweist noch auf die Plattform zur Online-Streitbeilegung. Die Plattform wurde am 20.07.2025 abgeschaltet.",
-      "fix": "Entfernen Sie den Link und den zugehörigen Satz aus Impressum und AGB. Lassen Sie die Hinweise zur Verbraucherschlichtung prüfen.",
-      "count": 1,
-      "examples": [
-        "<a href=\"https://ec.europa.eu/consumers/odr\">Online-Streitbeilegung</a>"
-      ],
-      "wcag": null,
-      "ref": "Verordnung (EU) 2024/3228",
-      "affectedUrl": "https://www.beispiel-shop.example/"
-    },
-    {
-      "id": "legal-impressum-tmg",
-      "category": "legal",
+      "id": "privacy-external-embeds",
+      "check": "privacy-external-embeds",
       "severity": "gering",
-      "title": "Impressum verweist noch auf das TMG",
-      "description": "Das Impressum nennt „§ 5 TMG“ bzw. das Telemediengesetz. Seit dem 14.05.2024 gilt stattdessen das Digitale-Dienste-Gesetz (DDG).",
-      "fix": "Ersetzen Sie „§ 5 TMG“ durch „§ 5 DDG“ und prüfen Sie weitere Verweise.",
+      "kind": "warnung",
+      "count": 1,
+      "examples": [
+        "<iframe src=\"https://www.youtube.com/embed/abc123\" …>"
+      ],
+      "wcag": null,
+      "ref": null,
+      "affectedUrl": "https://www.beispiel-shop.example/",
+      "title": "Eingebettetes Video von YouTube",
+      "description": "Ein YouTube-Video ist direkt eingebunden, nicht in der datenschutzfreundlicheren Variante oder erst nach Klick.",
+      "impact": "Beim Laden der Seite kann die IP-Adresse an YouTube übermittelt werden.",
+      "fix": "Binden Sie das Video über youtube-nocookie.com oder mit einer Zwei-Klick-Lösung ein.",
+      "category": "privacy",
+      "points": {
+        "lost": 1,
+        "max": 4
+      }
+    },
+    {
+      "id": "legal-impressum-content",
+      "check": "legal-impressum-content",
+      "severity": "gering",
+      "kind": "warnung",
       "count": 1,
       "examples": [
         "§ 5 TMG"
       ],
       "wcag": null,
       "ref": "§ 5 DDG",
-      "affectedUrl": "https://www.beispiel-shop.example/"
+      "affectedUrl": "https://www.beispiel-shop.example/",
+      "title": "Impressum verweist noch auf das TMG",
+      "description": "Das Impressum nennt „§ 5 TMG“ bzw. das Telemediengesetz. Seit dem 14.05.2024 gilt stattdessen das Digitale-Dienste-Gesetz (DDG).",
+      "impact": "Ein veralteter Gesetzesverweis ist meist kein Verstoß, wirkt aber ungepflegt. Prüfen Sie das Impressum insgesamt auf Vollständigkeit.",
+      "fix": "Ersetzen Sie „§ 5 TMG“ durch „§ 5 DDG“ und prüfen Sie weitere Verweise.",
+      "category": "legal",
+      "points": {
+        "lost": 1.5,
+        "max": 6
+      }
     },
     {
       "id": "sec-hsts",
-      "category": "security",
+      "check": "sec-hsts",
       "severity": "mittel",
-      "title": "HSTS-Header fehlt",
-      "description": "Der Header Strict-Transport-Security weist Browser an, Ihre Seite künftig nur noch verschlüsselt aufzurufen. Er fehlt.",
-      "fix": "Setzen Sie Strict-Transport-Security: max-age=31536000 in der Server- oder Hoster-Konfiguration. Testen Sie zuerst mit kurzer Laufzeit.",
+      "kind": "fehler",
       "count": 1,
       "examples": [],
       "wcag": null,
       "ref": "MDN: Strict-Transport-Security",
-      "affectedUrl": "https://www.beispiel-shop.example/"
+      "affectedUrl": "https://www.beispiel-shop.example/",
+      "title": "HSTS-Header fehlt",
+      "description": "Der Header Strict-Transport-Security weist Browser an, Ihre Seite künftig nur noch verschlüsselt aufzurufen. Er fehlt.",
+      "impact": "Beim ersten Aufruf über http:// kann die Verbindung abgefangen oder umgeleitet werden.",
+      "fix": "Setzen Sie Strict-Transport-Security: max-age=31536000 in der Server- oder Hoster-Konfiguration. Testen Sie zuerst mit kurzer Laufzeit.",
+      "category": "security",
+      "points": {
+        "lost": 3,
+        "max": 6
+      }
     },
     {
       "id": "sec-csp",
-      "category": "security",
+      "check": "sec-csp",
       "severity": "gering",
-      "title": "Content-Security-Policy fehlt",
-      "description": "Es ist keine Content-Security-Policy gesetzt. Sie begrenzt den Schaden durch eingeschleuste Skripte.",
-      "fix": "Führen Sie eine CSP zunächst im Testmodus (Content-Security-Policy-Report-Only) ein und verschärfen Sie sie schrittweise.",
+      "kind": "empfehlung",
       "count": 1,
       "examples": [],
       "wcag": null,
       "ref": "MDN: Content-Security-Policy",
-      "affectedUrl": "https://www.beispiel-shop.example/"
+      "affectedUrl": "https://www.beispiel-shop.example/",
+      "title": "Content-Security-Policy fehlt",
+      "description": "Es ist keine Content-Security-Policy gesetzt. Sie begrenzt den Schaden durch eingeschleuste Skripte.",
+      "impact": "Eine zusätzliche Schutzschicht gegen Skript-Einschleusung fehlt. Kein akuter Fehler.",
+      "fix": "Führen Sie eine CSP zunächst im Testmodus (Content-Security-Policy-Report-Only) ein und verschärfen Sie sie schrittweise.",
+      "category": "security",
+      "points": {
+        "lost": 1,
+        "max": 4
+      }
     },
     {
-      "id": "seo-description-missing",
-      "category": "seo",
+      "id": "sec-referrer",
+      "check": "sec-referrer",
+      "severity": "gering",
+      "kind": "empfehlung",
+      "count": 1,
+      "examples": [],
+      "wcag": null,
+      "ref": "MDN: Referrer-Policy",
+      "affectedUrl": "https://www.beispiel-shop.example/",
+      "title": "Referrer-Policy fehlt",
+      "description": "Es ist keine Referrer-Policy gesetzt. Browser verwenden dann ihren Standard.",
+      "impact": "Gering. Die Policy legt fest, wie viel von der Adresse an andere Seiten weitergegeben wird.",
+      "fix": "Setzen Sie den Header Referrer-Policy: strict-origin-when-cross-origin.",
+      "category": "security",
+      "points": {
+        "lost": 0.5,
+        "max": 2
+      }
+    },
+    {
+      "id": "seo-description",
+      "check": "seo-description",
       "severity": "mittel",
-      "title": "Meta-Description fehlt",
-      "description": "Die Startseite hat keine Meta-Description. Suchmaschinen wählen den Text im Suchergebnis dann selbst.",
-      "fix": "Ergänzen Sie eine Beschreibung mit etwa 70 bis 160 Zeichen im Head der Seite.",
+      "kind": "fehler",
       "count": 1,
       "examples": [
         "<head>… (kein <meta name=\"description\">) …</head>"
       ],
       "wcag": null,
       "ref": null,
-      "affectedUrl": "https://www.beispiel-shop.example/"
+      "affectedUrl": "https://www.beispiel-shop.example/",
+      "title": "Meta-Description fehlt",
+      "description": "Die Startseite hat keine Meta-Description. Suchmaschinen wählen den Text im Suchergebnis dann selbst.",
+      "impact": "Google wählt selbst einen Textausschnitt, der oft weniger zum Klicken einlädt als eine eigene Beschreibung.",
+      "fix": "Ergänzen Sie eine Beschreibung mit etwa 70 bis 160 Zeichen im Head der Seite.",
+      "category": "seo",
+      "points": {
+        "lost": 3,
+        "max": 6
+      }
     },
     {
-      "id": "seo-canonical-missing",
-      "category": "seo",
+      "id": "seo-structured-data",
+      "check": "seo-structured-data",
       "severity": "gering",
-      "title": "Canonical-Link fehlt",
-      "description": "Ohne Canonical kann dieselbe Seite unter mehreren Adressen konkurrieren.",
-      "fix": "Ergänzen Sie <link rel=\"canonical\" href=\"…\"> mit der bevorzugten Adresse der Seite.",
+      "kind": "empfehlung",
       "count": 1,
       "examples": [],
       "wcag": null,
       "ref": null,
-      "affectedUrl": "https://www.beispiel-shop.example/"
+      "affectedUrl": "https://www.beispiel-shop.example/",
+      "title": "Keine strukturierten Daten (JSON-LD) gefunden",
+      "description": "Die Startseite enthält keine strukturierten Daten, zum Beispiel für Organisation oder Produkte.",
+      "impact": "Suchmaschinen können Preise, Bewertungen oder Firmendaten nicht direkt auslesen. Rich Results sind dadurch nicht möglich.",
+      "fix": "Ergänzen Sie JSON-LD für Organization und Product. Shopify-Themes liefern oft Vorlagen mit.",
+      "category": "seo",
+      "points": {
+        "lost": 1,
+        "max": 4
+      }
+    },
+    {
+      "id": "seo-og",
+      "check": "seo-og",
+      "severity": "gering",
+      "kind": "empfehlung",
+      "count": 1,
+      "examples": [],
+      "wcag": null,
+      "ref": null,
+      "affectedUrl": "https://www.beispiel-shop.example/",
+      "title": "Open-Graph-Angaben fehlen",
+      "description": "Es fehlen og:title und og:image für die Vorschau beim Teilen.",
+      "impact": "Beim Teilen in sozialen Netzwerken erscheint eine Vorschau ohne Bild.",
+      "fix": "Ergänzen Sie og:title, og:description und og:image im Head.",
+      "category": "seo",
+      "points": {
+        "lost": 0.5,
+        "max": 2
+      }
+    },
+    {
+      "id": "tech-broken-links",
+      "check": "tech-broken-links",
+      "severity": "mittel",
+      "kind": "fehler",
+      "count": 1,
+      "examples": [
+        "https://www.beispiel-shop.example/collections/sale-2024 (404)"
+      ],
+      "wcag": null,
+      "ref": null,
+      "affectedUrl": "https://www.beispiel-shop.example/",
+      "title": "Defekter interner Link in der Stichprobe",
+      "description": "Von 8 geprüften internen Links liefert 1 den Status 404.",
+      "impact": "Besucher und Suchmaschinen landen auf einer Fehlerseite. Das kostet Vertrauen.",
+      "fix": "Korrigieren Sie den Link oder richten Sie eine Weiterleitung auf die neue Adresse ein. Weitere Links wurden nicht geprüft.",
+      "category": "technical",
+      "points": {
+        "lost": 3,
+        "max": 6
+      }
+    },
+    {
+      "id": "tech-favicon",
+      "check": "tech-favicon",
+      "severity": "gering",
+      "kind": "empfehlung",
+      "count": 1,
+      "examples": [],
+      "wcag": null,
+      "ref": null,
+      "affectedUrl": "https://www.beispiel-shop.example/",
+      "title": "Kein Favicon im Quelltext angegeben",
+      "description": "Die Seite verweist nicht auf ein Favicon.",
+      "impact": "Im Browser-Tab und in Lesezeichen erscheint ein Standardsymbol.",
+      "fix": "Ergänzen Sie <link rel=\"icon\" href=\"/favicon.ico\"> oder ein SVG-Icon.",
+      "category": "technical",
+      "points": {
+        "lost": 0.5,
+        "max": 2
+      }
+    },
+    {
+      "id": "perf-render-blocking",
+      "check": "perf-render-blocking",
+      "severity": "mittel",
+      "kind": "fehler",
+      "count": 4,
+      "examples": [
+        "<script src=\"//www.beispiel-shop.example/cdn/shop/t/4/assets/theme.js?v=2291\"></script>"
+      ],
+      "wcag": null,
+      "ref": null,
+      "affectedUrl": "https://www.beispiel-shop.example/",
+      "title": "Blockierende Skripte im Head",
+      "description": "4 Skripte im Head laden ohne async oder defer.",
+      "impact": "Der Browser zeigt die Seite erst, wenn diese Skripte geladen sind. Besucher sehen länger eine leere Seite.",
+      "fix": "Ergänzen Sie defer oder async, soweit die Skripte es erlauben, oder laden Sie sie am Ende des body.",
+      "category": "performance",
+      "points": {
+        "lost": 3,
+        "max": 6
+      }
+    },
+    {
+      "id": "perf-img-dimensions",
+      "check": "perf-img-dimensions",
+      "severity": "gering",
+      "kind": "empfehlung",
+      "count": 6,
+      "examples": [
+        "<img src=\"…/hero.jpg\" alt=\"Herbstkollektion\">"
+      ],
+      "wcag": null,
+      "ref": null,
+      "affectedUrl": "https://www.beispiel-shop.example/",
+      "title": "Bilder ohne Breiten- und Höhenangabe",
+      "description": "6 Bilder haben kein width- und height-Attribut.",
+      "impact": "Die Seite springt beim Laden, weil der Platz für die Bilder erst später bekannt ist.",
+      "fix": "Ergänzen Sie width und height passend zum Seitenverhältnis.",
+      "category": "performance",
+      "points": {
+        "lost": 1,
+        "max": 4
+      }
+    },
+    {
+      "id": "perf-img-lazy",
+      "check": "perf-img-lazy",
+      "severity": "gering",
+      "kind": "empfehlung",
+      "count": 5,
+      "examples": [],
+      "wcag": null,
+      "ref": null,
+      "affectedUrl": "https://www.beispiel-shop.example/",
+      "title": "Bilder unterhalb des Sichtbereichs laden sofort",
+      "description": "In der Stichprobe nutzt kein Bild loading=\"lazy\".",
+      "impact": "Der Browser lädt Bilder, die erst nach dem Scrollen sichtbar werden. Das verlangsamt den ersten Eindruck.",
+      "fix": "Setzen Sie loading=\"lazy\" bei Bildern außerhalb des ersten Bildschirms, nicht beim Hauptbild.",
+      "category": "performance",
+      "points": {
+        "lost": 1,
+        "max": 4
+      }
+    },
+    {
+      "id": "perf-img-size",
+      "check": "perf-img-size",
+      "severity": "hoch",
+      "kind": "fehler",
+      "count": 2,
+      "examples": [
+        "https://www.beispiel-shop.example/cdn/shop/files/banner-herbst.jpg (1,8 MB)"
+      ],
+      "wcag": null,
+      "ref": null,
+      "affectedUrl": "https://www.beispiel-shop.example/",
+      "title": "Sehr große Bilddateien",
+      "description": "In der Stichprobe (5 Bilder) sind 2 Bilder größer als 500 KB.",
+      "impact": "Besonders mobil lange Ladezeiten und hoher Datenverbrauch.",
+      "fix": "Skalieren Sie die Bilder auf die angezeigte Größe und komprimieren Sie sie. Shopify liefert Größen über den Parameter width.",
+      "category": "performance",
+      "points": {
+        "lost": 3,
+        "max": 4
+      }
+    },
+    {
+      "id": "perf-img-format",
+      "check": "perf-img-format",
+      "severity": "gering",
+      "kind": "empfehlung",
+      "count": 5,
+      "examples": [],
+      "wcag": null,
+      "ref": null,
+      "affectedUrl": "https://www.beispiel-shop.example/",
+      "title": "Bilder nicht in modernen Formaten",
+      "description": "In der Stichprobe werden Bilder als JPEG ausgeliefert, nicht als WebP oder AVIF.",
+      "impact": "Moderne Formate sind bei gleicher Qualität oft deutlich kleiner.",
+      "fix": "Liefern Sie WebP oder AVIF aus. Shopify wandelt Formate automatisch um, wenn Sie image_url nutzen.",
+      "category": "performance",
+      "points": {
+        "lost": 1,
+        "max": 4
+      }
+    },
+    {
+      "id": "mob-srcset",
+      "check": "mob-srcset",
+      "severity": "mittel",
+      "kind": "empfehlung",
+      "count": 4,
+      "examples": [],
+      "wcag": null,
+      "ref": null,
+      "affectedUrl": "https://www.beispiel-shop.example/",
+      "title": "Bilder ohne srcset",
+      "description": "In der Stichprobe haben 4 von 5 Bildern kein srcset.",
+      "impact": "Smartphones laden dieselbe große Datei wie Desktop-Rechner.",
+      "fix": "Ergänzen Sie srcset und sizes oder nutzen Sie die responsive Bildausgabe Ihres Themes.",
+      "category": "mobile",
+      "points": {
+        "lost": 3,
+        "max": 6
+      }
+    },
+    {
+      "id": "mob-input-types",
+      "check": "mob-input-types",
+      "severity": "gering",
+      "kind": "empfehlung",
+      "count": 1,
+      "examples": [
+        "<input type=\"text\" name=\"contact[email]\">"
+      ],
+      "wcag": null,
+      "ref": null,
+      "affectedUrl": "https://www.beispiel-shop.example/",
+      "title": "Formularfeld mit unpassendem Typ",
+      "description": "Das Newsletter-Feld nutzt type=\"text\" statt type=\"email\".",
+      "impact": "Auf dem Smartphone erscheint nicht die passende Tastatur.",
+      "fix": "Setzen Sie type=\"email\" und autocomplete=\"email\".",
+      "category": "mobile",
+      "points": {
+        "lost": 1,
+        "max": 4
+      }
+    },
+    {
+      "id": "mob-touch-icon",
+      "check": "mob-touch-icon",
+      "severity": "gering",
+      "kind": "empfehlung",
+      "count": 1,
+      "examples": [],
+      "wcag": null,
+      "ref": null,
+      "affectedUrl": "https://www.beispiel-shop.example/",
+      "title": "Kein Touch-Icon angegeben",
+      "description": "Es fehlt ein apple-touch-icon.",
+      "impact": "Auf dem Startbildschirm erscheint beim Speichern ein Bildschirmfoto statt eines Symbols.",
+      "fix": "Ergänzen Sie <link rel=\"apple-touch-icon\" href=\"…\"> mit einem 180×180-Bild.",
+      "category": "mobile",
+      "points": {
+        "lost": 0.5,
+        "max": 2
+      }
     }
   ],
   "passed": [
     {
+      "id": "link-name",
+      "check": "link-name",
+      "category": "accessibility",
+      "title": "Links haben einen erkennbaren Namen"
+    },
+    {
       "id": "html-lang",
+      "check": "html-lang",
       "category": "accessibility",
       "title": "Sprache der Seite ist angegeben"
     },
     {
-      "id": "page-title",
+      "id": "document-title",
+      "check": "document-title",
       "category": "accessibility",
       "title": "Seite hat einen Titel"
     },
     {
       "id": "landmark-main",
+      "check": "landmark-main",
       "category": "accessibility",
       "title": "Hauptbereich (main) ist vorhanden"
     },
     {
-      "id": "legal-impressum-link",
+      "id": "aria-hidden-focusable",
+      "check": "aria-hidden-focusable",
+      "category": "accessibility",
+      "title": "Kein fokussierbares Element ist per aria-hidden versteckt"
+    },
+    {
+      "id": "focus-outline",
+      "check": "focus-outline",
+      "category": "accessibility",
+      "title": "Fokusrahmen wird im Quelltext nicht entfernt"
+    },
+    {
+      "id": "privacy-policy-link",
+      "check": "privacy-policy-link",
+      "category": "privacy",
+      "title": "Link zur Datenschutzerklärung gefunden"
+    },
+    {
+      "id": "privacy-cookies-first",
+      "check": "privacy-cookies-first",
+      "category": "privacy",
+      "title": "Kein Cookie in der ersten Serverantwort"
+    },
+    {
+      "id": "legal-impressum",
+      "check": "legal-impressum",
       "category": "legal",
       "title": "Link zum Impressum gefunden"
     },
     {
-      "id": "privacy-policy-link",
+      "id": "legal-datenschutz",
+      "check": "legal-datenschutz",
       "category": "legal",
-      "title": "Link zur Datenschutzerklärung gefunden"
+      "title": "Datenschutzerklärung ist erreichbar"
+    },
+    {
+      "id": "legal-os-link",
+      "check": "legal-os-link",
+      "category": "legal",
+      "title": "Kein Link auf die abgeschaltete OS-Plattform"
     },
     {
       "id": "sec-https",
+      "check": "sec-https",
       "category": "security",
       "title": "Seite wird über HTTPS ausgeliefert"
     },
     {
-      "id": "sec-http-redirect",
+      "id": "sec-nosniff",
+      "check": "sec-nosniff",
       "category": "security",
-      "title": "http:// leitet auf https:// weiter"
+      "title": "X-Content-Type-Options ist gesetzt"
+    },
+    {
+      "id": "sec-frame",
+      "check": "sec-frame",
+      "category": "security",
+      "title": "Schutz vor Einbettung in fremde Seiten ist gesetzt"
     },
     {
       "id": "sec-mixed",
+      "check": "sec-mixed",
       "category": "security",
       "title": "Kein Mixed Content im HTML gefunden"
     },
     {
       "id": "seo-noindex",
+      "check": "seo-noindex",
       "category": "seo",
       "title": "Seite ist für Suchmaschinen indexierbar"
     },
     {
-      "id": "seo-title-length",
+      "id": "seo-title",
+      "check": "seo-title",
       "category": "seo",
       "title": "Seitentitel hat eine sinnvolle Länge"
     },
     {
-      "id": "h1",
+      "id": "seo-canonical",
+      "check": "seo-canonical",
+      "category": "seo",
+      "title": "Canonical-Link ist gesetzt"
+    },
+    {
+      "id": "seo-h1",
+      "check": "seo-h1",
       "category": "seo",
       "title": "Genau eine Hauptüberschrift (h1)"
+    },
+    {
+      "id": "seo-robots",
+      "check": "seo-robots",
+      "category": "seo",
+      "title": "robots.txt blockiert die Startseite nicht"
+    },
+    {
+      "id": "tech-status",
+      "check": "tech-status",
+      "category": "technical",
+      "title": "Seite antwortet mit Status 200"
+    },
+    {
+      "id": "tech-redirects",
+      "check": "tech-redirects",
+      "category": "technical",
+      "title": "Höchstens eine Weiterleitung"
+    },
+    {
+      "id": "tech-doctype",
+      "check": "tech-doctype",
+      "category": "technical",
+      "title": "Doctype ist vorhanden"
+    },
+    {
+      "id": "tech-charset",
+      "check": "tech-charset",
+      "category": "technical",
+      "title": "Zeichensatz ist als UTF-8 angegeben"
+    },
+    {
+      "id": "tech-soft404",
+      "check": "tech-soft404",
+      "category": "technical",
+      "title": "Nicht vorhandene Adressen liefern einen 404-Status"
+    },
+    {
+      "id": "perf-ttfb",
+      "check": "perf-ttfb",
+      "category": "performance",
+      "title": "Server antwortet zügig"
+    },
+    {
+      "id": "perf-html-size",
+      "check": "perf-html-size",
+      "category": "performance",
+      "title": "HTML-Dokument hat eine vernünftige Größe"
+    },
+    {
+      "id": "perf-compression",
+      "check": "perf-compression",
+      "category": "performance",
+      "title": "Antwort ist komprimiert (Brotli)"
+    },
+    {
+      "id": "perf-cache",
+      "check": "perf-cache",
+      "category": "performance",
+      "title": "Statische Dateien haben Cache-Header"
+    },
+    {
+      "id": "mob-viewport",
+      "check": "mob-viewport",
+      "category": "mobile",
+      "title": "Viewport-Angabe ist vorhanden"
+    },
+    {
+      "id": "mob-fixed-width",
+      "check": "mob-fixed-width",
+      "category": "mobile",
+      "title": "Keine feste Seitenbreite im Quelltext erkannt"
     }
   ],
-  "overlayDetected": "accessiBe",
-  "note": "Der Check prüft nur die Startseite mit automatischen Regeln. Automatische Tests finden etwa 30 bis 50 % der Barrieren. Tastaturbedienung, Verständlichkeit, Checkout und rechtliche Inhalte prüft der vollständige Report mit einer manuellen Checkliste.",
+  "unchecked": [
+    {
+      "id": "privacy-cookies-js",
+      "check": "privacy-cookies-js",
+      "category": "privacy",
+      "title": "Cookies, die per JavaScript gesetzt werden",
+      "reason": "Der Schnellcheck führt keine Skripte aus. Dafür ist die Browser-Prüfung im Website-Report nötig."
+    },
+    {
+      "id": "seo-sitemap",
+      "check": "seo-sitemap",
+      "category": "seo",
+      "title": "Sitemap",
+      "reason": "Die Datei konnte nicht abgerufen werden (Zeitüberschreitung)."
+    }
+  ],
+  "infos": [
+    {
+      "id": "perf-ttfb-info",
+      "category": "performance",
+      "title": "Server-Antwortzeit",
+      "text": "412 ms (Einzelmessung vom Prüfserver)"
+    },
+    {
+      "id": "perf-resources-info",
+      "category": "performance",
+      "title": "Eingebundene Ressourcen",
+      "text": "14 Skripte, 3 Stylesheets, 38 Bilder im Quelltext"
+    }
+  ],
+  "measurements": {
+    "responseTimeMs": 412,
+    "htmlBytes": 48211,
+    "redirects": 1,
+    "compression": "br",
+    "imagesSampled": 5,
+    "linksSampled": 8
+  },
+  "limitations": [
+    "Geprüft wurde nur die Startseite. Warenkorb, Kasse und Kontaktseite können andere Befunde haben.",
+    "Bilder (bis zu 5) und interne Links (bis zu 8) wurden nur stichprobenartig geprüft."
+  ],
+  "overlayDetected": null,
+  "note": "Dies ist ein Beispielergebnis mit erfundenen Daten für die Demo. Der Check prüft nur die Startseite mit automatischen Regeln. Automatische Tests finden etwa 30 bis 50 % der Barrieren. Tastaturbedienung, Verständlichkeit, Checkout und rechtliche Inhalte prüft der vollständige Report mit einer manuellen Checkliste.",
   "disclaimer": "Automatische Prüfung. Liefert Hinweise, keine Rechtsberatung und keine Garantie für Rechtskonformität."
 }
