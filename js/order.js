@@ -136,7 +136,11 @@
     btn.disabled = true;
     statusEl.textContent = inquiry ? 'Anfrage wird gesendet …' : 'Bestellung wird gesendet …';
     var g = YQ.guard(form);
-    YQ.postJson('/api/lead', { hp: g.hp, ts: g.ts, email: email, url: url, consent: true, source: 'bestellung', message: message }, { timeout: 20000 }).then(function () {
+    var fields = { product: product, company: f.firma.value.trim() };
+    if (url) fields.website = url;
+    if (isProject && f.projekt && f.projekt.value.trim()) fields.project = f.projekt.value.trim();
+    if (f.hinweise.value.trim()) fields.notes = f.hinweise.value.trim();
+    YQ.postJson('/api/lead', { hp: g.hp, ts: g.ts, email: email, url: url, consent: true, source: 'bestellung', message: message, fields: fields }, { timeout: 20000 }).then(function (res) {
       var link = inquiry ? '' : YQ.PAYMENT_LINKS[product]; // Anfrage-Produkte: erst Angebot, keine Sofortzahlung
       if (link) {
         statusEl.textContent = 'Danke. Sie werden jetzt zur Zahlung weitergeleitet …';
@@ -145,6 +149,12 @@
       }
       form.hidden = true;
       statusEl.textContent = '';
+      if (res && typeof res.id === 'string' && /^YQ-[0-9]{8}-[A-Z0-9]{4,6}$/.test(res.id)) {
+        var idP = document.createElement('p');
+        idP.appendChild(document.createTextNode('Ihre Anfrage-ID: '));
+        var idS = document.createElement('strong'); idS.textContent = res.id; idP.appendChild(idS);
+        done.insertBefore(idP, done.children[1] || null);
+      }
       done.hidden = false;
       done.focus();
     }, function (e) {

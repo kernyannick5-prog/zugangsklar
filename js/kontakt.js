@@ -8,6 +8,11 @@
   var quelle = (new URLSearchParams(window.location.search).get('quelle') || '').replace(/[^a-z0-9_-]/gi, '').slice(0, 40);
   if (quelle === 'agentur-probe-report' && form.elements.nachricht && !form.elements.nachricht.value) form.elements.nachricht.value = 'Bitte senden Sie mir einen kostenlosen Probe-Report für einen Kundenshop. Adresse des Shops: ';
   if (quelle === 'agentur-partner' && form.elements.nachricht && !form.elements.nachricht.value) form.elements.nachricht.value = 'Ich interessiere mich für die Partnerprovision. Unsere Agentur: ';
+  function kfields(f, url) {
+    var o = { name: f.name.value.trim(), message: f.nachricht.value.trim() };
+    if (url) o.website = url;
+    return o;
+  }
   form.addEventListener('submit', function (ev) {
     ev.preventDefault();
     var f = form.elements;
@@ -17,8 +22,8 @@
     btn.disabled = true;
     statusEl.textContent = 'Nachricht wird gesendet …';
     var g = YQ.guard(form);
-    YQ.postJson('/api/lead', { hp: g.hp, ts: g.ts, email: f.email.value.trim(), url: url, consent: true, source: 'kontakt', message: 'Name: ' + f.name.value.trim() + '\n' + f.nachricht.value.trim() }, { timeout: 20000 }).then(function () {
-      statusEl.textContent = 'Vielen Dank. Wir antworten in der Regel innerhalb von 24 Stunden (werktags).';
+    YQ.postJson('/api/lead', { hp: g.hp, ts: g.ts, email: f.email.value.trim(), url: url, consent: true, source: 'kontakt', message: 'Name: ' + f.name.value.trim() + '\n' + f.nachricht.value.trim(), fields: kfields(f, url) }, { timeout: 20000 }).then(function (res) {
+      statusEl.textContent = 'Vielen Dank. Wir antworten in der Regel innerhalb von 24 Stunden (werktags).' + (res && typeof res.id === 'string' && /^YQ-[0-9]{8}-[A-Z0-9]{4,6}$/.test(res.id) ? ' Ihre Anfrage-ID: ' + res.id : '');
       form.reset();
       btn.disabled = false;
     }, function (e) {
