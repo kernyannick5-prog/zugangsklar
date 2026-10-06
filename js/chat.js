@@ -271,7 +271,9 @@
     text = (text || '').replace(/^\s+|\s+$/g, '');
     if (busy || !text) return;
     if (text.length > MAX_LEN) text = text.slice(0, MAX_LEN);
+    var chipHadFocus = !!(chips && document.activeElement && chips.contains(document.activeElement));
     removeChips();
+    if (chipHadFocus && input) input.focus(); // Tastaturposition nicht verlieren (Vorschlag wird entfernt)
     hideJump();
     renderMsg('user', text);
     history.push({ role: 'user', content: text });

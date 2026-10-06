@@ -30,8 +30,10 @@
       statusEl.textContent = 'Vielen Dank. Wir antworten in der Regel innerhalb von 24 Stunden (werktags).' + (res && typeof res.id === 'string' && /^YQ-[0-9]{8}-[A-Z0-9]{4,6}$/.test(res.id) ? ' Ihre Anfrage-ID: ' + res.id : '');
       form.reset();
       btn.disabled = false;
+      if (!document.activeElement || document.activeElement === document.body) btn.focus();
     }, function (e) {
       btn.disabled = false;
+      if (!document.activeElement || document.activeElement === document.body) btn.focus();
       if (e.kind === 'network') YQ.mailFallback(statusEl, 'Das Formular ist gerade nicht erreichbar. Bitte schreiben Sie uns direkt per', 'Kontaktanfrage über yanqiva', f.nachricht.value.trim());
       else statusEl.textContent = 'Fehler: ' + e.message;
     });
