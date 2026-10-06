@@ -5,6 +5,7 @@
   var form = document.getElementById('order-form');
   if (!form) return;
   var statusEl = document.getElementById('order-status');
+  if (YQ.pow) YQ.pow.watch(form); // Rechenaufgabe beim ersten Fokus vorab lösen (Spamschutz, siehe js/config.js)
   var done = document.getElementById('order-done');
   // Fallback-Namen (Stand 2026-10-03). Maßgeblich ist window.YQ_CATALOG (js/catalog.js, generiert aus tools/site-build/catalog.mjs).
   var NAMES = {
@@ -140,7 +141,10 @@
     if (url) fields.website = url;
     if (isProject && f.projekt && f.projekt.value.trim()) fields.project = f.projekt.value.trim();
     if (f.hinweise.value.trim()) fields.notes = f.hinweise.value.trim();
-    YQ.postJson('/api/lead', { hp: g.hp, ts: g.ts, email: email, url: url, consent: true, source: 'bestellung', message: message, fields: fields }, { timeout: 20000 }).then(function (res) {
+    var payload = { hp: g.hp, ts: g.ts, email: email, url: url, consent: true, source: 'bestellung', message: message, fields: fields };
+    (YQ.pow ? YQ.pow.withPow(form, payload) : Promise.resolve(payload)).then(function (body) {
+      return YQ.postJson('/api/lead', body, { timeout: 20000 });
+    }).then(function (res) {
       var link = inquiry ? '' : YQ.PAYMENT_LINKS[product]; // Anfrage-Produkte: erst Angebot, keine Sofortzahlung
       if (link) {
         statusEl.textContent = 'Danke. Sie werden jetzt zur Zahlung weitergeleitet …';

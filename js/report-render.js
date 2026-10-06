@@ -144,13 +144,18 @@
       el('button', { type: 'submit', class: 'btn' }, 'Befunde freischalten'),
       el('p', { id: msgId, class: 'status-msg', role: 'status', 'aria-live': 'polite' }));
     f._yqTs = Date.now();
+    if (YQ.pow) YQ.pow.watch(f);
     f.addEventListener('submit', function (ev) {
       ev.preventDefault();
       var email = f.elements.email.value.trim();
       var btn = f.querySelector('button');
       var msg = f.querySelector('#' + msgId);
       btn.disabled = true; msg.textContent = 'Wird gesendet …';
-      opts.postLead(email, YQ.guard(f), !!f.elements.promo.checked).then(function () {
+      // Rechenaufgabe (Spamschutz) wird beim ersten Fokus vorab gelöst und hier dem guard-Objekt als `pow` beigefügt (siehe js/config.js).
+      var g = YQ.guard(f);
+      (YQ.pow ? YQ.pow.withPow(f, g) : Promise.resolve(g)).then(function (gp) {
+        return opts.postLead(email, gp, !!f.elements.promo.checked);
+      }).then(function () {
         onDone();
       }, function (e) {
         btn.disabled = false;

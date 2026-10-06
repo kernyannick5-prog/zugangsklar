@@ -43,7 +43,7 @@
   }
 
   function postLead(email, g, promo) {
-    var body = { email: email, url: currentUrl, consent: true, source: 'schnellcheck', hp: g ? g.hp : '', ts: g ? g.ts : undefined };
+    var body = { email: email, url: currentUrl, consent: true, source: 'schnellcheck', hp: g ? g.hp : '', ts: g ? g.ts : undefined, pow: g ? g.pow : undefined };
     // Empfehlung vorn in die Nachricht (Lead-Liste zeigt nur die ersten Zeichen)
     if (lastData && YQ.recommend) { try { body.message = YQ.recommend.recommend(lastData).leadLine.slice(0, 600); } catch (e) { /* Empfehlung ist optional */ } }
     // Werbe-Einwilligung (freiwillig, getrennt) nur im Nachrichtentext; das API-Schema bleibt unverändert
