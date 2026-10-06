@@ -9,12 +9,13 @@
   var done = document.getElementById('order-done');
   // Fallback-Namen (Stand 2026-10-03). Maßgeblich ist window.YQ_CATALOG (js/catalog.js, generiert aus tools/site-build/catalog.mjs).
   var NAMES = {
-    'website-basic': /*YQ:orderLabel:website-basic*/'Website Basic (299 €, Einführungspreis bis 31.12.2026 (danach 349 €), einmalig, unverbindliche Anfrage, Angebot vorab)'/*YQ*/, 'website-business': 'Website Business (ab 590 €, einmalig, unverbindliche Anfrage, individuelles Angebot vorab)', 'website-pflege': 'Yanqiva Pflege (39 € pro Monat)', 'website-premium': 'Website Premium (individuelles Angebot, Orientierung ab 1.490 €, einmalig, unverbindliche Anfrage)',
-    report: 'Website-Report (149 €, einmalig)', monitoring: 'Monitoring (29 € pro Monat)',
-    agentur: 'Agentur (99 € pro Monat)',
-    'fix-google-fonts': 'Fix: Google Fonts lokal einbinden (149 €)', 'fix-erklaerung': 'Fix: Barrierefreiheitserklärung erstellen (149 €)',
-    'fix-security-header': 'Fix: Security-Header einrichten (149 €)', 'fix-a11y': 'Fix: Barrierefreiheits-Fix-Paket (ab 249 €)', 'fix-individuell': 'Fix: individuelle Umsetzung (75 € pro Stunde)'
+    'website-basic': /*YQ:orderLabel:website-basic*/'Website Basic (299 €, Einführungspreis bis 31.12.2026 (danach 349 €), einmalig, unverbindliche Anfrage, Angebot vorab)'/*YQ*/, 'website-business': 'Website Business (ab 590 €, einmalig, unverbindliche Anfrage, individuelles Angebot vorab)', 'website-pflege': 'Yanqiva Pflege (39 €/Monat, Mindestlaufzeit 12 Monate)', 'website-premium': 'Website Premium (individuelles Angebot, Orientierung ab 1.490 €, einmalig, unverbindliche Anfrage)',
+    report: 'Website-Report (99 €, einmalig)', monitoring: 'Monitoring (29 € pro Monat)',
+    'einzel-fix': 'Einzel-Fix (99 €, einmalig, ein konkretes Problem)', 'fix-paket': 'Fix-Paket (ab 299 €, einmalig)'
   };
+  // Prüfbereiche des Checkers (Fallback, maßgeblich ist YQ_CATALOG.categories)
+  var CATS = (window.YQ_CATALOG && window.YQ_CATALOG.categories) || [];
+  function catTitle(id) { for (var i = 0; i < CATS.length; i++) if (CATS[i].id === id) return CATS[i].title; return id; }
   if (window.YQ_CATALOG && window.YQ_CATALOG.products) {
     Object.keys(window.YQ_CATALOG.products).forEach(function (id) { NAMES[id] = window.YQ_CATALOG.products[id].orderLabel; });
   }
@@ -24,19 +25,23 @@
   var pre = q.get('produkt');
   // Alte Links (entfallene Angebote) und der gemeinsame Einzel-Fix: auf bestehende Produkte abbilden.
   // Fallback, maßgeblich ist YQ_CATALOG.redirects (generiert aus tools/site-build/catalog.mjs: LEGACY_PRODUCTS).
-  var REDIRECTS = (window.YQ_CATALOG && window.YQ_CATALOG.redirects) || { business: 'monitoring', agentur_plus: 'agentur' };
+  var REDIRECTS = (window.YQ_CATALOG && window.YQ_CATALOG.redirects) || { business: 'monitoring', agentur_plus: 'monitoring', agentur: 'monitoring', 'fix-a11y': 'fix-paket', 'fix-google-fonts': 'fix-paket', 'fix-security-header': 'fix-paket', 'fix-erklaerung': 'fix-paket', 'fix-individuell': 'fix-paket' };
+  var REDIRECT_CATS = (window.YQ_CATALOG && window.YQ_CATALOG.redirectCategories) || { 'fix-google-fonts': 'privacy', 'fix-security-header': 'security', 'fix-erklaerung': 'accessibility' };
+  var preCategory = (q.get('kategorie') || '').replace(/[^a-z]/g, '');
+  var preAreas = (q.get('bereiche') || '').split(',').map(function (x) { return x.replace(/[^a-z]/g, ''); }).filter(Boolean);
   var redirectNote = document.getElementById('order-redirect');
   if (pre && Object.prototype.hasOwnProperty.call(REDIRECTS, pre)) {
     var target = REDIRECTS[pre];
+    if (REDIRECT_CATS[pre] && !preCategory) preCategory = REDIRECT_CATS[pre];
     if (redirectNote) {
-      redirectNote.textContent = target === 'agentur'
-        ? 'Das Angebot, über das Sie hierher gekommen sind, gibt es nicht mehr. Wir haben „Agentur“ (bis zu 10 Websites) für Sie vorausgewählt. Für mehr als 10 Websites schreiben Sie uns bitte über das Kontaktformular.'
-        : 'Das Angebot, über das Sie hierher gekommen sind, gibt es nicht mehr. Wir haben „Monitoring“ (1 Website) für Sie vorausgewählt. Mehrere Websites überwachen Sie mit dem Agentur-Plan (bis zu 10 Websites); für mehr schreiben Sie uns bitte über das Kontaktformular.';
+      redirectNote.textContent = target === 'einzel-fix'
+        ? 'Das Angebot, über das Sie hierher gekommen sind, gibt es nicht mehr. Wir haben „Einzel-Fix“ (ein konkretes Problem, 99 €) für Sie vorausgewählt' + (preCategory ? ', mit dem Bereich „' + catTitle(preCategory) + '“' : '') + '. Sie können die Auswahl unten ändern.'
+        : target === 'fix-paket'
+          ? 'Das Angebot, über das Sie hierher gekommen sind, gibt es nicht mehr als eigene Leistung. Es ist jetzt Bestandteil des Fix-Pakets, das wir für Sie vorausgewählt haben. Geht es nur um ein einzelnes, konkretes Problem, genügt der Einzel-Fix. Eine Prüfung können Sie vorab mit dem kostenlosen Website-Check durchführen.'
+          : 'Das Angebot, über das Sie hierher gekommen sind, gibt es nicht mehr. Wir haben „Monitoring“ (1 Website) für Sie vorausgewählt. Haben Sie mehrere Websites, schreiben Sie uns bitte über das Kontaktformular.';
       redirectNote.hidden = false;
     }
     pre = target;
-  } else if (pre === 'einzel-fix') {
-    pre = 'fix-google-fonts'; // Einzel-Fix: erste Variante vorausgewählt, die Variante wählen Sie im Formular
   }
   // Unbekannte Werte (?produkt=xyz) ignorieren: sonst wäre kein Produkt gewählt und das Absenden würde fehlschlagen.
   var preRadio = pre ? Array.prototype.filter.call(form.querySelectorAll('input[name="produkt"]'), function (r) { return r.value === pre; })[0] : null;
@@ -44,9 +49,12 @@
     Array.prototype.forEach.call(form.querySelectorAll('input[name="produkt"]'), function (r) { r.checked = r === preRadio; });
   }
   if (!form.querySelector('input[name="produkt"]:checked')) {
-    var firstRadio = form.querySelector('input[name="produkt"]');
+    var firstRadio = form.querySelector('input[name="produkt"][value="einzel-fix"]') || form.querySelector('input[name="produkt"]');
     if (firstRadio) firstRadio.checked = true;
   }
+  // Kategorie (Einzel-Fix) bzw. Bereiche (Fix-Paket) aus dem Scan-Ergebnis vorauswählen; unbekannte Werte werden ignoriert
+  Array.prototype.forEach.call(form.querySelectorAll('input[name="kategorie"]'), function (r) { r.checked = !!preCategory && r.value === preCategory; });
+  Array.prototype.forEach.call(form.querySelectorAll('input[name="bereiche"]'), function (c) { c.checked = preAreas.indexOf(c.value) !== -1; });
   if (q.get('url')) form.elements.url.value = q.get('url');
 
   // Bei Website-Projekten ist die Adresse einer bestehenden Website optional (es gibt ggf. noch keine).
@@ -59,7 +67,7 @@
   var authField = document.getElementById('o-auth-field');
   var authWeb = document.getElementById('o-auth-web');
   // Unverbindliche Anfrage mit Angebot (AGB Ziffer 4): Website-Projekte, Yanqiva Pflege, alle Yanqiva-Fix-Leistungen.
-  function isInquiry(v) { return /^(website-(basic|business|premium|pflege)|fix-.+)$/.test(v || ''); }
+  function isInquiry(v) { return /^(website-(basic|business|premium|pflege)|einzel-fix|fix-.+)$/.test(v || ''); }
   function isNewWebsite(v) { return /^website-(basic|business|premium)$/.test(v || ''); }
   function needsAuth() {
     var sel = form.querySelector('input[name="produkt"]:checked');
@@ -76,6 +84,12 @@
     var isProject = !!sel && isNewWebsite(sel.value);
     if (projekt) projekt.hidden = !isProject;
     if (submit) submit.textContent = isProject ? 'Projekt anfragen (unverbindlich)' : (sel && isInquiry(sel.value)) ? 'Anfrage senden (unverbindlich)' : 'Verbindlich bestellen';
+    var catField = document.getElementById('o-cat-field'), areaField = document.getElementById('o-bereiche-field');
+    var isEinzel = !!sel && sel.value === 'einzel-fix';
+    if (catField) catField.hidden = !isEinzel;
+    if (areaField) areaField.hidden = !(sel && sel.value === 'fix-paket');
+    var problemEl = document.getElementById('o-problem');
+    if (problemEl) problemEl.required = isEinzel;   // Einzel-Fix = ein konkretes Problem: Beschreibung ist Pflicht, der Bereich optional
     var auth = needsAuth();
     if (authInput) authInput.required = auth;
     if (authField) authField.hidden = !auth;
@@ -135,12 +149,17 @@
       authInput.focus();
       return;
     }
+    var catEl = form.querySelector('input[name="kategorie"]:checked');
+    var category = '';
+    if (product === 'einzel-fix') category = catEl ? catEl.value : '';
+    else if (product === 'fix-paket') category = Array.prototype.map.call(form.querySelectorAll('input[name="bereiche"]:checked'), function (c) { return c.value; }).join(',');
+    var categoryText = category ? category.split(',').map(catTitle).join(', ') + ' [' + category + ']' : '';
     var email = f.email.value.trim();
     var url = f.url.value.trim();
     if (url && !/^https?:\/\//i.test(url)) url = 'https://' + url;
     var isProject = isNewWebsite(product);
     var inquiry = isInquiry(product);
-    var message = (prestart() ? 'VOR TÄTIGKEITSBEGINN (' + YQ.START_DATE + ') EINGEGANGEN – unverbindliche Anfrage\n' : '') + (isProject ? 'PROJEKTANFRAGE (unverbindlich, individuelles Angebot)\n' : '') + 'Produkt: ' + (NAMES[product] || product) + ' [' + product + ']' + '\nFirma: ' + f.firma.value.trim() + (isProject ? '\nProjektbeschreibung: ' + ((f.projekt && f.projekt.value.trim()) || '-') : '') + '\nHinweise: ' + (f.hinweise.value.trim() || '-') + '\nUnternehmer (§ 14 BGB) bestätigt und AGB akzeptiert: ' + (f.consent && f.consent.checked ? 'ja' : 'nein')
+    var message = (prestart() ? 'VOR TÄTIGKEITSBEGINN (' + YQ.START_DATE + ') EINGEGANGEN – unverbindliche Anfrage\n' : '') + (isProject ? 'PROJEKTANFRAGE (unverbindlich, individuelles Angebot)\n' : '') + 'Produkt: ' + (NAMES[product] || product) + ' [' + product + ']' + (categoryText ? '\n' + (product === 'einzel-fix' ? 'Bereich: ' : 'Betroffene Bereiche: ') + categoryText : '') + (product === 'einzel-fix' && f.problem ? '\nProblem: ' + (f.problem.value.trim() || '-') : '') + '\nFirma: ' + f.firma.value.trim() + (isProject ? '\nProjektbeschreibung: ' + ((f.projekt && f.projekt.value.trim()) || '-') : '') + '\nHinweise: ' + (f.hinweise.value.trim() || '-') + '\nUnternehmer (§ 14 BGB) bestätigt und AGB akzeptiert: ' + (f.consent && f.consent.checked ? 'ja' : 'nein')
       + '\nInhaber der Website oder vom Inhaber beauftragt (Agentur: mit Auftrag des Kunden) bestätigt: ' + (auth ? (authInput.checked ? 'ja' : 'nein') : 'entfällt (neue Website)');
     // Die API erlaubt höchstens 2000 Zeichen je Nachricht; Projektbeschreibung und Hinweise (je bis 1500) können zusammen darüber liegen.
     if (message.length > MAX_MESSAGE) {
@@ -155,6 +174,7 @@
     var g = YQ.guard(form);
     var fields = { product: product, company: f.firma.value.trim() };
     if (url) fields.website = url;
+    if (category) fields.category = category;
     if (isProject && f.projekt && f.projekt.value.trim()) fields.project = f.projekt.value.trim();
     if (f.hinweise.value.trim()) fields.notes = f.hinweise.value.trim();
     var payload = { hp: g.hp, ts: g.ts, email: email, url: url, consent: true, source: 'bestellung', message: message, fields: fields };

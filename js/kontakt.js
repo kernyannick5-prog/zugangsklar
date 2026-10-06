@@ -7,9 +7,8 @@
   var statusEl = document.getElementById('contact-status');
   if (YQ.pow) YQ.pow.watch(form); // Rechenaufgabe beim ersten Fokus vorab lösen (Spamschutz, siehe js/config.js)
   var quelle = (new URLSearchParams(window.location.search).get('quelle') || '').replace(/[^a-z0-9_-]/gi, '').slice(0, 40);
-  if (quelle === 'agentur-probe-report' && form.elements.nachricht && !form.elements.nachricht.value) form.elements.nachricht.value = 'Bitte senden Sie mir einen kostenlosen Probe-Report für einen Kundenshop. Adresse des Shops: ';
-  if (quelle === 'agentur-partner' && form.elements.nachricht && !form.elements.nachricht.value) form.elements.nachricht.value = 'Ich interessiere mich für die Partnerprovision. Unsere Agentur: ';
-  if (quelle === 'agentur-mehr-websites' && form.elements.nachricht && !form.elements.nachricht.value) form.elements.nachricht.value = 'Ich möchte mehr als 10 Websites überwachen. Anzahl der Websites: ';
+  // Mehrere Websites: kein eigener Plan mehr, Anfrage über das Kontaktformular
+  if (quelle === 'mehrere-websites' && form.elements.nachricht && !form.elements.nachricht.value) form.elements.nachricht.value = 'Ich habe mehrere Websites und möchte wissen, wie Sie mir helfen können. Anzahl der Websites: ';
   // Aus dem Website-Check: geprüfte Adresse vorbelegen (nur http/https, gekürzt; Wert landet nur im Eingabefeld)
   if (quelle === 'check' && form.elements.url && !form.elements.url.value) {
     var checked = (new URLSearchParams(window.location.search).get('url') || '').trim().slice(0, 300);

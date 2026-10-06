@@ -84,7 +84,7 @@
   }
 
   function reportLink() {
-    return el('p', { class: 'error-actions' }, el('a', { class: 'btn', href: 'bestellen.html?produkt=report' + (currentUrl ? '&url=' + encodeURIComponent(currentUrl) : '') }, 'Website-Report für ' + ((window.YQ_CATALOG && window.YQ_CATALOG.products.report.amountText) || '149 €').replace(/ €/g, ' €') + ' bestellen'), ' ', el('span', { class: 'hint' }, 'Endpreis, keine Umsatzsteuer (§ 19 UStG)'));
+    return el('p', { class: 'error-actions' }, el('a', { class: 'btn', href: 'bestellen.html?produkt=report' + (currentUrl ? '&url=' + encodeURIComponent(currentUrl) : '') }, 'Website-Report für ' + ((window.YQ_CATALOG && window.YQ_CATALOG.products.report.amountText) || '99 €').replace(/ €/g, ' €') + ' bestellen'), ' ', el('span', { class: 'hint' }, 'Endpreis, keine Umsatzsteuer (§ 19 UStG)'));
   }
 
   /* Fehleranzeige im Ergebnisbereich: Titel, Meldung (Server-Text, sonst Standardtext), Hinweis. Fokus auf den Titel. */

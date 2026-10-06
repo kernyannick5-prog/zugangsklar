@@ -53,19 +53,19 @@ window.YQ_CATALOG = {
    "priceText": "39 € pro Monat",
    "priceTextShort": "39 €/Monat",
    "amountText": "39 €",
-   "orderLabel": "Yanqiva Pflege (39 €/Monat)"
+   "orderLabel": "Yanqiva Pflege (39 €/Monat, Mindestlaufzeit 12 Monate)"
   },
   "report": {
    "id": "report",
    "name": "Website-Report",
    "group": "check",
-   "price": 149,
+   "price": 99,
    "priceFrom": false,
    "billing": "einmalig",
-   "priceText": "149 €",
-   "priceTextShort": "149 €",
-   "amountText": "149 €",
-   "orderLabel": "Website-Report (149 €, einmalig)"
+   "priceText": "99 €",
+   "priceTextShort": "99 €",
+   "amountText": "99 €",
+   "orderLabel": "Website-Report (99 €, einmalig)"
   },
   "monitoring": {
    "id": "monitoring",
@@ -79,69 +79,33 @@ window.YQ_CATALOG = {
    "amountText": "29 €",
    "orderLabel": "Monitoring (29 € pro Monat)"
   },
-  "agentur": {
-   "id": "agentur",
-   "name": "Agentur",
-   "group": "agentur",
+  "einzel-fix": {
+   "id": "einzel-fix",
+   "name": "Einzel-Fix",
+   "group": "fix",
    "price": 99,
    "priceFrom": false,
-   "billing": "monatlich",
-   "priceText": "99 € pro Monat",
-   "priceTextShort": "99 €/Monat",
+   "billing": "einmalig",
+   "priceText": "99 €",
+   "priceTextShort": "99 €",
    "amountText": "99 €",
-   "orderLabel": "Agentur (99 € pro Monat)"
+   "orderLabel": "Einzel-Fix (99 €, einmalig, Festpreis für ein konkretes Problem (im üblichen Umfang), Bestätigung vor Beginn)"
   },
-  "fix-google-fonts": {
-   "id": "fix-google-fonts",
-   "name": "Google Fonts lokal einbinden",
+  "fix-paket": {
+   "id": "fix-paket",
+   "name": "Fix-Paket",
    "group": "fix",
-   "price": 149,
-   "priceFrom": false,
-   "billing": "einmalig",
-   "priceText": "149 €",
-   "priceTextShort": "149 €",
-   "amountText": "149 €",
-   "orderLabel": "Fix: Google Fonts lokal einbinden (149 €)"
-  },
-  "fix-erklaerung": {
-   "id": "fix-erklaerung",
-   "name": "Barrierefreiheitserklärung",
-   "group": "fix",
-   "price": 149,
-   "priceFrom": false,
-   "billing": "einmalig",
-   "priceText": "149 €",
-   "priceTextShort": "149 €",
-   "amountText": "149 €",
-   "orderLabel": "Fix: Barrierefreiheitserklärung erstellen (149 €)"
-  },
-  "fix-security-header": {
-   "id": "fix-security-header",
-   "name": "Security-Header einrichten",
-   "group": "fix",
-   "price": 149,
-   "priceFrom": false,
-   "billing": "einmalig",
-   "priceText": "149 €",
-   "priceTextShort": "149 €",
-   "amountText": "149 €",
-   "orderLabel": "Fix: Security-Header einrichten (149 €)"
-  },
-  "fix-a11y": {
-   "id": "fix-a11y",
-   "name": "Barrierefreiheits-Fix-Paket",
-   "group": "fix",
-   "price": 249,
+   "price": 299,
    "priceFrom": true,
    "billing": "einmalig",
-   "priceText": "ab 249 €",
-   "priceTextShort": "ab 249 €",
-   "amountText": "249 €",
-   "orderLabel": "Fix: Barrierefreiheits-Fix-Paket (ab 249 €)"
+   "priceText": "ab 299 €",
+   "priceTextShort": "ab 299 €",
+   "amountText": "299 €",
+   "orderLabel": "Fix-Paket (ab 299 €, einmalig, Festpreis vor Beginn nach Sichtung, Angebot vorab)"
   },
   "fix-individuell": {
    "id": "fix-individuell",
-   "name": "Individuelle Umsetzung",
+   "name": "Stundensatz für Zusatzarbeiten",
    "group": "fix",
    "price": 75,
    "priceFrom": false,
@@ -149,13 +113,58 @@ window.YQ_CATALOG = {
    "priceText": "75 € pro Stunde",
    "priceTextShort": "75 €/Std.",
    "amountText": "75 €",
-   "orderLabel": "Fix: individuelle Umsetzung (75 € pro Stunde)"
+   "orderLabel": "Zusatzarbeiten nach Aufwand (75 € pro Stunde)"
   }
  },
  "redirects": {
   "business": "monitoring",
-  "agentur_plus": "agentur"
+  "agentur_plus": "monitoring",
+  "agentur": "monitoring",
+  "fix-a11y": "fix-paket",
+  "fix-google-fonts": "fix-paket",
+  "fix-security-header": "fix-paket",
+  "fix-erklaerung": "fix-paket",
+  "fix-individuell": "fix-paket"
  },
+ "redirectCategories": {
+  "fix-google-fonts": "privacy",
+  "fix-security-header": "security",
+  "fix-erklaerung": "accessibility"
+ },
+ "categories": [
+  {
+   "id": "accessibility",
+   "title": "Barrierefreiheit"
+  },
+  {
+   "id": "privacy",
+   "title": "Datenschutz"
+  },
+  {
+   "id": "legal",
+   "title": "Rechtliches"
+  },
+  {
+   "id": "security",
+   "title": "Sicherheit"
+  },
+  {
+   "id": "seo",
+   "title": "SEO"
+  },
+  {
+   "id": "technical",
+   "title": "Technik"
+  },
+  {
+   "id": "performance",
+   "title": "Performance"
+  },
+  {
+   "id": "mobile",
+   "title": "Mobil"
+  }
+ ],
  "endpreiseHinweis": "Alle Preise sind Endpreise. Als Kleinunternehmer im Sinne von § 19 UStG berechnen wir keine Umsatzsteuer.",
- "reportCredit": "Ein bereits gekaufter Website-Report wird beim Website-Auftrag voll angerechnet."
+ "reportCredit": "Ein bereits gekaufter Website-Report wird beim Website-Auftrag und beim Fix-Paket voll angerechnet."
 };

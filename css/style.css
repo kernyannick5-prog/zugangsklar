@@ -247,6 +247,10 @@ input[type="checkbox"], input[type="radio"] { width: 1.5rem; height: 1.5rem; mar
 .steps { list-style: none; padding: 0; counter-reset: step; }
 .steps li { counter-increment: step; position: relative; margin: 0; padding: 3.2rem 1.4rem 1.4rem; }
 .steps li::before { content: counter(step); position: absolute; top: 1.2rem; left: 1.4rem; width: 2rem; height: 2rem; border-radius: 50%; background: var(--primary); color: #fff; font-weight: 700; display: grid; place-items: center; }
+.steps li li { counter-increment: none; }
+.steps li > ul:not(.ampel) > li { padding: 0; }
+.steps li .ampel li { padding: .4rem .65rem; }
+.steps li li::before { content: none; }
 .check-ul, .cross-ul { list-style: none; padding: 0; }
 .check-ul li, .cross-ul li { padding-left: 1.7rem; position: relative; }
 .check-ul li::before { content: "\2713"; position: absolute; left: 0; color: var(--ok); font-weight: 800; }
@@ -992,3 +996,94 @@ th { background: var(--tint); }
 .y3d-scene, .y3d-stack, .y3d-ring, .y3d-cg { will-change: transform; } /* NIE opacity hier: wuerde die preserve-3d-Ebenen flach zusammenfassen (Logo wirkt 2D) */
 .y3d-stack::after, .y3d::after { will-change: transform, opacity; }
 .js:not(.anim-go) .hero-art *, .js:not(.anim-go) .hero-art *::before, .js:not(.anim-go) .hero-art *::after { animation-play-state: paused !important; }
+
+/* ===== 19 Produktkarten Scan -> Fix (2026-10-07): Quick-Scan, Einzel-Fix, Fix-Paket, Monitoring; Journey; Ampel; Empfehlung nach dem Scan ===== */
+/* 1 Spalte mobil (16 px Rand durch .wrap), 2 Spalten ab Tablet, 4 Spalten ab Desktop; Karten gleich hoch, Aktion unten */
+.pc-grid { list-style: none; margin: 0; padding: 1rem 0 0; display: grid; gap: 1.1rem; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 640px) { .pc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; } }
+@media (min-width: 1080px) { .pc-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.1rem; } }
+.pc-grid-2 { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 640px) { .pc-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1080px) { .pc-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.pcard { position: relative; display: flex; flex-direction: column; margin: 0; padding: 1.5rem 1.35rem 1.35rem; border-top: 4px solid var(--line-strong); min-width: 0; }
+.pcard .pcard-tag { display: inline-flex; align-items: center; align-self: flex-start; min-height: 1.75rem; margin: 0 0 .85rem; padding: .15rem .65rem; border: 1px solid var(--line-strong); border-radius: var(--radius-pill); background: var(--bg); color: var(--muted); font-size: .8rem; font-weight: 700; line-height: 1.25; letter-spacing: .01em; }
+.pcard h3 { margin: 0 0 .15rem; font-size: 1.3rem; }
+.pcard .price { margin: .35rem 0 0; font-size: 2.3rem; }
+.pcard .price-note { margin: .2rem 0 .9rem; min-height: 2.6em; }
+.pcard .pcard-tagline { margin: 0 0 .9rem; font-weight: 600; color: var(--text); }
+.pcard .check-ul { margin: 0 0 1rem; flex: 1 1 auto; }
+.pcard .check-ul li { margin-bottom: .45rem; line-height: 1.45; }
+.pcard .pcard-extra { margin: 0 0 1.1rem; padding-top: .75rem; border-top: 1px solid var(--line); font-size: .93rem; color: var(--muted); }
+.pcard .btn { margin-top: auto; width: 100%; text-align: center; white-space: normal; }
+/* Quick-Scan: 0 € prominent, ruhiger Einstieg (nicht minderwertig) */
+.pcard-quick-scan { border-top-color: var(--ok); }
+.pcard-quick-scan .price { color: var(--ok); }
+.pcard-quick-scan .pcard-tag { border-color: var(--ok); color: var(--ok); background: #EBF6F3; }
+/* Einzel-Fix: 99 € deutlich hervorgehoben */
+.pcard-einzel-fix { border-top-color: var(--primary); }
+.pcard-einzel-fix .price { color: var(--primary); font-size: 2.7rem; }
+.pcard-einzel-fix .pcard-tag { border-color: var(--primary); color: var(--primary); background: var(--primary-soft); }
+/* Fix-Paket: empfohlen, Badge mit Text und Symbol (nicht nur Farbe), kräftiger Rahmen */
+.pcard.featured { border: 3px solid var(--primary); border-top-width: 6px; box-shadow: var(--shadow-pop); }
+.pcard .pcard-badge { display: inline-flex; align-items: center; gap: .35rem; align-self: flex-start; margin: 0 0 .85rem; padding: .2rem .7rem; border-radius: var(--radius-pill); background: var(--primary); color: #fff; font-size: .8rem; font-weight: 700; line-height: 1.25; }
+.pcard .pcard-badge::before { content: "\2605"; content: "\2605" / ""; }
+/* Monitoring: wiederkehrend gekennzeichnet */
+.pcard-monitoring { border-top-color: var(--accent); }
+.pcard-monitoring .pcard-tag::before { content: "\21BB\00A0"; content: "\21BB\00A0" / ""; }
+.pcard-monitoring .pcard-tag { border-color: var(--accent); color: var(--ok); background: #EBF6F3; }
+.pc-more { margin: 1.25rem 0 0; font-size: .95rem; color: var(--muted); }
+.pc-more a { font-weight: 600; }
+/* Journey: Prüfen -> Problem erkennen -> Lösung auswählen -> Optimieren -> Monitoring */
+.journey-flow { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .5rem; margin: 0 0 1.25rem; padding: 0; list-style: none; font-size: .82rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--primary); }
+.journey-flow li { margin: 0; padding: .25rem .65rem; border: 1px solid var(--line-strong); border-radius: var(--radius-pill); background: var(--card); }
+.journey-flow li + li::before { content: "\2192"; content: "\2192" / ""; margin-right: .5rem; color: var(--muted); font-weight: 400; }
+.journey-steps li { padding-top: 3.2rem; }
+.journey-steps ul { margin: .5rem 0 0; padding-left: 1.1rem; }
+.journey-steps li li { padding: 0; margin: 0 0 .35rem; }
+/* Ampel: Farbe + Symbol + Text (nie nur Farbe) */
+.ampel { list-style: none; margin: .6rem 0 0; padding: 0; display: grid; gap: .35rem; }
+.ampel li { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .1rem .6rem; margin: 0; padding: .4rem .65rem; border: 1px solid var(--line); border-left-width: 6px; border-radius: var(--radius-xs); background: var(--card); font-size: .95rem; }
+.ampel li.s-crit { border-left-color: var(--crit); } .ampel li.s-warn { border-left-color: var(--warn); } .ampel li.s-ok { border-left-color: var(--ok); } .ampel li.s-none { border-left-color: var(--field); }
+.ampel .ampel-name { font-weight: 650; color: var(--text); }
+.ampel .ampel-state { font-weight: 700; }
+.ampel .ampel-state::before { content: attr(data-sym) "\00A0"; content: attr(data-sym) "\00A0" / ""; }
+.ampel .s-crit .ampel-state, .ampel-state.s-crit { color: var(--crit); } .ampel .s-warn .ampel-state, .ampel-state.s-warn { color: var(--warn); } .ampel .s-ok .ampel-state, .ampel-state.s-ok { color: var(--ok); } .ampel .s-none .ampel-state { color: var(--muted); }
+/* Empfehlung nach dem Scan (recoCard): Ampel auf dunklem Grund, Hauptblock, Nebenoptionen */
+.reco .ampel li { background: rgba(15,14,46,.55); border-color: rgba(255,255,255,.28); color: #fff; }
+.reco .ampel .ampel-name { color: #fff; }
+.reco .ampel li.s-crit { border-left-color: #FF9B8F; } .reco .ampel li.s-warn { border-left-color: #FFC38A; } .reco .ampel li.s-ok { border-left-color: var(--mint); } .reco .ampel li.s-none { border-left-color: #B9B8E4; }
+.reco .ampel .s-crit .ampel-state { color: #FFC2BA; } .reco .ampel .s-warn .ampel-state { color: #FFD7AE; } .reco .ampel .s-ok .ampel-state { color: var(--mint); } .reco .ampel .s-none .ampel-state { color: #D9D8F5; }
+.reco .reco-offer { margin: 0 0 .35rem; font-size: 1.3rem; font-weight: 800; }
+.reco .reco-meta { margin: 0 0 .6rem; color: #fff; }
+.reco .reco-also { margin: .9rem 0 0; padding-top: .8rem; border-top: 1px solid rgba(255,255,255,.28); font-size: .98rem; }
+.reco .reco-also a, .reco .reco-also-list a { font-weight: 650; }
+.reco .reco-also-list { margin: .35rem 0 0; padding-left: 1.25rem; }
+.reco .reco-also-list li { margin-bottom: .3rem; }
+.reco .reco-main .btn { white-space: normal; }
+.reco-flow { margin: 0 0 1.1rem; }
+/* Bestellformular: Kategorie-Auswahl */
+.choice-cats { display: grid; gap: .5rem; grid-template-columns: minmax(0, 1fr); margin: .5rem 0 0; }
+@media (min-width: 640px) { .choice-cats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.choice-cats .choice { margin: 0; }
+.fix-limits { margin: .75rem 0 0; font-size: .93rem; color: var(--muted); }
+/* Fünf Hauptkarten: Tablet 2 Spalten (fünfte Karte über volle Breite), Desktop 5 Spalten */
+@media (min-width: 640px) and (max-width: 1079px) { .pc-grid-5 > :last-child:nth-child(odd) { grid-column: 1 / -1; } }
+@media (min-width: 1080px) {
+  .pc-grid-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .85rem; }
+  .pc-grid-5 .pcard { padding: 1.3rem 1rem 1.1rem; }
+  .pc-grid-5 .pcard .price { font-size: 2rem; }
+  .pc-grid-5 .pcard-einzel-fix .price { font-size: 2.3rem; }
+  .pc-grid-5 .pcard h3 { font-size: 1.15rem; }
+  .pc-grid-5 .pcard .pcard-tagline, .pc-grid-5 .pcard .check-ul { font-size: .95rem; }
+}
+/* Produktstruktur 2026-10-07 (2): Zielgruppe, mögliche Bestandteile (Fix-Paket), Pflege mit Mindestlaufzeit */
+.pcard .pcard-who { margin: -.4rem 0 .9rem; font-size: .93rem; color: var(--muted); }
+.pcard .pcard-parts { margin: 0 0 1rem; padding: .7rem .8rem; border-radius: var(--radius, 10px); background: var(--primary-soft); font-size: .9rem; line-height: 1.5; color: var(--text); }
+.pcard .pcard-parts-h { display: block; margin-bottom: .15rem; font-weight: 700; }
+.pcard-website-pflege { border-top-color: var(--accent); }
+.pcard-website-pflege .pcard-tag { border-color: var(--accent); color: var(--ok); background: #EBF6F3; }
+.pcard-website-pflege .price-note strong { color: var(--text); }
+.pflege-row { display: grid; gap: 1.1rem; grid-template-columns: minmax(0, 1fr); align-items: start; }
+.pflege-row .pc-grid { padding-top: 0; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 760px) { .pflege-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.pflege-info h3 { margin-top: 0; }

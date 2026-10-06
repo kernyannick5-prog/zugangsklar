@@ -512,7 +512,7 @@
     if (rec.alternatives.length) {
       var al = el('ul', { class: 'reco-alts' });
       rec.alternatives.forEach(function (a) {
-        al.appendChild(el('li', null, el('a', { href: a.key === 'fix-individuell' ? 'fix.html' : href(a.key) }, a.name + ' (' + a.price + ')'), a.why ? el('span', null, ' – ' + a.why) : null));
+        al.appendChild(el('li', null, el('a', { href: href(a.key) }, a.name + ' (' + a.price + ')'), a.why ? el('span', null, ' – ' + a.why) : null));
       });
       card.appendChild(h(level + 2, { class: 'reco-sub' }, 'Alternativen'));
       card.appendChild(al);
@@ -537,7 +537,7 @@
       el('p', { class: 'improve-actions' },
         el('a', { class: 'btn', href: 'kontakt.html?quelle=check' + (enc ? '&url=' + enc : '') }, 'Unverbindlich anfragen'),
         el('a', { class: 'improve-link', href: 'bestellen.html?produkt=report' + (enc ? '&url=' + enc : '') }, 'Vollständigen Website-Report ansehen')),
-      el('p', { class: 'hint' }, 'Der Website-Report prüft bis zu 10 Seiten und kostet ' + catText('report', 'amountText', '149 €') + '. Alle Preise sind Endpreise, als Kleinunternehmer nach § 19 UStG berechnen wir keine Umsatzsteuer.'));
+      el('p', { class: 'hint' }, 'Der Website-Report prüft bis zu 10 Seiten und kostet ' + catText('report', 'amountText', '99 €') + '. Alle Preise sind Endpreise, als Kleinunternehmer nach § 19 UStG berechnen wir keine Umsatzsteuer.'));
   }
 
   YQ.report = { render: render, normalize: normalize, scoreRing: scoreRing, catScores: catScores, sevBadge: sevBadge, scoreClass: scoreClass, scoreWord: scoreWord, ratingOf: ratingOf, clampScore: clampScore, SEV: SEV, KIND: KIND, CAT_TITLES: CAT_TITLES, CAT_ORDER: CAT_ORDER, DISCLAIMER: DISCLAIMER };
