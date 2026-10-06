@@ -183,6 +183,11 @@
     this.steps.forEach(function (s) { self.list.appendChild(self.step(s.label, s.state)); });
   };
 
+  // Fortschrittsphasen per NDJSON-Stream (Worker kann das). Aus, solange der Worker im Free-Plan läuft: dort bricht
+  // Cloudflare gestreamte Antworten bei großen Seiten wegen des CPU-Limits ab (live gemessen 2026-10-06, spiegel.de,
+  // "exceededCpu"), während die normale JSON-Antwort durchläuft. Mit Workers Paid auf true setzen und live testen.
+  var STREAM = false;
+
   function loadMock() {
     return fetch(YQ.MOCK_URL).then(function (r) { if (!r.ok) throw new Error('Mock nicht gefunden'); return r.json(); });
   }
@@ -200,6 +205,10 @@
     if (YQ.MOCK) {
       progress.setSingle('Demo-Daten werden geladen');
       request = loadMock();
+    } else if (!STREAM) {
+      // Ohne Streaming: ein ehrlicher Schritt mit dem, was tatsächlich passiert (keine erfundenen Zwischenstände)
+      progress.setSingle('Startseite wird abgerufen und in acht Bereichen geprüft, dazu robots.txt, Sitemap und Stichproben von Links und Bildern');
+      request = YQ.postJson('/api/check', { url: url }, { timeout: 60000 });
     } else {
       request = YQ.postNdjson('/api/check', { url: url }, {
         timeout: 60000,
