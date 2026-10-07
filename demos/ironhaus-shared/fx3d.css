@@ -76,6 +76,10 @@
   background: linear-gradient(115deg, rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, .30) 48%, rgba(255, 255, 255, .06) 56%, rgba(255, 255, 255, 0) 64%); }
 .fx3d [data-fx-scene] .fx-par { transform: rotateX(calc(var(--py, 0) * -7deg)) rotateY(calc(var(--px, 0) * 12deg)); }
 
+/* Smartphone/Tablet: die schwebende Hantelscheibe im Hero entfaellt. Sie stand dort in einer eigenen Zeile ueber der
+   Ueberschrift, war nur halb zu sehen und zog den Blick vom Text ab. Die interaktive Langhantel (.is-pro) bleibt. */
+@media (max-width: 999px) { .fx-hero3d:not(.is-pro) { display: none; } }
+
 @media (min-width: 1000px) {
   .fx-hero3d {
     position: absolute; right: var(--space-5); top: 22%; width: min(42%, 440px); height: 440px; margin: -220px 0 0;
