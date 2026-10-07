@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://yanqiva.de/</loc><lastmod>2026-10-02</lastmod><priority>1.0</priority></url>
-  <url><loc>https://yanqiva.de/websites</loc><lastmod>2026-10-02</lastmod><priority>0.9</priority></url>
-  <url><loc>https://yanqiva.de/barrierefreiheit-check</loc><lastmod>2026-10-02</lastmod><priority>0.9</priority></url>
-  <url><loc>https://yanqiva.de/dsgvo-check</loc><lastmod>2026-10-02</lastmod><priority>0.8</priority></url>
-  <url><loc>https://yanqiva.de/impressum-check</loc><lastmod>2026-10-02</lastmod><priority>0.8</priority></url>
-  <url><loc>https://yanqiva.de/sicherheit-check</loc><lastmod>2026-10-02</lastmod><priority>0.8</priority></url>
-  <url><loc>https://yanqiva.de/seo-check</loc><lastmod>2026-10-02</lastmod><priority>0.8</priority></url>
-  <url><loc>https://yanqiva.de/preise</loc><lastmod>2026-10-02</lastmod><priority>0.8</priority></url>
-  <url><loc>https://yanqiva.de/fix</loc><lastmod>2026-10-02</lastmod><priority>0.8</priority></url>
-  <url><loc>https://yanqiva.de/bestellen</loc><lastmod>2026-10-02</lastmod><priority>0.8</priority></url>
-  <url><loc>https://yanqiva.de/barrierefreiheitserklaerung-generator</loc><lastmod>2026-10-02</lastmod><priority>0.9</priority></url>
-  <url><loc>https://yanqiva.de/ratgeber/</loc><lastmod>2026-10-02</lastmod><priority>0.7</priority></url>
+  <url><loc>https://yanqiva.de/</loc><lastmod>2026-10-07</lastmod><priority>1.0</priority></url>
+  <url><loc>https://yanqiva.de/websites</loc><lastmod>2026-10-07</lastmod><priority>0.9</priority></url>
+  <url><loc>https://yanqiva.de/barrierefreiheit-check</loc><lastmod>2026-10-07</lastmod><priority>0.9</priority></url>
+  <url><loc>https://yanqiva.de/dsgvo-check</loc><lastmod>2026-10-07</lastmod><priority>0.8</priority></url>
+  <url><loc>https://yanqiva.de/impressum-check</loc><lastmod>2026-10-07</lastmod><priority>0.8</priority></url>
+  <url><loc>https://yanqiva.de/sicherheit-check</loc><lastmod>2026-10-07</lastmod><priority>0.8</priority></url>
+  <url><loc>https://yanqiva.de/seo-check</loc><lastmod>2026-10-07</lastmod><priority>0.8</priority></url>
+  <url><loc>https://yanqiva.de/preise</loc><lastmod>2026-10-07</lastmod><priority>0.8</priority></url>
+  <url><loc>https://yanqiva.de/fix</loc><lastmod>2026-10-07</lastmod><priority>0.8</priority></url>
+  <url><loc>https://yanqiva.de/bestellen</loc><lastmod>2026-10-07</lastmod><priority>0.5</priority></url>
+  <url><loc>https://yanqiva.de/barrierefreiheitserklaerung-generator</loc><lastmod>2026-10-07</lastmod><priority>0.9</priority></url>
+  <url><loc>https://yanqiva.de/ratgeber/</loc><lastmod>2026-10-07</lastmod><priority>0.7</priority></url>
   <url><loc>https://yanqiva.de/ratgeber/google-fonts-dsgvo</loc><lastmod>2026-10-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://yanqiva.de/ratgeber/bfsg-onlineshop-checkliste</loc><lastmod>2026-10-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://yanqiva.de/ratgeber/bfsg-abmahnung-was-tun</loc><lastmod>2026-10-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://yanqiva.de/ratgeber/overlay-widgets-bfsg</loc><lastmod>2026-10-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://yanqiva.de/ratgeber/shopify-barrierefrei</loc><lastmod>2026-10-02</lastmod><priority>0.8</priority></url>
-  <url><loc>https://yanqiva.de/kontakt</loc><lastmod>2026-10-02</lastmod><priority>0.5</priority></url>
-  <url><loc>https://yanqiva.de/barrierefreiheit</loc><lastmod>2026-10-02</lastmod><priority>0.3</priority></url>
+  <url><loc>https://yanqiva.de/ratgeber/bfsg-wer-ist-betroffen</loc><lastmod>2026-10-07</lastmod><priority>0.8</priority></url>
+  <url><loc>https://yanqiva.de/ratgeber/barrierefreiheitserklaerung-bfsg</loc><lastmod>2026-10-07</lastmod><priority>0.8</priority></url>
+  <url><loc>https://yanqiva.de/ratgeber/security-header-erklaert</loc><lastmod>2026-10-07</lastmod><priority>0.8</priority></url>
+  <url><loc>https://yanqiva.de/ratgeber/website-kosten-2026</loc><lastmod>2026-10-07</lastmod><priority>0.8</priority></url>
+  <url><loc>https://yanqiva.de/ratgeber/website-relaunch-checkliste</loc><lastmod>2026-10-07</lastmod><priority>0.8</priority></url>
+  <url><loc>https://yanqiva.de/ratgeber/website-fuer-handwerker</loc><lastmod>2026-10-07</lastmod><priority>0.8</priority></url>
+  <url><loc>https://yanqiva.de/kontakt</loc><lastmod>2026-10-07</lastmod><priority>0.5</priority></url>
+  <url><loc>https://yanqiva.de/barrierefreiheit</loc><lastmod>2026-10-07</lastmod><priority>0.3</priority></url>
 </urlset>

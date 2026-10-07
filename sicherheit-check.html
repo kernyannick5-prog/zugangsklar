@@ -5,16 +5,16 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-WJGOEVi8cYaTXcwa1Y32BpQH8GQIzw8uwEEzXAxzu0c='; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://yanqiva-api.yanqiva-api.workers.dev; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Website-Sicherheit prüfen: HTTPS &amp; Security-Header | Yanqiva</title>
-<meta name="description" content="Kostenloser Sicherheits-Check: HTTPS, Weiterleitung, HSTS, Security-Header und Mixed Content. Zeigt fehlende Header und wie Sie sie setzen.">
-
+<title>Security Header prüfen: Kostenloser Check | Yanqiva</title>
+<meta name="description" content="Security Header prüfen: HTTPS, HSTS, Content-Security-Policy, X-Frame-Options und Mixed Content kostenlos testen. Zeigt fehlende Header und wie Sie sie setzen.">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://yanqiva.de/sicherheit-check">
 <meta name="theme-color" content="#2F2A85">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="de_DE">
 <meta property="og:site_name" content="Yanqiva">
-<meta property="og:title" content="Website-Sicherheit prüfen: HTTPS &amp; Security-Header | Yanqiva">
-<meta property="og:description" content="Kostenloser Sicherheits-Check: HTTPS, Weiterleitung, HSTS, Security-Header und Mixed Content. Zeigt fehlende Header und wie Sie sie setzen.">
+<meta property="og:title" content="Security Header prüfen: Kostenloser Check | Yanqiva">
+<meta property="og:description" content="Security Header prüfen: HTTPS, HSTS, Content-Security-Policy, X-Frame-Options und Mixed Content kostenlos testen. Zeigt fehlende Header und wie Sie sie setzen.">
 <meta property="og:url" content="https://yanqiva.de/sicherheit-check">
 <meta property="og:image" content="https://yanqiva.de/img/og-yanqiva.jpg">
 <meta property="og:image:type" content="image/jpeg">
@@ -22,13 +22,19 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Yanqiva – Barrierearme Websites, die funktionieren. Websites, Website-Check, BFSG, Datenschutz.">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Security Header prüfen: Kostenloser Check | Yanqiva">
+<meta name="twitter:description" content="Security Header prüfen: HTTPS, HSTS, Content-Security-Policy, X-Frame-Options und Mixed Content kostenlos testen. Zeigt fehlende Header und wie Sie sie setzen.">
 <meta name="twitter:image" content="https://yanqiva.de/img/og-yanqiva.jpg">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" href="favicon.svg" type="image/svg+xml" sizes="any">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
 <link rel="stylesheet" href="css/style.css?v=4d154e6b14">
 <link rel="stylesheet" href="css/chat.css?v=c99624898a">
 <link rel="stylesheet" href="css/notice.css?v=ac7ff0849d">
 <script>var d=document.documentElement,n=navigator;d.className+=" js";if(matchMedia("(prefers-reduced-motion: reduce)").matches||n.hardwareConcurrency<4||n.deviceMemory<4||(n.connection&&n.connection.saveData))d.className+=" fx-lite"</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Website-Sicherheit prüfen: HTTPS & Security-Header","description":"Kostenloser Sicherheits-Check: HTTPS, Weiterleitung, HSTS, Security-Header und Mixed Content. Zeigt fehlende Header und wie Sie sie setzen.","url":"https://yanqiva.de/sicherheit-check","inLanguage":"de","dateModified":"2026-10-02","isPartOf":{"@type":"WebSite","name":"Yanqiva","url":"https://yanqiva.de/"},"publisher":{"@type":"Organization","name":"Yanqiva","url":"https://yanqiva.de/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Security Header prüfen: Kostenloser Check","description":"Security Header prüfen: HTTPS, HSTS, Content-Security-Policy, X-Frame-Options und Mixed Content kostenlos testen. Zeigt fehlende Header und wie Sie sie setzen.","url":"https://yanqiva.de/sicherheit-check","inLanguage":"de","dateModified":"2026-10-07","isPartOf":{"@type":"WebSite","@id":"https://yanqiva.de/#website","name":"Yanqiva","url":"https://yanqiva.de/"},"publisher":{"@type":"Organization","@id":"https://yanqiva.de/#organization","name":"Yanqiva","url":"https://yanqiva.de/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Startseite","item":"https://yanqiva.de/"},{"@type":"ListItem","position":2,"name":"Security Header prüfen","item":"https://yanqiva.de/sicherheit-check"}]}</script>
 </head>
 <body>
 <a class="skip-link" href="#main">Zum Inhalt springen</a>
@@ -44,7 +50,7 @@
 <div class="wrap">
 <div class="hero-main">
 <p class="eyebrow">Prüfbereich Sicherheit</p>
-<h1 id="h1">Website-Sicherheit prüfen: HTTPS und Security-Header</h1>
+<h1 id="h1">Security Header prüfen: HTTPS, HSTS und Co.</h1>
 <p class="lead">Ein Zertifikat allein reicht nicht. Der Check zeigt, ob Ihre Website konsequent über HTTPS läuft, welche Sicherheits-Header fehlen und ob unsichere Inhalte eingebunden sind.</p>
 <form id="check" class="check-form" aria-labelledby="check-title" data-focus="security">
 <h2 id="check-title" class="visually-hidden">Kostenloser Website-Check</h2>
@@ -109,6 +115,17 @@
 <h2>Monitoring: Sicherheit bleibt nicht von allein</h2>
 <p>Nach einem Hoster-Wechsel, einer Umstellung auf ein neues CDN oder einem Plugin-Update können Header verschwinden oder Mixed Content entstehen. Das <a href="bestellen?produkt=monitoring">Monitoring für 29&nbsp;€/Monat</a> prüft wöchentlich und meldet, wenn sich etwas verschlechtert.</p>
 <div class="callout"><p>Automatische Prüfung. Liefert Hinweise, keine Rechtsberatung und keine Garantie für Rechtskonformität.</p></div>
+</div>
+</section>
+
+<section aria-labelledby="guides-h">
+<div class="wrap narrow">
+<h2 id="guides-h">Passende Ratgeber</h2>
+<ul>
+<li><a href="ratgeber/security-header-erklaert">Security-Header erklärt: HSTS, CSP und Co. verständlich</a>: HSTS, Content-Security-Policy, Referrer-Policy und Co.: was sie tun, wie Sie sie setzen und prüfen.</li>
+<li><a href="ratgeber/website-relaunch-checkliste">Website-Relaunch Checkliste für kleine Unternehmen: SEO, Recht und Technik</a>: Weiterleitungen, SEO, Datenschutz, Barrierefreiheit und Technik vor, am und nach dem Livegang.</li>
+</ul>
+<p><a href="ratgeber/">Alle Ratgeber ansehen</a></p>
 </div>
 </section>
 
@@ -186,7 +203,7 @@
 <script src="js/report-render.js?v=295c8f41e1"></script>
 <script src="js/check.js?v=2801d6a2fc"></script>
 <script src="js/fx.js?v=932a6bbc85" defer></script>
-<script src="js/chat.js?v=6b1ba96598" defer data-faq-v="4d378348d9"></script>
+<script src="js/chat.js?v=6b1ba96598" defer data-faq-v="dfc2d6e71d"></script>
 <script src="js/notice.js?v=95e21a7bdd" defer></script>
 </body>
 </html>

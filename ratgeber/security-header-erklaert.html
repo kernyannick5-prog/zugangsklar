@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-WJGOEVi8cYaTXcwa1Y32BpQH8GQIzw8uwEEzXAxzu0c='; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://yanqiva-api.yanqiva-api.workers.dev; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Security-Header erklärt: HSTS, CSP und Co. verständlich</title>
+<meta name="description" content="Security-Header erklärt: Was HSTS, Content-Security-Policy, X-Content-Type-Options und Referrer-Policy bewirken, wie Sie sie setzen und prüfen.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://yanqiva.de/ratgeber/security-header-erklaert">
+<meta name="theme-color" content="#2F2A85">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="de_DE">
+<meta property="og:site_name" content="Yanqiva">
+<meta property="og:title" content="Security-Header erklärt: HSTS, CSP und Co. verständlich">
+<meta property="og:description" content="Security-Header erklärt: Was HSTS, Content-Security-Policy, X-Content-Type-Options und Referrer-Policy bewirken, wie Sie sie setzen und prüfen.">
+<meta property="og:url" content="https://yanqiva.de/ratgeber/security-header-erklaert">
+<meta property="og:image" content="https://yanqiva.de/img/og-yanqiva.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Yanqiva – Barrierearme Websites, die funktionieren. Websites, Website-Check, BFSG, Datenschutz.">
+<meta property="article:published_time" content="2026-10-07">
+<meta property="article:modified_time" content="2026-10-07">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Security-Header erklärt: HSTS, CSP und Co. verständlich">
+<meta name="twitter:description" content="Security-Header erklärt: Was HSTS, Content-Security-Policy, X-Content-Type-Options und Referrer-Policy bewirken, wie Sie sie setzen und prüfen.">
+<meta name="twitter:image" content="https://yanqiva.de/img/og-yanqiva.jpg">
+<link rel="icon" href="../favicon.ico" sizes="48x48">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml" sizes="any">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="stylesheet" href="../css/style.css?v=4d154e6b14">
+<link rel="stylesheet" href="../css/chat.css?v=c99624898a">
+<link rel="stylesheet" href="../css/notice.css?v=ac7ff0849d">
+<script>var d=document.documentElement,n=navigator;d.className+=" js";if(matchMedia("(prefers-reduced-motion: reduce)").matches||n.hardwareConcurrency<4||n.deviceMemory<4||(n.connection&&n.connection.saveData))d.className+=" fx-lite"</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Security-Header erklärt: HSTS, CSP und Co. verständlich","description":"Security-Header erklärt: Was HSTS, Content-Security-Policy, X-Content-Type-Options und Referrer-Policy bewirken, wie Sie sie setzen und prüfen.","image":["https://yanqiva.de/img/og-yanqiva.jpg"],"datePublished":"2026-10-07","dateModified":"2026-10-07","inLanguage":"de","mainEntityOfPage":{"@type":"WebPage","@id":"https://yanqiva.de/ratgeber/security-header-erklaert"},"author":{"@type":"Organization","name":"Yanqiva","url":"https://yanqiva.de/"},"publisher":{"@type":"Organization","name":"Yanqiva","url":"https://yanqiva.de/","logo":{"@type":"ImageObject","url":"https://yanqiva.de/icon-512.png"}}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Welche Security-Header sind am wichtigsten?","acceptedAnswer":{"@type":"Answer","text":"Für den Einstieg lohnen sich Strict-Transport-Security, X-Content-Type-Options, Referrer-Policy und ein Schutz vor Einbettung (frame-ancestors oder X-Frame-Options). Die Content-Security-Policy bringt am meisten, braucht aber auch die meiste Vorbereitung."}},{"@type":"Question","name":"Kann ein falscher Security-Header meine Website kaputt machen?","acceptedAnswer":{"@type":"Answer","text":"Ja, vor allem eine zu strenge Content-Security-Policy kann Skripte, Schriften oder Karten blockieren, und HSTS wirkt langfristig im Browser. Testen Sie schrittweise, nutzen Sie zuerst den Report-Only-Modus und beginnen Sie bei HSTS mit einer kurzen Laufzeit."}},{"@type":"Question","name":"Reichen Security-Header für eine sichere Website?","acceptedAnswer":{"@type":"Answer","text":"Nein. Sie sind eine Schutzschicht, ersetzen aber keine Updates, sicheren Passwörter und sauberen Programmcode. Auch ein Check mit gutem Ergebnis ist keine Zusicherung der Sicherheit."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Startseite","item":"https://yanqiva.de/"},{"@type":"ListItem","position":2,"name":"Ratgeber","item":"https://yanqiva.de/ratgeber/"},{"@type":"ListItem","position":3,"name":"Security-Header erklärt: HSTS, CSP und Co. verständlich","item":"https://yanqiva.de/ratgeber/security-header-erklaert"}]}</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Zum Inhalt springen</a>
+<header class="site-header">
+<div class="wrap header-inner">
+<a class="logo" href="../" aria-label="Yanqiva – Startseite"><svg class="logo-mark" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x=".5" y=".5" width="31" height="31" rx="7.5" fill="#2F2A85" stroke="rgba(255,255,255,.3)"/><g fill="none" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 8 L16 17.5 V26" stroke="#fff"/><path d="M23.5 8 L16 17.5" stroke="#7EE0C8"/></g></svg><span class="logo-word">Yanqiva</span></a>
+<div class="header-actions"><a class="btn btn-small header-cta" href="../#check"><span class="cta-pre">Website </span>prüfen</a><button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav"><span class="nav-toggle-bars" aria-hidden="true"></span><span class="visually-hidden">Menü</span></button></div>
+<nav id="site-nav" class="site-nav" aria-label="Hauptnavigation"><ul class="nav-list"><li class="nav-drop-li"><details class="nav-drop"><summary>Prüfbereiche</summary><ul class="nav-drop-list"><li><a href="../barrierefreiheit-check">Barrierefreiheit (BFSG)</a></li><li><a href="../dsgvo-check">Datenschutz (DSGVO)</a></li><li><a href="../impressum-check">Rechtliches (Impressum)</a></li><li><a href="../sicherheit-check">Sicherheit</a></li><li><a href="../seo-check">SEO</a></li></ul></details></li><li><a href="../websites">Websites</a></li><li><a href="../preise">Preise</a></li><li><a href="../fix">Behebung</a></li><li><a href="../ratgeber/" aria-current="page">Ratgeber</a></li></ul></nav>
+</div>
+</header>
+<main id="main" tabindex="-1">
+<article class="article">
+<div class="wrap narrow">
+<nav aria-label="Brotkrumen"><p class="eyebrow"><a href="../">Startseite</a><span aria-hidden="true"> › </span><a href="./">Ratgeber</a></p></nav>
+<h1>Security-Header erklärt: HSTS, CSP und Co. verständlich</h1>
+<p class="article-meta">Veröffentlicht am <time datetime="2026-10-07">7. Oktober 2026</time> · Stand: <time datetime="2026-10-07">7. Oktober 2026</time> · Lesezeit ca. 7 Minuten</p>
+
+<p>Wenn ein Browser eine Website lädt, schickt der Server nicht nur den Inhalt, sondern auch Kopfzeilen, die sogenannten HTTP-Header. Einige davon geben dem Browser Sicherheitsregeln vor: Nur verschlüsselt verbinden, Dateitypen nicht erraten, keine fremden Skripte laden. Diese Security-Header verursachen keine Lizenzkosten und erschweren typische Angriffswege. Viele kleine Websites setzen sie trotzdem nicht. Dieser Ratgeber erklärt die wichtigsten, zeigt Beispiele und sagt, was Sie bei Baukasten und Hostern beachten müssen.</p>
+
+<nav class="toc" aria-labelledby="toc-h">
+<h2 id="toc-h">Inhalt</h2>
+<ol>
+<li><a href="#warum">Warum Security-Header?</a></li>
+<li><a href="#hsts">Strict-Transport-Security (HSTS)</a></li>
+<li><a href="#nosniff">X-Content-Type-Options</a></li>
+<li><a href="#csp">Content-Security-Policy (CSP)</a></li>
+<li><a href="#frame">Clickjacking-Schutz: X-Frame-Options und frame-ancestors</a></li>
+<li><a href="#referrer">Referrer-Policy und Permissions-Policy</a></li>
+<li><a href="#veraltet">Was Sie nicht mehr brauchen</a></li>
+<li><a href="#setzen">So setzen Sie die Header</a></li>
+<li><a href="#pruefen">So prüfen Sie Ihre Header</a></li>
+<li><a href="#faq">Häufige Fragen</a></li>
+</ol>
+</nav>
+
+<h2 id="warum">Warum Security-Header?</h2>
+<p>Header sind eine zusätzliche Schutzschicht. Sie reparieren keinen fehlerhaften Code, begrenzen aber den Schaden, wenn etwas schiefgeht: wenn jemand versucht, Schadcode in eine Seite einzuschleusen, Ihre Seite unsichtbar in einen fremden Rahmen zu legen oder Besucher auf eine unverschlüsselte Verbindung zu lenken. Rechtlich verlangen Art. 32 DSGVO von Verantwortlichen angemessene technische und organisatorische Maßnahmen und § 19 Abs. 4 TDDDG von Anbietern geschäftsmäßiger digitaler Dienste Schutzvorkehrungen nach dem Stand der Technik, soweit technisch möglich und wirtschaftlich zumutbar. Einzelne Header schreiben beide Normen nicht vor. Ob eine fehlende Header-Konfiguration im Einzelfall ein Verstoß ist, hängt vom Risiko und den Umständen ab. Das ist eine Frage für die Fachperson, keine Pauschalaussage.</p>
+
+<h2 id="hsts">Strict-Transport-Security (HSTS)</h2>
+<p>HSTS sagt dem Browser: „Verbinde dich mit dieser Domain in Zukunft nur noch per HTTPS.“ Hat der Browser den Header einmal erhalten, ruft er die Domain bis zum Ablauf der Laufzeit nicht mehr unverschlüsselt über HTTP auf, auch wenn jemand <code>http://</code> eintippt. Das erschwert es Angreifern, etwa in öffentlichen WLANs, Verbindungen umzulenken. Den allerersten Besuch schützt HSTS nur, wenn die Domain in der Preload-Liste der Browser steht.</p>
+<pre tabindex="0" aria-label="Codebeispiel"><code>Strict-Transport-Security: max-age=31536000</code></pre>
+<p>31536000 Sekunden entsprechen einem Jahr; das ist ein üblicher Zielwert. Beachten Sie: <code>includeSubDomains</code> betrifft auch alle Unterdomains, die dann ebenfalls per HTTPS erreichbar sein müssen. Die Option <code>preload</code> ist Voraussetzung, um die Domain über <a href="https://hstspreload.org/">hstspreload.org</a> in die fest eingebaute Liste der Browser eintragen zu lassen. Ein solcher Eintrag lässt sich nur mühsam und mit monatelanger Verzögerung rückgängig machen. Starten Sie deshalb mit einer kurzen Laufzeit (zum Beispiel einem Tag), prüfen Sie, ob alles funktioniert, und erhöhen Sie dann.</p>
+<p>HSTS setzt voraus, dass Ihre Website sauber über HTTPS läuft: gültiges Zertifikat, Weiterleitung von HTTP auf HTTPS und keine eingebundenen Inhalte über unverschlüsselte Adressen (Mixed Content).</p>
+
+<h2 id="nosniff">X-Content-Type-Options</h2>
+<p>Browser versuchen manchmal, den Typ einer Datei zu „erraten“. Das kann dazu führen, dass eine hochgeladene Datei als Skript ausgeführt wird. Mit <code>nosniff</code> verbieten Sie das:</p>
+<pre tabindex="0" aria-label="Codebeispiel"><code>X-Content-Type-Options: nosniff</code></pre>
+<p>In aller Regel spricht nichts dagegen, ihn zu setzen. Voraussetzung ist, dass Ihr Server jede Datei mit dem richtigen Inhaltstyp ausliefert.</p>
+
+<h2 id="csp">Content-Security-Policy (CSP)</h2>
+<p>Die CSP ist der mächtigste und zugleich anspruchsvollste Header. Sie legt fest, von wo eine Seite Skripte, Stile, Bilder, Schriften und andere Inhalte laden darf. Lädt jemand eingeschleusten Code von einer fremden Adresse nach, blockiert der Browser das. Ein einfaches Beispiel für eine Website, die alles von der eigenen Domain lädt:</p>
+<pre tabindex="0" aria-label="Codebeispiel"><code>Content-Security-Policy: default-src 'self'; img-src 'self' data:; frame-ancestors 'none'</code></pre>
+<p>In der Praxis scheitert die CSP oft an Inline-Skripten, Inline-Stilen und Diensten von Drittanbietern wie Karten, Videos oder Buchungstools. Gehen Sie schrittweise vor:</p>
+<ol>
+<li>Setzen Sie zuerst <code>Content-Security-Policy-Report-Only</code>. Der Browser meldet Verstöße, blockiert aber nichts.</li>
+<li>Beheben Sie die Meldungen: Skripte auslagern, bei Bedarf mit Hash oder Nonce erlauben, unnötige Drittanbieter entfernen.</li>
+<li>Wechseln Sie erst dann auf den scharfen Header.</li>
+</ol>
+<p>Ein Nebeneffekt: Eine strenge CSP deckt auch versehentlich eingebundene Fremddienste auf, etwa Schriften von Google-Servern. Mehr zu diesem Thema im Ratgeber <a href="./google-fonts-dsgvo">Google Fonts und DSGVO</a>.</p>
+
+<h2 id="frame">Clickjacking-Schutz: X-Frame-Options und frame-ancestors</h2>
+<p>Beim Clickjacking legt ein Angreifer Ihre Seite unsichtbar in einen eigenen Rahmen und verleitet Nutzer zu Klicks. Dagegen hilft ein Verbot, die Seite einzubetten:</p>
+<pre tabindex="0" aria-label="Codebeispiel"><code>X-Frame-Options: SAMEORIGIN
+Content-Security-Policy: frame-ancestors 'self'</code></pre>
+<p>Der moderne Weg ist <code>frame-ancestors</code> in der CSP, <code>X-Frame-Options</code> ist die ältere, aber noch weit verbreitete Variante. Wer beides setzt, deckt auch ältere Browser ab. Betten Sie Ihre Seiten selbst irgendwo ein, passen Sie die Werte entsprechend an.</p>
+
+<h2 id="referrer">Referrer-Policy und Permissions-Policy</h2>
+<p>Die <strong>Referrer-Policy</strong> steuert, wie viel von Ihrer Adresse an andere Websites übermittelt wird, wenn Besucher einen Link anklicken. Ein guter Standard ist:</p>
+<pre tabindex="0" aria-label="Codebeispiel"><code>Referrer-Policy: strict-origin-when-cross-origin</code></pre>
+<p>Dann sehen fremde Seiten nur die Domain, nicht den vollständigen Pfad mit möglichen Parametern. Moderne Browser verwenden diesen Wert zwar bereits als Voreinstellung, ausdrücklich gesetzt ist er aber verlässlicher und wird von Prüfwerkzeugen erkannt.</p>
+<p>Die <strong>Permissions-Policy</strong> schaltet Browserfunktionen ab, die Ihre Seite nicht braucht:</p>
+<pre tabindex="0" aria-label="Codebeispiel"><code>Permissions-Policy: camera=(), microphone=(), geolocation=()</code></pre>
+<p>So kann auch eingebetteter oder eingeschleuster Code diese Funktionen nicht anfordern.</p>
+
+<h2 id="veraltet">Was Sie nicht mehr brauchen</h2>
+<p>Der Header <code>X-XSS-Protection</code> gilt als veraltet. Moderne Browser ignorieren ihn, und in manchen älteren Versionen konnte er selbst Probleme verursachen. Wenn Sie ihn überhaupt setzen, dann mit dem Wert <code>0</code>. Verlassen Sie sich stattdessen auf eine CSP und sauberen Code.</p>
+
+<h2 id="setzen">So setzen Sie die Header</h2>
+<p>Wo Sie Header einstellen, hängt vom Hosting ab.</p>
+<ul>
+<li><strong>Eigener Server (nginx):</strong> <code>add_header X-Content-Type-Options "nosniff" always;</code> im Server-Block.</li>
+<li><strong>Apache:</strong> <code>Header always set X-Content-Type-Options "nosniff"</code> in der Konfiguration oder in der <code>.htaccess</code>, sofern das Modul <code>mod_headers</code> aktiv ist.</li>
+<li><strong>Cloudflare und ähnliche Dienste:</strong> Bei Cloudflare lassen sich Antwort-Header über Transform Rules („Modify Response Header“) setzen, ohne den Server anzufassen.</li>
+<li><strong>WordPress:</strong> Per Server-Konfiguration oder Plugin. Prüfen Sie nach der Aktivierung das Ergebnis, denn Plugins decken nicht jede Seite und jede Datei ab.</li>
+<li><strong>Baukästen und Shopsysteme:</strong> Oft ist kein Zugriff auf die Header möglich. Fragen Sie den Anbieter oder schalten Sie einen Dienst wie Cloudflare davor.</li>
+<li><strong>Hoster ohne Konfigurationszugriff:</strong> Manche Plattformen, etwa GitHub Pages, erlauben keine eigenen Header. Ein <code>&lt;meta http-equiv&gt;</code>-Tag kann zumindest eine CSP setzen, aber weder HSTS noch <code>frame-ancestors</code>.</li>
+</ul>
+<p>Wenn Sie das nicht selbst umsetzen möchten: Die Konfiguration relevanter Security-Header gehört zum möglichen Umfang des <a href="../bestellen?produkt=fix-paket">Fix-Pakets</a> (ab 299&nbsp;€); steht nur dieser eine Punkt an, passt der <a href="../bestellen?produkt=einzel-fix&amp;kategorie=security">Einzel-Fix für 99&nbsp;€</a>. Grenzen, etwa bei Shopify oder Hostern ohne Zugriff, nennen wir vorab.</p>
+
+<h2 id="pruefen">So prüfen Sie Ihre Header</h2>
+<ol>
+<li><strong>Im Browser:</strong> Entwicklerwerkzeuge öffnen (F12), Reiter „Netzwerk“, Seite neu laden, die erste Anfrage anklicken und die Antwort-Header ansehen.</li>
+<li><strong>Auf der Kommandozeile:</strong> <code>curl -I https://ihre-domain.de</code> zeigt die Header der Startseite.</li>
+<li><strong>Mit dem Sicherheits-Check:</strong> Der <a href="../sicherheit-check">kostenlose Check für Security-Header</a> prüft HTTPS, Weiterleitung, HSTS, Security-Header und Mixed Content und erklärt, was fehlt.</li>
+<li><strong>Regelmäßig:</strong> Nach Updates und Hosting-Wechseln können Header verschwinden. Das <a href="../bestellen?produkt=monitoring">Monitoring</a> (29&nbsp;€/Monat) prüft jede Woche.</li>
+</ol>
+
+<h2 id="faq">Häufige Fragen</h2>
+<details class="faq-item"><summary>Welche Security-Header sind am wichtigsten?</summary><div class="faq-body"><p>Für den Einstieg lohnen sich Strict-Transport-Security, X-Content-Type-Options, Referrer-Policy und ein Schutz vor Einbettung (frame-ancestors oder X-Frame-Options). Die Content-Security-Policy bringt am meisten, braucht aber auch die meiste Vorbereitung.</p></div></details>
+<details class="faq-item"><summary>Kann ein falscher Security-Header meine Website kaputt machen?</summary><div class="faq-body"><p>Ja, vor allem eine zu strenge Content-Security-Policy kann Skripte, Schriften oder Karten blockieren, und HSTS wirkt langfristig im Browser. Testen Sie schrittweise, nutzen Sie zuerst den Report-Only-Modus und beginnen Sie bei HSTS mit einer kurzen Laufzeit.</p></div></details>
+<details class="faq-item"><summary>Reichen Security-Header für eine sichere Website?</summary><div class="faq-body"><p>Nein. Sie sind eine Schutzschicht, ersetzen aber keine Updates, sicheren Passwörter und sauberen Programmcode. Auch ein Check mit gutem Ergebnis ist keine Zusicherung der Sicherheit.</p></div></details>
+
+<div class="callout">
+<p><strong>Hinweis:</strong> Dieser Ratgeber gibt den Stand zum Veröffentlichungsdatum nach unserem Verständnis wieder und ist eine allgemeine technische Information, keine Rechts- oder Sicherheitsberatung. Technische Hintergründe zu den einzelnen Headern beschreibt zum Beispiel die <a href="https://developer.mozilla.org/de/docs/Web/HTTP/Reference/Headers">MDN-Dokumentation zu HTTP-Headern</a>; zur HSTS-Preload-Liste <a href="https://hstspreload.org/">hstspreload.org</a>.</p>
+</div>
+<p><a class="btn" href="../sicherheit-check">Security-Header jetzt prüfen</a></p>
+<section aria-labelledby="rel-h">
+<h2 id="rel-h">Weiterlesen im Ratgeber</h2>
+<ul>
+<li><a href="./google-fonts-dsgvo">Google Fonts und DSGVO: Was Website-Betreiber 2026 wissen sollten</a>: Urteil, Abmahnwelle und die einfache Lösung: Schriften lokal einbinden.</li>
+<li><a href="./website-relaunch-checkliste">Website-Relaunch Checkliste für kleine Unternehmen: SEO, Recht und Technik</a>: Weiterleitungen, SEO, Datenschutz, Barrierefreiheit und Technik vor, am und nach dem Livegang.</li>
+<li><a href="./website-kosten-2026">Was kostet eine Website 2026? Kostenfaktoren, Folgekosten und Festpreis</a>: Kostenfaktoren, Folgekosten und Festpreis im Vergleich, mit Fragen an Anbieter.</li>
+</ul>
+<p>Alle Themen im <a href="./">Ratgeber</a>, die Prüfbereiche unter <a href="../#pruefbereiche">Website-Check</a>.</p>
+</section>
+</div>
+</article>
+
+</main>
+<footer class="site-footer">
+<div class="wrap footer-grid">
+<div>
+<p class="footer-brand">Yanqiva</p>
+<p class="footer-note">Barrierearme Websites und Website-Check: Barrieren, Datenschutz, Pflichtangaben und Technik.</p>
+<p class="footer-note">Yanqiva bietet technische Prüfungen an und keine Rechtsberatung.</p>
+</div>
+<nav aria-label="Prüfbereiche">
+<h2 class="footer-h">Prüfbereiche</h2>
+<ul>
+<li><a href="../barrierefreiheit-check">Barrierefreiheit (BFSG)</a></li>
+<li><a href="../dsgvo-check">Datenschutz (DSGVO)</a></li>
+<li><a href="../impressum-check">Rechtliches (Impressum)</a></li>
+<li><a href="../sicherheit-check">Sicherheit</a></li>
+<li><a href="../seo-check">SEO</a></li>
+</ul>
+</nav>
+<nav aria-label="Produkt und Wissen">
+<h2 class="footer-h">Produkt</h2>
+<ul>
+<li><a href="../#check">Kostenloser Check</a></li>
+<li><a href="../websites">Websites erstellen</a></li>
+<li><a href="../preise">Preise</a></li>
+<li><a href="../bestellen">Bestellen</a></li>
+<li><a href="../fix">Behebung (Einzel-Fix, Fix-Paket)</a></li>
+<li><a href="../barrierefreiheitserklaerung-generator">Erklärungs-Generator</a></li>
+<li><a href="../ratgeber/">Ratgeber</a></li>
+</ul>
+</nav>
+<nav aria-label="Rechtliches">
+<h2 class="footer-h">Rechtliches</h2>
+<ul>
+<li><a href="../impressum">Impressum</a></li>
+<li><a href="../datenschutz">Datenschutz</a></li>
+<li><a href="../agb">AGB</a></li>
+<li><a href="../nutzungsbedingungen">Nutzungsbedingungen</a></li>
+<li><a href="../barrierefreiheit">Barrierefreiheitserklärung</a></li>
+<li><a href="../kontakt">Kontakt</a></li>
+<li><a href="../ratgeber/#newsletter" data-newsletter-link hidden>Newsletter</a></li>
+</ul>
+</nav>
+</div>
+<div class="wrap"><p class="footer-note footer-login">Monitoring-Kunden: Ihren persönlichen Dashboard-Link finden Sie in Ihrer Willkommens-E-Mail.</p><p class="footer-copy">© 2026 Yanqiva. Alle Preise sind Endpreise; gemäß § 19 UStG wird keine Umsatzsteuer berechnet. Automatische Prüfung. Liefert Hinweise, keine Rechtsberatung und keine Garantie für Rechtskonformität.</p></div>
+</footer>
+<script src="../js/config.js?v=c460a6114b"></script>
+<script src="../js/nav.js?v=cc783f0b1a"></script>
+<script src="../js/fx.js?v=932a6bbc85" defer></script>
+<script src="../js/chat.js?v=6b1ba96598" defer data-faq-v="dfc2d6e71d"></script>
+<script src="../js/notice.js?v=95e21a7bdd" defer></script>
+</body>
+</html>
