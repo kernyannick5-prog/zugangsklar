@@ -207,7 +207,7 @@ section { padding: var(--section-y) 0; }
 .check-row .btn { flex: 1 1 auto; }
 label, legend { font-weight: 650; display: block; margin-bottom: .35rem; }
 fieldset { border: 0; padding: 0; margin: 0 0 1.25rem; min-width: 0; }
-input[type="text"], input[type="email"], input[type="url"], input[type="date"], input[type="number"], select, textarea { width: 100%; min-height: 48px; padding: .6rem .8rem; font: inherit; color: var(--text); background: #fff; border: 2px solid var(--field); border-radius: var(--radius-btn); }
+input[type="text"], input[type="email"], input[type="password"], input[type="url"], input[type="date"], input[type="number"], select, textarea { width: 100%; min-height: 48px; padding: .6rem .8rem; font: inherit; color: var(--text); background: #fff; border: 2px solid var(--field); border-radius: var(--radius-btn); }
 textarea { min-height: 7rem; resize: vertical; }
 ::placeholder { color: #5A5A74; opacity: 1; }
 input[type="checkbox"], input[type="radio"] { width: 1.5rem; height: 1.5rem; margin: .2rem .6rem 0 0; flex: none; accent-color: var(--primary); }
