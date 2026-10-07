@@ -1087,3 +1087,16 @@ th { background: var(--tint); }
 .pflege-row .pc-grid { padding-top: 0; grid-template-columns: minmax(0, 1fr); }
 @media (min-width: 760px) { .pflege-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
 .pflege-info h3 { margin-top: 0; }
+/* Produkttexte im Bestellformular: kurze Einleitung, Stichpunkte mit Schlagwort, Hinweiszeile */
+.choice .choice-lead { display: block; margin: .15rem 0 .5rem; }
+.choice .choice-facts { display: grid; gap: .4rem; margin: 0 0 .55rem; }
+.choice .choice-facts > span { display: block; position: relative; padding-left: 1.05rem; line-height: 1.45; }
+.choice .choice-facts > span::before { content: ""; position: absolute; left: .1rem; top: .62em; width: .4rem; height: .4rem; border-radius: 50%; background: var(--primary); }
+.choice .choice-facts b { font-weight: 700; color: var(--text); }
+.choice .choice-note { display: block; font-size: .92rem; color: var(--muted); }
+/* Produktkarten: Erläuterung unter der Kernaussage, Bestandteile als Schlagwort-Chips, luftigere Stichpunkte */
+.pcard .pcard-text { margin: -.45rem 0 .9rem; line-height: 1.55; }
+.pcard .check-ul li { margin-bottom: .6rem; }
+.pcard .check-ul b { font-weight: 700; }
+.pcard .pcard-parts-list { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .45rem; }
+.pcard .pcard-parts-list > span { display: inline-block; padding: .2rem .55rem; border: 1px solid var(--line-strong); border-radius: var(--radius-pill); background: #fff; font-size: .85rem; line-height: 1.3; }
