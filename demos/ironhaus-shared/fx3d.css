@@ -250,3 +250,29 @@ html.fx3d main { overflow-x: clip; }
 .bb-stage__hint { display: none; margin: 1.25rem 0 0; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: #a9acb3; }
 .bb-stage__hint::before { content: ""; display: inline-block; width: 28px; height: 1px; background: #ffd400; vertical-align: middle; margin-right: .75rem; }
 html.fx3d .bb-stage__hint { display: block; }
+
+/* ==========================================================================
+   Premium-Hantel als Echtzeit-3D (shared/barbell.js): Canvas ersetzt die SVG-Hantel, wenn das Skript laeuft.
+   ========================================================================== */
+.fx-hero3d.is-pro.bb-cv-on { aspect-ratio: 900 / 470; max-width: 720px; }
+.bb-stage .fx-hero3d.is-pro.bb-cv-on { max-width: 720px; }
+.bb-cv-on .fx-bb { display: none; }
+.bb-cv { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: auto; cursor: grab; touch-action: pan-y; -webkit-tap-highlight-color: transparent; }
+.bb-cv:active { cursor: grabbing; }
+/* Studiolicht hinter der Hantel: statischer Verlauf, kostet nichts beim Zeichnen */
+.bb-cv-on::before { content: ""; position: absolute; inset: -12% -8% 0; pointer-events: none;
+  background: radial-gradient(ellipse 46% 42% at 50% 46%, rgba(255, 212, 0, .075), rgba(255, 212, 0, 0) 70%),
+              radial-gradient(ellipse 60% 18% at 50% 74%, rgba(255, 255, 255, .05), rgba(255, 255, 255, 0) 70%); }
+.bb-hud { position: absolute; right: 2%; top: 4%; display: grid; justify-items: end; gap: .1rem; pointer-events: none; color: #fff; }
+.bb-hud__l { font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: #a9acb3; }
+.bb-hud__l::before { content: ""; display: inline-block; width: 22px; height: 1px; background: #ffd400; vertical-align: middle; margin-right: .5rem; }
+.bb-hud__v { font-family: var(--font-display); font-style: italic; font-weight: 800; font-size: clamp(1.9rem, 4.6vw, 3rem); line-height: 1; text-transform: uppercase; }
+.bb-hud__v b { color: #ffd400; font-weight: 800; font-variant-numeric: tabular-nums; display: inline-block; }
+@media (prefers-reduced-motion: no-preference) {
+  .bb-hud.is-tick b { animation: bb-tick .32s cubic-bezier(.2, .8, .25, 1); }
+}
+@keyframes bb-tick { from { transform: translateY(-.18em) scale(1.12); } to { transform: none; } }
+@media (max-width: 519px) {
+  .fx-hero3d.is-pro.bb-cv-on { aspect-ratio: 1 / .82; }
+  .bb-hud { left: 0; right: auto; top: 0; justify-items: start; }
+}

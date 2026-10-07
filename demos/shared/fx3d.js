@@ -155,7 +155,7 @@
      Ziehen (Trägheit), Tippen = gedaempftes Anheben. Schleife laeuft nur im Viewport und bei sichtbarer Seite. */
   (function () {
     var bb = d.querySelector(".fx-bb");
-    if (!bb || !bb.querySelector("[data-gl]")) return;
+    if (!bb || !bb.querySelector("[data-gl]") || bb.hasAttribute("data-bb-cv")) return; /* Canvas-3D aktiv (barbell.js) */
     var RAD = Math.PI / 180, P0 = 30, PMIN = 18, PMAX = 46, C0 = Math.cos(P0 * RAD), S0 = Math.sin(P0 * RAD);
     var scene = bb.closest("[data-fx-scene]") || bb, settle = bb.querySelector(".bb-settle");
     var gx = d.getElementById("bb-gx");
