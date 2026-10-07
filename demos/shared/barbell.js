@@ -271,8 +271,8 @@
     W = Math.max(1, r.width); H = Math.max(1, r.height);
     DPR = q >= 2 ? Math.min(2, w.devicePixelRatio || 1) : 1;
     cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
-    var narrow = W < 520; // Smartphone: Hantel fuellt die Breite, Anzeige liegt darueber
-    K = Math.min(W / (narrow ? 2150 : 2700), H / 1050); CX = W * 0.5; CY = H * (narrow ? 0.6 : 0.48);
+    var narrow = W < 520; // Smartphone: Hantel fuellt die Breite, Anzeige liegt darueber. 2480 statt 2150: groesste Ausdehnung ueber alle Drehwinkel ist 2332, sonst wird das vordere Ende abgeschnitten
+    K = Math.min(W / (narrow ? 2480 : 2700), H / 1050); CX = W * 0.5; CY = H * (narrow ? 0.6 : 0.48);
     segP = q >= 2 ? 40 : q === 1 ? 30 : 22; segB = q >= 2 ? 18 : 14;
     buildSprites();
   }
