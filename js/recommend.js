@@ -27,9 +27,9 @@
     'monitoring': { name: 'Monitoring', price: '29 €/Monat', short: 'wöchentlicher Scan, Score-Verlauf, Alerts' },
     'einzel-fix': { name: 'Einzel-Fix', price: '99 €', amount: 99 },
     'fix-paket': { name: 'Fix-Paket', price: 'ab 299 €', amount: 299 },
-    'website-basic': { name: 'Neue Website Basic', price: /*YQ:priceTextShort:website-basic*/'299 € (Einführungspreis bis 31.12.2026)'/*YQ*/, intro: /*YQ:introSentence:website-basic*/'Einführungspreis 299 € für Anfragen bis 31.12.2026, danach 349 €'/*YQ*/ },
-    'website-business': { name: 'Neue Website Business', price: 'ab 590 €' },
-    'website-premium': { name: 'Neue Website Premium', price: 'ab 1.490 €' }
+    'website-basic': { name: 'Neue Website Basic', price: /*YQ:priceTextShort:website-basic*/'249 € (Einführungspreis bis 31.12.2026)'/*YQ*/, intro: /*YQ:introSentence:website-basic*/'Einführungspreis 249 € für Anfragen bis 31.12.2026, danach 399 €'/*YQ*/ },
+    'website-business': { name: 'Neue Website Business', price: 'ab 690 €' },
+    'website-premium': { name: 'Neue Website Premium', price: 'ab 1.690 €' }
   };
   var CAT = (root.YQ_CATALOG && root.YQ_CATALOG.products) || {};
   var PRODUCTS = {};

@@ -9,7 +9,7 @@
   var done = document.getElementById('order-done');
   // Fallback-Namen (Stand 2026-10-03). Maßgeblich ist window.YQ_CATALOG (js/catalog.js, generiert aus tools/site-build/catalog.mjs).
   var NAMES = {
-    'website-basic': /*YQ:orderLabel:website-basic*/'Website Basic (299 €, Einführungspreis bis 31.12.2026 (danach 349 €), einmalig, unverbindliche Anfrage, Angebot vorab)'/*YQ*/, 'website-business': 'Website Business (ab 590 €, einmalig, unverbindliche Anfrage, individuelles Angebot vorab)', 'website-pflege': 'Yanqiva Pflege (39 €/Monat, Mindestlaufzeit 12 Monate)', 'website-premium': 'Website Premium (individuelles Angebot, Orientierung ab 1.490 €, einmalig, unverbindliche Anfrage)',
+    'website-basic': /*YQ:orderLabel:website-basic*/'Website Basic (249 €, Einführungspreis bis 31.12.2026 (danach 399 €), einmalig, unverbindliche Anfrage, Angebot vorab)'/*YQ*/, 'website-business': 'Website Business (ab 690 €, einmalig, unverbindliche Anfrage, individuelles Angebot vorab)', 'website-pflege': 'Yanqiva Pflege (39 €/Monat, Mindestlaufzeit 12 Monate)', 'website-premium': 'Website Premium (individuelles Angebot, Orientierung ab 1.690 €, einmalig, unverbindliche Anfrage)',
     report: 'Website-Report (99 €, einmalig)', monitoring: 'Monitoring (29 € pro Monat)',
     'einzel-fix': 'Einzel-Fix (99 €, einmalig, ein konkretes Problem)', 'fix-paket': 'Fix-Paket (ab 299 €, einmalig)'
   };
