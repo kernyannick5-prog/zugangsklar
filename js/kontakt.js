@@ -25,7 +25,13 @@
     var f = form.elements;
     var btn = form.querySelector('button[type="submit"]');
     var url = f.url.value.trim();
-    if (url && !/^https?:\/\//i.test(url)) url = 'https://' + url;
+    var nu = YQ.normalizeUrl(url);
+    if (nu === null) {
+      statusEl.textContent = 'Bitte geben Sie eine gültige Website-Adresse ein, zum Beispiel beispiel.de.';
+      f.url.focus();
+      return;
+    }
+    url = nu;
     btn.disabled = true;
     statusEl.textContent = 'Nachricht wird gesendet …';
     var g = YQ.guard(form);

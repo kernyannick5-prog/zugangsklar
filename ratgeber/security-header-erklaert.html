@@ -31,7 +31,7 @@
 <link rel="icon" href="../favicon.svg" type="image/svg+xml" sizes="any">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <link rel="manifest" href="../site.webmanifest">
-<link rel="stylesheet" href="../css/style.css?v=4d154e6b14">
+<link rel="stylesheet" href="../css/style.css?v=af1646719f">
 <link rel="stylesheet" href="../css/chat.css?v=c99624898a">
 <link rel="stylesheet" href="../css/notice.css?v=ac7ff0849d">
 <script>var d=document.documentElement,n=navigator;d.className+=" js";if(matchMedia("(prefers-reduced-motion: reduce)").matches||n.hardwareConcurrency<4||n.deviceMemory<4||(n.connection&&n.connection.saveData))d.className+=" fx-lite"</script>
@@ -44,8 +44,8 @@
 <header class="site-header">
 <div class="wrap header-inner">
 <a class="logo" href="../" aria-label="Yanqiva – Startseite"><svg class="logo-mark" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x=".5" y=".5" width="31" height="31" rx="7.5" fill="#2F2A85" stroke="rgba(255,255,255,.3)"/><g fill="none" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 8 L16 17.5 V26" stroke="#fff"/><path d="M23.5 8 L16 17.5" stroke="#7EE0C8"/></g></svg><span class="logo-word">Yanqiva</span></a>
-<div class="header-actions"><a class="btn btn-small header-cta" href="../#check"><span class="cta-pre">Website </span>prüfen</a><button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav"><span class="nav-toggle-bars" aria-hidden="true"></span><span class="visually-hidden">Menü</span></button></div>
 <nav id="site-nav" class="site-nav" aria-label="Hauptnavigation"><ul class="nav-list"><li class="nav-drop-li"><details class="nav-drop"><summary>Prüfbereiche</summary><ul class="nav-drop-list"><li><a href="../barrierefreiheit-check">Barrierefreiheit (BFSG)</a></li><li><a href="../dsgvo-check">Datenschutz (DSGVO)</a></li><li><a href="../impressum-check">Rechtliches (Impressum)</a></li><li><a href="../sicherheit-check">Sicherheit</a></li><li><a href="../seo-check">SEO</a></li></ul></details></li><li><a href="../websites">Websites</a></li><li><a href="../preise">Preise</a></li><li><a href="../fix">Behebung</a></li><li><a href="../ratgeber/" aria-current="page">Ratgeber</a></li></ul></nav>
+<div class="header-actions"><a class="btn btn-small header-cta" href="../#check"><span class="cta-pre">Website </span>prüfen</a><button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav"><span class="nav-toggle-bars" aria-hidden="true"></span><span class="visually-hidden">Menü</span></button></div>
 </div>
 </header>
 <main id="main" tabindex="-1">
@@ -78,18 +78,18 @@
 
 <h2 id="hsts">Strict-Transport-Security (HSTS)</h2>
 <p>HSTS sagt dem Browser: „Verbinde dich mit dieser Domain in Zukunft nur noch per HTTPS.“ Hat der Browser den Header einmal erhalten, ruft er die Domain bis zum Ablauf der Laufzeit nicht mehr unverschlüsselt über HTTP auf, auch wenn jemand <code>http://</code> eintippt. Das erschwert es Angreifern, etwa in öffentlichen WLANs, Verbindungen umzulenken. Den allerersten Besuch schützt HSTS nur, wenn die Domain in der Preload-Liste der Browser steht.</p>
-<pre tabindex="0" aria-label="Codebeispiel"><code>Strict-Transport-Security: max-age=31536000</code></pre>
+<pre tabindex="0" role="region" aria-label="Codebeispiel"><code>Strict-Transport-Security: max-age=31536000</code></pre>
 <p>31536000 Sekunden entsprechen einem Jahr; das ist ein üblicher Zielwert. Beachten Sie: <code>includeSubDomains</code> betrifft auch alle Unterdomains, die dann ebenfalls per HTTPS erreichbar sein müssen. Die Option <code>preload</code> ist Voraussetzung, um die Domain über <a href="https://hstspreload.org/">hstspreload.org</a> in die fest eingebaute Liste der Browser eintragen zu lassen. Ein solcher Eintrag lässt sich nur mühsam und mit monatelanger Verzögerung rückgängig machen. Starten Sie deshalb mit einer kurzen Laufzeit (zum Beispiel einem Tag), prüfen Sie, ob alles funktioniert, und erhöhen Sie dann.</p>
 <p>HSTS setzt voraus, dass Ihre Website sauber über HTTPS läuft: gültiges Zertifikat, Weiterleitung von HTTP auf HTTPS und keine eingebundenen Inhalte über unverschlüsselte Adressen (Mixed Content).</p>
 
 <h2 id="nosniff">X-Content-Type-Options</h2>
 <p>Browser versuchen manchmal, den Typ einer Datei zu „erraten“. Das kann dazu führen, dass eine hochgeladene Datei als Skript ausgeführt wird. Mit <code>nosniff</code> verbieten Sie das:</p>
-<pre tabindex="0" aria-label="Codebeispiel"><code>X-Content-Type-Options: nosniff</code></pre>
+<pre tabindex="0" role="region" aria-label="Codebeispiel"><code>X-Content-Type-Options: nosniff</code></pre>
 <p>In aller Regel spricht nichts dagegen, ihn zu setzen. Voraussetzung ist, dass Ihr Server jede Datei mit dem richtigen Inhaltstyp ausliefert.</p>
 
 <h2 id="csp">Content-Security-Policy (CSP)</h2>
 <p>Die CSP ist der mächtigste und zugleich anspruchsvollste Header. Sie legt fest, von wo eine Seite Skripte, Stile, Bilder, Schriften und andere Inhalte laden darf. Lädt jemand eingeschleusten Code von einer fremden Adresse nach, blockiert der Browser das. Ein einfaches Beispiel für eine Website, die alles von der eigenen Domain lädt:</p>
-<pre tabindex="0" aria-label="Codebeispiel"><code>Content-Security-Policy: default-src 'self'; img-src 'self' data:; frame-ancestors 'none'</code></pre>
+<pre tabindex="0" role="region" aria-label="Codebeispiel"><code>Content-Security-Policy: default-src 'self'; img-src 'self' data:; frame-ancestors 'none'</code></pre>
 <p>In der Praxis scheitert die CSP oft an Inline-Skripten, Inline-Stilen und Diensten von Drittanbietern wie Karten, Videos oder Buchungstools. Gehen Sie schrittweise vor:</p>
 <ol>
 <li>Setzen Sie zuerst <code>Content-Security-Policy-Report-Only</code>. Der Browser meldet Verstöße, blockiert aber nichts.</li>
@@ -100,16 +100,16 @@
 
 <h2 id="frame">Clickjacking-Schutz: X-Frame-Options und frame-ancestors</h2>
 <p>Beim Clickjacking legt ein Angreifer Ihre Seite unsichtbar in einen eigenen Rahmen und verleitet Nutzer zu Klicks. Dagegen hilft ein Verbot, die Seite einzubetten:</p>
-<pre tabindex="0" aria-label="Codebeispiel"><code>X-Frame-Options: SAMEORIGIN
+<pre tabindex="0" role="region" aria-label="Codebeispiel"><code>X-Frame-Options: SAMEORIGIN
 Content-Security-Policy: frame-ancestors 'self'</code></pre>
 <p>Der moderne Weg ist <code>frame-ancestors</code> in der CSP, <code>X-Frame-Options</code> ist die ältere, aber noch weit verbreitete Variante. Wer beides setzt, deckt auch ältere Browser ab. Betten Sie Ihre Seiten selbst irgendwo ein, passen Sie die Werte entsprechend an.</p>
 
 <h2 id="referrer">Referrer-Policy und Permissions-Policy</h2>
 <p>Die <strong>Referrer-Policy</strong> steuert, wie viel von Ihrer Adresse an andere Websites übermittelt wird, wenn Besucher einen Link anklicken. Ein guter Standard ist:</p>
-<pre tabindex="0" aria-label="Codebeispiel"><code>Referrer-Policy: strict-origin-when-cross-origin</code></pre>
+<pre tabindex="0" role="region" aria-label="Codebeispiel"><code>Referrer-Policy: strict-origin-when-cross-origin</code></pre>
 <p>Dann sehen fremde Seiten nur die Domain, nicht den vollständigen Pfad mit möglichen Parametern. Moderne Browser verwenden diesen Wert zwar bereits als Voreinstellung, ausdrücklich gesetzt ist er aber verlässlicher und wird von Prüfwerkzeugen erkannt.</p>
 <p>Die <strong>Permissions-Policy</strong> schaltet Browserfunktionen ab, die Ihre Seite nicht braucht:</p>
-<pre tabindex="0" aria-label="Codebeispiel"><code>Permissions-Policy: camera=(), microphone=(), geolocation=()</code></pre>
+<pre tabindex="0" role="region" aria-label="Codebeispiel"><code>Permissions-Policy: camera=(), microphone=(), geolocation=()</code></pre>
 <p>So kann auch eingebetteter oder eingeschleuster Code diese Funktionen nicht anfordern.</p>
 
 <h2 id="veraltet">Was Sie nicht mehr brauchen</h2>
@@ -202,10 +202,10 @@ Content-Security-Policy: frame-ancestors 'self'</code></pre>
 </div>
 <div class="wrap"><p class="footer-note footer-login">Monitoring-Kunden: Ihren persönlichen Dashboard-Link finden Sie in Ihrer Willkommens-E-Mail.</p><p class="footer-copy">© 2026 Yanqiva. Alle Preise sind Endpreise; gemäß § 19 UStG wird keine Umsatzsteuer berechnet. Automatische Prüfung. Liefert Hinweise, keine Rechtsberatung und keine Garantie für Rechtskonformität.</p></div>
 </footer>
-<script src="../js/config.js?v=c460a6114b"></script>
+<script src="../js/config.js?v=2ee15920ff"></script>
 <script src="../js/nav.js?v=cc783f0b1a"></script>
-<script src="../js/fx.js?v=932a6bbc85" defer></script>
-<script src="../js/chat.js?v=6b1ba96598" defer data-faq-v="9d9003edc3"></script>
+<script src="../js/fx.js?v=61860f052c" defer></script>
+<script src="../js/chat.js?v=3db538f206" defer data-faq-v="30f91a1fa2"></script>
 <script src="../js/notice.js?v=95e21a7bdd" defer></script>
 </body>
 </html>

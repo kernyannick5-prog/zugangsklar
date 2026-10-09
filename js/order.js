@@ -156,7 +156,13 @@
     var categoryText = category ? category.split(',').map(catTitle).join(', ') + ' [' + category + ']' : '';
     var email = f.email.value.trim();
     var url = f.url.value.trim();
-    if (url && !/^https?:\/\//i.test(url)) url = 'https://' + url;
+    var nu = YQ.normalizeUrl(url);
+    if (nu === null) {
+      statusEl.textContent = 'Bitte geben Sie eine gültige Website-Adresse ein, zum Beispiel beispiel.de.';
+      f.url.focus();
+      return;
+    }
+    url = nu;
     var isProject = isNewWebsite(product);
     var inquiry = isInquiry(product);
     var message = (prestart() ? 'VOR TÄTIGKEITSBEGINN (' + YQ.START_DATE + ') EINGEGANGEN – unverbindliche Anfrage\n' : '') + (isProject ? 'PROJEKTANFRAGE (unverbindlich, individuelles Angebot)\n' : '') + 'Produkt: ' + (NAMES[product] || product) + ' [' + product + ']' + (categoryText ? '\n' + (product === 'einzel-fix' ? 'Bereich: ' : 'Betroffene Bereiche: ') + categoryText : '') + (product === 'einzel-fix' && f.problem ? '\nProblem: ' + (f.problem.value.trim() || '-') : '') + '\nFirma: ' + f.firma.value.trim() + (isProject ? '\nProjektbeschreibung: ' + ((f.projekt && f.projekt.value.trim()) || '-') : '') + '\nHinweise: ' + (f.hinweise.value.trim() || '-') + '\nUnternehmer (§ 14 BGB) bestätigt und AGB akzeptiert: ' + (f.consent && f.consent.checked ? 'ja' : 'nein')

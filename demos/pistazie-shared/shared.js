@@ -200,7 +200,7 @@
     if (list) {
       list.innerHTML = DEMO_REVIEWS.map(function (r) {
         return '<article class="review-card"><div class="review-card__head"><span>' + r.name + '</span>' +
-          '<span class="review-card__stars" aria-label="' + r.stars + ' von 5 Sternen">' + starString(r.stars) + "</span></div>" +
+          '<span class="review-card__stars" role="img" aria-label="' + r.stars + ' von 5 Sternen">' + starString(r.stars) + "</span></div>" +
           "<p>" + r.text + "</p></article>";
       }).join("");
     }

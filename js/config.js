@@ -304,6 +304,20 @@
     });
   }
 
+  /** Website-Adresse aus einem Formularfeld normalisieren: '' (leer), null (ungültig) oder eine http(s)-Adresse mit echtem Hostnamen (mit Punkt, ohne Zugangsdaten). */
+  function normalizeUrl(raw) {
+    var u = String(raw == null ? '' : raw).trim();
+    if (!u) return '';
+    if (/[\s\u0000-\u001f\u007f-\u009f]/.test(u)) return null;
+    if (/^[a-z][a-z0-9+.-]*:(?!\d+(?:[\/?#]|$))/i.test(u) && !/^https?:\/\//i.test(u)) return null; // javascript:, mailto:, data: ... (host:port bleibt erlaubt)
+    if (!/^https?:\/\//i.test(u)) u = 'https://' + u;
+    var p;
+    try { p = new URL(u); } catch (e) { return null; }
+    if ((p.protocol !== 'http:' && p.protocol !== 'https:') || p.username || p.password) return null;
+    if (!/^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+(?:[a-z]{2,}|xn--[a-z0-9-]+)$/i.test(p.hostname)) return null;
+    return u;
+  }
+
   /** Honeypot-Feld als DOM (für dynamisch erzeugte Formulare). */
   function hpField(id) {
     var w = el('div', { class: 'hp-field', 'aria-hidden': 'true' });
@@ -314,5 +328,5 @@
   // Footer-Link "Newsletter" (im HTML mit hidden) nur zeigen, wenn die Anmeldung aktiv ist.
   if (NEWSLETTER) Array.prototype.forEach.call(document.querySelectorAll('[data-newsletter-link]'), function (a) { a.hidden = false; });
 
-  window.YQ = { START_DATE: START_DATE, prestartActive: prestartActive, NEWSLETTER: NEWSLETTER, NEWSLETTER_CONSENT_VERSION: NEWSLETTER_CONSENT_VERSION, guard: guard, pow: { watch: powWatch, withPow: withPow, solve: powSolve, supported: powSupported }, hpField: hpField, API_BASE: API_BASE, PAYMENT_LINKS: PAYMENT_LINKS, ANALYTICS: ANALYTICS, MOCK: MOCK, MOCK_URL: MOCK_URL, mockUrl: mockUrl, el: el, postJson: postJson, postNdjson: postNdjson, getJson: getJson, CONTACT_EMAIL: CONTACT_EMAIL, mailFallback: mailFallback };
+  window.YQ = { START_DATE: START_DATE, prestartActive: prestartActive, NEWSLETTER: NEWSLETTER, NEWSLETTER_CONSENT_VERSION: NEWSLETTER_CONSENT_VERSION, guard: guard, pow: { watch: powWatch, withPow: withPow, solve: powSolve, supported: powSupported }, hpField: hpField, API_BASE: API_BASE, PAYMENT_LINKS: PAYMENT_LINKS, ANALYTICS: ANALYTICS, MOCK: MOCK, MOCK_URL: MOCK_URL, mockUrl: mockUrl, el: el, postJson: postJson, postNdjson: postNdjson, getJson: getJson, CONTACT_EMAIL: CONTACT_EMAIL, mailFallback: mailFallback, normalizeUrl: normalizeUrl };
 })();

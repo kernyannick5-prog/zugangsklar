@@ -14,7 +14,7 @@
   var MAX_STORE = 20;
   var STORE_KEY = 'yq-chat-v1';
   var TIMEOUT_MS = 30000;
-  var OWN_HOSTS = ['yanqiva.de', 'www.yanqiva.de'];
+  var OWN_HOSTS = ['yanqiva.de', 'www.yanqiva.de', 'yanqiva-bewertung.de', 'www.yanqiva-bewertung.de'];
   // Kurze Standardfragen (Eigentümer 2026-10-06); jede ist in worker/test/chat.test.js mit erwarteter Antwort abgesichert
   var SUGGESTIONS = ['Was kostet eine Website?', 'Ist der Check kostenlos?', 'Was ist das BFSG?', 'Was kostet Monitoring?', 'Wie lange dauert eine Website?', 'Kann ich monatlich kündigen?', 'Wie erreiche ich euch?'];
   var GREETING = 'Hallo! Ich beantworte Fragen zu Yanqiva: Leistungen, Preise, Bestellablauf und unsere Vertragsbedingungen (AGB). Begriffe erkläre ich allgemein, das ist keine Rechtsberatung. Wählen Sie eine Frage oder schreiben Sie Ihre eigene.';

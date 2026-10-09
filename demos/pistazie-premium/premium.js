@@ -53,7 +53,7 @@
     });
     document.querySelectorAll(".lang-toggle").forEach(function (btn) {
       btn.textContent = lang === "en" ? "DE" : "EN";
-      btn.setAttribute("aria-label", lang === "en" ? "Zur deutschen Version wechseln" : "Switch to English");
+      btn.setAttribute("aria-label", lang === "en" ? "DE – Zur deutschen Version wechseln" : "EN – Switch to English");
     });
   }
   var savedLang = S.readJSON(LANG_KEY, "de");

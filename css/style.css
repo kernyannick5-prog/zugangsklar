@@ -818,6 +818,15 @@ th { background: var(--tint); }
   }
 }
 /* Pause ausserhalb des Sichtfelds und im verdeckten Tab */
+/* Hero-Animation anhalten (WCAG 2.2.2): Schalter neben dem Zeichen, Zustand per js/fx.js */
+.hero-art.is-paused, .hero-art.is-paused *, .hero-art.is-paused *::before, .hero-art.is-paused *::after, .hero-art.is-paused .y3d::after { animation-play-state: paused !important; }
+.y3d-toggle { position: relative; z-index: 2; display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; padding: .4rem 1rem; border: 2px solid rgba(255,255,255,.8); border-radius: 999px; background: rgba(15,14,46,.55); color: #fff; font-family: inherit; font-weight: 600; font-size: .9rem; line-height: 1.2; cursor: pointer; }
+.y3d-toggle[hidden] { display: none; }
+.y3d-toggle::before { content: ""; width: .7rem; height: .8rem; border-left: .22rem solid currentColor; border-right: .22rem solid currentColor; box-sizing: border-box; }
+.y3d-toggle[aria-pressed="true"]::before { width: 0; height: 0; border-left: .75rem solid currentColor; border-right: 0; border-top: .42rem solid transparent; border-bottom: .42rem solid transparent; }
+.y3d-toggle:hover { background: rgba(255,255,255,.16); }
+@media (min-width: 960px) { .y3d-toggle { position: absolute; right: clamp(20px, 5vw, 32px); top: calc(4.5rem + clamp(300px, 34vw, 400px) + .5rem); } }
+@media (max-width: 959px) { .y3d-toggle { margin: 0 0 .75rem; } }
 .fx-off, .fx-off::before, .fx-off::after, .fx-off *, .fx-off *::before, .fx-off *::after, .fx-paused *, .fx-paused *::before, .fx-paused *::after { animation-play-state: paused !important; }
 
 /* === Produktempfehlung im Website-Check (recommend.js / report-render.js recoCard) === */

@@ -10,6 +10,24 @@
   function animGo() { requestAnimationFrame(function () { requestAnimationFrame(function () { de.classList.add('anim-go'); }); }); }
   function animIdle() { if ('requestIdleCallback' in window) requestIdleCallback(animGo, { timeout: 1200 }); else setTimeout(animGo, 300); }
   if (document.readyState === 'complete') animIdle(); else window.addEventListener('load', animIdle, { once: true });
+  /* Schalter "Animation pausieren" (WCAG 2.2.2): haelt die Hero-Animation an, Zustand bleibt im localStorage (try/catch).
+     Unter prefers-reduced-motion: reduce gibt es keine Animation, dann bleibt der Schalter ausgeblendet. */
+  var heroArt = document.querySelector('.hero-art'), animBtn = document.getElementById('y3d-toggle');
+  function animPaused() { return !!heroArt && heroArt.classList.contains('is-paused'); }
+  if (heroArt && animBtn && !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+    var ANIM_KEY = 'yq-hero-anim';
+    var setAnim = function (paused, save) {
+      heroArt.classList.toggle('is-paused', paused);
+      animBtn.setAttribute('aria-pressed', paused ? 'true' : 'false');
+      animBtn.textContent = paused ? 'Animation abspielen' : 'Animation pausieren';
+      if (save) { try { if (paused) localStorage.setItem(ANIM_KEY, 'paused'); else localStorage.removeItem(ANIM_KEY); } catch (e) { /* Speicher gesperrt */ } }
+    };
+    var stored = null;
+    try { stored = localStorage.getItem(ANIM_KEY); } catch (e) { /* Speicher gesperrt */ }
+    animBtn.hidden = false;
+    setAnim(stored === 'paused', false);
+    animBtn.addEventListener('click', function () { setAnim(!animPaused(), true); });
+  }
   var force = /[?&]fx=1/.test(location.search);
   if (!('IntersectionObserver' in window) || document.getElementById('dash-header')) return;
   /* Pause: Endlosanimationen nur im Sichtfeld und im sichtbaren Tab */
@@ -99,6 +117,7 @@
     function kick() { if (!run) run = requestAnimationFrame(frame); }
     document.addEventListener('pointermove', function (e) {
       if (e.pointerType && e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
+      if (animPaused()) return;
       px = e.clientX; py = e.clientY; hasP = true;
       if (!tilt.classList.contains('y3d-follow')) tilt.classList.add('y3d-follow');
       kick();
