@@ -740,34 +740,37 @@ th { background: var(--tint); }
   .y3d-chip.c1 { --cx: -.9; --cy: -.30; } .y3d-chip.c2 { --cx: .82; --cy: -.36; } .y3d-chip.c3 { --cx: -.98; --cy: .26; }
   .y3d-chip.c4 { --cx: .70; --cy: .30; } .y3d-chip.c5 { --cx: -.08; --cy: .44; }
 }
+/* Höhenabhängige Hero-Varianten: html.hv-short setzt das Kopfskript (build.mjs HEAD_SCRIPT) beim Laden, wenn das Fenster
+   niedriger als 701 px ist. Bewusst Klasse statt (max-height)-Media-Query: Mobile Browser blenden beim Scrollen die Adressleiste
+   aus, dann wächst die Fensterhöhe über 700 px und das Zeichen sprang von der kleinen auf die große Variante. Ohne JS: große Variante. */
 /* Handy: Band etwas hoeher, damit das Zeichen praesenter ist */
-@media (max-width: 599px) and (min-height: 701px) {
-  .hero-art { --art: 172px; --mark: 104px; }
+@media (max-width: 599px) {
+  html:not(.hv-short) .hero-art { --art: 172px; --mark: 104px; }
   /* Chips nach Displaybreite verteilen (nicht nach Logo-Größe), damit z. B. „Recht“ auf keinem Handy aus dem Bild rutscht */
-  .y3d-chip { --px: calc((50vw - 2.6rem) * var(--sx, 0)); }
-  .y3d-chip.c1 { --sx: -.7; } .y3d-chip.c2 { --sx: .68; } .y3d-chip.c3 { --sx: -.72; } .y3d-chip.c4 { --sx: .74; --cy: .4; } .y3d-chip.c5 { --sx: -.06; }
+  html:not(.hv-short) .y3d-chip { --px: calc((50vw - 2.6rem) * var(--sx, 0)); }
+  html:not(.hv-short) .y3d-chip.c1 { --sx: -.7; } html:not(.hv-short) .y3d-chip.c2 { --sx: .68; } html:not(.hv-short) .y3d-chip.c3 { --sx: -.72; } html:not(.hv-short) .y3d-chip.c4 { --sx: .74; --cy: .4; } html:not(.hv-short) .y3d-chip.c5 { --sx: -.06; }
 }
-@media (max-width: 349px) and (min-height: 701px) { .hero-art { --mark: 78px; } } /* sehr schmale Handys: kleineres Zeichen, damit die Chips daneben Platz haben */
+@media (max-width: 349px) { html:not(.hv-short) .hero-art { --mark: 78px; } } /* sehr schmale Handys: kleineres Zeichen, damit die Chips daneben Platz haben */
 /* Tablet hoch: breites Band, Zeichen deutlich groesser statt klein in viel Leerraum */
-@media (min-width: 600px) and (max-width: 959px) and (min-height: 701px) {
-  .hero-art { --art: 230px; --mark: 140px; margin: 0 0 1rem; }
-  .y3d-chip { padding: .28rem .7rem; font-size: .74rem; }
+@media (min-width: 600px) and (max-width: 959px) {
+  html:not(.hv-short) .hero-art { --art: 230px; --mark: 140px; margin: 0 0 1rem; }
+  html:not(.hv-short) .y3d-chip { padding: .28rem .7rem; font-size: .74rem; }
 }
 /* Kurze Handys (z. B. 360x640): Logo-Band niedriger, damit das URL-Feld im ersten Bildschirm bleibt */
-@media (max-height: 700px) and (max-width: 959px) {
-  .hero-art { --art: 84px; --mark: 52px; margin: -.25rem 0 .1rem; }
+@media (max-width: 959px) {
+  html.hv-short .hero-art { --art: 84px; --mark: 52px; margin: -.25rem 0 .1rem; }
   /* Flaches Band: Chips nach Bandbreite statt Logo-Größe verteilen (links/rechts vom Logo), sonst überlappen sie sich und das Zeichen */
-  .y3d-chip { --px: calc((50vw - 2.6rem) * var(--sx, 0)); }
-  .y3d-chip.c1 { --sx: -.74; --cy: -.27; } .y3d-chip.c3 { --sx: -.74; --cy: .27; } .y3d-chip.c5 { --sx: -.5; --cy: 0; }
-  .y3d-chip.c2 { --sx: .70; --cy: -.27; } .y3d-chip.c4 { --sx: .62; --cy: .27; }
-  .y3d-chip { padding: .12rem .45rem; font-size: .6rem; }
-  .hero { padding-top: 1rem; }
-  .hero .eyebrow { font-size: .72rem; margin-bottom: .35rem; }
-  .hero .eyebrow::after { margin-top: .35rem; }
-  .hero h1 { font-size: clamp(1.45rem, 6.6vw, 1.75rem); line-height: 1.15; margin-bottom: .6rem; }
-  .hero .lead { font-size: .92rem; line-height: 1.45; margin-bottom: .5rem; }
-  .hero-path { margin-top: .75rem; font-size: 1rem; }
-  .hero-path + .check-form { margin-top: .35rem; }
+  html.hv-short .y3d-chip { --px: calc((50vw - 2.6rem) * var(--sx, 0)); }
+  html.hv-short .y3d-chip.c1 { --sx: -.74; --cy: -.27; } html.hv-short .y3d-chip.c3 { --sx: -.74; --cy: .27; } html.hv-short .y3d-chip.c5 { --sx: -.5; --cy: 0; }
+  html.hv-short .y3d-chip.c2 { --sx: .70; --cy: -.27; } html.hv-short .y3d-chip.c4 { --sx: .62; --cy: .27; }
+  html.hv-short .y3d-chip { padding: .12rem .45rem; font-size: .6rem; }
+  html.hv-short .hero { padding-top: 1rem; }
+  html.hv-short .hero .eyebrow { font-size: .72rem; margin-bottom: .35rem; }
+  html.hv-short .hero .eyebrow::after { margin-top: .35rem; }
+  html.hv-short .hero h1 { font-size: clamp(1.45rem, 6.6vw, 1.75rem); line-height: 1.15; margin-bottom: .6rem; }
+  html.hv-short .hero .lead { font-size: .92rem; line-height: 1.45; margin-bottom: .5rem; }
+  html.hv-short .hero-path { margin-top: .75rem; font-size: 1rem; }
+  html.hv-short .hero-path + .check-form { margin-top: .35rem; }
 }
 @media (max-width: 400px) {
   .y3d-chip.c1 { --cx: -.70; } .y3d-chip.c2 { --cx: .66; } .y3d-chip.c3 { --cx: -.72; } .y3d-chip.c4 { --cx: .50; }
