@@ -273,6 +273,16 @@ input[type="checkbox"], input[type="radio"] { width: 1.5rem; height: 1.5rem; mar
 .mod-card h3 a:focus-visible { outline: none; box-shadow: none; }
 .mod-card-main { border: 3px solid var(--primary); background: var(--primary-soft); }
 .mod-flag { display: inline-block; background: var(--primary); color: #fff; font-weight: 700; font-size: .85rem; padding: .2rem .7rem; border-radius: var(--radius-pill); margin-bottom: .6rem; }
+/* Startseite "Zwei Wege": Weg A (Website-Check) Petrol, Weg B (neue Website) Markenviolett, damit die Karten nicht ineinanderfließen */
+.paths { gap: clamp(1.25rem, 3vw, 2rem); }
+.path-card { border-top-width: 5px; padding: clamp(1.4rem, 4vw, 2rem); }
+.path-a { background: #EAF6F2; border-color: #BFE3D8; border-top-color: var(--accent); }
+.path-card .mod-flag { justify-self: start; align-self: flex-start; width: fit-content; }
+.path-a .mod-flag { background: var(--accent); }
+.path-a .btn:not(.btn-secondary):not(.btn-light) { border-color: var(--accent); background: var(--accent); background-image: linear-gradient(135deg, #0E7C66 0%, #0A6553 100%); }
+.path-a .btn:not(.btn-secondary):not(.btn-light):hover { border-color: #0A6553; background-image: linear-gradient(135deg, #0B6855 0%, #084F42 100%); }
+.path-a :focus-visible { outline-color: var(--accent); }
+.path-b { background: var(--primary-soft); border-color: var(--line-strong); border-top-color: var(--primary); }
 .mod-grid .card h3 { font-size: 1.15rem; }
 
 /* ===== 8 Report, Befunde, Score ===== */
