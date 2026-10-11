@@ -56,4 +56,14 @@
   fill('data-f', f);
   fill('data-o', o);
   if (f) document.title = 'Website-Entwurf für ' + f + ' \u2013 Konzept von YANQIVA';
+  // Fragment an interne Unterseiten-Links weitergeben, damit Name/Ort beim Seitenwechsel erhalten bleiben (bleibt im Browser)
+  if (f || o) {
+    var links = document.querySelectorAll('a[href]');
+    for (var j = 0; j < links.length; j++) {
+      var h = links[j].getAttribute('href');
+      if (/^(\.\/)?[\w-]+\.html$/.test(h)) links[j].setAttribute('href', h + location.hash);
+      // Links von Unterseiten zurueck auf Abschnitte der Startseite: Namen behalten (Abschnitts-Sprung entfaellt dann)
+      else if (/^(\.\/)?index\.html#[\w-]+$/.test(h) && !/index\.html$|\/$/.test(location.pathname)) links[j].setAttribute('href', h.split('#')[0] + location.hash);
+    }
+  }
 })();
