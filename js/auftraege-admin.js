@@ -252,7 +252,7 @@
     var heading = h('h2', { id: 'adm-view-h', tabindex: '-1' }, title);
     v.appendChild(heading);
     v.appendChild(node);
-    ['list', 'new', 'settings'].forEach(function (k) { var b = $('adm-nav-' + k); if (k === name) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
+    ['list', 'pf', 'new', 'settings'].forEach(function (k) { var b = $('adm-nav-' + k); if (k === name || (k === 'pf' && name === 'pfnew')) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
     heading.focus();
     window.scrollTo(0, 0);
   }
@@ -1433,6 +1433,240 @@
     return c;
   }
 
+  // ---------- Kunden-Dashboards (Portfolios): Worker-API /api/admin/portfolios ----------
+  var PF_PLANS = [['monitoring', 'Monitoring'], ['pflege', 'Yanqiva Pflege'], ['premium', 'Website Premium']];
+  var PF_PLAN_NAME = { monitoring: 'Monitoring', pflege: 'Yanqiva Pflege', premium: 'Website Premium', business: 'Business (Bestand)', agentur: 'Agentur (Bestand)', agentur_plus: 'Agentur (Bestand, erweitert)' };
+  var MAINT_TYPES = [['update', 'Update'], ['backup', 'Backup'], ['security', 'Sicherheitsprüfung'], ['hosting', 'Hosting'], ['other', 'Sonstiges']];
+  var MAINT_LABEL = { update: 'Update', backup: 'Backup', security: 'Sicherheitsprüfung', hosting: 'Hosting', other: 'Sonstiges' };
+  var PF_ERR = {
+    plan_limit: 'Der Tarif erlaubt nicht so viele Websites.',
+    invalid_contract: 'Die Vertragsdaten sind ungültig.',
+    invalid_email: 'Bitte eine gültige Kontakt-E-Mail-Adresse angeben.',
+    invalid_sites: 'Bitte eine gültige Website-URL angeben.',
+    not_care_plan: 'Ein Wartungsprotokoll gibt es nur bei den Tarifen Pflege und Premium.',
+    not_found: 'Das Portfolio oder der Eintrag wurde nicht gefunden (evtl. bereits gelöscht).'
+  };
+  function pfErr(r) {
+    var d = r.data || {};
+    var text = d.error || PF_ERR[d.code] || ('Unerwarteter Fehler (Status ' + r.status + ').');
+    return notice('error', text);
+  }
+  function pfPlanName(p) { return PF_PLAN_NAME[p] || p || '–'; }
+  function dashUrl(path) { return location.origin + '/' + String(path || '').replace(/^\//, ''); }
+
+  async function showPortfolios() {
+    var wrap = h('div');
+    var out = h('div', { id: 'adm-pf-out' });
+    wrap.appendChild(h('div', { class: 'adm-toolbar' },
+      btn('Neu laden', 'btn-secondary', function () { load(); }),
+      btn('Neues Kunden-Dashboard anlegen', '', function () { showPortfolioNew(); })));
+    wrap.appendChild(out);
+    async function load() {
+      setArea(out, h('p', null, 'Kunden-Dashboards werden geladen …'));
+      var r = await api('GET', 'portfolios');
+      if (!r.ok) { setArea(out, pfErr(r)); return; }
+      var rows = (r.data.portfolios || []).slice().sort(function (a, b) { return String(b.createdAt || '').localeCompare(String(a.createdAt || '')); });
+      clear(out);
+      out.appendChild(h('p', { class: 'offer-hint', role: 'status' }, rows.length + (rows.length === 1 ? ' Kunden-Dashboard' : ' Kunden-Dashboards') + ' (neueste zuerst).'));
+      if (!rows.length) { out.appendChild(notice('info', 'Noch keine Kunden-Dashboards vorhanden. Mit „Neues Kunden-Dashboard anlegen“ das erste erstellen.')); return; }
+      var table = h('table', { class: 'adm-table' });
+      table.appendChild(h('caption', { class: 'visually-hidden' }, 'Kunden-Dashboards'));
+      table.appendChild(h('thead', null, h('tr', null, ['Bezeichnung', 'Tarif', 'Websites', 'Kontakt-E-Mail'].map(function (t) { return h('th', { scope: 'col' }, t); }))));
+      var tb = h('tbody');
+      rows.forEach(function (p) {
+        tb.appendChild(h('tr', null,
+          h('th', { scope: 'row', 'data-label': 'Bezeichnung' }, link(p.label || p.id, function () { showPortfolioDetail(p.id); })),
+          h('td', { 'data-label': 'Tarif' }, pfPlanName(p.plan)),
+          h('td', { 'data-label': 'Websites' }, (p.sites === undefined ? '–' : p.sites) + (p.maxSites ? ' von ' + p.maxSites : '')),
+          h('td', { 'data-label': 'Kontakt-E-Mail', style: 'overflow-wrap:anywhere' }, p.contactEmail || '–')));
+      });
+      table.appendChild(tb);
+      out.appendChild(table);
+    }
+    setView('pf', wrap, 'Kunden-Dashboards');
+    await load();
+  }
+
+  function showPortfolioNew() {
+    var c = h('div', { class: 'adm-card' });
+    var label = inp({ maxlength: 120, required: true });
+    var plan = sel(PF_PLANS, 'pflege');
+    var email = inp({ type: 'email', maxlength: 254, required: true });
+    var url = inp({ type: 'url', maxlength: 300, placeholder: 'https://www.beispiel.de' });
+    var cStart = inp({ type: 'date' });
+    var cMonths = inp({ inputmode: 'numeric', maxlength: 2 });
+    var contractBox = h('div', null, fld('Bereitstellung (Tag der Inbetriebnahme, dem Kunden in Textform mitgeteilt; optional)', cStart), fld('Mindestlaufzeit in Monaten (optional)', cMonths, 'Leer lassen für die Standardlaufzeit des Tarifs. Nur mit Vertragsbeginn.'));
+    var out = area();
+    var result = h('div');
+    function sync() { contractBox.hidden = plan.value === 'monitoring'; }
+    plan.addEventListener('change', sync); sync();
+    var submit = h('button', { type: 'submit', class: 'btn' }, 'Kunden-Dashboard anlegen');
+    var form = h('form', { novalidate: true },
+      fld('Bezeichnung (Kunde oder Projekt)', label, null, true), fld('Tarif', plan, null, true), fld('Kontakt-E-Mail', email, 'Hierhin gehen Warnungen und Monatsberichte.', true),
+      fld('Website-URL', url, 'Optional. Weitere Websites lassen sich später ergänzen.'), contractBox, out, h('div', { class: 'btn-row' }, submit, btn('Abbrechen', 'btn-secondary', function () { showPortfolios(); })));
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      act(submit, out, async function () {
+        if (!label.value.trim()) { setArea(out, notice('error', 'Bitte eine Bezeichnung angeben.')); label.focus(); return; }
+        if (!email.value.trim()) { setArea(out, notice('error', 'Bitte eine Kontakt-E-Mail-Adresse angeben.')); email.focus(); return; }
+        var body = { label: label.value.trim(), plan: plan.value, contactEmail: email.value.trim() };
+        if (url.value.trim()) body.sites = [{ url: url.value.trim() }];
+        if (plan.value !== 'monitoring' && (cStart.value || cMonths.value.trim())) {
+          if (!cStart.value) { setArea(out, notice('error', 'Für die Mindestlaufzeit bitte auch die Bereitstellung angeben.')); cStart.focus(); return; }
+          var m = intOrNull(cMonths.value, 'Mindestlaufzeit', 1, 60);
+          if (m.error) { setArea(out, notice('error', m.error)); cMonths.focus(); return; }
+          body.contract = { start: cStart.value };
+          if (m.value !== null) body.contract.minTermMonths = m.value;
+        }
+        var r = await api('POST', 'portfolios', body);
+        if (!r.ok) { setArea(out, pfErr(r)); return; }
+        var id = r.data.id, fullLink = dashUrl(r.data.dashboardPath);
+        form.hidden = true;
+        clear(result);
+        var field = inp({ value: fullLink, readonly: true });
+        var cp = h('span', { 'aria-live': 'polite' });
+        result.appendChild(h('div', { class: 'notice success', role: 'status', tabindex: '-1', id: 'adm-pf-created' },
+          h('p', null, h('strong', null, 'Kunden-Dashboard angelegt. '), 'Der Dashboard-Link wird nur dieses eine Mal angezeigt und kann hier nicht erneut abgerufen werden. Bitte jetzt kopieren und sicher an den Kunden weitergeben.'),
+          fld('Dashboard-Link (enthält den geheimen Zugang, nicht öffentlich teilen)', field),
+          h('div', { class: 'btn-row' },
+            btn('Link kopieren', '', async function () {
+              try { await navigator.clipboard.writeText(fullLink); cp.textContent = 'Kopiert.'; } catch (e2) { field.focus(); field.select(); cp.textContent = 'Bitte mit Strg+C kopieren.'; }
+            }), cp)));
+        result.appendChild(h('div', { class: 'btn-row' }, btn('Zur Verwaltung dieses Kunden-Dashboards', 'btn-secondary', function () { showPortfolioDetail(id); }), btn('Zur Liste', 'btn-secondary', function () { showPortfolios(); })));
+        toast('Kunden-Dashboard angelegt.');
+        $('adm-pf-created').focus();
+      });
+    });
+    c.appendChild(form);
+    c.appendChild(result);
+    setView('pfnew', c, 'Neues Kunden-Dashboard');
+  }
+
+  async function showPortfolioDetail(id, msg) {
+    var wrap = h('div');
+    setView('pf', wrap, 'Kunden-Dashboard');
+    wrap.appendChild(h('p', null, 'Wird geladen …'));
+    var r = await api('GET', 'portfolios/' + encodeURIComponent(id));
+    clear(wrap);
+    wrap.appendChild(h('p', null, link('← Zur Liste', function () { showPortfolios(); })));
+    if (!r.ok) { wrap.appendChild(pfErr(r)); return; }
+    var d = r.data;
+    var care = d.plan === 'pflege' || d.plan === 'premium';
+    $('adm-view-h').textContent = 'Kunden-Dashboard: ' + (d.label || d.id);
+    if (msg) wrap.appendChild(notice('success', msg));
+
+    wrap.appendChild(h('div', { class: 'adm-card' }, h('h3', null, 'Übersicht'),
+      h('p', null, h('strong', null, 'Tarif: '), d.planName || pfPlanName(d.plan)),
+      h('p', null, h('strong', null, 'Websites: '), (d.sites ? d.sites.length : 0) + ' von höchstens ' + (d.maxSites || '–')),
+      h('p', null, h('strong', null, 'Kontakt-E-Mail: '), d.contactEmail || '–'),
+      h('p', null, h('strong', null, 'Angelegt: '), fmtTs(d.createdAt)),
+      h('p', { class: 'offer-hint', style: 'overflow-wrap:anywhere' }, 'Kennung: ' + d.id + '. Der Dashboard-Link wird aus Sicherheitsgründen nicht erneut angezeigt.')));
+
+    var email = inp({ type: 'email', maxlength: 254, value: d.contactEmail || '' });
+    var plan = sel(PF_PLANS.some(function (p) { return p[0] === d.plan; }) ? PF_PLANS : PF_PLANS.concat([[d.plan, pfPlanName(d.plan)]]), d.plan);
+    var cStart = inp({ type: 'date', value: (d.contract && d.contract.start) || '' });
+    var cMonths = inp({ inputmode: 'numeric', maxlength: 2, value: d.contract && d.contract.minTermMonths ? d.contract.minTermMonths : '' });
+    var scope = inp({ tag: 'textarea', rows: 6, value: (d.premiumScope || []).join('\n') });
+    var maxSites = inp({ inputmode: 'numeric', maxlength: 2, value: d.maxSites || '' });
+    var support = chk('Premium-Support ist enthalten', d.premiumSupport !== false);
+    var careBox = h('div', null, fld('Bereitstellung (Tag der Inbetriebnahme, dem Kunden in Textform mitgeteilt)', cStart), fld('Mindestlaufzeit in Monaten', cMonths, 'Leer lassen für die Standardlaufzeit des Tarifs.'));
+    var premBox = h('div', null,
+      fld('Leistungsumfang (eine Zeile je Punkt)', scope, 'Höchstens 30 Punkte, je höchstens 200 Zeichen. Erscheint im Kunden-Dashboard.'),
+      fld('Maximale Anzahl Websites (nur Premium)', maxSites, 'Ganze Zahl von 1 bis 50.'), support.node);
+    function sync() { careBox.hidden = plan.value !== 'pflege' && plan.value !== 'premium'; premBox.hidden = plan.value !== 'premium'; }
+    plan.addEventListener('change', sync); sync();
+    var out = area();
+    var save = h('button', { type: 'submit', class: 'btn' }, 'Änderungen speichern');
+    var form = h('form', { novalidate: true }, fld('Kontakt-E-Mail', email, null, true), fld('Tarif', plan), careBox, premBox, out, h('div', { class: 'btn-row' }, save));
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      act(save, out, async function () {
+        var body = { contactEmail: email.value.trim() };
+        if (!body.contactEmail) { setArea(out, notice('error', 'Bitte eine Kontakt-E-Mail-Adresse angeben.')); email.focus(); return; }
+        if (plan.value !== d.plan) body.plan = plan.value;
+        var newCare = plan.value === 'pflege' || plan.value === 'premium';
+        if (newCare) {
+          var m = intOrNull(cMonths.value, 'Mindestlaufzeit', 1, 60);
+          if (m.error) { setArea(out, notice('error', m.error)); cMonths.focus(); return; }
+          if (cStart.value) { body.contract = { start: cStart.value }; if (m.value !== null) body.contract.minTermMonths = m.value; }
+          else if (m.value !== null) { setArea(out, notice('error', 'Für die Mindestlaufzeit bitte auch die Bereitstellung angeben.')); cStart.focus(); return; }
+          else if (d.contract) body.contract = null;
+        } else if (d.contract) body.contract = null;
+        if (plan.value === 'premium') {
+          var ms = intOrNull(maxSites.value, 'Maximale Anzahl Websites', 1, 50);
+          if (ms.error) { setArea(out, notice('error', ms.error)); maxSites.focus(); return; }
+          if (ms.value !== null) body.maxSites = ms.value;
+          body.premiumScope = lines(scope.value);
+          body.premiumSupport = support.input.checked;
+        }
+        var r2 = await api('PATCH', 'portfolios/' + encodeURIComponent(id), body);
+        if (!r2.ok) { setArea(out, pfErr(r2)); return; }
+        toast('Änderungen gespeichert.');
+        await showPortfolioDetail(id, 'Änderungen gespeichert.');
+      });
+    });
+    wrap.appendChild(h('div', { class: 'adm-card' }, h('h3', null, 'Tarif und Vertrag bearbeiten'), form));
+
+    var mc = h('div', { class: 'adm-card' }, h('h3', null, 'Wartungsprotokoll'));
+    if (!care) {
+      mc.appendChild(notice('info', 'Ein Wartungsprotokoll gibt es nur bei den Tarifen Pflege und Premium.'));
+    } else {
+      var mOut = area();
+      var list = (d.maintenance || []).slice().sort(function (a, b) { return String(b.date).localeCompare(String(a.date)) || String(b.createdAt).localeCompare(String(a.createdAt)); });
+      if (!list.length) mc.appendChild(h('p', null, 'Noch keine Einträge.'));
+      else {
+        var table = h('table', { class: 'adm-table' });
+        table.appendChild(h('caption', { class: 'visually-hidden' }, 'Wartungseinträge'));
+        table.appendChild(h('thead', null, h('tr', null, ['Datum', 'Art', 'Notiz (für den Kunden sichtbar)', 'Interne Notiz (nur intern)', 'Aktion'].map(function (t) { return h('th', { scope: 'col' }, t); }))));
+        var tb = h('tbody');
+        list.forEach(function (en) {
+          var what = fmtDay(en.date) + ' (' + (MAINT_LABEL[en.type] || en.type) + ')';
+          var del = btn('Löschen', 'btn-secondary', function () {
+            confirmInline(del, { title: 'Eintrag löschen?', text: 'Der Eintrag vom ' + what + ' wird endgültig entfernt und verschwindet auch im Kunden-Dashboard.', label: 'Endgültig löschen', danger: true }).then(async function (res) {
+              if (!res) return;
+              var rd = await api('DELETE', 'portfolios/' + encodeURIComponent(id) + '/maintenance/' + encodeURIComponent(en.id));
+              if (!rd.ok) { setArea(mOut, pfErr(rd)); return; }
+              toast('Eintrag gelöscht.');
+              showPortfolioDetail(id, 'Eintrag gelöscht.');
+            });
+          }, { 'aria-label': 'Eintrag vom ' + what + ' löschen' });
+          tb.appendChild(h('tr', null,
+            h('th', { scope: 'row', 'data-label': 'Datum' }, fmtDay(en.date)),
+            h('td', { 'data-label': 'Art' }, MAINT_LABEL[en.type] || en.type),
+            h('td', { 'data-label': 'Notiz', style: 'overflow-wrap:anywhere' }, en.note || '–'),
+            h('td', { 'data-label': 'Nur intern', style: 'overflow-wrap:anywhere' }, en.internalNote || '–'),
+            h('td', { 'data-label': 'Aktion' }, h('div', { class: 'btn-row' }, del))));
+        });
+        table.appendChild(tb);
+        mc.appendChild(table);
+      }
+      mc.appendChild(mOut);
+      var mDate = inp({ type: 'date', value: todayIso() });
+      var mType = sel(MAINT_TYPES, 'update');
+      var mNote = inp({ tag: 'textarea', rows: 3, maxlength: 300 });
+      var mInt = inp({ tag: 'textarea', rows: 2, maxlength: 300 });
+      var mAdd = h('button', { type: 'submit', class: 'btn' }, 'Eintrag hinzufügen');
+      var mf = h('form', { novalidate: true }, h('h4', null, 'Eintrag hinzufügen'),
+        fld('Datum', mDate, null, true), fld('Art', mType, null, true),
+        fld('Notiz für den Kunden (höchstens 300 Zeichen, im Dashboard sichtbar)', mNote),
+        fld('Interne Notiz – nur intern, nie für den Kunden sichtbar (optional)', mInt),
+        h('div', { class: 'btn-row' }, mAdd));
+      mf.addEventListener('submit', function (e) {
+        e.preventDefault();
+        act(mAdd, mOut, async function () {
+          if (!mDate.value) { setArea(mOut, notice('error', 'Bitte ein Datum angeben.')); mDate.focus(); return; }
+          if (mNote.value.length > 300 || mInt.value.length > 300) { setArea(mOut, notice('error', 'Die Notizen dürfen höchstens 300 Zeichen lang sein.')); return; }
+          var rm = await api('POST', 'portfolios/' + encodeURIComponent(id) + '/maintenance', { date: mDate.value, type: mType.value, note: mNote.value.trim(), internalNote: mInt.value.trim() });
+          if (!rm.ok) { setArea(mOut, pfErr(rm)); return; }
+          toast('Wartungseintrag hinzugefügt.');
+          await showPortfolioDetail(id, 'Wartungseintrag hinzugefügt.');
+        });
+      });
+      mc.appendChild(mf);
+    }
+    wrap.appendChild(mc);
+  }
+
   // ---------- Start ----------
   $('adm-login').addEventListener('submit', async function (e) {
     e.preventDefault();
@@ -1460,6 +1694,7 @@
     showList();
   });
   $('adm-nav-list').addEventListener('click', function () { showList(); });
+  $('adm-nav-pf').addEventListener('click', function () { showPortfolios(); });
   $('adm-nav-new').addEventListener('click', function () { showNew(); });
   $('adm-nav-settings').addEventListener('click', function () { showSettings(); });
   $('adm-nav-logout').addEventListener('click', function () { logout('Abgemeldet. Der Token wurde aus dem Arbeitsspeicher entfernt.'); $('adm-login-msg').className = 'status-msg'; });

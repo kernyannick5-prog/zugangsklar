@@ -137,9 +137,7 @@
     },
     "contract": {
       "start": "2026-06-01",
-      "minTermMonths": 12,
-      "minTermUntil": "2027-05-31",
-      "afterTerm": null
+      "minTermMonths": 12
     },
     "maintenance": [
       {

@@ -35,6 +35,11 @@
     var p = portfolio && portfolio.plan;
     return p === 'pflege' ? 'Pflege-Dashboard' : p === 'premium' ? 'Ihr Yanqiva-Dashboard' : 'Monitoring-Dashboard';
   }
+  /* Kopfzeile oben im Seitenkopf (statischer Standard: Website-Monitoring) und Seitentitel passend zum Tarif */
+  function headNote() {
+    var p = portfolio && portfolio.plan;
+    return p === 'pflege' ? 'Yanqiva Pflege' : p === 'premium' ? 'Yanqiva Betreuung' : 'Website-Monitoring';
+  }
   function isCare() { return !!(portfolio && portfolio.care && typeof portfolio.care === 'object'); }
   var ALERT = { new_critical: 'Kritisch', neues_kritisches_problem: 'Kritisch', neues_problem: 'Neu', behoben: 'Behoben', nicht_erreichbar: 'Fehler', score_drop: 'Score gesunken' };
 
@@ -267,9 +272,10 @@
       sec.appendChild(el('h3', null, 'Vertrag'));
       var dl = el('dl', { class: 'offer-dl' });
       function pair(k, v) { dl.appendChild(el('dt', null, k)); dl.appendChild(el('dd', null, v)); }
-      pair('Beginn', fmtDay(c.start));
-      if (c.minTermUntil) pair('Mindestlaufzeit bis', fmtDay(c.minTermUntil) + (c.minTermMonths ? ' (' + c.minTermMonths + ' Monate)' : ''));
-      if (c.afterTerm) pair('Danach', str(c.afterTerm).replace(/^danach\s+/i, ''));
+      /* Gemäß AGB Ziffer 7: kein errechnetes Enddatum (minTermUntil/afterTerm aus der API werden bewusst ignoriert). */
+      pair('Bereitstellung', fmtDay(c.start));
+      if (c.minTermMonths) pair('Mindestlaufzeit', c.minTermMonths + (c.minTermMonths === 1 ? ' Monat' : ' Monate') + ' ab Bereitstellung');
+      if (c.minTermMonths && portfolio && portfolio.plan === 'pflege') pair('Kündigung', 'mit einer Frist von einem Monat erstmals zum Ende der Mindestlaufzeit, danach jederzeit mit einer Frist von einem Monat');
       sec.appendChild(dl);
     }
 
@@ -483,7 +489,9 @@
   function route() {
     if (!portfolio) return;
     var sid = hashSite();
-    document.title = (portfolio.brand && portfolio.brand.name) ? 'Dashboard | ' + portfolio.brand.name : isCare() ? dashTitle() + ' | Yanqiva' : DEFAULT_TITLE;
+    var note = document.getElementById('dash-head-note');
+    if (note) note.textContent = headNote();
+    document.title = (portfolio.brand && portfolio.brand.name) ? 'Dashboard | ' + portfolio.brand.name : headNote() + ' – Dashboard | Yanqiva';
     if (sid) detail(sid); else { overview(); if (portfolio._seen) h1.focus(); }
     portfolio._seen = true;
     window.scrollTo(0, 0);

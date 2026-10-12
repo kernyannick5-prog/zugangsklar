@@ -138,9 +138,7 @@
     "support": null,
     "contract": {
       "start": "2026-03-01",
-      "minTermMonths": 12,
-      "minTermUntil": "2027-02-28",
-      "afterTerm": "danach jederzeit mit einer Frist von einem Monat kündbar"
+      "minTermMonths": 12
     },
     "maintenance": [
       {
