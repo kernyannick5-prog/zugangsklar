@@ -478,6 +478,7 @@
     wrap.appendChild(acceptCard(d));
     wrap.appendChild(paymentCard(d, contract));
     wrap.appendChild(invoiceCard(d, contract));
+    wrap.appendChild(handoverCard(d));
     wrap.appendChild(documentsCard(d));
     wrap.appendChild(mailCard(d));
     wrap.appendChild(auditCard(d));
@@ -1144,6 +1145,177 @@
     });
     if (d.mail_log.some(function (m) { return (m.kind === 'zahlungsaufforderung' && pending.length > 1) || (m.kind === 'rechnung' && issued.length > 1); })) c.appendChild(h('p', { class: 'offer-hint' }, 'Bei mehreren Zahlungsaufforderungen oder Rechnungen erneut senden über die jeweilige Liste oben.'));
     c.appendChild(out);
+    return c;
+  }
+
+  // ---------- Website-Übergabe (docs/UEBERGABE.md §4, Code: worker/src/orders/handover.js) ----------
+  var HO_CHANNELS = [['email', 'E-Mail'], ['download', 'Download-Link'], ['datentraeger', 'Datenträger'], ['sonstiges', 'Sonstiges']];
+  var HO_LEVEL = { block: 'Blocker', warn: 'Warnung', ok: 'In Ordnung', todo: 'Offen' };
+  var HO_REASONS = { secret_env: 'Umgebungsdatei (.env) mit möglichen Geheimnissen', vcs_dir: 'Versionsverwaltung (.git)', dependencies_dir: 'Abhängigkeiten (node_modules, vendor)', vendor_dir: 'PHP-Abhängigkeiten (vendor)', cache_dir: 'Cache', build_artifact: 'Framework-Zwischenstand', platform_dir: 'Plattform-Konfiguration (.vercel, .netlify, .wrangler)', ide_dir: 'Editor-Einstellungen', coverage_dir: 'Testabdeckung', claude_dir: 'Interne Arbeitsdateien (.claude)', handover_out: 'Übergabe-Ausgabe', log_file: 'Logdateien', key_file: 'Schlüssel/Zertifikate', credentials_file: 'Zugangsdaten-Datei', os_file: 'Systemdateien', database_file: 'Datenbankdatei', editor_temp: 'Editor-Zwischendatei', invalid_path: 'Unzulässiger Pfad', symlink: 'Symlink (nicht verfolgt)', too_large: 'Datei zu groß (über 25 MB)', outside_project: 'Außerhalb des Projektordners', wrangler_config: 'wrangler.toml mit Kontodaten' };
+
+  function copyText(text, out) {
+    function fallback() { setArea(out, notice('warn', 'Kopieren war nicht möglich. Bitte den Text im Feld markieren und mit Strg+C kopieren.')); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(function () { setArea(out, notice('success', 'In die Zwischenablage kopiert.')); }, fallback);
+    else fallback();
+  }
+  function saveBlob(text, name, type) {
+    var url = URL.createObjectURL(new Blob([text], { type: type }));
+    var a = h('a', { href: url, download: name });
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 60000);
+  }
+
+  function handoverCard(d) {
+    var c = card('adm-sec-handover', 'Website-Übergabe');
+    var body = h('div', { 'aria-live': 'polite' }, h('p', null, 'Lade Übergabe-Status …'));
+    c.appendChild(body);
+    async function load() {
+      var r = await api('GET', 'orders/' + d.order.id + '/handover');
+      if (!r.ok) { setArea(body, errNode(r)); return; }
+      render(r.data);
+    }
+    function after(r, out, msg) {
+      if (!r.ok) { setArea(out, errNode(r)); return false; }
+      toast(msg);
+      render(r.data);
+      var t = $('adm-sec-handover');
+      if (t) t.focus({ preventScroll: true });
+      return true;
+    }
+    function render(v) {
+      clear(body);
+      var ho = v.handover, m = ho && ho.manifest;
+      var base = 'orders/' + d.order.id + '/handover';
+      body.appendChild(h('p', null, h('strong', null, 'Übergabestatus: '), v.status_label));
+      body.appendChild(h('ol', { class: 'adm-plain', 'aria-label': 'Schritte der Übergabe' }, v.steps.map(function (s) {
+        return h('li', null, (s.done ? 'Erledigt: ' : 'Offen: ') + s.label + (s.done && s.at ? ' (' + fmtTs(s.at) + ')' : ''));
+      })));
+      if (v.missing.length) body.appendChild(notice(v.missing.some(function (x) { return x.level === 'block'; }) ? 'error' : 'warn', 'Noch zu klären:', v.missing.map(function (x) { return HO_LEVEL[x.level] + ': ' + x.text; })));
+      if (ho && ho.requires_infrastructure) body.appendChild(notice('warn', 'Achtung: Diese Website benötigt Infrastruktur (' + ho.project_type_label + '). Normales Webhosting reicht nicht aus; Server, Datenbank oder Build-Schritt sind nötig. Der Kunde muss ausdrücklich darauf hingewiesen werden.'));
+
+      // 1. Vorbereitung
+      var prep = h('div', { class: 'adm-sub' }, h('h4', null, '1. Dateien vorbereiten'));
+      var exportOut = area(), cmdOut = area(), upOut = area();
+      var fname = 'auftrag-' + d.order.id + '.json';
+      var cmd = 'node tools/handover/handover.mjs --project <Projektordner> --order ' + fname;
+      prep.appendChild(h('p', { class: 'btn-row' }, btn('Auftragsdaten für Übergabe-Werkzeug herunterladen', 'btn-secondary', function () {
+        saveBlob(JSON.stringify(v.order_export, null, 2) + '\n', fname, 'application/json');
+        setArea(exportOut, notice('success', fname + ' wurde heruntergeladen. Die Datei enthält Kundendaten; bitte nicht weitergeben.'));
+      })));
+      prep.appendChild(exportOut);
+      prep.appendChild(fld('Befehl im Repo-Ordner ausführen (<Projektordner> ersetzen)', inp({ id: 'adm-ho-cmd', value: cmd, readonly: true })));
+      prep.appendChild(h('p', null, btn('Befehl kopieren', 'btn-secondary', function () { copyText(cmd, cmdOut); })));
+      prep.appendChild(cmdOut);
+      var file = h('input', { type: 'file', id: 'adm-ho-file', accept: '.json,application/json' });
+      var importBtn = h('button', { type: 'submit', class: 'btn btn-small' }, ho ? 'Neue Fassung bereitstellen (Manifest importieren)' : 'handover-manifest.json importieren');
+      var upForm = h('form', { novalidate: true }, fld(ho ? 'Neue handover-manifest.json auswählen (erhöht die Revision; Freigabe und Versand werden zurückgesetzt)' : 'handover-manifest.json aus dem Ausgabeordner', file), importBtn, upOut);
+      upForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        var f = file.files && file.files[0];
+        if (!f) { setArea(upOut, notice('error', 'Bitte zuerst die Datei handover-manifest.json auswählen.')); file.focus(); return; }
+        if (f.size > 512 * 1024) { setArea(upOut, notice('error', 'Die Datei ist größer als 512 KB und kann nicht importiert werden.')); return; }
+        await act(importBtn, upOut, async function () {
+          var text = await new Promise(function (res, rej) { var fr = new FileReader(); fr.onload = function () { res(String(fr.result)); }; fr.onerror = function () { rej(fr.error); }; fr.readAsText(f, 'utf-8'); }).catch(function () { return null; });
+          var parsed = null;
+          try { parsed = JSON.parse(text); } catch (err) { parsed = null; }
+          if (!parsed) { setArea(upOut, notice('error', 'Die Datei konnte nicht gelesen werden oder ist kein gültiges JSON.')); return; }
+          after(await api('POST', base + '/manifest', parsed), upOut, 'Manifest importiert.');
+        });
+      });
+      prep.appendChild(upForm);
+      body.appendChild(prep);
+
+      // 2. Prüfergebnisse
+      if (m) {
+        var res = h('div', { class: 'adm-sub' }, h('h4', null, '2. Prüfergebnisse (Revision ' + ho.revision + ')'));
+        res.appendChild(dlist([['Projekttyp', ho.project_type_label], ['Paket', m.package.file + ' · ' + Math.max(1, Math.round(m.package.size / 1024)) + ' KB · ' + m.package.file_count + ' Dateien'], ['SHA-256 Paket', ho.package_sha256], ['Handbuch', ho.handbook_is_pdf ? 'PDF vorhanden' : (m.documents.handbook_html ? 'nur HTML' : 'fehlt')], ['Importiert', fmtTs(ho.prepared_at)], ['Prüfung', ho.ready ? 'bereit' : 'nicht bereit']]));
+        res.appendChild(h('ul', { class: 'adm-plain' }, m.checks.map(function (k) { return h('li', null, HO_LEVEL[k.level] + ': ' + k.message); })));
+        if (m.open_points.length) { res.appendChild(h('h5', null, 'Offene Punkte')); res.appendChild(h('ul', null, m.open_points.map(function (p) { return h('li', null, p); }))); }
+        if (m.excluded.length) {
+          var counts = {};
+          m.excluded.forEach(function (x) { counts[x.reason] = (counts[x.reason] || 0) + 1; });
+          res.appendChild(h('h5', null, 'Ausgeschlossene Dateien (' + m.excluded.length + ')'));
+          res.appendChild(h('ul', null, Object.keys(counts).map(function (k) { return h('li', null, (HO_REASONS[k] || k) + ': ' + counts[k]); })));
+        }
+        var det = h('details', { class: 'disclosure' }, h('summary', null, 'Dateiliste zum Prüfen (' + m.package.files.length + (m.package.files_truncated ? ', gekürzt' : '') + ' Einträge)'));
+        det.appendChild(h('ul', { class: 'adm-plain' }, m.package.files.map(function (f) { return h('li', null, f.path + ' · ' + f.size + ' B'); })));
+        res.appendChild(det);
+        body.appendChild(res);
+      }
+
+      // 3. Freigabe
+      if (ho && (ho.status === 'dateien_vorbereitet' || ho.status === 'anleitung_erstellt')) {
+        var ap = h('div', { class: 'adm-sub' }, h('h4', null, '3. Übergabe freigeben'));
+        if (!ho.ready || ho.block_count > 0) {
+          // Vorab-Sperre im UI (der Worker lehnt die Freigabe ebenfalls mit 409 ab)
+          ap.appendChild(notice('error', 'Freigabe gesperrt: Der Prüfbericht meldet Blocker bzw. die Übergabe ist nicht bereit. Ursache im Projekt beheben, das Übergabe-Werkzeug erneut ausführen und die neue handover-manifest.json oben importieren.'));
+          body.appendChild(ap);
+        } else {
+        var apOut = area();
+        var c1 = chk('Ich habe die Dateiliste geprüft', false), c2 = chk('Kunde hostet selbst / kein Hosting über YANQIVA vereinbart', false);
+        var c3 = ho.handbook_is_pdf ? null : chk('Nur HTML-Handbuch akzeptieren (PDF fehlt)', false);
+        var apNote = inp({ maxlength: 500 });
+        var apBtn = h('button', { type: 'submit', class: 'btn btn-small' }, 'Freigeben');
+        var apForm = h('form', { novalidate: true }, c1.node, c2.node, c3 && c3.node, fld('Notiz (optional)', apNote), apBtn, apOut);
+        apForm.addEventListener('submit', async function (e) {
+          e.preventDefault();
+          if (!c1.input.checked || !c2.input.checked) { setArea(apOut, notice('error', 'Bitte beide Bestätigungen setzen.')); (c1.input.checked ? c2.input : c1.input).focus(); return; }
+          await act(apBtn, apOut, async function () {
+            after(await api('POST', base + '/approve', { files_reviewed: true, self_hosting_confirmed: true, accept_html_only: c3 ? c3.input.checked : undefined, note: apNote.value.trim() || undefined }), apOut, 'Übergabe freigegeben.');
+          });
+        });
+        ap.appendChild(apForm);
+        body.appendChild(ap);
+        }
+      }
+
+      // 4. E-Mail-Vorlage
+      if (ho) {
+        var mail = h('div', { class: 'adm-sub' }, h('h4', null, '4. E-Mail-Vorlage'));
+        var mOut = area();
+        mail.appendChild(fld('Betreff', inp({ id: 'adm-ho-subj', value: v.email.subject, readonly: true })));
+        mail.appendChild(fld('Text', inp({ tag: 'textarea', id: 'adm-ho-text', rows: 14, value: v.email.text, readonly: true })));
+        var href = 'mailto:' + (v.email.to ? encodeURIComponent(v.email.to).replace('%40', '@') : '') + '?subject=' + encodeURIComponent(v.email.subject);
+        mail.appendChild(h('div', { class: 'btn-row' }, btn('Betreff kopieren', 'btn-secondary', function () { copyText(v.email.subject, mOut); }), btn('Text kopieren', 'btn-secondary', function () { copyText(v.email.text, mOut); }), h('a', { class: 'btn btn-small btn-secondary', href: href }, 'In E-Mail-Programm öffnen')));
+        mail.appendChild(mOut);
+        mail.appendChild(h('p', { class: 'offer-hint' }, 'Der Link füllt nur Empfänger und Betreff aus. Anhänge (' + (m ? m.package.file : 'ZIP') + ' und Handbuch aus dem Ausgabeordner des Werkzeugs) müssen manuell angefügt werden; der Worker versendet nichts.' + (v.email.to ? '' : ' Für diesen Auftrag ist keine Kunden-E-Mail hinterlegt.')));
+        body.appendChild(mail);
+      }
+
+      // 5. Versand protokollieren
+      if (ho && ho.status === 'freigegeben') {
+        var sn = h('div', { class: 'adm-sub' }, h('h4', null, '5. Versand protokollieren'));
+        var sOut = area();
+        var sOn = inp({ type: 'date', value: todayIso(), max: todayIso() }), sCh = sel(HO_CHANNELS, 'email'), sNote = inp({ maxlength: 500 });
+        var sBtn = h('button', { type: 'submit', class: 'btn btn-small' }, 'Versand protokollieren');
+        var sForm = h('form', { novalidate: true }, fld('Versanddatum', sOn, null, true), fld('Kanal', sCh, null, true), fld('Notiz (optional)', sNote), sBtn, sOut);
+        sForm.addEventListener('submit', async function (e) {
+          e.preventDefault();
+          if (!sOn.value) { setArea(sOut, notice('error', 'Bitte das Versanddatum angeben.')); sOn.focus(); return; }
+          await act(sBtn, sOut, async function () { after(await api('POST', base + '/sent', { sent_on: sOn.value, channel: sCh.value, note: sNote.value.trim() || undefined }), sOut, 'Versand protokolliert.'); });
+        });
+        sn.appendChild(sForm);
+        body.appendChild(sn);
+      }
+      if (ho && ho.sent_on) body.appendChild(h('p', null, 'Versendet am ' + fmtDay(ho.sent_on) + ' (' + (ho.sent_channel_label || ho.sent_channel) + ')' + (ho.sent_note ? ': ' + ho.sent_note : '')));
+
+      // 6. Abschließen
+      if (ho && ho.status === 'versendet') {
+        var cp = h('div', { class: 'adm-sub' }, h('h4', null, '6. Übergabe abschließen'));
+        var cOut = area(), cNote = inp({ maxlength: 500 });
+        var cBtn = h('button', { type: 'submit', class: 'btn btn-small' }, 'Übergabe abschließen');
+        var cForm = h('form', { novalidate: true }, fld('Notiz (optional)', cNote), cBtn, cOut);
+        cForm.addEventListener('submit', async function (e) {
+          e.preventDefault();
+          await act(cBtn, cOut, async function () { after(await api('POST', base + '/complete', { note: cNote.value.trim() || undefined }), cOut, 'Übergabe abgeschlossen.'); });
+        });
+        cp.appendChild(cForm);
+        body.appendChild(cp);
+      }
+    }
+    load();
     return c;
   }
 
