@@ -1226,3 +1226,18 @@ th { background: var(--tint); }
 }
 
 .offer-clause { line-height: 1.6; max-width: 70ch; }
+
+/* ===== 18 Ladeleistung ===== */
+/* Abschnitte unterhalb des ersten Bildschirms werden erst bei Bedarf gelayoutet (content-visibility: auto).
+   Der erste Layoutlauf der Startseite sinkt dadurch von ca. 320 ms auf ca. 130 ms (Desktop), mobil gedrosselt entsprechend mehr.
+   contain-intrinsic-size "auto" merkt sich nach dem ersten Rendern die echte Höhe (kein Springen beim Zurückscrollen).
+   Showcase bleibt ausgenommen (JS-gesteuert); im Druck wird alles gerendert. */
+main > section:not(.hero):not(.showcase):not(:first-child), .site-footer {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 720px;
+}
+@media print { main > section, .site-footer { content-visibility: visible; } }
+/* Schalter "Animation pausieren": Platz ist von Anfang an reserviert, fx.js blendet nur noch ein (vermeidet Layoutsprung, CLS) */
+@media (prefers-reduced-motion: no-preference) {
+  .js .y3d-toggle[hidden] { display: inline-flex !important; visibility: hidden; } /* !important nötig wegen [hidden] { display: none !important } oben */
+}

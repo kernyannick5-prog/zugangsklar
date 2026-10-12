@@ -50,7 +50,11 @@
   }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
   var batch = new Map();
   Array.prototype.forEach.call(document.querySelectorAll(REVEAL), function (el) {
-    if (el.closest('[hidden]') || el.getBoundingClientRect().top < vh * 0.95) return;
+    if (el.closest('[hidden]')) return;
+    /* Abschnitte mit content-visibility: auto werden nicht einzeln vermessen (würde ihr Layout erzwingen): liegt der Abschnitt
+       komplett unterhalb des ersten Bildschirms, gilt das auch für seine Elemente. */
+    var sec = el.closest('main > section'), st = sec && sec.getBoundingClientRect().top;
+    if (!(sec && st >= vh * 0.95) && el.getBoundingClientRect().top < vh * 0.95) return;
     var p = el.parentNode, n = batch.get(p) || 0;
     batch.set(p, n + 1);
     el.style.setProperty('--fx-d', (n % 4) * 70 + 'ms');
