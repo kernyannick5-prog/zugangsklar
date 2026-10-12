@@ -1,4 +1,4 @@
-/* Monitoring-Dashboard: #t=<token> (Fallback ?t=) -> GET /api/portfolio mit Authorization: Bearer, Detail per #site=<id>. Mock: ?mock=1. Alle API-Texte nur per textContent. */
+/* Kunden-Dashboard (Monitoring, Pflege, Premium): #t=<token> (Fallback ?t=) -> GET /api/portfolio mit Authorization: Bearer, Detail per #site=<id>. Mock: ?mock=1 (optional &plan=monitoring|pflege|premium). Alle API-Texte nur per textContent. */
 (function () {
   'use strict';
   var YQ = window.YQ, el = YQ.el, R = YQ.report;
@@ -27,10 +27,23 @@
   var portfolio = null;
   var DEFAULT_TITLE = document.title;
 
-  var PLAN = { monitoring: 'Monitoring', business: 'Monitoring (5 Websites)', agentur: 'Agentur', agentur_plus: 'Agentur (50 Websites)', free: 'Free' };
+  /* Planname kommt vom Backend (planName, aus dem Katalog); diese Liste ist nur der Fallback fuer aeltere Antworten. */
+  var PLAN = { monitoring: 'Monitoring', pflege: 'Yanqiva Pflege', premium: 'Website Premium', agentur: 'Agentur', free: 'Free' };
+  var MOCK_PLANS = ['monitoring', 'pflege', 'premium'];
+  function planLabel() { return str(portfolio && portfolio.planName) || PLAN[portfolio && portfolio.plan] || str(portfolio && portfolio.plan); }
+  function dashTitle() {
+    var p = portfolio && portfolio.plan;
+    return p === 'pflege' ? 'Pflege-Dashboard' : p === 'premium' ? 'Ihr Yanqiva-Dashboard' : 'Monitoring-Dashboard';
+  }
+  function isCare() { return !!(portfolio && portfolio.care && typeof portfolio.care === 'object'); }
   var ALERT = { new_critical: 'Kritisch', neues_kritisches_problem: 'Kritisch', neues_problem: 'Neu', behoben: 'Behoben', nicht_erreichbar: 'Fehler', score_drop: 'Score gesunken' };
 
   function str(v) { return v == null ? '' : String(v); }
+  /* Reine Kalendertage (JJJJ-MM-TT) ohne Zeitzonenverschiebung */
+  function fmtDay(v) {
+    var d = new Date(str(v) + 'T12:00:00Z'); if (!v || isNaN(d)) return '–';
+    return d.toLocaleDateString('de-DE', { dateStyle: 'medium', timeZone: 'UTC' });
+  }
   function fmtDate(v, time) {
     var d = new Date(v); if (!v || isNaN(d)) return '–';
     return d.toLocaleString('de-DE', time ? { dateStyle: 'medium', timeStyle: 'short' } : { dateStyle: 'medium' });
@@ -78,7 +91,10 @@
   /* ---------- Daten ---------- */
   function fetchJson(url) { return fetch(url).then(function (r) { if (!r.ok) throw new Error('Mock nicht gefunden'); return r.json(); }); }
   function loadPortfolio() {
-    if (YQ.MOCK) return fetchJson(YQ.mockUrl('portfolio-example.json'));
+    if (YQ.MOCK) {
+      var mp = new URLSearchParams(window.location.search).get('plan');
+      return fetchJson(YQ.mockUrl(MOCK_PLANS.indexOf(mp) !== -1 ? 'portfolio-' + mp + '.json' : 'portfolio-example.json'));
+    }
     return YQ.getJson('/api/portfolio', authHeaders());
   }
   function loadSite(id) {
@@ -136,7 +152,7 @@
     if (retry) { var b = el('button', { type: 'button', class: 'btn' }, 'Erneut versuchen'); b.addEventListener('click', retry); p.appendChild(b); p.appendChild(document.createTextNode(' ')); }
     p.appendChild(el('a', { class: 'btn btn-secondary', href: 'kontakt.html' }, 'Kontakt aufnehmen'));
     root.appendChild(p);
-    h1.textContent = 'Monitoring-Dashboard';
+    h1.textContent = dashTitle();
     setStatus(title + '.');
     done();
   }
@@ -152,9 +168,11 @@
     var sites = Array.isArray(portfolio.sites) ? portfolio.sites : [];
     var alerts = (Array.isArray(portfolio.alerts) ? portfolio.alerts : []).slice().sort(function (a, b) { return new Date(b.at) - new Date(a.at); });
     root.textContent = '';
-    h1.textContent = str(portfolio.label) || 'Monitoring-Dashboard';
-    var plan = PLAN[portfolio.plan] || str(portfolio.plan);
-    if (YQ.MOCK) root.appendChild(el('p', { class: 'notice info' }, 'Demo-Daten (mock=1): Beispielportfolio einer Agentur, keine echten Websites.'));
+    /* Pflege/Premium: festes Titelwort, die Bezeichnung steht darunter. Monitoring und Bestand: wie bisher die Bezeichnung als Titel. */
+    h1.textContent = isCare() ? dashTitle() : str(portfolio.label) || dashTitle();
+    var plan = planLabel();
+    if (YQ.MOCK) root.appendChild(el('p', { class: 'notice info' }, 'Demo-Daten (mock=1): ' + (str(portfolio.mockNote) || 'Beispielportfolio einer Agentur, keine echten Websites.')));
+    if (isCare() && str(portfolio.label)) root.appendChild(el('p', { class: 'dash-label' }, el('strong', null, str(portfolio.label))));
     var avg = sites.length ? Math.round(sites.reduce(function (s, x) { return s + R.clampScore(x.score); }, 0) / sites.length) : null;
     var critTotal = sites.reduce(function (s, x) { return s + (crit(x) || 0); }, 0);
     root.appendChild(el('p', { class: 'muted dash-sub' }, (plan ? 'Plan: ' + plan + ' · ' : '') + sites.length + (sites.length === 1 ? ' Website' : ' Websites') + (avg != null ? ' · Durchschnitts-Score ' + avg + '/100 · ' + critTotal + ' kritische Befunde' : '')));
@@ -177,6 +195,7 @@
     root.appendChild(el('h2', { id: 'sites-h' }, 'Websites'));
     if (!sites.length) {
       root.appendChild(el('div', { class: 'notice info' }, el('p', null, 'In diesem Portfolio sind noch keine Websites eingerichtet. Schreiben Sie uns über die ', el('a', { href: 'kontakt.html' }, 'Kontaktseite'), ', dann richten wir die ersten Websites mit Ihnen ein.')));
+      careSection();
       done(); setStatus('Dashboard geladen. Keine Websites im Portfolio.');
       return;
     }
@@ -196,7 +215,79 @@
       el('thead', null, el('tr', null, el('th', { scope: 'col' }, 'Website'), el('th', { scope: 'col' }, 'Score'), el('th', { scope: 'col' }, 'Trend zum letzten Scan'), el('th', { scope: 'col' }, 'Kritisch'), el('th', { scope: 'col' }, 'Letzter Scan'), el('th', { scope: 'col' }, 'Nächster Scan'))),
       tbody);
     root.appendChild(el('div', { class: 'table-wrap', role: 'region', 'aria-labelledby': 'sites-h', tabindex: '0' }, table));
+    careSection();
     done(); setStatus('Dashboard geladen. ' + sites.length + ' Websites.');
+  }
+
+  /* ---------- Pflege / Premium ---------- */
+  function strList(v) { return (Array.isArray(v) ? v : []).map(str).filter(Boolean); }
+  function bulletList(items) {
+    var ul = el('ul', { class: 'care-list' });
+    items.forEach(function (t) { ul.appendChild(el('li', null, t)); });
+    return ul;
+  }
+  /* Liste statt Tabelle: Notizen umbrechen auch bei 375 px ohne horizontales Scrollen. */
+  function maintenanceList(rows) {
+    function list(items) {
+      var ul = el('ul', { class: 'alert-list', 'aria-labelledby': 'care-log-h' });
+      items.forEach(function (e) {
+        ul.appendChild(el('li', { class: 'alert-item' },
+          el('div', { class: 'alert-meta' }, el('strong', null, fmtDay(e.date)), el('span', { class: 'badge badge-neutral' }, str(e.typeLabel) || 'Sonstiges')),
+          e.note ? el('p', null, str(e.note)) : null));
+      });
+      return ul;
+    }
+    var wrap = el('div', null, list(rows.slice(0, 15)));
+    if (rows.length > 15) wrap.appendChild(el('details', { class: 'disclosure' }, el('summary', null, 'Ältere Einträge (' + (rows.length - 15) + ')'), list(rows.slice(15))));
+    return wrap;
+  }
+  /* Angezeigt wird nur, was das Backend liefert (vom Admin hinterlegt bzw. aus dem Katalog). Keine automatischen Status-Aussagen. */
+  function careSection() {
+    if (!isCare()) return;
+    var care = portfolio.care, premium = care.kind === 'premium';
+    var sec = el('section', { class: 'care', 'aria-labelledby': 'care-h' });
+    sec.appendChild(el('h2', { id: 'care-h' }, premium ? 'Ihre Betreuung' : 'Ihre Pflege'));
+    if (premium) sec.appendChild(el('p', { class: 'muted' }, 'Umfang laut Ihrem Angebot.'));
+
+    var scope = strList(care.scope);
+    sec.appendChild(el('h3', null, 'Leistungsumfang'));
+    if (scope.length) sec.appendChild(bulletList(scope));
+    else sec.appendChild(el('p', { class: 'muted' }, premium ? 'Der Umfang richtet sich nach Ihrem Angebot.' : 'Der Umfang richtet sich nach Ihrem Vertrag.'));
+    var notIncl = strList(care.notIncluded);
+    if (notIncl.length) { sec.appendChild(el('h3', null, 'Nicht enthalten')); sec.appendChild(bulletList(notIncl)); }
+
+    var sup = care.support;
+    if (sup && typeof sup === 'object' && sup.duration) {
+      sec.appendChild(el('h3', null, 'Support'));
+      sec.appendChild(el('p', null, 'Priorisierter Support: ' + str(sup.duration) + (sup.scope ? ' (' + str(sup.scope) + ')' : '') + '.'));
+    }
+
+    var c = care.contract;
+    if (c && typeof c === 'object' && c.start) {
+      sec.appendChild(el('h3', null, 'Vertrag'));
+      var dl = el('dl', { class: 'offer-dl' });
+      function pair(k, v) { dl.appendChild(el('dt', null, k)); dl.appendChild(el('dd', null, v)); }
+      pair('Beginn', fmtDay(c.start));
+      if (c.minTermUntil) pair('Mindestlaufzeit bis', fmtDay(c.minTermUntil) + (c.minTermMonths ? ' (' + c.minTermMonths + ' Monate)' : ''));
+      if (c.afterTerm) pair('Danach', str(c.afterTerm).replace(/^danach\s+/i, ''));
+      sec.appendChild(dl);
+    }
+
+    sec.appendChild(el('h3', { id: 'care-log-h' }, 'Wartungsprotokoll'));
+    var log = (Array.isArray(care.maintenance) ? care.maintenance : []).filter(function (e) { return e && e.date; });
+    if (!log.length) sec.appendChild(el('p', { class: 'muted' }, 'Noch keine Einträge.'));
+    else {
+      sec.appendChild(el('p', { class: 'muted' }, 'Arbeiten an Ihrer Website, die wir hier protokolliert haben.'));
+      sec.appendChild(maintenanceList(log));
+    }
+
+    sec.appendChild(el('h3', null, 'Änderungswünsche'));
+    sec.appendChild(el('p', null, premium
+      ? 'Änderungswünsche und Fragen zu Ihrer Betreuung richten Sie bitte an unseren Support. Umfang und Abrechnung richten sich nach Ihrem Angebot.'
+      : 'Möchten Sie etwas auf Ihrer Website ändern lassen? Schreiben Sie uns.' + (care.contentChangeNote ? ' Hinweis: ' + str(care.contentChangeNote) + '.' : '')));
+    var subject = 'Änderungswunsch: ' + (str(portfolio.label) || 'Website');
+    sec.appendChild(el('p', { class: 'no-print' }, el('a', { class: 'btn btn-secondary', href: 'mailto:support@yanqiva.de?subject=' + encodeURIComponent(subject) }, 'Änderung per E-Mail anfragen')));
+    root.appendChild(sec);
   }
 
   /* ---------- Detail ---------- */
@@ -384,7 +475,7 @@
     root.textContent = '';
     root.appendChild(back);
     root.appendChild(el('div', { class: 'notice error' }, el('p', null, el('strong', null, 'Nicht verfügbar. '), msg)));
-    h1.textContent = 'Monitoring-Dashboard';
+    h1.textContent = dashTitle();
     setStatus(msg); done();
   }
 
@@ -392,7 +483,7 @@
   function route() {
     if (!portfolio) return;
     var sid = hashSite();
-    document.title = (portfolio.brand && portfolio.brand.name) ? 'Dashboard | ' + portfolio.brand.name : DEFAULT_TITLE;
+    document.title = (portfolio.brand && portfolio.brand.name) ? 'Dashboard | ' + portfolio.brand.name : isCare() ? dashTitle() + ' | Yanqiva' : DEFAULT_TITLE;
     if (sid) detail(sid); else { overview(); if (portfolio._seen) h1.focus(); }
     portfolio._seen = true;
     window.scrollTo(0, 0);
