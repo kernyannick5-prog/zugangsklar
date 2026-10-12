@@ -1126,3 +1126,102 @@ th { background: var(--tint); }
 .pkg-card .check-ul li { margin-bottom: .6rem; line-height: 1.45; }
 .pkg-card .check-ul b { font-weight: 700; }
 .pkg-card .pkg-who { margin: 0 0 1.1rem; line-height: 1.55; }
+
+/* ===== Angebotsseite und Auftragsverwaltung (.offer-*, .adm-*) ===== */
+.offer-page { overflow-wrap: anywhere; }
+.offer-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(1rem, 4vw, 1.5rem); box-shadow: var(--shadow-card); margin-bottom: 1.25rem; min-width: 0; }
+.offer-card > h2 { margin-top: 0; font-size: 1.3rem; }
+.offer-card h3 { margin: 1.1rem 0 .4rem; font-size: 1.05rem; }
+.offer-dl { display: grid; grid-template-columns: minmax(0, max-content) minmax(0, 1fr); gap: .35rem 1.25rem; margin: 0 0 .5rem; }
+.offer-dl dt { font-weight: 650; color: var(--muted); }
+.offer-dl dd { margin: 0; }
+.offer-list { margin: 0 0 .5rem; padding-left: 1.2rem; }
+.offer-pre { white-space: pre-line; }
+.offer-note, .offer-hint { color: var(--muted); font-size: .95rem; margin: .4rem 0 .8rem; }
+.offer-party-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 1rem 1.5rem; }
+.offer-party h3 { margin-top: 0; }
+.offer-addr { margin: 0; line-height: 1.5; }
+.offer-total { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .25rem 1rem; margin: 0 0 .5rem; padding: .8rem 1rem; background: var(--tint); border-radius: var(--radius-btn); }
+.offer-total strong { font-size: 1.6rem; color: var(--primary); }
+.offer-table { width: 100%; border-collapse: collapse; }
+.offer-table th, .offer-table td { text-align: left; padding: .55rem .5rem; border-bottom: 1px solid var(--line); vertical-align: top; font-weight: 400; }
+.offer-table thead th { font-weight: 650; color: var(--muted); font-size: .9rem; }
+.offer-table tbody th { font-weight: 600; }
+.offer-table .num { text-align: right; white-space: nowrap; }
+.offer-schedule { list-style: none; margin: 0 0 .5rem; padding: 0; }
+.offer-schedule li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .1rem 1rem; padding: .6rem 0; border-bottom: 1px solid var(--line); }
+.offer-sch-due { grid-column: 1 / -1; color: var(--muted); font-size: .95rem; }
+.offer-decl { cursor: pointer; }
+.offer-accept-btn { margin-top: .5rem; white-space: normal; }
+.offer-accept-btn[disabled] { cursor: not-allowed; }
+.offer-info { margin: .5rem 0 1.25rem; }
+.offer-info-body p { margin: 0 0 .7rem; }
+.offer-confirm { margin-top: .9rem; padding: 1rem; border: 2px solid var(--warn); border-radius: var(--radius-btn); background: #fff; }
+.offer-confirm h3 { margin-top: 0; }
+.offer-decline { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+.offer-dl-status { margin: .5rem 0 0; font-weight: 500; }
+.offer-dl-status:empty { display: none; }
+.offer-accepted { border-color: var(--ok); background: #EBF6F3; }
+.offer-accepted > h2:focus { outline-offset: 4px; }
+@media (max-width: 560px) {
+  .offer-dl { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .offer-dl dd { margin-bottom: .6rem; }
+  .offer-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .offer-table, .offer-table tbody, .offer-table tr, .offer-table th, .offer-table td { display: block; width: 100%; }
+  .offer-table tr { padding: .5rem 0; border-bottom: 1px solid var(--line); }
+  .offer-table th, .offer-table td { border: 0; padding: .1rem 0; }
+  .offer-table td { display: flex; justify-content: space-between; gap: 1rem; text-align: right; }
+  .offer-table td::before { content: attr(data-label); font-weight: 650; color: var(--muted); text-align: left; }
+}
+.offer-table, .adm-table { min-width: 0; }
+.offer-table th, .offer-table td, .adm-table th, .adm-table td { border: 0; border-bottom: 1px solid var(--line); background: transparent; }
+.offer-table thead th, .adm-table thead th { background: var(--tint); }
+@media (max-width: 560px) { .offer-table th, .offer-table td { border: 0; } .offer-table thead th { background: transparent; } }
+
+/* Auftragsverwaltung (.adm-*) */
+.adm-page { overflow-wrap: anywhere; }
+.adm-nav { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0 1.5rem; }
+.adm-nav [aria-current="page"] { background: var(--primary); color: #fff; }
+.adm-toolbar { display: flex; flex-wrap: wrap; align-items: flex-end; gap: .75rem 1rem; margin-bottom: 1rem; }
+.adm-toolbar .field { margin: 0; flex: 1 1 14rem; max-width: 24rem; }
+.adm-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(1rem, 4vw, 1.5rem); box-shadow: var(--shadow-card); margin-bottom: 1.25rem; min-width: 0; }
+.adm-card > h3 { margin-top: 0; font-size: 1.25rem; }
+.adm-card h4 { margin: 1.1rem 0 .4rem; font-size: 1.05rem; }
+.adm-card h5 { margin: 0 0 .5rem; font-size: 1rem; }
+.adm-sub { margin: .9rem 0; padding: .9rem; border: 1px solid var(--line); border-radius: var(--radius-btn); background: #fff; min-width: 0; }
+.adm-sub > h4:first-child { margin-top: 0; }
+.adm-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); gap: 0 1rem; }
+.adm-row-end { display: flex; flex-wrap: wrap; align-items: flex-end; gap: .75rem 1rem; }
+.adm-row-end .field { flex: 1 1 14rem; margin-bottom: 0; }
+.adm-link { background: none; border: 0; padding: .35rem 0; min-height: 44px; font: inherit; font-weight: 650; color: var(--primary); text-decoration: underline; text-underline-offset: .15em; cursor: pointer; text-align: left; overflow-wrap: anywhere; }
+.adm-link:hover { color: var(--primary-hover); }
+.adm-danger, .btn.adm-danger { border-color: var(--crit); background: var(--crit); background-image: none !important; color: #fff; }
+.btn.adm-danger:hover { background: #8F1A10; border-color: #8F1A10; }
+.btn-secondary.adm-danger { background: #fff; color: var(--crit); }
+.adm-confirm { margin: .9rem 0; padding: 1rem; border: 2px solid var(--crit); border-left-width: 6px; border-radius: var(--radius-btn); background: #FDF3F2; }
+.adm-confirm h4 { margin-top: 0; }
+.adm-area:empty { display: none; }
+.adm-area { margin-top: .75rem; }
+.adm-plain, .adm-leads, .adm-audit { list-style: none; margin: 0 0 .75rem; padding: 0; }
+.adm-plain li, .adm-leads li { padding: .45rem 0; border-bottom: 1px solid var(--line); }
+.adm-audit li { padding: .5rem 0; border-bottom: 1px solid var(--line); display: grid; gap: .15rem; }
+.adm-audit-meta { font-family: var(--mono); font-size: .85rem; color: var(--muted); }
+.adm-audit-detail { white-space: pre-wrap; }
+.adm-item { padding: .75rem; margin-bottom: .75rem; border: 1px dashed var(--line-strong); border-radius: var(--radius-btn); }
+.adm-offer-form fieldset { border: 1px solid var(--line); border-radius: var(--radius-btn); padding: .9rem; margin: 0 0 1rem; }
+.adm-offer-form legend { padding: 0 .4rem; }
+.adm-toast { position: fixed; z-index: 50; left: 50%; bottom: 1rem; transform: translateX(-50%); width: min(32rem, calc(100% - 2rem)); display: flex; justify-content: space-between; align-items: flex-start; gap: .75rem; padding: .8rem 1rem; border-radius: var(--radius-btn); background: var(--ink); color: #fff; box-shadow: var(--shadow-pop); }
+.adm-toast[hidden] { display: none; }
+.adm-toast-x { flex: none; min-width: 44px; min-height: 44px; border: 0; background: transparent; color: #fff; font-size: 1.5rem; line-height: 1; cursor: pointer; }
+.adm-table th[scope="row"] { background: transparent; }
+@media (max-width: 800px) {
+  .adm-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .adm-table, .adm-table tbody, .adm-table tr, .adm-table th, .adm-table td { display: block; width: 100%; }
+  .adm-table tr { margin-bottom: .9rem; padding: .6rem .9rem; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; box-shadow: var(--shadow-card); }
+  .adm-table th, .adm-table td { border: 0; padding: .2rem 0; }
+  .adm-table td { display: flex; justify-content: space-between; gap: 1rem; text-align: right; }
+  .adm-table td::before { content: attr(data-label); flex: none; font-weight: 650; color: var(--muted); text-align: left; }
+  .adm-table th[scope="row"]::before { content: none; }
+}
+
+.offer-clause { line-height: 1.6; max-width: 70ch; }
