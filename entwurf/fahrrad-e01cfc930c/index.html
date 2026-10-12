@@ -6,13 +6,18 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="no-referrer">
 <meta name="demo-expires" content="2026-11-15">
-<title>Website-Entwurf – Konzept von YANQIVA</title>
+<meta name="demo-page" content="Start">
+<meta name="description" content="Beispiel-Entwurf einer Business-Website (Fahrradhandel und Werkstatt): Start mit Leistungen, Ablauf, Referenzen, Terminbereich und Neuigkeiten. Unverbindlicher Entwurf von YANQIVA mit Beispielinhalten, ohne echte Betriebsdaten.">
+<title>Start – Website-Entwurf – Konzept von YANQIVA</title>
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="../_shared/demo.css">
+<link rel="stylesheet" href="../_shared/business.css">
 <style>:root{--bg:#ffffff;--surface:#f1f5ec;--ink:#16240f;--muted:#475840;--line:#d8e2cd;--brand:#1f6b2c;--on-brand:#ffffff;--cta:#f7d417;--on-cta:#16240f;--cta-bd:#16240f;--accent:#f7d417;--link:#1a5c25;--hero-bg:#1f6b2c;--hero-ink:#ffffff;--hero-muted:#dcefd9;--c1:#f7d417;--c2:#ffffff;--c3:#2d8a3c;--c4:#175a23;--radius:14px;--hcta-bd:#f7d417;--accent-soft:#fdf3b8;--on-accent:#16240f}</style>
+<script>(function(){var r=document.documentElement;r.classList.add('js');if(!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)){r.classList.add('bz-anim');setTimeout(function(){if(!r.classList.contains('bz-ready'))r.classList.add('bz-fallback')},4000)}})();</script>
 <script src="../_shared/personalize.js" defer></script>
+<script src="../_shared/business.js" defer></script>
 </head>
-<body>
+<body class="bz">
 <a class="skip" href="#inhalt">Zum Inhalt springen</a>
 <div class="demo-banner" role="note" aria-label="Hinweis zum Entwurf" data-expires="2026-11-15">
   <div class="wrap">
@@ -22,8 +27,9 @@
 </div>
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="#top"><span data-f>Ihr Betrieb</span></a>
-    <nav aria-label="Hauptnavigation"><ul><li><a href="index.html#leistungen">Leistungen</a></li><li><a href="aktuelles.html">Aktuelles</a></li><li><a href="anfrage.html">Anfrage</a></li><li><a href="index.html#kontakt">Kontakt</a></li></ul></nav>
+    <a class="brand" href="index.html"><span data-f>Ihr Betrieb</span></a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="hauptnav"><span class="bars" aria-hidden="true"></span><span>Menü</span></button>
+    <nav id="hauptnav" aria-label="Hauptnavigation"><ul><li><a href="index.html" aria-current="page">Start</a></li><li><a href="leistungen.html">Leistungen</a></li><li><a href="referenzen.html">Referenzen</a></li><li><a href="ueber-uns.html">Über uns</a></li><li><a href="termin.html">Termin</a></li><li><a href="aktuelles.html">Aktuelles</a></li><li><a href="anfrage.html">Anfrage &amp; Kontakt</a></li></ul></nav>
   </div>
 </header>
 <main id="inhalt">
@@ -36,12 +42,12 @@
       <p class="headline">Rad kaufen, Rad reparieren, Rad fahren.</p>
       <p class="lead">Fahrräder, E-Bikes und Zubehör sowie die Werkstatt für Wartung und Reparatur: Alles auf einen Blick.</p>
       <div class="cta-row">
-        <button type="button" class="btn btn-primary" aria-disabled="true">Jetzt anrufen<span class="vh"> (im Entwurf ohne Funktion)</span></button>
+        <a class="btn btn-primary" href="termin.html">Werkstatttermin wählen</a>
         <a class="btn btn-secondary" href="anfrage.html">Anfrage senden</a>
       </div>
       <p class="hero-phone">Telefon: 0000 000000 (Beispiel)</p>
     </div>
-    <div class="hero-art" aria-hidden="true"><svg viewBox="0 0 420 320" focusable="false" role="presentation"><rect class="c3" x="0" y="268" width="420" height="52"/><path class="s2" stroke-width="3" stroke-dasharray="14 12" d="M0 294h420" opacity=".5"/>
+    <div class="hero-art" aria-hidden="true" data-tilt><svg viewBox="0 0 420 320" focusable="false" role="presentation"><rect class="c3" x="0" y="268" width="420" height="52"/><path class="s2" stroke-width="3" stroke-dasharray="14 12" d="M0 294h420" opacity=".5"/>
     <circle class="s2" stroke-width="12" cx="96" cy="206" r="64"/><circle class="s2" stroke-width="12" cx="324" cy="206" r="64"/>
     <circle class="s1" stroke-width="3" cx="96" cy="206" r="50" stroke-dasharray="4 6"/><circle class="s1" stroke-width="3" cx="324" cy="206" r="50" stroke-dasharray="4 6"/>
     <path class="s1" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" d="M96 206l66-96h112l50 96M162 110l60 96h-0L96 206M222 206L274 110M274 110l-12-26h38"/>
@@ -50,16 +56,29 @@
   </div>
 </section>
 
+<section class="sec sec-center" aria-labelledby="h-why">
+  <div class="wrap">
+    <h2 id="h-why">Darauf legt diese Website Wert</h2>
+    <p class="intro">Alle Inhalte sind Beispieltexte für die Branche und werden durch Ihre echten Angaben ersetzt.</p>
+    <div class="bz-grid c3">
+      <div class="bz-card" data-reveal style="--i:0"><h3>Handel und Werkstatt</h3><p>Beide Bereiche sind klar getrennt dargestellt.</p></div>
+      <div class="bz-card" data-reveal style="--i:1"><h3>Saison im Blick</h3><p>Aktionen und Werkstatttermine lassen sich einfach aktualisieren.</p></div>
+      <div class="bz-card" data-reveal style="--i:2"><h3>Kurzer Draht</h3><p>Telefon und Anfrage sind jederzeit erreichbar.</p></div>
+    </div>
+  </div>
+</section>
+
 <section class="sec alt sec-center" id="leistungen" aria-labelledby="h-leistungen">
   <div class="wrap">
     <h2 id="h-leistungen">Leistungen</h2>
     <p class="intro">Beispiel-Bereiche eines Fahrradgeschäfts.</p>
     <ul class="services s-tiles">
-      <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="6" cy="16" r="4"/><circle cx="18" cy="16" r="4"/><path d="M6 16l4-8h5l3 8M10 8L8 6h-2M13 12.500l-3.500 3.500M15 8l-1-2h2.500"/></svg></span><h3>Fahrräder und E-Bikes</h3><p>Räder für Stadt, Tour und Alltag, mit kurzer Beratung zur Auswahl.</p></li>
-      <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M15 4a4.5 4.5 0 0 0-3.5 6L4 17.5 6.5 20 14 12.5A4.5 4.5 0 0 0 20 9l-3 3-2.5-.5L14 9l3-3z"/></svg></span><h3>Werkstatt und Reparatur</h3><p>Von der Bremse bis zum Platten: Reparatur und Wartung nach Absprache.</p></li>
-      <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span><h3>Frühjahrscheck</h3><p>Rechtzeitig vor der Saison das Rad prüfen lassen.</p></li>
-      <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5"/><path d="M12 4v5.5M12 14.5V20M4.5 9l5 2M14.5 13l5 2M4.5 15l5-2M14.5 11l5-2"/></svg></span><h3>Zubehör und Ersatzteile</h3><p>Helme, Licht, Schlösser, Taschen und passende Teile.</p></li>
+      <li data-reveal style="--i:0"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="6" cy="16" r="4"/><circle cx="18" cy="16" r="4"/><path d="M6 16l4-8h5l3 8M10 8L8 6h-2M13 12.500l-3.500 3.500M15 8l-1-2h2.500"/></svg></span><h3>Fahrräder und E-Bikes</h3><p>Räder für Stadt, Tour und Alltag, mit kurzer Beratung zur Auswahl.</p></li>
+      <li data-reveal style="--i:1"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M15 4a4.5 4.5 0 0 0-3.5 6L4 17.5 6.5 20 14 12.5A4.5 4.5 0 0 0 20 9l-3 3-2.5-.5L14 9l3-3z"/></svg></span><h3>Werkstatt und Reparatur</h3><p>Von der Bremse bis zum Platten: Reparatur und Wartung nach Absprache.</p></li>
+      <li data-reveal style="--i:2"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span><h3>Frühjahrscheck</h3><p>Rechtzeitig vor der Saison das Rad prüfen lassen.</p></li>
+      <li data-reveal style="--i:3"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5"/><path d="M12 4v5.5M12 14.5V20M4.5 9l5 2M14.5 13l5 2M4.5 15l5-2M14.5 11l5-2"/></svg></span><h3>Zubehör und Ersatzteile</h3><p>Helme, Licht, Schlösser, Taschen und passende Teile.</p></li>
     </ul>
+    <p class="bz-btnrow" style="justify-content:center"><a class="btn btn-solid" href="leistungen.html">Alle Leistungen im Detail</a></p>
   </div>
 </section>
 
@@ -68,73 +87,47 @@
     <h2 id="h-ablauf">So kommen Sie zu Ihrem Rad</h2>
     <p class="intro">Ein Beispiel dafür, wie sich ein möglicher Ablauf in drei Schritten darstellen lässt.</p>
     <ol class="steps">
-      <li><h3>Vorbeikommen oder anrufen</h3><p>Wunsch oder Problem kurz schildern.</p></li>
-      <li><h3>Beratung oder Werkstattauftrag</h3><p>Probefahren oder Reparatur besprechen.</p></li>
-      <li><h3>Abholen</h3><p>Das Rad ist startklar.</p></li>
+      <li data-reveal style="--i:0"><h3>Vorbeikommen oder anrufen</h3><p>Wunsch oder Problem kurz schildern.</p></li>
+      <li data-reveal style="--i:1"><h3>Beratung oder Werkstattauftrag</h3><p>Probefahren oder Reparatur besprechen.</p></li>
+      <li data-reveal style="--i:2"><h3>Abholen</h3><p>Das Rad ist startklar.</p></li>
     </ol>
   </div>
 </section>
 
-<section class="sec alt" id="ueber-uns" aria-labelledby="h-ueber">
-  <div class="wrap about">
-    <div>
-      <h2 id="h-ueber">Über uns</h2>
-      <p>Beispieltext: Hier stellt sich <span data-f>Ihr Betrieb</span> in <span data-o>Ihrer Region</span> vor. Diese Seite zeigt Verkauf und Werkstatt nebeneinander und macht Terminanfragen leicht.</p>
+<section class="sec alt" aria-labelledby="h-refs">
+  <div class="wrap">
+    <div class="bz-head"><div><h2 id="h-refs">Referenzen</h2><p class="intro">Platzhalter: Hier könnten Fotos Ihrer Arbeiten stehen. Im Entwurf sind bewusst keine Bilder enthalten.</p></div><a class="bz-more" href="referenzen.html">Alle Beispiele ansehen</a></div>
+    <ul class="bz-refs"><li class="bz-ref" data-cat="Räder" data-reveal style="--i:0"><figure style="margin:0"><svg viewBox="0 0 400 300" aria-hidden="true" focusable="false" role="presentation"><rect class="c3" width="400" height="300"/><circle class="c4" cx="300" cy="90" r="70"/><circle class="c1" cx="120" cy="190" r="56"/><rect class="c2" x="190" y="170" width="150" height="90" rx="10" opacity=".85"/></svg><figcaption><span class="bz-tag">Räder</span><strong>Beispiel: Trekkingrad</strong><span>Platzhalter – hier stehen Ihr Foto und Ihr Text.</span></figcaption></figure></li><li class="bz-ref" data-cat="Werkstatt" data-reveal style="--i:1"><figure style="margin:0"><svg viewBox="0 0 400 300" aria-hidden="true" focusable="false" role="presentation"><rect class="c4" width="400" height="300"/><path class="c3" d="M0 220L130 90l110 90 70-60 90 80v100H0z"/><circle class="c2" cx="320" cy="70" r="34"/><path class="s1" stroke-width="6" d="M0 252h400"/></svg><figcaption><span class="bz-tag">Werkstatt</span><strong>Beispiel: Inspektion</strong><span>Platzhalter – hier stehen Ihr Foto und Ihr Text.</span></figcaption></figure></li><li class="bz-ref" data-cat="Zubehör" data-reveal style="--i:2"><figure style="margin:0"><svg viewBox="0 0 400 300" aria-hidden="true" focusable="false" role="presentation"><rect class="c3" width="400" height="300"/><rect class="c1" x="30" y="190" width="52" height="70" rx="6"/><rect class="c4" x="102" y="160" width="52" height="100" rx="6"/><rect class="c1" x="174" y="130" width="52" height="130" rx="6"/><rect class="c4" x="246" y="100" width="52" height="160" rx="6"/><rect class="c1" x="318" y="70" width="52" height="190" rx="6"/></svg><figcaption><span class="bz-tag">Zubehör</span><strong>Beispiel: Helme und Licht</strong><span>Platzhalter – hier stehen Ihr Foto und Ihr Text.</span></figcaption></figure></li></ul>
+  </div>
+</section>
+
+<section class="sec" aria-labelledby="h-tn">
+  <div class="wrap">
+    <h2 id="h-tn">Termin und Neuigkeiten</h2>
+    <p class="intro">Zwei Bausteine, die eine Business-Website von einer reinen Visitenkarte unterscheiden.</p>
+    <div class="bz-grid c2">
+      <div class="bz-card" data-reveal style="--i:0"><h3>Werkstatttermin wählen</h3><p>Wunschtag und Uhrzeit für Inspektion oder Reparatur auswählen.</p><p class="bz-btnrow"><a class="btn btn-solid" href="termin.html">Demo-Widget ansehen</a></p></div>
+      <div class="bz-card" data-reveal style="--i:1"><h3>Aktuelles</h3><ul class="bz-list"><li>Frühjahrscheck</li><li>Neu im Laden</li><li>Werkstatt</li></ul><p class="bz-btnrow"><a class="btn btn-line" href="aktuelles.html">Zu Aktuelles</a></p></div>
     </div>
-    <div>
-      <h3>Darauf legt diese Seite Wert</h3>
-      <ul class="checks">
-        <li><strong>Handel und Werkstatt</strong>Beide Bereiche sind klar getrennt dargestellt.</li>
-        <li><strong>Saison im Blick</strong>Aktionen und Werkstatttermine lassen sich einfach aktualisieren.</li>
-        <li><strong>Kurzer Draht</strong>Telefon und Anfrage sind jederzeit erreichbar.</li>
+  </div>
+</section>
+
+<section class="sec alt" aria-labelledby="h-feat">
+  <div class="wrap">
+    <div class="bz-panel">
+      <h2 id="h-feat">Das zeigt dieser Business-Entwurf</h2>
+      <p class="intro">7 Seiten mit Beispielinhalten. Alles ist ein Beispiel, Formulare und Widgets senden nichts.</p>
+      <ul class="bz-feature">
+        <li><a href="index.html">Mehrere Seiten mit gemeinsamer Navigation</a></li>
+        <li><a href="leistungen.html">Leistungen mit Unterbereichen</a></li>
+        <li><a href="referenzen.html">Referenzen und Galerie (Platzhalter-Visuals)</a></li>
+        <li><a href="ueber-uns.html">Über-uns-Seite mit Platzhaltertexten</a></li>
+        <li><a href="termin.html">Terminanfrage (Demo-Widget, ohne Versand)</a></li>
+        <li><a href="aktuelles.html">Aktuelles-Bereich und Newsletter-Anmeldung (Demo)</a></li>
+        <li><a href="anfrage.html">Branchenspezifisches Anfrageformular, Kontakt und Anfahrt</a></li>
+        <li>SEO-Grundlagen: eigener Seitentitel, Beschreibung und saubere Überschriftenstruktur je Seite</li>
+        <li>Dezente Animationen und 3D-Akzente (bei „reduzierter Bewegung“ im System abgeschaltet)</li>
       </ul>
-    </div>
-  </div>
-</section>
-
-<section class="sec" id="oeffnungszeiten" aria-labelledby="h-zeiten">
-  <div class="wrap">
-    <h2 id="h-zeiten">Öffnungszeiten</h2>
-    <table class="hours"><caption class="vh">Öffnungszeiten (Beispiel)</caption><tbody><tr><th scope="row">Montag bis Freitag</th><td>Beispielzeiten</td></tr><tr><th scope="row">Samstag</th><td>Beispielzeiten</td></tr></tbody></table><p class="note-small">Beispielzeiten – hier würden Ihre echten Öffnungszeiten stehen.</p>
-  </div>
-</section>
-
-<section class="sec alt" id="kontakt" aria-labelledby="h-kontakt">
-  <div class="wrap">
-    <h2 id="h-kontakt">Kontakt und Anfahrt</h2>
-    <div class="contact">
-      <div>
-        <div class="card">
-          <h3><span data-f>Ihr Betrieb</span></h3>
-          <address>Musterstraße 1, Ihr Ort (Beispiel)</address>
-          <ul class="contact-list">
-            <li><strong>Telefon</strong> 0000 000000 (Beispiel)</li>
-            <li><strong>E-Mail</strong> info@ihr-betrieb.de (Beispiel)</li>
-          </ul>
-        </div>
-        <div class="card route">
-          <svg viewBox="0 0 420 150" role="presentation" aria-hidden="true" focusable="false"><rect class="rt-bg" width="420" height="150"/>
-    <rect class="rt-block" x="20" y="14" width="90" height="48" rx="6"/><rect class="rt-block" x="130" y="14" width="70" height="48" rx="6"/><rect class="rt-block" x="300" y="14" width="100" height="48" rx="6"/><rect class="rt-block" x="20" y="92" width="150" height="46" rx="6"/><rect class="rt-block" x="300" y="94" width="100" height="44" rx="6"/>
-    <path class="rt-road" stroke-width="22" fill="none" d="M0 78H420M236 0V150" /><path class="rt-road2" stroke-width="2" stroke-dasharray="8 8" fill="none" d="M0 78H420M236 0V150"/>
-    <path class="rt-pin" d="M236 40c-14 0-24 10-24 23 0 17 24 38 24 38s24-21 24-38c0-13-10-23-24-23z"/><circle class="rt-pin-dot" cx="236" cy="63" r="8"/></svg>
-          <div class="route-text">
-            <h3>Anfahrt</h3>
-            <p><strong>Musterstraße 1, Ihr Ort (Beispiel)</strong></p>
-            <p class="muted">Im Entwurf bewusst nur ein statischer Beispiel-Adressblock, ohne Karte eines Drittanbieters.</p>
-          </div>
-        </div>
-      </div>
-      <form class="card demo-form" aria-labelledby="h-form" aria-describedby="demo-note">
-        <h3 id="h-form">Anfrage senden</h3>
-        <p class="demo-note" id="demo-note">Im Entwurf ohne Funktion</p>
-        <fieldset disabled>
-          <legend class="vh">Demo-Kontaktformular (deaktiviert)</legend>
-          <div><label for="f-name">Ihr Name</label><input id="f-name" type="text" autocomplete="name" disabled></div>
-          <div><label for="f-kontakt">Telefon oder E-Mail</label><input id="f-kontakt" type="text" disabled></div>
-          <div><label for="f-text">Ihre Anfrage (Rad, Reparatur, Termin)</label><textarea id="f-text" disabled></textarea></div>
-          <button class="btn" type="button" disabled>Anfrage senden</button>
-        </fieldset>
-      </form>
     </div>
   </div>
 </section>
@@ -142,14 +135,14 @@
 <section class="upsell" aria-labelledby="h-upsell">
   <div class="wrap">
     <img src="../_shared/yanqiva-logo-dunkel-transparent.png" alt="YANQIVA" width="220" height="55">
-    <h2 id="h-upsell">Business: mehr Seiten, Anfrage-Tool.</h2>
-    <p class="lead-up">Dieser Test-Entwurf zeigt ein Business-Paket (ab 690 €): bis zu 8 Seiten, ein Anfrage- bzw. Buchungstool und Integrationen wie Kalender oder Newsletter. Basic (1–3 Seiten, 249 € Einführungspreis für Anfragen bis 31.12.2026, danach 399 €) bleibt als Einstieg möglich.</p>
+    <h2 id="h-upsell">Business: mehr Seiten, Anfrage- oder Buchungstool.</h2>
+    <p class="lead-up">Dieser Entwurf zeigt beispielhaft, was im Business-Paket (ab 690 €) möglich ist: bis zu 8 Seiten (hier 7), ein Kontaktformular oder Buchungstool, Integrationen wie Kalender oder Newsletter, SEO-Grundoptimierung sowie dezente Animationen und 3D-Akzente. Basic (1–3 Seiten, 249 € Einführungspreis für Anfragen bis 31.12.2026, danach 399 €) bleibt als Einstieg möglich.</p>
     <ul class="tiers">
       <li><h3>Basic</h3><p class="price">249 € (Einführungspreis für Anfragen bis 31.12.2026, danach 399 €)</p><p>Kompakte Website mit 1–3 Seiten.</p></li>
-      <li><h3>Business</h3><p class="price">ab 690 €</p><p>Bis zu 8 Seiten, ein Buchungstool und Integrationen wie Kalender oder Newsletter.</p></li>
+      <li><h3>Business</h3><p class="price">ab 690 €</p><p>Bis zu 8 Seiten, ein Kontaktformular oder Buchungstool und Integrationen wie Kalender oder Newsletter.</p></li>
       <li><h3>Premium</h3><p class="price">individuelles Angebot</p><p>Shop, Mitgliederbereich, Schnittstellen und individuelle Entwicklung sowie Erweiterungen wie Automationen oder ein Chat-Assistent als individuelles Angebot.</p></li>
     </ul>
-    <p class="lead-up">Alle Preise sind Endpreise; gemäß § 19 UStG wird keine Umsatzsteuer berechnet. Hosting und Domain sind nicht im Projektpreis enthalten. Verbindlich ist erst das Angebot.</p>
+    <p class="lead-up">Alle Preise sind Endpreise; gemäß § 19 UStG wird keine Umsatzsteuer berechnet. Hosting und Domain sind nicht im Projektpreis enthalten. Dieser Entwurf zeigt mehrere Bausteine zugleich; welche davon Ihr Projekt enthält und was es kostet, legt erst das verbindliche Angebot fest.</p>
     <div class="upsell-cta">
       <a class="btn" href="https://yanqiva.de/kontakt">Unverbindlich anfragen</a>
       <a href="https://yanqiva.de">yanqiva.de</a>
@@ -160,7 +153,7 @@
 
 <footer class="site-footer">
   <div class="wrap">
-    <p>Dieser Entwurf ist ein unverbindliches Beispiel von Yanqiva. Er ist keine Website des angeschriebenen Betriebs, wurde weder beauftragt noch freigegeben und enthält nur Beispielinhalte. Der Name wird nur in Ihrem Browser aus dem Link eingesetzt und nicht an uns übertragen.</p>
+    <p>Dieser Entwurf ist ein unverbindliches Beispiel von Yanqiva. Er ist keine Website des angeschriebenen Betriebs, wurde weder beauftragt noch freigegeben und enthält nur Beispielinhalte. Der Name wird nur in Ihrem Browser aus dem Link eingesetzt und nicht an uns übertragen. Formulare und Widgets in diesem Entwurf senden und speichern nichts.</p>
     <ul><li><a href="https://yanqiva.de/impressum">Impressum (Yanqiva)</a></li><li><a href="https://yanqiva.de/datenschutz">Datenschutzerklärung (Yanqiva)</a></li></ul>
   </div>
 </footer>

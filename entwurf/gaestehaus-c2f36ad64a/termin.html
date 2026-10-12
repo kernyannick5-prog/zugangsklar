@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="demo-expires" content="2026-11-15">
+<meta name="demo-page" content="Termin">
+<meta name="description" content="Beispiel-Entwurf einer Business-Website (Gästehaus): Beispiel für eine Termin- bzw. Buchungsintegration, rein lokal. Unverbindlicher Entwurf von YANQIVA mit Beispielinhalten, ohne echte Betriebsdaten.">
+<title>Termin – Website-Entwurf – Konzept von YANQIVA</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../_shared/demo.css">
+<link rel="stylesheet" href="../_shared/business.css">
+<style>:root{--bg:#fdfbf6;--surface:#eef0e6;--ink:#232a20;--muted:#505b4b;--line:#d9dece;--brand:#43573a;--on-brand:#ffffff;--cta:#7a2e3b;--on-cta:#ffffff;--accent:#a8b98a;--link:#7a2e3b;--hero-bg:#eef0e6;--hero-ink:#232a20;--hero-muted:#4a5546;--c1:#c9a15a;--c2:#fdfbf6;--c3:#cfd9bd;--c4:#a8b98a;--radius:14px;--accent-soft:#e3e9d3;--on-accent:#232a20}</style>
+<script>(function(){var r=document.documentElement;r.classList.add('js');if(!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)){r.classList.add('bz-anim');setTimeout(function(){if(!r.classList.contains('bz-ready'))r.classList.add('bz-fallback')},4000)}})();</script>
+<script src="../_shared/personalize.js" defer></script>
+<script src="../_shared/business.js" defer></script>
+</head>
+<body class="bz">
+<a class="skip" href="#inhalt">Zum Inhalt springen</a>
+<div class="demo-banner" role="note" aria-label="Hinweis zum Entwurf" data-expires="2026-11-15">
+  <div class="wrap">
+    <img src="../_shared/yanqiva-logo.svg" alt="YANQIVA" width="188" height="40">
+    <p><strong>Unverbindlicher Website-Entwurf</strong> / Konzept von YANQIVA – keine offizielle Website von <span data-f>Ihr Betrieb</span><span class="demo-expiry"> · online bis 15.11.2026</span></p>
+  </div>
+</div>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span data-f>Ihr Betrieb</span></a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="hauptnav"><span class="bars" aria-hidden="true"></span><span>Menü</span></button>
+    <nav id="hauptnav" aria-label="Hauptnavigation"><ul><li><a href="index.html">Start</a></li><li><a href="leistungen.html">Leistungen</a></li><li><a href="referenzen.html">Referenzen</a></li><li><a href="ueber-uns.html">Über uns</a></li><li><a href="termin.html" aria-current="page">Termin</a></li><li><a href="aktuelles.html">Aktuelles</a></li><li><a href="anfrage.html">Anfrage &amp; Kontakt</a></li></ul></nav>
+  </div>
+</header>
+<main id="inhalt">
+<section class="bz-pagehero" aria-labelledby="h-page">
+  <div class="bz-deco" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="wrap">
+    <nav class="bz-crumbs" aria-label="Brotkrumen"><ol><li><a href="index.html">Start</a></li><li aria-current="page">Termin</li></ol></nav>
+    <h1 id="h-page">Aufenthalt anfragen</h1>
+    <p class="lead">Anreise, Nächte und Personen auswählen – mit angebundenem Buchungskalender könnte das Tool die Verfügbarkeit anzeigen.</p>
+  </div>
+</section>
+<section class="sec" aria-labelledby="h-bk">
+  <div class="wrap">
+    <h2 id="h-bk" class="vh">Termin- und Buchungswidget</h2>
+    <div class="bz-book">
+      <div class="bz-widget" data-booking data-mode="stay" data-slots="" data-start="Anreise" data-end="Abreise" data-unit="Nächte">
+      <p class="demo-note">Beispiel einer Buchungs-Integration – im Entwurf ohne Funktion, es wird nichts gesendet</p>
+      <noscript><p class="bz-hint">Das Beispiel-Widget benötigt JavaScript.</p></noscript>
+      <fieldset><legend>Anreise</legend><div class="bz-chips" data-days></div></fieldset>
+
+      <div class="bz-sel"><div><label for="bk-n">Dauer (Nächte)</label><select id="bk-n" data-nights><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option></select></div><div><label for="bk-p">Personen</label><select id="bk-p" data-persons data-unit="Personen"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></div></div>
+
+      <p class="bz-summary" data-summary aria-live="polite"></p>
+      <button type="button" class="btn btn-submit" data-book-submit>Verfügbarkeit anfragen (Demo)</button>
+      <p class="bz-status" role="status" data-status></p>
+    </div>
+      <aside class="bz-card bz-side" aria-labelledby="h-how">
+        <h3 id="h-how">So könnte die Integration arbeiten</h3>
+        <ol>
+          <li>Besucher wählen Wunschtag und Zeit direkt auf der Website.</li>
+          <li>Die Anfrage geht an den Betrieb; auf Wunsch und je nach vorhandenem System kann ein Kalender (z. B. ein vorhandener Online-Kalender) angebunden werden.</li>
+          <li>Der Betrieb bestätigt persönlich oder über das Tool.</li>
+        </ol>
+        <p class="note-small">Die angezeigten Tage und Zeiten sind frei erfundene Beispieltermine ab morgen – sie sagen nichts über die tatsächliche Verfügbarkeit eines Betriebs. Das Widget läuft nur lokal in Ihrem Browser.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Dieser Entwurf ist ein unverbindliches Beispiel von Yanqiva. Er ist keine Website des angeschriebenen Betriebs, wurde weder beauftragt noch freigegeben und enthält nur Beispielinhalte. Der Name wird nur in Ihrem Browser aus dem Link eingesetzt und nicht an uns übertragen. Formulare und Widgets in diesem Entwurf senden und speichern nichts.</p>
+    <ul><li><a href="https://yanqiva.de/impressum">Impressum (Yanqiva)</a></li><li><a href="https://yanqiva.de/datenschutz">Datenschutzerklärung (Yanqiva)</a></li></ul>
+  </div>
+</footer>
+</body>
+</html>

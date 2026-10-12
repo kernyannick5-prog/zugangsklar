@@ -1,0 +1,49 @@
+{
+  "paket": "business",
+  "seiten": [
+    {
+      "datei": "index.html",
+      "titel": "Startseite"
+    },
+    {
+      "datei": "leistungen.html",
+      "titel": "Leistungen mit Unterbereichen"
+    },
+    {
+      "datei": "referenzen.html",
+      "titel": "Referenzen / Galerie (Platzhalter)"
+    },
+    {
+      "datei": "ueber-uns.html",
+      "titel": "Über uns (Platzhaltertexte)"
+    },
+    {
+      "datei": "termin.html",
+      "titel": "Termin / Buchung (Demo-Widget)"
+    },
+    {
+      "datei": "aktuelles.html",
+      "titel": "Aktuelles und Newsletter (Demo)"
+    },
+    {
+      "datei": "anfrage.html",
+      "titel": "Anfrage, Kontakt und Anfahrt"
+    }
+  ],
+  "funktionen": [
+    "7 Seiten mit gemeinsamer Navigation und Mobilmenü",
+    "Leistungen mit Unterbereichen",
+    "Referenzen/Galerie (neutrale Platzhalter-Visuals, mit Filter)",
+    "Über-uns-Seite (Platzhaltertexte)",
+    "Terminanfrage (Demo-Widget, ohne Versand)",
+    "Anfrageformular (Demo ohne Versand, branchenspezifisch)",
+    "Foto-Upload-Feld im Anfrageformular (Demo, ohne Übertragung)",
+    "Aktuelles-Bereich",
+    "Newsletter-Anmeldung (Demo, ohne Versand)",
+    "Häufige Fragen (FAQ)",
+    "Kontakt und Anfahrt (statischer Platzhalter, ohne Kartendienst)",
+    "Dezente Animationen und 3D-Akzente",
+    "SEO-Grundlagen (Seitentitel, Beschreibung, Überschriftenstruktur je Seite)"
+  ],
+  "stand": "2026-10-12"
+}

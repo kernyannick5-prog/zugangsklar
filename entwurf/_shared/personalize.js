@@ -55,7 +55,12 @@
   }
   fill('data-f', f);
   fill('data-o', o);
-  if (f) document.title = 'Website-Entwurf für ' + f + ' \u2013 Konzept von YANQIVA';
+  if (f) {
+    // Mehrseitige Entwürfe: Seitenname (meta demo-page) bleibt im Titel erhalten
+    var pm = document.querySelector('meta[name="demo-page"]');
+    var pg = pm ? pm.getAttribute('content') : '';
+    document.title = (pg ? pg + ' – ' : '') + 'Website-Entwurf für ' + f + ' – Konzept von YANQIVA';
+  }
   // Fragment an interne Unterseiten-Links weitergeben, damit Name/Ort beim Seitenwechsel erhalten bleiben (bleibt im Browser)
   if (f || o) {
     var links = document.querySelectorAll('a[href]');

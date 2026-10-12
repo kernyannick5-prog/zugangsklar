@@ -6,14 +6,18 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="no-referrer">
 <meta name="demo-expires" content="2026-11-15">
-<title>Anfrage – Website-Entwurf – Konzept von YANQIVA</title>
+<meta name="demo-page" content="Anfrage &amp; Kontakt">
+<meta name="description" content="Beispiel-Entwurf einer Business-Website (Fenster, Türen und Rollläden): branchenspezifisches Anfrageformular, Kontakt und Anfahrt als statischer Platzhalter. Unverbindlicher Entwurf von YANQIVA mit Beispielinhalten, ohne echte Betriebsdaten.">
+<title>Anfrage &amp; Kontakt – Website-Entwurf – Konzept von YANQIVA</title>
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="../_shared/demo.css">
+<link rel="stylesheet" href="../_shared/business.css">
 <style>:root{--bg:#ffffff;--surface:#eef2f7;--ink:#0f1b2d;--muted:#46546a;--line:#d3dce8;--brand:#0d3a73;--on-brand:#ffffff;--cta:#0d3a73;--on-cta:#ffffff;--hcta:#ffffff;--hon-cta:#0d3a73;--accent:#5aa9e6;--link:#0d3a73;--hero-bg:#0d3a73;--hero-ink:#ffffff;--hero-muted:#d6e3f5;--c1:#8cc4f0;--c2:#ffffff;--c3:#1d5399;--c4:#14477f;--radius:4px;--accent-soft:#dfeaf7;--on-accent:#0f1b2d}</style>
+<script>(function(){var r=document.documentElement;r.classList.add('js');if(!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)){r.classList.add('bz-anim');setTimeout(function(){if(!r.classList.contains('bz-ready'))r.classList.add('bz-fallback')},4000)}})();</script>
 <script src="../_shared/personalize.js" defer></script>
-<style>.demo-form select{width:100%;padding:12px;font:inherit;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}</style>
+<script src="../_shared/business.js" defer></script>
 </head>
-<body>
+<body class="bz">
 <a class="skip" href="#inhalt">Zum Inhalt springen</a>
 <div class="demo-banner" role="note" aria-label="Hinweis zum Entwurf" data-expires="2026-11-15">
   <div class="wrap">
@@ -23,35 +27,87 @@
 </div>
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="#top"><span data-f>Ihr Betrieb</span></a>
-    <nav aria-label="Hauptnavigation"><ul><li><a href="index.html#leistungen">Leistungen</a></li><li><a href="aktuelles.html">Aktuelles</a></li><li><a href="anfrage.html" aria-current="page">Anfrage</a></li><li><a href="index.html#kontakt">Kontakt</a></li></ul></nav>
+    <a class="brand" href="index.html"><span data-f>Ihr Betrieb</span></a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="hauptnav"><span class="bars" aria-hidden="true"></span><span>Menü</span></button>
+    <nav id="hauptnav" aria-label="Hauptnavigation"><ul><li><a href="index.html">Start</a></li><li><a href="leistungen.html">Leistungen</a></li><li><a href="referenzen.html">Referenzen</a></li><li><a href="ueber-uns.html">Über uns</a></li><li><a href="termin.html">Termin</a></li><li><a href="aktuelles.html">Aktuelles</a></li><li><a href="anfrage.html" aria-current="page">Anfrage &amp; Kontakt</a></li></ul></nav>
   </div>
 </header>
 <main id="inhalt">
-<section class="sec" aria-labelledby="h-anfrage"><div class="wrap">
-  <h1 id="h-anfrage">Aufmaß- und Angebotsanfrage</h1>
-  <p class="intro">Fenster, Türen oder Bauservice anfragen – mit Maßen und Wunschtermin für ein Angebot. So könnte das Anfrage-Tool von <span data-f>Ihr Betrieb</span> in <span data-o>Ihrer Region</span> aussehen.</p>
-  <form class="card demo-form" aria-describedby="demo-note-a">
-    <p class="demo-note" id="demo-note-a">Im Entwurf ohne Funktion – es werden keine Daten gesendet.</p>
-    <fieldset disabled><legend class="vh">Demo-Anfrageformular (deaktiviert)</legend>
-      <div><label for="a-art">Anliegen</label><select id="a-art" disabled><option>Angebot Fenster (Beispiel)</option><option>Angebot Haustür / Türen (Beispiel)</option><option>Aufmaßtermin</option><option>Reparatur / Service</option></select></div>
-      <div><label for="a-b">Breite in cm (ca.)</label><input id="a-b" type="number" disabled></div>
-      <div><label for="a-h">Höhe in cm (ca.)</label><input id="a-h" type="number" disabled></div>
-      <div><label for="a-anz">Anzahl Elemente</label><input id="a-anz" type="number" disabled></div>
-      <div><label for="a-datum">Wunschtermin für Aufmaß</label><input id="a-datum" type="date" disabled></div>
-      <div><label for="a-name">Ihr Name</label><input id="a-name" type="text" disabled></div>
-      <div><label for="a-kontakt">Telefon oder E-Mail</label><input id="a-kontakt" type="text" disabled></div>
-      <div><label for="a-text">Ihre Nachricht (z. B. Material, Bestand, Neubau oder Sanierung)</label><textarea id="a-text" disabled></textarea></div>
-      <button class="btn" type="button" disabled>Anfrage senden</button>
-    </fieldset>
-  </form>
-  <p class="note-small">Im Business-Paket landet die Anfrage per E-Mail beim Betrieb; auf Wunsch mit Kalender-Anbindung.</p>
-</div></section>
+<section class="bz-pagehero" aria-labelledby="h-page">
+  <div class="bz-deco" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="wrap">
+    <nav class="bz-crumbs" aria-label="Brotkrumen"><ol><li><a href="index.html">Start</a></li><li aria-current="page">Anfrage &amp; Kontakt</li></ol></nav>
+    <h1 id="h-page">Aufmaß- und Angebotsanfrage</h1>
+    <p class="lead">Fenster, Türen oder Bauservice anfragen – mit Maßen und Wunschtermin für ein Angebot. So könnte das Anfrageformular von <span data-f>Ihr Betrieb</span> in <span data-o>Ihrer Region</span> aussehen.</p>
+  </div>
+</section>
+<section class="sec" aria-labelledby="h-formular">
+  <div class="wrap contact">
+    <div>
+      <h2 id="h-formular">Anfrage senden</h2>
+      <form class="bz-form" data-demo-form onsubmit="return false" aria-labelledby="h-formular">
+        <p class="demo-note">Im Entwurf ohne Versand – bitte keine echten Daten eingeben</p>
+        <fieldset><legend>Aufmaß- und Angebotsanfrage</legend>
+          <p class="bz-hint" style="margin:0 0 0.75rem">Felder mit * sind Pflichtfelder.</p>
+          <div class="bz-fields two">
+            <div><label for="a-art">Anliegen</label><select id="a-art"><option>Angebot Fenster (Beispiel)</option><option>Angebot Haustür / Türen (Beispiel)</option><option>Aufmaßtermin</option><option>Reparatur / Service</option></select></div>
+            <div><label for="a-b">Breite in cm (ca.)</label><input id="a-b" type="number" min="1" inputmode="numeric"></div>
+            <div><label for="a-h">Höhe in cm (ca.)</label><input id="a-h" type="number" min="1" inputmode="numeric"></div>
+            <div><label for="a-anz">Anzahl Elemente</label><input id="a-anz" type="number" min="1" inputmode="numeric"></div>
+            <div><label for="a-datum">Wunschtermin für Aufmaß</label><input id="a-datum" type="date"></div>
+            <div><label for="a-name">Ihr Name *</label><input id="a-name" type="text" required autocomplete="name"></div>
+            <div><label for="a-kontakt">Telefon oder E-Mail *</label><input id="a-kontakt" type="text" required></div>
+            <div class="full"><label for="a-text">Ihre Nachricht (z. B. Material, Bestand, Neubau oder Sanierung)</label><textarea id="a-text"></textarea></div>
+          </div>
+        </fieldset>
+      <fieldset><legend>Foto-Upload (Beispiel)</legend><div><label for="a-file">Foto der Fenster oder Skizze mit Maßen (optional)</label><input id="a-file" type="file" accept="image/*" multiple><p class="bz-hint">Im Entwurf wird keine Datei übertragen.</p><p class="bz-hint" data-file-list></p></div></fieldset>
+        <div class="bz-check" style="margin-bottom:1rem"><label><input type="checkbox" required> <span>Platzhalter für Ihre Datenschutz-Einwilligung: Im fertigen Formular steht hier Ihr Hinweis zur Datenverarbeitung. *</span></label></div>
+        <button type="button" class="btn btn-submit" data-demo-submit>Anfrage senden (Demo)</button>
+        <p class="bz-status" role="status" data-status></p>
+      </form>
+      <p class="note-small">Im fertigen Projekt geht die Anfrage per E-Mail an den Betrieb. Eine Kalender-Anbindung ist je nach vorhandenem System möglich; der Umfang wird im Angebot festgelegt.</p>
+    </div>
+    <div>
+      <h2 id="h-kontakt">Kontakt und Anfahrt</h2>
+      <div class="card">
+        <h3><span data-f>Ihr Betrieb</span></h3>
+        <address>Musterstraße 1, Ihr Ort (Beispiel)</address>
+        <ul class="contact-list">
+          <li><strong>Telefon</strong> 0000 000000 (Beispiel)</li>
+          <li><strong>E-Mail</strong> info@ihr-betrieb.de (Beispiel)</li>
+        </ul>
+      </div>
+      <div class="card route">
+        <svg viewBox="0 0 420 150" role="presentation" aria-hidden="true" focusable="false"><rect class="rt-bg" width="420" height="150"/>
+    <rect class="rt-block" x="20" y="14" width="90" height="48" rx="6"/><rect class="rt-block" x="130" y="14" width="70" height="48" rx="6"/><rect class="rt-block" x="300" y="14" width="100" height="48" rx="6"/><rect class="rt-block" x="20" y="92" width="150" height="46" rx="6"/><rect class="rt-block" x="300" y="94" width="100" height="44" rx="6"/>
+    <path class="rt-road" stroke-width="22" fill="none" d="M0 78H420M236 0V150" /><path class="rt-road2" stroke-width="2" stroke-dasharray="8 8" fill="none" d="M0 78H420M236 0V150"/>
+    <path class="rt-pin" d="M236 40c-14 0-24 10-24 23 0 17 24 38 24 38s24-21 24-38c0-13-10-23-24-23z"/><circle class="rt-pin-dot" cx="236" cy="63" r="8"/></svg>
+        <div class="route-text">
+          <h3>Anfahrt</h3>
+          <p><strong>Musterstraße 1, Ihr Ort (Beispiel)</strong></p>
+          <p class="muted">Im Entwurf bewusst nur ein statischer Beispiel-Adressblock, ohne Karte eines Drittanbieters.</p>
+        </div>
+      </div>
+      <h3 style="margin-top:1.5rem">Öffnungszeiten</h3>
+      <table class="hours"><caption class="vh">Öffnungszeiten (Beispiel)</caption><tbody><tr><th scope="row">Montag bis Freitag</th><td>Beispielzeiten</td></tr><tr><th scope="row">Samstag</th><td>Beispielzeiten</td></tr></tbody></table><p class="note-small">Beispielzeiten – hier würden Ihre echten Öffnungszeiten stehen.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec alt bz-faq" aria-labelledby="h-faq">
+  <div class="wrap">
+    <h2 id="h-faq">Häufige Fragen</h2>
+    <p class="intro">Beispielfragen mit Platzhalter-Antworten – hier stehen später Ihre eigenen Antworten.</p>
+    <details><summary>Wie läuft eine Anfrage ab?</summary><p>Beispieltext: Hier beschreiben Sie in zwei Sätzen, wie Sie auf Anfragen antworten und wie schnell.</p></details>
+    <details><summary>Brauche ich vorab genaue Maße?</summary><p>Beispieltext: Ungefähre Maße genügen für die Anfrage; genau gemessen wird beim Aufmaß. Ihre eigene Antwort steht hier.</p></details>
+    <details><summary>Wie lange dauert es bis zum Angebot?</summary><p>Beispieltext: Hier steht Ihre übliche Bearbeitungszeit.</p></details>
+  </div>
+</section>
 </main>
 
 <footer class="site-footer">
   <div class="wrap">
-    <p>Dieser Entwurf ist ein unverbindliches Beispiel von Yanqiva. Er ist keine Website des angeschriebenen Betriebs, wurde weder beauftragt noch freigegeben und enthält nur Beispielinhalte. Der Name wird nur in Ihrem Browser aus dem Link eingesetzt und nicht an uns übertragen.</p>
+    <p>Dieser Entwurf ist ein unverbindliches Beispiel von Yanqiva. Er ist keine Website des angeschriebenen Betriebs, wurde weder beauftragt noch freigegeben und enthält nur Beispielinhalte. Der Name wird nur in Ihrem Browser aus dem Link eingesetzt und nicht an uns übertragen. Formulare und Widgets in diesem Entwurf senden und speichern nichts.</p>
     <ul><li><a href="https://yanqiva.de/impressum">Impressum (Yanqiva)</a></li><li><a href="https://yanqiva.de/datenschutz">Datenschutzerklärung (Yanqiva)</a></li></ul>
   </div>
 </footer>

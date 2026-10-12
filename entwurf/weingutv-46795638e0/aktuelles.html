@@ -6,14 +6,18 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="no-referrer">
 <meta name="demo-expires" content="2026-11-15">
+<meta name="demo-page" content="Aktuelles">
+<meta name="description" content="Beispiel-Entwurf einer Business-Website (Weingut): Aktuelles und Newsletter-Beispiel. Unverbindlicher Entwurf von YANQIVA mit Beispielinhalten, ohne echte Betriebsdaten.">
 <title>Aktuelles – Website-Entwurf – Konzept von YANQIVA</title>
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="../_shared/demo.css">
+<link rel="stylesheet" href="../_shared/business.css">
 <style>:root{--bg:#fbf7f2;--surface:#f1e4dc;--ink:#24100f;--muted:#5e4543;--line:#e0cdc3;--brand:#6d1020;--on-brand:#ffffff;--cta:#6d1020;--on-cta:#ffffff;--hcta:#f6e9de;--hon-cta:#4a0b16;--accent:#b98a3e;--link:#6d1020;--hero-bg:#4a0b16;--hero-ink:#fbf3ea;--hero-muted:#ead6d0;--c1:#d9b26a;--c2:#f6e9de;--c3:#6d1020;--c4:#5a0d1a;--radius:4px;--accent-soft:#f1e4dc;--on-accent:#24100f;--font-head:Georgia, "Times New Roman", serif}</style>
+<script>(function(){var r=document.documentElement;r.classList.add('js');if(!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)){r.classList.add('bz-anim');setTimeout(function(){if(!r.classList.contains('bz-ready'))r.classList.add('bz-fallback')},4000)}})();</script>
 <script src="../_shared/personalize.js" defer></script>
-<style>.demo-form select{width:100%;padding:12px;font:inherit;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}</style>
+<script src="../_shared/business.js" defer></script>
 </head>
-<body>
+<body class="bz">
 <a class="skip" href="#inhalt">Zum Inhalt springen</a>
 <div class="demo-banner" role="note" aria-label="Hinweis zum Entwurf" data-expires="2026-11-15">
   <div class="wrap">
@@ -23,26 +27,52 @@
 </div>
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="#top"><span data-f>Ihr Betrieb</span></a>
-    <nav aria-label="Hauptnavigation"><ul><li><a href="index.html#leistungen">Leistungen</a></li><li><a href="aktuelles.html" aria-current="page">Aktuelles</a></li><li><a href="anfrage.html">Anfrage</a></li><li><a href="index.html#kontakt">Kontakt</a></li></ul></nav>
+    <a class="brand" href="index.html"><span data-f>Ihr Betrieb</span></a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="hauptnav"><span class="bars" aria-hidden="true"></span><span>Menü</span></button>
+    <nav id="hauptnav" aria-label="Hauptnavigation"><ul><li><a href="index.html">Start</a></li><li><a href="leistungen.html">Leistungen</a></li><li><a href="referenzen.html">Referenzen</a></li><li><a href="ueber-uns.html">Über uns</a></li><li><a href="termin.html">Termin</a></li><li><a href="aktuelles.html" aria-current="page">Aktuelles</a></li><li><a href="anfrage.html">Anfrage &amp; Kontakt</a></li></ul></nav>
   </div>
 </header>
 <main id="inhalt">
-<section class="sec" aria-labelledby="h-akt"><div class="wrap">
-  <h1 id="h-akt">Aktuelles</h1>
-  <p class="intro">Ein pflegbarer Bereich für Termine, Schließtage und Neuigkeiten von <span data-f>Ihr Betrieb</span> – hier mit Beispieleinträgen.</p>
-  <ul class="services s-cards">
-    <li><h2>Veranstaltung</h2><p>Beispiel: Weihnachtspräsentation im November.</p></li>
-    <li><h2>Weinliste</h2><p>Beispiel: Die neue Weinliste ist da.</p></li>
-    <li><h2>Jahrgang</h2><p>Beispiel: Jahrgangspräsentation im Frühjahr.</p></li>
-  </ul>
-  <p class="note-small">Beispielinhalte – im Business-Paket pflegen Sie diese Einträge selbst oder lassen sie pflegen.</p>
-</div></section>
+<section class="bz-pagehero" aria-labelledby="h-page">
+  <div class="bz-deco" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="wrap">
+    <nav class="bz-crumbs" aria-label="Brotkrumen"><ol><li><a href="index.html">Start</a></li><li aria-current="page">Aktuelles</li></ol></nav>
+    <h1 id="h-page">Aktuelles</h1>
+    <p class="lead">Ein pflegbarer Bereich für Termine, Schließtage und Neuigkeiten von <span data-f>Ihr Betrieb</span> – hier mit Beispieleinträgen.</p>
+  </div>
+</section>
+<section class="sec" aria-labelledby="h-news">
+  <div class="wrap">
+    <h2 id="h-news">Neuigkeiten</h2>
+    <p class="intro">Beispielinhalte – im fertigen Projekt stehen hier Ihre eigenen Neuigkeiten. Wie die Einträge aktualisiert werden, wird im Angebot festgelegt.</p>
+    <div class="bz-grid c3">
+      <article class="bz-card" data-reveal style="--i:0"><span class="bz-tag">Beispiel</span><h3>Veranstaltung</h3><p>Beispiel: Weihnachtspräsentation im November.</p></article>
+      <article class="bz-card" data-reveal style="--i:1"><span class="bz-tag">Beispiel</span><h3>Weinliste</h3><p>Beispiel: Die neue Weinliste ist da.</p></article>
+      <article class="bz-card" data-reveal style="--i:2"><span class="bz-tag">Beispiel</span><h3>Jahrgang</h3><p>Beispiel: Jahrgangspräsentation im Frühjahr.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="sec alt" aria-labelledby="h-nl">
+  <div class="wrap">
+    <h2 id="h-nl">Newsletter</h2>
+    <div class="bz-news">
+      <div><p>Beispiel für eine Newsletter-Integration: Hinweise zu Jahrgängen, Weinproben und Veranstaltungen.</p><p class="note-small">Im fertigen Projekt würde hier ein Newsletter-Dienst angebunden. Im Entwurf wird nichts gesendet; bitte keine echte Adresse eingeben.</p></div>
+      <form class="bz-form" data-demo-form data-ok="Entwurf: Ihre E-Mail-Adresse wurde nicht gesendet und nicht gespeichert. In der fertigen Website würde hier ein Newsletter-Dienst angebunden." onsubmit="return false" aria-labelledby="h-nl">
+        <p class="demo-note">Beispiel einer Newsletter-Integration – ohne Funktion</p>
+        <div class="bz-fields"><div><label for="nl-mail">E-Mail-Adresse *</label><input id="nl-mail" type="email" required autocomplete="off"></div>
+        <div class="bz-check"><label><input type="checkbox" required> <span>Platzhalter für Ihre Einwilligungserklärung zum Newsletter. *</span></label></div></div>
+        <p style="margin:1rem 0 0"><button type="button" class="btn btn-submit" data-demo-submit>Anmelden (Demo)</button></p>
+        <p class="bz-status" role="status" data-status></p>
+      </form>
+    </div>
+  </div>
+</section>
 </main>
 
 <footer class="site-footer">
   <div class="wrap">
-    <p>Dieser Entwurf ist ein unverbindliches Beispiel von Yanqiva. Er ist keine Website des angeschriebenen Betriebs, wurde weder beauftragt noch freigegeben und enthält nur Beispielinhalte. Der Name wird nur in Ihrem Browser aus dem Link eingesetzt und nicht an uns übertragen.</p>
+    <p>Dieser Entwurf ist ein unverbindliches Beispiel von Yanqiva. Er ist keine Website des angeschriebenen Betriebs, wurde weder beauftragt noch freigegeben und enthält nur Beispielinhalte. Der Name wird nur in Ihrem Browser aus dem Link eingesetzt und nicht an uns übertragen. Formulare und Widgets in diesem Entwurf senden und speichern nichts.</p>
     <ul><li><a href="https://yanqiva.de/impressum">Impressum (Yanqiva)</a></li><li><a href="https://yanqiva.de/datenschutz">Datenschutzerklärung (Yanqiva)</a></li></ul>
   </div>
 </footer>

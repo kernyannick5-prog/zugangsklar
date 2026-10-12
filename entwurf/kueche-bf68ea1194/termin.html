@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="demo-expires" content="2026-11-15">
+<meta name="demo-page" content="Termin">
+<meta name="description" content="Beispiel-Entwurf einer Business-Website (Küchen und Möbel nach Maß): Beispiel für eine Termin- bzw. Buchungsintegration, rein lokal. Unverbindlicher Entwurf von YANQIVA mit Beispielinhalten, ohne echte Betriebsdaten.">
+<title>Termin – Website-Entwurf – Konzept von YANQIVA</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../_shared/demo.css">
+<link rel="stylesheet" href="../_shared/business.css">
+<style>:root{--bg:#faf8f5;--surface:#ece7e0;--ink:#231f1b;--muted:#5b544c;--line:#d9d1c6;--brand:#2f3a36;--on-brand:#ffffff;--cta:#9a4a22;--on-cta:#ffffff;--accent:#c98a4b;--link:#8a3f18;--hero-bg:#ece7e0;--hero-ink:#231f1b;--hero-muted:#4f4840;--c1:#c98a4b;--c2:#faf8f5;--c3:#d6cdbf;--c4:#b9ae9c;--radius:10px;--accent-soft:#ece7e0;--on-accent:#231f1b}</style>
+<script>(function(){var r=document.documentElement;r.classList.add('js');if(!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)){r.classList.add('bz-anim');setTimeout(function(){if(!r.classList.contains('bz-ready'))r.classList.add('bz-fallback')},4000)}})();</script>
+<script src="../_shared/personalize.js" defer></script>
+<script src="../_shared/business.js" defer></script>
+</head>
+<body class="bz">
+<a class="skip" href="#inhalt">Zum Inhalt springen</a>
+<div class="demo-banner" role="note" aria-label="Hinweis zum Entwurf" data-expires="2026-11-15">
+  <div class="wrap">
+    <img src="../_shared/yanqiva-logo.svg" alt="YANQIVA" width="188" height="40">
+    <p><strong>Unverbindlicher Website-Entwurf</strong> / Konzept von YANQIVA – keine offizielle Website von <span data-f>Ihr Betrieb</span><span class="demo-expiry"> · online bis 15.11.2026</span></p>
+  </div>
+</div>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span data-f>Ihr Betrieb</span></a>
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="hauptnav"><span class="bars" aria-hidden="true"></span><span>Menü</span></button>
+    <nav id="hauptnav" aria-label="Hauptnavigation"><ul><li><a href="index.html">Start</a></li><li><a href="leistungen.html">Leistungen</a></li><li><a href="referenzen.html">Referenzen</a></li><li><a href="ueber-uns.html">Über uns</a></li><li><a href="termin.html" aria-current="page">Termin</a></li><li><a href="aktuelles.html">Aktuelles</a></li><li><a href="anfrage.html">Anfrage &amp; Kontakt</a></li></ul></nav>
+  </div>
+</header>
+<main id="inhalt">
+<section class="bz-pagehero" aria-labelledby="h-page">
+  <div class="bz-deco" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="wrap">
+    <nav class="bz-crumbs" aria-label="Brotkrumen"><ol><li><a href="index.html">Start</a></li><li aria-current="page">Termin</li></ol></nav>
+    <h1 id="h-page">Planungstermin wählen</h1>
+    <p class="lead">Wunschtag und Uhrzeit für die Erstberatung oder das Aufmaß auswählen.</p>
+  </div>
+</section>
+<section class="sec" aria-labelledby="h-bk">
+  <div class="wrap">
+    <h2 id="h-bk" class="vh">Termin- und Buchungswidget</h2>
+    <div class="bz-book">
+      <div class="bz-widget" data-booking data-mode="slot" data-slots="09:00,11:00,14:00,16:00" data-start="" data-end="" data-unit="">
+      <p class="demo-note">Beispiel einer Buchungs-Integration – im Entwurf ohne Funktion, es wird nichts gesendet</p>
+      <noscript><p class="bz-hint">Das Beispiel-Widget benötigt JavaScript.</p></noscript>
+      <fieldset><legend>Wunschtag</legend><div class="bz-chips" data-days></div></fieldset>
+      <fieldset><legend>Uhrzeit</legend><div class="bz-chips" data-slots-box><span class="bz-hint">Bitte zuerst einen Tag wählen.</span></div></fieldset>
+
+
+      <p class="bz-summary" data-summary aria-live="polite"></p>
+      <button type="button" class="btn btn-submit" data-book-submit>Planungstermin anfragen (Demo)</button>
+      <p class="bz-status" role="status" data-status></p>
+    </div>
+      <aside class="bz-card bz-side" aria-labelledby="h-how">
+        <h3 id="h-how">So könnte die Integration arbeiten</h3>
+        <ol>
+          <li>Besucher wählen Wunschtag und Zeit direkt auf der Website.</li>
+          <li>Die Anfrage geht an den Betrieb; auf Wunsch und je nach vorhandenem System kann ein Kalender (z. B. ein vorhandener Online-Kalender) angebunden werden.</li>
+          <li>Der Betrieb bestätigt persönlich oder über das Tool.</li>
+        </ol>
+        <p class="note-small">Die angezeigten Tage und Zeiten sind frei erfundene Beispieltermine ab morgen – sie sagen nichts über die tatsächliche Verfügbarkeit eines Betriebs. Das Widget läuft nur lokal in Ihrem Browser.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Dieser Entwurf ist ein unverbindliches Beispiel von Yanqiva. Er ist keine Website des angeschriebenen Betriebs, wurde weder beauftragt noch freigegeben und enthält nur Beispielinhalte. Der Name wird nur in Ihrem Browser aus dem Link eingesetzt und nicht an uns übertragen. Formulare und Widgets in diesem Entwurf senden und speichern nichts.</p>
+    <ul><li><a href="https://yanqiva.de/impressum">Impressum (Yanqiva)</a></li><li><a href="https://yanqiva.de/datenschutz">Datenschutzerklärung (Yanqiva)</a></li></ul>
+  </div>
+</footer>
+</body>
+</html>
