@@ -191,7 +191,7 @@
   // Ab START_DATE schalten sich beide automatisch ab; PRESTART = false schaltet sie sofort ab.
   // Der kostenlose Website-Check ist davon nicht betroffen.
   var START_DATE = '2026-10-15';
-  var PRESTART = true;
+  var PRESTART = false; // 2026-10-12: Starthinweis auf Wunsch des Eigentümers abgeschaltet
   function prestartActive() { return PRESTART && new Date() < new Date(START_DATE + 'T00:00:00'); }
   var NEWSLETTER = false;
   var NEWSLETTER_CONSENT_VERSION = '2026-10-05'; // muss zum Einwilligungstext in ratgeber/index.html passen (Worker: CONSENT_VERSIONS)
