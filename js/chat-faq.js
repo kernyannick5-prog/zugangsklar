@@ -1,4 +1,4 @@
-(()=>{var W="a39805d38a3a",v=[{id:"ueberblick",title:"Was ist Yanqiva und wofür brauche ich es?",url:"index.html",text:`Yanqiva prüft bestehende Websites auf Barrieren (BFSG), Datenschutz, rechtliche Pflichtangaben, Sicherheit und SEO und baut neue, die von Anfang an barrierearm sind. Zwei Wege, ein Ansprechpartner.
+(()=>{var W="b1b3b8a6dd9d",v=[{id:"ueberblick",title:"Was ist Yanqiva und wofür brauche ich es?",url:"index.html",text:`Yanqiva prüft bestehende Websites auf Barrieren (BFSG), Datenschutz, rechtliche Pflichtangaben, Sicherheit und SEO und baut neue, die von Anfang an barrierearm sind. Zwei Wege, ein Ansprechpartner.
 Was ist Yanqiva?
 Zwei Wege zu einer Website, die funktioniert:
 Ob Sie Ihre bestehende Website verbessern oder eine neue bauen lassen: Sie bekommen Barrierefreiheit, Datenschutz und Technik aus einer Hand.
@@ -35,7 +35,7 @@ Der Einführungspreis ist ein befristetes Angebot für Website Basic und gilt f�
 - Kostenloser Website-Check: Eine Dauer des Check-Laufs ist auf der Website nicht festgelegt.
 - YANQIVA REVIEW (NFC-Karten): Lieferung persönlich nach bestätigter Bestellung, Klassik in 2–5 Werktagen, Dashboard in 7 Werktagen (siehe https://yanqiva-bewertung.de/).`},{id:"review",title:"YANQIVA REVIEW: Google-Bewertungen per NFC-Karte und QR-Aufsteller",url:"https://yanqiva-bewertung.de/",text:`YANQIVA REVIEW ist ein eigenes Angebot von Yanqiva mit eigener Website: NFC-Karten und QR-Aufsteller, mit denen Kundinnen und Kunden per Tap oder Scan direkt zur Google-Bewertung Ihres Unternehmens gelangen.
 - Klassik: 60 € je Stück.
-- Dashboard: 99 € je Stück, inklusive 12 Monate Dashboard; danach optional 15 € pro Monat, nur auf Wunsch.
+- Dashboard: 99 € je Stück, inklusive 2 Monate Dashboard; danach optional 15 € pro Monat je Standort, nur auf Wunsch (monatlich kündbar; ohne Verlängerung leitet die Karte weiter direkt zu Google, kein Abo).
 Alle Preise sind Endpreise (keine Umsatzsteuer nach § 19 UStG). Die Übergabe erfolgt ausschließlich persönlich vor Ort im Raum Speyer, Ludwigshafen, Mannheim und Karlsruhe sowie in der Umgebung von Germersheim, Edenkoben und Neustadt an der Weinstraße. Bestellungen sind ab sofort möglich.
 Weitere Informationen und Bestellung: https://yanqiva-bewertung.de/`},{id:"websites-ueberblick",title:"Website erstellen lassen: Überblick",url:"websites.html",text:`Professionell gestaltet, barrierearm gebaut und datensparsam, in drei Leistungsstufen: Basic 249 € (Einführungspreis bis 31.12.2026, danach 399 €), Business ab 690 € und Premium als individuelles Angebot. Für Business und Premium sehen Sie unten funktionsfähige Beispiel-Websites fiktiver Firmen, bevor Sie sich entscheiden.
 Jede Website ist ein eigenes Projekt. Sie wählen die Stufe, beschreiben Ihr Vorhaben und erhalten ein individuelles Angebot. Einmalpreise, keine Abos. Hosting und Domain sind nicht enthalten und auf Anfrage möglich.
