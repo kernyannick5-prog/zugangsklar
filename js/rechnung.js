@@ -205,8 +205,8 @@
   function renderPreview(st, calc) {
     sheet.textContent = '';
     var klein = st.mode === 'klein';
-    var senderLine = [st.senderName.trim()].concat(lines(st.senderAddress)).filter(Boolean).join(' · ');
-    sheet.appendChild(el('p', { class: 'inv-senderline' }, senderLine || ph('Absender')));
+    var brandAddr = lines(st.senderAddress).join(' · ');
+    sheet.appendChild(el('div', { class: 'inv-brand' }, el('strong', null, st.senderName.trim() || ph('Absender')), brandAddr ? el('span', null, brandAddr) : null));
     var due = '';
     var days = I.parseDays(st.days);
     if (days !== null && I.isIsoDate(st.date)) due = I.addDays(st.date, days);
@@ -220,8 +220,8 @@
     if (due) metaRow(meta, 'Zahlbar bis', I.formatDate(due));
     var rec = el('div', { class: 'inv-recipient' }, el('div', { class: 'inv-small' }, 'Rechnung an'),
       block('inv-rec-lines', [st.recipientName.trim()].concat(lines(st.recipientAddress)).filter(Boolean), 'Empfänger und Anschrift'));
-    sheet.appendChild(el('div', { class: 'inv-top' }, rec, meta));
     sheet.appendChild(el('h3', { class: 'inv-title' }, 'Rechnung'));
+    sheet.appendChild(el('div', { class: 'inv-top' }, rec, meta));
 
     // Explizite Tabellenrollen: auf schmalen Vorschauen wird die Tabelle per CSS zu Karten umgebaut (display: grid),
     // die Rollen erhalten dabei die Tabellensemantik für Screenreader.
