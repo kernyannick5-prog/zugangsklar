@@ -1,4 +1,4 @@
-/* Bestellformular: Lead senden, dann Zahlungslink (falls konfiguriert) oder Rechnungs-Fallback. */
+/* Bestellformular: Lead senden, danach Bestätigung (Rechnung oder Angebot folgt per E-Mail; Zahlung per Überweisung). */
 (function () {
   'use strict';
   var YQ = window.YQ;
@@ -7,6 +7,49 @@
   var statusEl = document.getElementById('order-status');
   if (YQ.pow) YQ.pow.watch(form); // Rechenaufgabe beim ersten Fokus vorab lösen (Spamschutz, siehe js/config.js)
   var done = document.getElementById('order-done');
+
+  /* Fehler direkt am Feld (WCAG 3.3.1, 3.3.3, 4.1.3): sichtbarer Text mit Symbol unter dem Feld, aria-invalid und aria-describedby am Feld.
+     Die Statuszeile (role=status) nennt nur eine Kurzfassung. Der Fehler verschwindet, sobald das Feld geändert wird. */
+  function clearFieldError(input) {
+    if (!input || !input.getAttribute) return;
+    var errId = input.getAttribute('data-err-id');
+    if (!errId) return;
+    var err = document.getElementById(errId);
+    if (err && err.parentNode) err.parentNode.removeChild(err);
+    var ids = (input.getAttribute('aria-describedby') || '').split(/\s+/).filter(function (x) { return x && x !== errId; });
+    if (ids.length) input.setAttribute('aria-describedby', ids.join(' ')); else input.removeAttribute('aria-describedby');
+    input.removeAttribute('aria-invalid');
+    input.removeAttribute('data-err-id');
+  }
+  function clearAllFieldErrors() {
+    Array.prototype.forEach.call(form.querySelectorAll('[data-err-id]'), clearFieldError);
+  }
+  function fieldError(input, msg) {
+    clearAllFieldErrors();
+    var errId = (input.id || 'o-field') + '-err';
+    var p = document.createElement('p');
+    p.className = 'field-error';
+    p.id = errId;
+    var icon = document.createElement('span');
+    icon.setAttribute('aria-hidden', 'true');
+    icon.textContent = '\u26A0 ';
+    var label = document.createElement('span');
+    label.className = 'visually-hidden';
+    label.textContent = 'Fehler: ';
+    p.appendChild(icon); p.appendChild(label); p.appendChild(document.createTextNode(msg));
+    var holder = input.closest ? input.closest('.field') : null;
+    (holder || input.parentNode).appendChild(p);
+    var ids = (input.getAttribute('aria-describedby') || '').split(/\s+/).filter(Boolean);
+    ids.push(errId);
+    input.setAttribute('aria-describedby', ids.join(' '));
+    input.setAttribute('aria-invalid', 'true');
+    input.setAttribute('data-err-id', errId);
+    statusEl.textContent = 'Bitte korrigieren Sie die markierte Eingabe.';
+    input.focus();
+    if (p.scrollIntoView) p.scrollIntoView({ block: 'nearest' });
+  }
+  form.addEventListener('input', function (e) { clearFieldError(e.target); });
+  form.addEventListener('change', function (e) { clearFieldError(e.target); });
   // Fallback-Namen (Stand 2026-10-03). Maßgeblich ist window.YQ_CATALOG (js/catalog.js, generiert aus tools/site-build/catalog.mjs).
   var NAMES = {
     'website-basic': /*YQ:orderLabel:website-basic*/'Website Basic (249 €, Einführungspreis bis 31.12.2026 (danach 399 €), einmalig, unverbindliche Anfrage, Angebot vorab)'/*YQ*/, 'website-business': 'Website Business (ab 690 €, einmalig, unverbindliche Anfrage, individuelles Angebot vorab)', 'website-pflege': 'Yanqiva Pflege (39 €/Monat, Mindestlaufzeit 12 Monate)', 'website-premium': 'Website Premium (individuelles Angebot, Orientierung ab 1.690 €, einmalig, unverbindliche Anfrage)',
@@ -103,10 +146,10 @@
     var f = form.elements;
     var product = form.querySelector('input[name="produkt"]:checked').value;
     var btn = form.querySelector('button[type="submit"]');
+    clearAllFieldErrors();
     var auth = needsAuth();
     if (auth && !authInput.checked) {
-      statusEl.textContent = 'Bitte bestätigen Sie, dass Sie Inhaber der angegebenen Website oder vom Inhaber beauftragt sind.';
-      authInput.focus();
+      fieldError(authInput, 'Bitte bestätigen Sie, dass Sie Inhaber der angegebenen Website oder vom Inhaber beauftragt sind.');
       return;
     }
     var catEl = form.querySelector('input[name="kategorie"]:checked');
@@ -118,8 +161,7 @@
     var url = f.url.value.trim();
     var nu = YQ.normalizeUrl(url);
     if (nu === null) {
-      statusEl.textContent = 'Bitte geben Sie eine gültige Website-Adresse ein, zum Beispiel beispiel.de.';
-      f.url.focus();
+      fieldError(f.url, 'Bitte geben Sie eine gültige Website-Adresse ein, zum Beispiel beispiel.de.');
       return;
     }
     url = nu;
@@ -130,9 +172,8 @@
     // Die API erlaubt höchstens 2000 Zeichen je Nachricht; Projektbeschreibung und Hinweise (je bis 1500) können zusammen darüber liegen.
     if (message.length > MAX_MESSAGE) {
       var over = message.length - MAX_MESSAGE;
-      statusEl.textContent = 'Ihre Angaben sind insgesamt ' + over + ' Zeichen zu lang. Bitte kürzen Sie die Projektbeschreibung oder die Hinweise.';
       var longer = (f.projekt && f.projekt.value.length > f.hinweise.value.length) ? f.projekt : f.hinweise;
-      longer.focus();
+      fieldError(longer, 'Ihre Angaben sind insgesamt ' + over + ' Zeichen zu lang. Bitte kürzen Sie die Projektbeschreibung oder die Hinweise.');
       return;
     }
     btn.disabled = true;
@@ -147,12 +188,6 @@
     (YQ.pow ? YQ.pow.withPow(form, payload) : Promise.resolve(payload)).then(function (body) {
       return YQ.postJson('/api/lead', body, { timeout: 20000 });
     }).then(function (res) {
-      var link = inquiry ? '' : YQ.PAYMENT_LINKS[product]; // Anfrage-Produkte: erst Angebot, keine Sofortzahlung
-      if (link) {
-        statusEl.textContent = 'Danke. Sie werden jetzt zur Zahlung weitergeleitet …';
-        window.location.href = link + (link.indexOf('?') === -1 ? '?' : '&') + 'prefilled_email=' + encodeURIComponent(email);
-        return;
-      }
       form.hidden = true;
       statusEl.textContent = '';
       if (res && typeof res.id === 'string' && /^YQ-[0-9]{8}-[A-Z0-9]{4,6}$/.test(res.id)) {

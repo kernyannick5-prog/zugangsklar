@@ -176,7 +176,7 @@
     /* Pflege/Premium: festes Titelwort, die Bezeichnung steht darunter. Monitoring und Bestand: wie bisher die Bezeichnung als Titel. */
     h1.textContent = isCare() ? dashTitle() : str(portfolio.label) || dashTitle();
     var plan = planLabel();
-    if (YQ.MOCK) root.appendChild(el('p', { class: 'notice info' }, 'Demo-Daten (mock=1): ' + (str(portfolio.mockNote) || 'Beispielportfolio einer Agentur, keine echten Websites.')));
+    if (YQ.MOCK) root.appendChild(el('p', { class: 'notice info' }, 'Demo-Daten (mock=1): ' + (str(portfolio.mockNote) || 'Beispielportfolio, keine echten Websites.')));
     if (isCare() && str(portfolio.label)) root.appendChild(el('p', { class: 'dash-label' }, el('strong', null, str(portfolio.label))));
     var avg = sites.length ? Math.round(sites.reduce(function (s, x) { return s + R.clampScore(x.score); }, 0) / sites.length) : null;
     var critTotal = sites.reduce(function (s, x) { return s + (crit(x) || 0); }, 0);

@@ -2,6 +2,9 @@
    Werte werden ausschließlich per textContent eingesetzt, nirgendwohin gesendet, nicht gespeichert. */
 (function () {
   'use strict';
+  // Hinweisbanner als benannte Region statt "note" außerhalb von Landmarken (axe "region", WCAG 1.3.1)
+  var banner = document.querySelector('.demo-banner[role="note"]');
+  if (banner) banner.setAttribute('role', 'region');
   var OK = /^[A-Za-z0-9\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u00FF .,&'()\/\u2019\u201E\u201C\u201D-]+$/;
   function clean(v) {
     if (typeof v !== 'string') return null;

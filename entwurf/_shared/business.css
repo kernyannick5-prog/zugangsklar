@@ -153,7 +153,7 @@
 .bz-anim [data-reveal] { transition: opacity 0.6s ease, transform 0.6s ease; transition-delay: calc(var(--i, 0) * 70ms); }
 .bz-fallback [data-reveal] { opacity: 1 !important; transform: none !important; }
 .bz-anim [data-tilt] { transition: transform 0.2s ease-out; will-change: transform; transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); }
-.bz-anim .hero-art svg { animation: bz-bob 9s ease-in-out infinite; }
+.bz-anim .hero-art svg { animation: bz-bob 4s ease-in-out 1; }   /* endet nach unter 5 s (WCAG 2.2.2) */
 @keyframes bz-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 .bz-anim .bz-card:hover, .bz-anim .bz-ref:hover { box-shadow: 0 16px 30px -18px rgb(0 0 0 / 0.5); }
 @media (prefers-reduced-motion: reduce) {

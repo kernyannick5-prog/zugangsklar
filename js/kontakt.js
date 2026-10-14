@@ -35,7 +35,7 @@
     btn.disabled = true;
     statusEl.textContent = 'Nachricht wird gesendet …';
     var g = YQ.guard(form);
-    var payload = { hp: g.hp, ts: g.ts, email: f.email.value.trim(), url: url, consent: true, source: 'kontakt', message: 'Name: ' + f.name.value.trim() + '\n' + f.nachricht.value.trim(), fields: kfields(f, url) };
+    var payload = { hp: g.hp, ts: g.ts, email: f.email.value.trim(), url: url, source: 'kontakt', message: 'Name: ' + f.name.value.trim() + '\n' + f.nachricht.value.trim(), fields: kfields(f, url) };
     (YQ.pow ? YQ.pow.withPow(form, payload) : Promise.resolve(payload)).then(function (body) {
       return YQ.postJson('/api/lead', body, { timeout: 20000 });
     }).then(function (res) {

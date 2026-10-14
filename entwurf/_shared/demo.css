@@ -33,7 +33,8 @@ a { color: var(--link); text-underline-offset: 0.18em; }
 .demo-banner img { height: 1.6rem; width: auto; flex: none; }
 .demo-banner p { margin: 0; font-size: 0.875rem; line-height: 1.35; font-weight: 600; }
 .demo-banner strong { font-weight: 800; }
-.demo-banner .demo-expiry { font-weight: 600; white-space: nowrap; }
+.demo-banner p { overflow-wrap: anywhere; }
+.demo-banner .demo-expiry { font-weight: 600; }   /* kein nowrap: Reflow bei 320 px (WCAG 1.4.10) */
 @media (min-width: 40rem) { :root { --banner-h: 3.6rem; } .demo-banner p { font-size: 1rem; } .demo-banner img { height: 1.9rem; } }
 
 /* Kopfzeile */

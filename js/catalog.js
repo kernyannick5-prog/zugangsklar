@@ -168,3 +168,12 @@ window.YQ_CATALOG = {
  "endpreiseHinweis": "Alle Preise sind Endpreise. Als Kleinunternehmer im Sinne von § 19 UStG berechnen wir keine Umsatzsteuer.",
  "reportCredit": "Ein bereits gekaufter Website-Report wird beim Website-Auftrag und beim Fix-Paket voll angerechnet."
 };
+
+(function () {
+  var S = {"id":"website-basic","until":"2026-12-31","regular":{"price":399,"priceText":"399 €","priceTextShort":"399 €","amountText":"399 €","orderLabel":"Website Basic (399 €, einmalig, unverbindliche Anfrage, Angebot vorab)"}};
+  function today() { try { return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Berlin', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()); } catch (e) { var n = new Date(); return n.getFullYear() + '-' + ('0' + (n.getMonth() + 1)).slice(-2) + '-' + ('0' + n.getDate()).slice(-2); } }
+  var p = window.YQ_CATALOG.products[S.id];
+  if (!p || today() <= S.until) return;
+  Object.keys(S.regular).forEach(function (k) { p[k] = S.regular[k]; });
+  ['introActive', 'introLine', 'introSentence', 'regularPrice', 'introUntil'].forEach(function (k) { delete p[k]; });
+})();

@@ -5,13 +5,6 @@
   // Basis-URL der API (Cloudflare Worker). PLATZHALTER: nach dem Deployment durch die echte Worker-URL ersetzen.
   var API_BASE = 'https://yanqiva-api.yanqiva-api.workers.dev';
 
-  // Zahlungslinks (z. B. Stripe Payment Links). Leer = Rechnungs-Fallback ("Wir melden uns innerhalb von 24 Stunden").
-  var PAYMENT_LINKS = {
-    report: '', monitoring: '', 'einzel-fix': '', 'fix-paket': '',
-    'website-basic': '', 'website-business': '', 'website-premium': '', 'website-pflege': '',
-    'fix-individuell': ''
-  };
-
   // Bewusst kein Analytics-Skript (DSGVO, Geschwindigkeit). Zählung erfolgt über API-Zähler.
   // Falls später nötig: Konfiguration hier eintragen. Aktuell: null.
   var ANALYTICS = null;
@@ -322,5 +315,5 @@
   // Footer-Link "Newsletter" (im HTML mit hidden) nur zeigen, wenn die Anmeldung aktiv ist.
   if (NEWSLETTER) Array.prototype.forEach.call(document.querySelectorAll('[data-newsletter-link]'), function (a) { a.hidden = false; });
 
-  window.YQ = { NEWSLETTER: NEWSLETTER, NEWSLETTER_CONSENT_VERSION: NEWSLETTER_CONSENT_VERSION, guard: guard, pow: { watch: powWatch, withPow: withPow, solve: powSolve, supported: powSupported }, hpField: hpField, API_BASE: API_BASE, PAYMENT_LINKS: PAYMENT_LINKS, ANALYTICS: ANALYTICS, MOCK: MOCK, MOCK_URL: MOCK_URL, mockUrl: mockUrl, el: el, postJson: postJson, postNdjson: postNdjson, getJson: getJson, CONTACT_EMAIL: CONTACT_EMAIL, mailFallback: mailFallback, normalizeUrl: normalizeUrl };
+  window.YQ = { NEWSLETTER: NEWSLETTER, NEWSLETTER_CONSENT_VERSION: NEWSLETTER_CONSENT_VERSION, guard: guard, pow: { watch: powWatch, withPow: withPow, solve: powSolve, supported: powSupported }, hpField: hpField, API_BASE: API_BASE, ANALYTICS: ANALYTICS, MOCK: MOCK, MOCK_URL: MOCK_URL, mockUrl: mockUrl, el: el, postJson: postJson, postNdjson: postNdjson, getJson: getJson, CONTACT_EMAIL: CONTACT_EMAIL, mailFallback: mailFallback, normalizeUrl: normalizeUrl };
 })();

@@ -49,7 +49,11 @@ html.yq-chat-lock, html.yq-chat-lock body { overflow: hidden; }
 .yq-chat-notice a { color: var(--primary, #2F2A85); }
 .yq-chat-log { display: flex; flex-direction: column; gap: .6rem; }
 .yq-chat-msg { max-width: 92%; padding: .55rem .8rem; border-radius: var(--radius-btn, 10px); overflow-wrap: anywhere; }
-.yq-chat-text { white-space: pre-wrap; }
+.yq-chat-text-user { white-space: pre-wrap; }
+.yq-chat-text p { margin: 0 0 .6em; white-space: pre-line; }
+.yq-chat-text ul, .yq-chat-text ol { margin: 0 0 .6em; padding-left: 1.3em; }
+.yq-chat-text li { margin: 0 0 .25em; }
+.yq-chat-text > :last-child { margin-bottom: 0; }
 .yq-chat-msg.is-bot { align-self: flex-start; background: var(--card, #fff); border: 1px solid var(--line, #E3E3EE); }
 .yq-chat-msg.is-user { align-self: flex-end; background: var(--primary-soft, #EEEDFB); border: 1px solid var(--line-strong, #CFCDEA); }
 .yq-chat-msg.is-error { border-color: var(--crit, #B42318); }

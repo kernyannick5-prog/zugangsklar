@@ -28,7 +28,7 @@
   var ERRORS = {
     invalid_url: { title: 'Adresse ungültig', text: 'Die Adresse konnte nicht verarbeitet werden.', todo: 'Geben Sie die Adresse Ihrer Website ein, zum Beispiel beispiel.de.' },
     invalid_scheme: { title: 'Adresse ungültig', text: 'Es sind nur Adressen mit http oder https möglich.', todo: 'Geben Sie die Adresse Ihrer Website ein, zum Beispiel beispiel.de.' },
-    blocked: { title: 'Adresse nicht prüfbar', text: 'Diese Adresse kann nicht geprüft werden.', todo: 'Geprüft werden nur öffentlich erreichbare Websites Dritter oder Ihre eigene. Interne Adressen, Adressen mit Zugangsdaten oder besondere Ports sind ausgeschlossen.' },
+    blocked: { title: 'Adresse nicht prüfbar', text: 'Diese Adresse kann nicht geprüft werden.', todo: 'Geprüft werden nur öffentlich erreichbare Websites. Interne Adressen, Adressen mit Zugangsdaten, besondere Ports und die Adressen von Yanqiva selbst sind ausgeschlossen.' },
     dns: { title: 'Domain nicht gefunden', text: 'Zu dieser Adresse gibt es keinen Eintrag im Domain-Namensdienst.', todo: 'Prüfen Sie die Schreibweise (zum Beispiel Tippfehler oder fehlende Endung). Ist die Domain neu, kann es einige Stunden dauern, bis sie erreichbar ist.' },
     ssl: { title: 'Zertifikatsproblem', text: 'Die verschlüsselte Verbindung zur Website ist nicht möglich, weil das Zertifikat ungültig ist.', todo: 'Prüfen Sie das SSL-Zertifikat bei Ihrem Hoster (abgelaufen, falscher Name, unvollständige Kette). Besucher sehen dort vermutlich ebenfalls eine Warnung.' },
     unreachable: { title: 'Website nicht erreichbar', text: 'Es konnte keine Verbindung zur Website aufgebaut werden.', todo: 'Prüfen Sie, ob die Website im Browser erreichbar ist, und versuchen Sie es später erneut.', report: true },
@@ -108,7 +108,7 @@
     if (info.todo && !info.fallback) box.appendChild(el('p', null, el('strong', null, 'Was Sie tun können: '), info.todo));
     resultEl.appendChild(box);
     if (info.report) resultEl.appendChild(reportLink());
-    setStatus('');
+    setStatus('Fehler: ' + info.title + '. ' + message, true);   // auch im Statusbereich ansagen (Audit F8)
     scrollTo(resultEl);
     title.focus({ preventScroll: true });
   }

@@ -50,7 +50,7 @@
 <h1>Rechnungsgenerator</h1>
 <p class="lead">Erstellen Sie eine Rechnung direkt im Browser und speichern Sie sie als PDF. Alle Eingaben bleiben auf Ihrem Gerät: Es wird nichts an einen Server gesendet, es gibt kein Tracking.</p>
 <div class="notice info"><p><strong>Hinweis, keine Steuerberatung.</strong> Der Generator hilft beim Aufbau einer Rechnung und zeigt, welche üblichen Pflichtangaben noch fehlen. Er garantiert nicht, dass Ihre Rechnung rechtlich oder steuerlich korrekt ist. Prüfen Sie Inhalt und Beträge selbst und lassen Sie sich im Zweifel beraten.</p>
-<p>Der Generator erstellt eine Rechnung zum Drucken oder als PDF, keine E-Rechnung (XRechnung oder ZUGFeRD). Kleinunternehmer dürfen nach derzeitiger Rechtslage weiterhin so abrechnen (§ 34a UStDV); für den Versand als PDF per E-Mail braucht es die Zustimmung des Empfängers, die üblicherweise formlos erfolgt, etwa indem er PDF-Rechnungen akzeptiert. Bei Regelbesteuerung gilt im Inland zwischen Unternehmen schrittweise die E-Rechnungspflicht (spätestens für Leistungen ab 2028).</p></div>
+<p>Der Generator erstellt eine Rechnung zum Drucken oder als PDF, keine E-Rechnung (XRechnung oder ZUGFeRD). Kleinunternehmer dürfen nach derzeitiger Rechtslage weiterhin so abrechnen (§&nbsp;34a UStDV); für den Versand als PDF per E-Mail braucht es die Zustimmung des Empfängers, die üblicherweise formlos erfolgt, etwa indem er PDF-Rechnungen akzeptiert. Bei Regelbesteuerung gilt im Inland zwischen Unternehmen schrittweise die E-Rechnungspflicht (spätestens für Leistungen ab 2028).</p></div>
 </div>
 
 <div class="inv-layout">
@@ -106,13 +106,13 @@
 <fieldset class="inv-box">
 <legend>4. Umsatzsteuer</legend>
 <div class="inv-radios inv-radios-col">
-<label class="check-line"><input type="radio" name="tm" value="klein" checked><span>Kleinunternehmer (§ 19 UStG, keine USt)</span></label>
+<label class="check-line"><input type="radio" name="tm" value="klein" checked><span>Kleinunternehmer (§&nbsp;19 UStG, keine USt)</span></label>
 <label class="check-line"><input type="radio" name="tm" value="regel"><span>Regelbesteuerung (Steuersatz je Position)</span></label>
 </div>
-<p class="hint" id="tm-hint-klein">Die Rechnung enthält dann keinen Steuersatz und keinen Steuerbetrag, sondern automatisch den Hinweis: „Gemäß § 19 UStG wird keine Umsatzsteuer berechnet (Steuerbefreiung für Kleinunternehmer).“ Weisen Sie auch in Beschreibungen und Hinweisen keine Umsatzsteuer aus.</p>
+<p class="hint" id="tm-hint-klein">Die Rechnung enthält dann keinen Steuersatz und keinen Steuerbetrag, sondern automatisch den Hinweis: „Gemäß §&nbsp;19 UStG wird keine Umsatzsteuer berechnet (Steuerbefreiung für Kleinunternehmer).“ Weisen Sie auch in Beschreibungen und Hinweisen keine Umsatzsteuer aus.</p>
 <div id="tm-regel-box" hidden>
-<p class="hint">Für Leistungen an Unternehmen im Inland ist bei Regelbesteuerung grundsätzlich eine E-Rechnung vorgeschrieben. Übergangsweise bleiben Papier oder (mit Zustimmung des Empfängers) PDF zulässig: für Leistungen bis Ende 2026, wenn die Rechnung bis 31.12.2026 übermittelt wird, und bei einem Vorjahresumsatz bis 800.000&nbsp;€ für Leistungen im Jahr 2027, wenn die Rechnung bis 31.12.2027 übermittelt wird (§ 27 Abs. 38 UStG). Kleinbetragsrechnungen bis 250&nbsp;€ sind ausgenommen.</p>
-<div class="field"><label for="t-exempt">Hinweis zum Steuersatz 0 %</label><textarea id="t-exempt" rows="2" maxlength="300" aria-describedby="t-exempt-hint"></textarea><p class="hint" id="t-exempt-hint">Nur nötig, wenn eine Position 0 % hat: Nennen Sie den Grund, zum Beispiel die Steuerbefreiung mit Vorschrift oder „Steuerschuldnerschaft des Leistungsempfängers“ (§ 13b UStG). Erscheint unter den Summen.</p></div>
+<p class="hint">Für Leistungen an Unternehmen im Inland ist bei Regelbesteuerung grundsätzlich eine E-Rechnung vorgeschrieben. Übergangsweise bleiben Papier oder (mit Zustimmung des Empfängers) PDF zulässig: für Leistungen bis Ende 2026, wenn die Rechnung bis 31.12.2026 übermittelt wird, und bei einem Vorjahresumsatz bis 800.000&nbsp;€ für Leistungen im Jahr 2027, wenn die Rechnung bis 31.12.2027 übermittelt wird (§&nbsp;27 Abs.&nbsp;38 UStG). Kleinbetragsrechnungen bis 250&nbsp;€ sind ausgenommen.</p>
+<div class="field"><label for="t-exempt">Hinweis zum Steuersatz 0&nbsp;%</label><textarea id="t-exempt" rows="2" maxlength="300" aria-describedby="t-exempt-hint"></textarea><p class="hint" id="t-exempt-hint">Nur nötig, wenn eine Position 0&nbsp;% hat: Nennen Sie den Grund, zum Beispiel die Steuerbefreiung mit Vorschrift oder „Steuerschuldnerschaft des Leistungsempfängers“ (§&nbsp;13b UStG). Erscheint unter den Summen.</p></div>
 </div>
 </fieldset>
 
@@ -158,10 +158,10 @@
 <p id="inv-status" class="status-msg" role="status" aria-live="polite"></p>
 </div>
 <section class="inv-checklist no-print" aria-labelledby="inv-check-h">
-<h3 id="inv-check-h">Für Rechnungen von Kleinunternehmern (§ 34a UStDV) üblicherweise erforderlich</h3>
+<h3 id="inv-check-h">Für Rechnungen von Kleinunternehmern (§&nbsp;34a UStDV) üblicherweise erforderlich</h3>
 <ul id="inv-check-list" class="inv-check-list"></ul>
 <div id="inv-notices" hidden><h4 class="inv-notices-h">Hinweise</h4><ul id="inv-notice-list" class="inv-notice-list"></ul></div>
-<p class="hint">Hinweis, keine Steuerberatung: Die Liste ersetzt keine Prüfung. Erfüllte Punkte garantieren keine rechtlich korrekte Rechnung. Bewahren Sie eine Kopie jeder Rechnung auf, üblicherweise acht Jahre (§ 14b UStG); der Generator speichert keine ausgestellten Rechnungen.</p>
+<p class="hint">Hinweis, keine Steuerberatung: Die Liste ersetzt keine Prüfung. Erfüllte Punkte garantieren keine rechtlich korrekte Rechnung. Bewahren Sie eine Kopie jeder Rechnung auf, üblicherweise acht Jahre (§&nbsp;14b UStG); der Generator speichert keine ausgestellten Rechnungen.</p>
 </section>
 <div class="inv-scroll" id="inv-scroll" tabindex="0" role="region" aria-labelledby="inv-preview-h">
 <article class="inv-sheet" id="inv-sheet" aria-label="Rechnung"></article>
@@ -199,7 +199,7 @@
 <li><a href="fix">Behebung (Einzel-Fix, Fix-Paket)</a></li>
 <li><a href="barrierefreiheitserklaerung-generator">Erklärungs-Generator</a></li>
 <li><a href="ratgeber/">Ratgeber</a></li>
-<li><a href="https://yanqiva-bewertung.de/">YANQIVA REVIEW – Google-Bewertungen per NFC-Karte</a></li>
+<li><a href="https://yanqiva-bewertung.de/">YANQIVA REVIEW – Google-Bewertungen per NFC-Bewertungskarte</a></li>
 </ul>
 </nav>
 <nav aria-label="Rechtliches">
@@ -217,7 +217,8 @@
 </div>
 <div class="wrap"><p class="footer-note footer-login">Monitoring-Kunden: Ihren persönlichen Dashboard-Link finden Sie in Ihrer Willkommens-E-Mail.</p><p class="footer-copy">© 2026 Yanqiva. Alle Preise sind Endpreise; gemäß § 19 UStG wird keine Umsatzsteuer berechnet. Automatische Prüfung. Liefert Hinweise, keine Rechtsberatung und keine Garantie für Rechtskonformität.</p></div>
 </footer>
-<script src="js/config.js?v=e1f93d62d5" defer></script>
+<script src="js/config.js?v=2adc611f0b" defer></script>
+<script src="js/price-switch.js?v=5bc2010385" defer></script>
 <script src="js/nav.js?v=cc783f0b1a" defer></script>
 <script src="js/rechnung-core.js?v=e0927dd74f" defer></script>
 <script src="js/rechnung.js?v=74b8163382" defer></script>

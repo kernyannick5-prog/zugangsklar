@@ -13,14 +13,11 @@
   var MAX_SEND = 10;
   var MAX_STORE = 20;
   var STORE_KEY = 'yq-chat-v1';
-  var TIMEOUT_MS = 30000;
   var OWN_HOSTS = ['yanqiva.de', 'www.yanqiva.de', 'yanqiva-bewertung.de', 'www.yanqiva-bewertung.de'];
   // Kurze Standardfragen (Eigentümer 2026-10-06); jede ist in worker/test/chat.test.js mit erwarteter Antwort abgesichert
   var SUGGESTIONS = ['Was kostet eine Website?', 'Ist der Check kostenlos?', 'Was ist das BFSG?', 'Was kostet Monitoring?', 'Wie lange dauert eine Website?', 'Kann ich monatlich kündigen?', 'Wie erreiche ich euch?'];
   var GREETING = 'Hallo! Ich beantworte Fragen zu Yanqiva: Leistungen, Preise, Bestellablauf und unsere Vertragsbedingungen (AGB). Begriffe erkläre ich allgemein, das ist keine Rechtsberatung. Wählen Sie eine Frage oder schreiben Sie Ihre eigene.';
-  var ERR_RATE = 'Sie haben gerade viele Fragen gestellt. Bitte versuchen Sie es später erneut.';
-  var ERR_DOWN = 'Der Chat ist gerade nicht erreichbar. Versuchen Sie es erneut oder nutzen Sie das Kontaktformular.';
-  var ERR_BAD = 'Ihre Frage konnte nicht verarbeitet werden. Bitte kürzen oder ändern Sie sie und versuchen Sie es erneut.';
+  var ERR_DOWN = 'Der Chat konnte nicht geladen werden. Versuchen Sie es erneut oder nutzen Sie das Kontaktformular.';
   var NEAR_BOTTOM_PX = 48;
 
   var scriptSrc = document.currentScript && document.currentScript.src;
@@ -80,13 +77,34 @@
   }
 
   /* ---------- Rendering ---------- */
+  // Text -> <p>, <ul>, <ol> (Leerzeile trennt Absaetze, "- " und "1. " bilden Listen). Nur textContent, nie innerHTML.
+  function renderText(text) {
+    var wrap = el('div', { class: 'yq-chat-text' });
+    var blocks = String(text).replace(/\r/g, '').split(/\n{2,}/);
+    blocks.forEach(function (block) {
+      var lines = block.split('\n').filter(function (l) { return l.replace(/\s+/g, '') !== ''; });
+      if (!lines.length) return;
+      var ul = lines.every(function (l) { return /^- /.test(l); });
+      var ol = !ul && lines.every(function (l) { return /^\d+\. /.test(l); });
+      if (ul || ol) {
+        var list = el(ul ? 'ul' : 'ol', null);
+        if (ol) list.setAttribute('start', String(parseInt(lines[0], 10) || 1));
+        lines.forEach(function (l) { list.appendChild(el('li', null, l.replace(ul ? /^- / : /^\d+\. /, ''))); });
+        wrap.appendChild(list);
+      } else {
+        wrap.appendChild(el('p', null, lines.join('\n')));
+      }
+    });
+    return wrap;
+  }
+
   function renderMsg(role, text, opts) {
     opts = opts || {};
     var isBot = role === 'assistant';
     var box = el('div', { class: 'yq-chat-msg ' + (isBot ? 'is-bot' : 'is-user') + (opts.error ? ' is-error' : '') });
     if (isBot) box.appendChild(el('span', { class: 'visually-hidden' }, 'Antwort: '));
     else box.appendChild(el('span', { class: 'visually-hidden' }, 'Sie: '));
-    box.appendChild(el('span', { class: 'yq-chat-text' }, text));   // textContent, Zeilenumbrüche via white-space: pre-wrap
+    box.appendChild(isBot ? renderText(text) : el('div', { class: 'yq-chat-text yq-chat-text-user' }, text));   // nur textContent
     if (opts.errorLink || opts.retry) {
       var actions = el('div', { class: 'yq-chat-actions' });
       if (opts.retry) {
@@ -98,9 +116,8 @@
       box.appendChild(actions);
     }
     var linkTexts = [];
-    if (isBot && (opts.mode === 'ai' || (opts.sources && opts.sources.length))) {
+    if (isBot && opts.sources && opts.sources.length) {
       var meta = el('div', { class: 'yq-chat-meta' });
-      if (opts.mode === 'ai') meta.appendChild(el('span', { class: 'yq-chat-badge' }, 'KI-generiert'));
       var links = [];
       (opts.sources || []).slice(0, 5).forEach(function (s) {
         var href = s && safeSourceHref(s.url);
@@ -194,7 +211,7 @@
   }
 
   /* ---------- Senden ---------- */
-  // Verlauf für die API: neueste zuerst, höchstens MAX_SEND Nachrichten und MAX_TOTAL Zeichen (Server-Limit 4000).
+  // Verlauf als Kontext für Folgefragen: neueste zuerst, höchstens MAX_SEND Nachrichten und MAX_TOTAL Zeichen.
   // Lange Antworten (z. B. Vertragstexte) werden gekürzt, damit Folgefragen nicht am Gesamtlimit scheitern.
   var MAX_TOTAL = 3800, MAX_ASSISTANT = 600;
   function buildPayload() {
@@ -209,9 +226,8 @@
     }
     return out;
   }
-  // Feste Antworten direkt im Browser (js/chat-faq.js, gleiche Logik + Wissensbasis wie der Server-FAQ-Modus).
-  // Kein Server nötig, Fragen verlassen den Browser nicht. Das Bündel wird erst beim ersten Öffnen geladen.
-  var LOCAL = !/[?&]chat=api/.test(location.search); // ?chat=api: Server-Modus (Worker), z. B. für tools/site-build/chat.e2e.mjs
+  // Feste Antworten direkt im Browser (js/chat-faq.js, Wissensbasis aus den Seiten). Es gibt keinen Server und keine KI:
+  // Fragen verlassen den Browser nicht. Das Bündel wird erst beim ersten Öffnen geladen.
   var faqPromise = null;
   function loadFaq() {
     if (window.YQFaq) return Promise.resolve(window.YQFaq);
@@ -228,13 +244,6 @@
     return faqPromise;
   }
   function chatRequest(messages) {
-    if (LOCAL && !YQ.MOCK) {
-      return loadFaq().then(function (faq) {
-        var r = faq.answer(messages);
-        // kurze Pause, damit die Antwort nicht „springt“ und der Status angesagt werden kann
-        return new Promise(function (res) { setTimeout(function () { res({ reply: r.reply, sources: r.sources || [], mode: 'faq', answered: r.answered, smalltalk: r.smalltalk }); }, 250); });
-      });
-    }
     if (YQ.MOCK) {
       return fetch(YQ.mockUrl('chat-example.json')).then(function (r) { return r.json(); }).then(function (d) {
         var q = (messages[messages.length - 1].content || '').toLowerCase();
@@ -245,26 +254,11 @@
         return new Promise(function (res) { setTimeout(function () { res(hit); }, 600); });
       });
     }
-    // Eigener fetch statt YQ.postJson: postJson verwirft den HTTP-Status, hier wird 429 von 503 unterschieden.
-    var ctrl = typeof AbortController !== 'undefined' ? new AbortController() : null;
-    var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, TIMEOUT_MS) : null;
-    function done() { if (timer) clearTimeout(timer); }
-    return fetch(YQ.API_BASE + '/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages: messages }),
-      signal: ctrl ? ctrl.signal : undefined
-    }).then(function (res) {
-      return res.json().catch(function () { return null; }).then(function (data) {
-        done();
-        if (!res.ok || !data || typeof data.reply !== 'string') {
-          var e = new Error('HTTP ' + res.status);
-          e.status = res.status;
-          throw e;
-        }
-        return data;
-      });
-    }, function () { done(); var e = new Error('network'); e.status = 0; throw e; });
+    return loadFaq().then(function (faq) {
+      var r = faq.answer(messages);
+      // kurze Pause, damit die Antwort nicht „springt“ und der Status angesagt werden kann
+      return new Promise(function (res) { setTimeout(function () { res({ reply: r.reply, sources: r.sources || [], answered: r.answered, smalltalk: r.smalltalk }); }, 250); });
+    });
   }
 
   function submit(text) {
@@ -291,21 +285,19 @@
       if (myGen !== gen) { setBusy(false); return; } // Verlauf wurde währenddessen gelöscht
       stick = nearBottom();
       var sources = Array.isArray(data.sources) ? data.sources : [];
-      var mode = data.mode === 'ai' ? 'ai' : 'faq';
       history.push({ role: 'assistant', content: data.reply });
-      view.push({ r: 'u', c: text }, { r: 'a', c: data.reply, s: sources.slice(0, 5), m: mode });
+      view.push({ r: 'u', c: text }, { r: 'a', c: data.reply, s: sources.slice(0, 5) });
       saveStore();
       setBusy(false);
-      place(renderMsg('assistant', data.reply, { mode: mode, sources: sources, copy: true }));
+      place(renderMsg('assistant', data.reply, { sources: sources, copy: true }));
       // Nach Smalltalk („Hallo“) oder „weiß ich nicht“: Standardfragen erneut anbieten, damit man direkt weiterklicken kann
       if (data.smalltalk || data.answered === false) { showChips(); if (stick) scrollBox.scrollTop = scrollBox.scrollHeight; }
     }, function (e) {
       if (myGen !== gen) { setBusy(false); return; }
       stick = nearBottom();
       history.pop();                       // fehlgeschlagene Frage nicht in den Verlauf übernehmen
-      var rate = e.status === 429, bad = e.status === 400 || e.status === 413 || e.status === 415;
       setBusy(false);
-      var b = renderMsg('assistant', rate ? ERR_RATE : (bad ? ERR_BAD : ERR_DOWN), { error: true, errorLink: !rate && !bad, retry: (!rate && !bad) ? text : null });
+      var b = renderMsg('assistant', ERR_DOWN, { error: true, errorLink: true, retry: text });
       input.value = text; updateCounter();  // Eingabe zum erneuten Versuch wiederherstellen
       place(b);
     });
@@ -314,7 +306,7 @@
   /* ---------- Panel ---------- */
   function build() {
     built = true;
-    if (LOCAL && !YQ.MOCK) loadFaq().catch(function () { /* Fehler zeigt erst die erste Frage */ });
+    if (!YQ.MOCK) loadFaq().catch(function () { /* Fehler zeigt erst die erste Frage */ });
     var title = el('h2', { class: 'yq-chat-title', id: 'yq-chat-title' }, 'Fragen zu Yanqiva');
     var closeBtn = el('button', { type: 'button', 'aria-label': 'Chat schließen' });
     closeBtn.appendChild(icon(ICON_CLOSE));
@@ -349,6 +341,7 @@
     panel = el('div', { class: 'yq-chat-panel', id: 'yq-chat-panel', role: 'dialog', 'aria-modal': 'false', 'aria-labelledby': 'yq-chat-title', hidden: true },
       el('div', { class: 'yq-chat-head' }, title, closeBtn), el('div', { class: 'yq-chat-body' }, scrollBox, jumpBtn), statusEl, form);
     rootEl.appendChild(panel);
+    toggle.setAttribute('aria-controls', 'yq-chat-panel');   // erst jetzt vorhanden (BF-06)
 
     // Begrüßung und gespeicherter Verlauf
     renderMsg('assistant', GREETING);
@@ -358,8 +351,8 @@
       var role = m.r === 'a' ? 'assistant' : 'user';
       var content = m.c.slice(0, MAX_LEN * 4);
       history.push({ role: role, content: content });
-      view.push(m.r === 'a' ? { r: 'a', c: content, s: Array.isArray(m.s) ? m.s : [], m: m.m } : { r: 'u', c: content });
-      renderMsg(role, content, role === 'assistant' ? { mode: m.m === 'ai' ? 'ai' : 'faq', sources: Array.isArray(m.s) ? m.s : [], copy: true } : null);
+      view.push(m.r === 'a' ? { r: 'a', c: content, s: Array.isArray(m.s) ? m.s : [] } : { r: 'u', c: content });
+      renderMsg(role, content, role === 'assistant' ? { sources: Array.isArray(m.s) ? m.s : [], copy: true } : null);
     });
     if (!saved.length) showChips();
     updateCounter();
@@ -425,7 +418,7 @@
   /* ---------- Init (nur Button; Panel erst beim Öffnen) ---------- */
   function init() {
     rootEl = el('div', { class: 'yq-chat-root' });
-    toggle = el('button', { type: 'button', class: 'yq-chat-toggle', id: 'yq-chat-toggle', 'aria-expanded': 'false', 'aria-controls': 'yq-chat-panel', 'aria-haspopup': 'dialog' });
+    toggle = el('button', { type: 'button', class: 'yq-chat-toggle', id: 'yq-chat-toggle', 'aria-expanded': 'false', 'aria-haspopup': 'dialog' });
     toggle.appendChild(icon(ICON_CHAT));
     toggle.appendChild(el('span', { class: 'yq-chat-toggle__label' }, 'Fragen?'));
     toggle.appendChild(el('span', { class: 'visually-hidden' }, ' Chat zu Yanqiva öffnen'));
