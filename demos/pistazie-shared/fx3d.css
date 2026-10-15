@@ -159,3 +159,6 @@ html:not(.fx-ready) .fx-flip__btn { display: none; }
 
 /* Reveal-Perspektive darf nie horizontal scrollen lassen */
 html.fx3d main { overflow-x: clip; }
+
+/* Mobile: 3D-Objekte (gekippte Ebenen) duerfen nie horizontales Scrollen/Verziehen der Seite ausloesen */
+html.fx-ready main { overflow-x: clip; }

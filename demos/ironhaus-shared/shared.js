@@ -43,6 +43,10 @@
     document.body.style.overflow = "";
   }
   function openMobileMenu() {
+    // Menue beginnt unter dem Header (Logo + Schliessen-Button bleiben sichtbar und antippbar)
+    var hdr = document.getElementById("site-header");
+    var top = hdr ? Math.max(0, Math.round(hdr.getBoundingClientRect().bottom)) : 0;
+    mobileMenu.style.setProperty("--menu-top", top + "px");
     navToggle.setAttribute("aria-expanded", "true");
     mobileMenu.classList.add("is-open");
     document.body.style.overflow = "hidden";

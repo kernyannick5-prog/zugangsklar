@@ -248,3 +248,8 @@
 
 /* Das hidden-Attribut muss auch gegen display-Regeln gewinnen */
 [hidden] { display: none !important; }
+
+/* Mobil / Touch: Tippziele mindestens 44 px */
+@media (max-width: 900px), (pointer: coarse) {
+  .calendar__nav-btn, .stepper-field__btn, .wish-btn { width: 44px; height: 44px; }
+}

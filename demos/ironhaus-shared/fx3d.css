@@ -91,6 +91,8 @@
 @media (prefers-reduced-motion: no-preference) {
   html.fx3d .reveal { transform: perspective(1100px) translateY(30px) rotateX(5deg); transform-origin: 50% 0; }
   html.fx3d .reveal.is-visible { transform: none; }
+  /* Mobil: nur sanftes Einblenden von unten, keine Kippung (Text bleibt gerade, aeltere Geraete werden geschont) */
+  @media (max-width: 760px) { html.fx3d .reveal { transform: translateY(20px); } html.fx3d .reveal.is-visible { transform: none; } }
 }
 
 /* ---------- Karten: 3D-Tilt mit Tiefen-Ebenen (nur feiner Zeiger, nicht im Lite-Modus) ---------- */
@@ -130,6 +132,8 @@ html.fx3d .fx-hot:hover > figcaption { transform: translateZ(calc(var(--fz, 1) *
 /* ---------- Premium: 3D-Laufband (Stats + Live-Auslastung) ---------- */
 .fx-band { background: #111214; color: #fff; overflow: hidden; padding: var(--space-5) 0 var(--space-6); perspective: 900px; border-block: 3px solid #ffd400; }
 .fx-band__plane { transform: rotateX(22deg) scale(1.04); transform-origin: 50% 40%; transform-style: preserve-3d; }
+/* Mobil: ruhige, flache Variante ohne Kippung (Schrift bleibt scharf und gerade lesbar, schont aeltere Geraete) */
+@media (max-width: 760px) { .fx-band { perspective: none; } .fx-band__plane { transform: none; } }
 .fx-band__row { display: flex; width: max-content; font-family: var(--font-display); font-style: italic; font-weight: 800; text-transform: uppercase; line-height: 1.05; white-space: nowrap; }
 .fx-band__row + .fx-band__row { margin-top: .15em; }
 .fx-band__row span { padding-right: .6em; }

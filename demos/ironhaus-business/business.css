@@ -99,3 +99,5 @@
 @media (max-width: 1280px) { .cta-band-inner { margin-inline: var(--space-4); } }
 .section-title { letter-spacing: 0; }
 .eyebrow { letter-spacing: 0.14em; }
+
+@media (max-width: 900px), (pointer: coarse) { .course-book-btn { min-height: 44px; } }

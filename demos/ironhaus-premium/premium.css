@@ -215,3 +215,5 @@ main { counter-reset: sec; }
 @media (prefers-reduced-motion: reduce) {
   .btn-yellow, .nav-list a, .feature-card, .price-card, .review-card, .product-card { transition: none; }
 }
+
+@media (max-width: 900px), (pointer: coarse) { .course-book-btn, .course-wait-btn { min-height: 44px; } }

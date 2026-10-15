@@ -129,6 +129,17 @@
 .iw-cookie-categories { display: flex; flex-wrap: wrap; gap: var(--space-4); margin: var(--space-3) 0; }
 .iw-cookie-category { display: flex; align-items: center; gap: var(--space-2); font-size: 0.85rem; }
 .iw-cookie-actions { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
+/* Mobil: kompaktes Banner (max. ca. ein Drittel des Bildschirms), grosse Tippziele, Hauptaktion zuerst */
+@media (max-width: 600px) {
+  .iw-cookie-banner { padding: var(--space-3) var(--space-4); max-height: 70vh; overflow-y: auto; }
+  .iw-cookie-inner { gap: var(--space-3); }
+  .iw-cookie-text { font-size: 0.8rem; line-height: 1.4; }
+  .iw-cookie-categories { gap: var(--space-2) var(--space-4); margin: var(--space-2) 0 0; }
+  .iw-cookie-category { font-size: 0.8rem; min-height: 32px; }
+  .iw-cookie-actions { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); width: 100%; }
+  .iw-cookie-actions .btn { width: 100%; padding-inline: 0.5rem; font-size: 0.8rem; }
+  .iw-cookie-actions #cookie-accept-all { grid-column: 1 / -1; order: -1; }
+}
 
 /* Support-Chat-Widget (Premium) */
 .iw-chat-toggle {
@@ -168,3 +179,10 @@
 /* Zielgrößen ≥ 24px (WCAG 2.5.8): Stufen-Umschalter, Kontaktdaten, Logo-Link */
 .tier-switcher-links a, .contact-info a { display: inline-block; min-height: 24px; padding-block: 2px; }
 .header-inner .brand { display: inline-flex; align-items: center; min-height: 24px; }
+
+/* Mobil / Touch: Tippziele mindestens 44 px (Header-Logo, Footer-Links, Paket-Umschalter, Kursplan-Buttons, Schalter) */
+@media (max-width: 900px), (pointer: coarse) {
+  .brand { display: inline-flex; align-items: center; min-height: 44px; }
+  .footer-grid a, .tier-switcher-links a, .contact-info a { display: inline-flex; align-items: center; min-height: 44px; padding-block: 0; }
+  .course-book-btn, .course-wait-btn { min-height: 44px; }
+}

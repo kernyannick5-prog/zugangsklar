@@ -47,4 +47,7 @@
 }
 .paket-badge__cta:hover { color: var(--pb-accent); }
 .paket-badge__cta:focus-visible { outline: 3px solid var(--pb-accent); outline-offset: 2px; }
+@media (max-width: 760px), (pointer: coarse) {
+  .paket-badge__cta { display: inline-flex; align-items: center; min-height: 44px; padding: 0.4rem 0.5rem; }
+}
 @media print { .paket-badge { display: none; } }

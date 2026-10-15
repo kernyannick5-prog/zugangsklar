@@ -166,7 +166,11 @@ section { padding: var(--space-2xl) clamp(1.25rem, 4vw, 4rem); max-width: 78rem;
 .mobile-nav {
   overflow: hidden; max-height: 0; transition: max-height 0.3s var(--ease);
 }
-.mobile-nav.is-open { max-height: 20rem; }
+.mobile-nav.is-open {
+  /* Alle Eintraege muessen erreichbar sein: Hoehe am Bildschirm ausrichten, bei Bedarf scrollen (vorher fix 20rem = Eintraege abgeschnitten) */
+  max-height: min(42rem, calc(100vh - 7rem)); max-height: min(42rem, calc(100dvh - 7rem));
+  overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
+}
 .mobile-nav ul { display: flex; flex-direction: column; padding: var(--space-s) 0; gap: var(--space-2xs); }
 .mobile-nav a {
   display: block; padding: var(--space-xs); font-weight: 700; text-decoration: none;
@@ -415,3 +419,8 @@ section { padding: var(--space-2xl) clamp(1.25rem, 4vw, 4rem); max-width: 78rem;
   background: var(--color-cocoa); color: #fff;
 }
 
+
+/* Mobil / Touch: Tippziele mindestens 44 px (Footer-Links, Paket-Umschalter) */
+@media (max-width: 900px), (pointer: coarse) {
+  .footer-nav a, .footer-nav .link-button, .tier-switcher a { display: inline-flex; align-items: center; min-height: 44px; }
+}
