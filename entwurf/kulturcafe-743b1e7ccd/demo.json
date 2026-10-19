@@ -1,0 +1,20 @@
+{
+  "paket": "basic",
+  "seiten": [
+    {
+      "datei": "index.html",
+      "titel": "Startseite (One-Pager)"
+    }
+  ],
+  "funktionen": [
+    "Leistungsübersicht",
+    "Ablauf in drei Schritten",
+    "Galerie (Platzhalter ohne Fotos)",
+    "Über-uns-Abschnitt (Beispieltext)",
+    "Öffnungszeiten (Beispielzeiten)",
+    "Kontaktformular (Demo, deaktiviert)",
+    "Anfahrt (statischer Platzhalter, ohne Kartendienst)",
+    "Anruf-Button (Demo, ohne Funktion)"
+  ],
+  "stand": "2026-10-19"
+}
