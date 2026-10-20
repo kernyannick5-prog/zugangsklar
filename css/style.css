@@ -729,8 +729,12 @@ th { background: var(--tint); }
 .y3d-stack { position: absolute; left: 50%; top: 50%; width: var(--mark, calc(var(--art) * .5)); height: var(--mark, calc(var(--art) * .5)); margin: calc(var(--mark, var(--art) * .5) / -2) 0 0 calc(var(--mark, var(--art) * .5) / -2); transform-style: preserve-3d; }
 .y3d-l { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; overflow: visible; transform: translateZ(calc(var(--z, 0px) * var(--zs, 1))); }
 .y3d-l.f { backface-visibility: hidden; }
-/* Lichtreflex auf der Vorderseite (nur opacity animiert) */
-.y3d-stack::after { content: ""; position: absolute; inset: 0; border-radius: 24%; pointer-events: none; opacity: .12; backface-visibility: hidden; transform: translateZ(calc(19px * var(--zs, 1))); background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.36) 48%, rgba(255,255,255,.1) 56%, rgba(255,255,255,0) 68%); }
+/* Licht auf der Vorderseite: Fenster (.y3d-shine, schneidet auf die Form der Front zu) mit zwei Lagen: ruhiger Grundglanz, der der Maus-
+   neigung folgt (--lx/--ly/--lm aus fx.js), und die Lichtkante (.y3d-shine-s), die nur per transform/opacity ueber die Front gleitet.
+   Ohne Animation (reduzierte Bewegung, fx-lite, ohne JS) bleibt nur der Grundglanz als ruhiger Endzustand. */
+.y3d-shine { position: absolute; inset: 0; border-radius: 24%; overflow: hidden; pointer-events: none; backface-visibility: hidden; transform: translateZ(calc(19px * var(--zs, 1))); }
+.y3d-shine-g { position: absolute; inset: 0; opacity: calc(.6 + var(--lm, 0) * .4); transform: translateX(calc(var(--lx, 0) * -14%)); background: linear-gradient(118deg, rgba(255,255,255,0) 20%, rgba(255,255,255,.16) 42%, rgba(255,255,255,.05) 60%, rgba(255,255,255,0) 76%); }
+.y3d-shine-s { position: absolute; top: -20%; bottom: -20%; left: 0; width: 46%; opacity: 0; transform: translateX(-110%); background: linear-gradient(104deg, rgba(255,255,255,0) 12%, rgba(255,255,255,.12) 50%, rgba(255,255,255,.5) 76%, rgba(255,255,255,0) 84%); }
 /* Weicher Bodenschatten unter dem Zeichen (Licht oben links: leicht nach rechts versetzt); nur transform/opacity */
 .y3d::after { content: ""; position: absolute; left: 50%; top: 76%; width: calc(var(--mark, var(--art) * .5) * 1.05); height: calc(var(--mark, var(--art) * .5) * .16); margin: 0 0 0 calc(var(--mark, var(--art) * .5) * -.42); border-radius: 50%; pointer-events: none; background: radial-gradient(closest-side, rgba(10, 8, 48, .42), rgba(10, 8, 48, .16) 58%, rgba(10, 8, 48, 0)); }
 .y3d-glow { position: absolute; left: 50%; top: 50%; width: calc(var(--art) * .9); height: calc(var(--art) * .9); margin: calc(var(--art) * -.45) 0 0 calc(var(--art) * -.45); border-radius: 50%; background: radial-gradient(circle, rgba(126,224,200,.30) 0%, rgba(63,55,201,.20) 42%, rgba(63,55,201,0) 70%); }
@@ -787,35 +791,45 @@ th { background: var(--tint); }
   .y3d-chip.c1 { --cx: -.70; } .y3d-chip.c2 { --cx: .66; } .y3d-chip.c3 { --cx: -.72; } .y3d-chip.c4 { --cx: .50; }
 }
 
-/* Y-Zeichen: reines CSS (laeuft auch im fx-lite-Modus), nur bei "Bewegung reduzieren" aus. Nur transform/opacity.
-   Desktop: ruhiges Pendeln mit Nicken (ease-in-out). Mobil: vollstaendige Drehung, die auf der Vorderseite verweilt
-   (ease-in-out ueber 360 Grad), dazu leichtes Schweben und ein wandernder Lichtreflex. */
+/* Y-Zeichen als Signature-Animation, reines CSS, nur transform/opacity (einzige Ausnahme: einmaliges Einzeichnen des Y per
+   stroke-dashoffset auf den kleinen SVG-Ebenen). Gilt nur mit JS und ohne fx-lite sowie ohne "Bewegung reduzieren"; sonst steht
+   sofort der ruhige Endzustand (Basisregeln oben). Die Animationen starten erst mit html.anim-go (siehe Ende der Datei).
+   A Arrival (0 bis ca. 1,8 s): Ebenen faechern sich aus flacher Lage in die Tiefe, das Y zeichnet sich ein, Licht blendet auf.
+   B Signature (0 bis 2,3 s): Drehung in die Ruheperspektive (Expo-Ease, leichtes Nachschwingen), Lichtkante gleitet einmal ueber die Front.
+   C Living Object: sehr langsames Atmen und Schweben (+-5 Grad, 26 s), gelegentlich ein dezenter Lichtreflex.
+   D Interaktion: Mausneigung und Glanz per js/fx.js. Alle Zeiten sind aufeinander abgestimmt (Intro 2.3s = Beginn des Ruhelaufs). */
 @media (prefers-reduced-motion: no-preference) {
-  .y3d-scene { animation: y3d-idle 11s ease-in-out infinite alternate; }
-  .y3d-stack { animation: y3d-float 5.5s ease-in-out infinite alternate; }
-  .y3d-ring { animation: y3d-orbit 15s linear infinite; }
-  .y3d-ring-b { animation-name: y3d-orbit-b; animation-duration: 19s; animation-direction: reverse; }
-  .y3d-cg { animation: y3d-bob 4.6s ease-in-out infinite alternate; }
-  .y3d-cg-b { animation-duration: 5.4s; animation-delay: -2.5s; }
-  .y3d-stack::after { animation: y3d-sheen 11s ease-in-out infinite alternate; }
-  .y3d::after { animation: y3d-shadow 11s ease-in-out infinite alternate; }
-  @keyframes y3d-idle { from { transform: translateY(calc(var(--amp, 1) * 6px)) rotateY(calc(var(--amp, 1) * -28deg)) rotateX(calc(var(--amp, 1) * 12deg)); } to { transform: translateY(calc(var(--amp, 1) * -12px)) rotateY(calc(var(--amp, 1) * 18deg)) rotateX(calc(var(--amp, 1) * -6deg)); } }
-  @keyframes y3d-float { from { transform: translateY(3px) rotateZ(-1.5deg); } to { transform: translateY(-5px) rotateZ(1.5deg); } }
-  @keyframes y3d-shadow { from { transform: scale(1.06); opacity: 1; } to { transform: scale(.84); opacity: .6; } }
-  @keyframes y3d-sheen { from { opacity: .05; } to { opacity: .95; } }
+  .js:not(.fx-lite) .y3d-glow { animation: y3d-glow-in 1.8s cubic-bezier(.22, .8, .3, 1) both, y3d-glow-b 14s ease-in-out 2s infinite alternate; }
+  .js:not(.fx-lite) .y3d-scene { animation: y3d-intro 2.3s cubic-bezier(.2, 1, .3, 1.18) both, y3d-idle 26s ease-in-out 2.3s infinite; }
+  .js:not(.fx-lite) .y3d-stack { animation: y3d-breathe 9s ease-in-out 2.6s infinite alternate; }
+  .js:not(.fx-lite) .y3d-l { animation: y3d-fan 1.25s cubic-bezier(.16, 1, .3, 1) var(--fd, 0s) both; }
+  .js:not(.fx-lite) .y3d-l:nth-child(n+8) { stroke-dasharray: 1 1; animation: y3d-fan 1.25s cubic-bezier(.16, 1, .3, 1) var(--fd, 0s) both, y3d-draw .85s cubic-bezier(.65, 0, .25, 1) var(--dd, .5s) both; }
+  .js:not(.fx-lite) .y3d-l:nth-child(1) { --fd: .25s; } .js:not(.fx-lite) .y3d-l:nth-child(2) { --fd: .21s; } .js:not(.fx-lite) .y3d-l:nth-child(3) { --fd: .17s; }
+  .js:not(.fx-lite) .y3d-l:nth-child(4) { --fd: .13s; } .js:not(.fx-lite) .y3d-l:nth-child(5) { --fd: .09s; } .js:not(.fx-lite) .y3d-l:nth-child(6) { --fd: .05s; }
+  .js:not(.fx-lite) .y3d-l:nth-child(8) { --fd: .1s; --dd: .6s; } .js:not(.fx-lite) .y3d-l:nth-child(9) { --fd: .15s; --dd: .62s; }
+  .js:not(.fx-lite) .y3d-l:nth-child(10) { --fd: .2s; --dd: .5s; } .js:not(.fx-lite) .y3d-l:nth-child(11) { --fd: .25s; --dd: .62s; }
+  .js:not(.fx-lite) .y3d-l:nth-child(11) { animation-duration: 1.25s, .7s; }
+  .js:not(.fx-lite) .y3d-shine-s { animation: y3d-sweep 1.5s cubic-bezier(.5, 0, .15, 1) .45s both, y3d-glint 22s ease-in-out 8s infinite; }
+  .js:not(.fx-lite) .y3d::after { animation: y3d-shadow-in 1.4s cubic-bezier(.16, 1, .3, 1) .05s both, y3d-shadow 9s ease-in-out 2.6s infinite alternate; }
+  .js:not(.fx-lite) .y3d-ring { animation: y3d-ring-in 1.6s ease-out .9s both, y3d-orbit 48s linear infinite; }
+  .js:not(.fx-lite) .y3d-ring-b { animation-name: y3d-ring-in, y3d-orbit-b; animation-duration: 1.6s, 60s; animation-direction: normal, reverse; }
+  .js:not(.fx-lite) .y3d-cg { animation: y3d-bob 9s ease-in-out infinite alternate; }
+  .js:not(.fx-lite) .y3d-cg-b { animation-duration: 11s; animation-delay: -3.5s; }
+  @keyframes y3d-intro { from { transform: rotateY(calc(var(--amp, 1) * 30deg)) rotateX(calc(var(--amp, 1) * -7deg)); } to { transform: rotateY(calc(var(--amp, 1) * -18deg)) rotateX(calc(var(--amp, 1) * 9deg)); } }
+  @keyframes y3d-idle { 0%, 100% { transform: rotateY(calc(var(--amp, 1) * -18deg)) rotateX(calc(var(--amp, 1) * 9deg)); } 34% { transform: rotateY(calc(var(--amp, 1) * -12.5deg)) rotateX(calc(var(--amp, 1) * 11deg)); } 68% { transform: rotateY(calc(var(--amp, 1) * -22.5deg)) rotateX(calc(var(--amp, 1) * 6.5deg)); } }
+  @keyframes y3d-breathe { from { transform: none; } to { transform: translateY(-4px) scale(1.012); } }
+  @keyframes y3d-fan { from { transform: translateZ(0); } to { transform: translateZ(calc(var(--z, 0px) * var(--zs, 1))); } }
+  @keyframes y3d-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+  @keyframes y3d-sweep { from { transform: translateX(-110%); opacity: 0; } 22% { opacity: 1; } 78% { opacity: 1; } to { transform: translateX(240%); opacity: 0; } }
+  @keyframes y3d-glint { 0% { transform: translateX(-110%); opacity: 0; } 5% { opacity: .55; } 10% { opacity: .55; } 14%, 100% { transform: translateX(240%); opacity: 0; } }
+  @keyframes y3d-glow-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes y3d-glow-b { from { opacity: 1; } to { opacity: .78; } }
+  @keyframes y3d-shadow-in { from { transform: scale(.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  @keyframes y3d-shadow { from { transform: scale(1); opacity: 1; } to { transform: scale(.93); opacity: .8; } }
+  @keyframes y3d-ring-in { from { opacity: 0; } to { opacity: 1; } }
   @keyframes y3d-orbit { from { transform: rotateX(72deg) rotateZ(0deg); } to { transform: rotateX(72deg) rotateZ(360deg); } }
   @keyframes y3d-orbit-b { from { transform: rotateY(68deg) rotateX(12deg) rotateZ(0deg); } to { transform: rotateY(68deg) rotateX(12deg) rotateZ(360deg); } }
-  @keyframes y3d-bob { from { transform: translate(-4px, 0); } to { transform: translate(5px, -16px); } }
-  /* Mobil (ohne Maus): Drehung um die eigene Achse. Desktop: raeumliches Schwingen (y3d-idle) plus Mausneigung,
-     keine 360-Grad-Drehung, damit schnelle Mausbewegungen nie zu Umdrehungen fuehren */
-  @media (max-width: 959px) {
-    .y3d-scene { animation: y3d-spin 16s cubic-bezier(.45, 0, .55, 1) infinite; }
-    .y3d-stack::after { animation: y3d-sheen-m 16s cubic-bezier(.45, 0, .55, 1) infinite; }
-    .y3d::after { animation: y3d-shadow-m 5.5s ease-in-out infinite alternate; }
-    @keyframes y3d-shadow-m { from { transform: scale(1.03); opacity: 1; } to { transform: scale(.9); opacity: .72; } }
-    @keyframes y3d-spin { from { transform: rotateX(8deg) rotateY(0deg); } to { transform: rotateX(8deg) rotateY(360deg); } }
-    @keyframes y3d-sheen-m { 0%, 100% { opacity: .9; } 22%, 78% { opacity: .05; } }
-  }
+  @keyframes y3d-bob { from { transform: translate(0, 0); } to { transform: translate(3px, -6px); } }
   /* Scroll-Reveal: nur bis zum Einblenden unsichtbar, danach normale Werte */
   .fx .fx-r:not(.fx-in) { opacity: 0; }
   .fx .fx-r.fx-in { animation: fx-rise .6s cubic-bezier(.22, .68, 0, 1) var(--fx-d, 0ms) backwards; }
@@ -834,6 +848,8 @@ th { background: var(--tint); }
 /* Pause ausserhalb des Sichtfelds und im verdeckten Tab */
 /* Hero-Animation anhalten (WCAG 2.2.2): Schalter neben dem Zeichen, Zustand per js/fx.js */
 .hero-art.is-paused, .hero-art.is-paused *, .hero-art.is-paused *::before, .hero-art.is-paused *::after, .hero-art.is-paused .y3d::after { animation-play-state: paused !important; }
+/* Gespeicherte Pause beim Laden: sofort ruhiger Endzustand statt eingefrorenem Anfangsbild (fx.js setzt .y3d-settled, bis wieder abgespielt wird) */
+.hero-art.y3d-settled, .hero-art.y3d-settled *, .hero-art.y3d-settled *::before, .hero-art.y3d-settled *::after { animation: none !important; }
 .y3d-toggle { position: relative; z-index: 2; display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; padding: .4rem 1rem; border: 2px solid rgba(255,255,255,.8); border-radius: 999px; background: rgba(15,14,46,.55); color: #fff; font-family: inherit; font-weight: 600; font-size: .9rem; line-height: 1.2; cursor: pointer; }
 .y3d-toggle[hidden] { display: none; }
 .y3d-toggle::before { content: ""; width: .7rem; height: .8rem; border-left: .22rem solid currentColor; border-right: .22rem solid currentColor; box-sizing: border-box; }
@@ -1039,7 +1055,7 @@ th { background: var(--tint); }
 /* Hero-Logo ruckelfrei starten: animierte Teile vorab als eigene Ebenen (Grafikkarte), Animation pausiert bei 0,
    bis fx.js nach dem Laden html.anim-go setzt (ohne JS laeuft sie sofort, da .js fehlt) */
 .y3d-scene, .y3d-stack, .y3d-ring, .y3d-cg { will-change: transform; } /* NIE opacity hier: wuerde die preserve-3d-Ebenen flach zusammenfassen (Logo wirkt 2D) */
-.y3d-stack::after, .y3d::after { will-change: transform, opacity; }
+.y3d-shine-s, .y3d::after { will-change: transform, opacity; }
 .js:not(.anim-go) .hero-art *, .js:not(.anim-go) .hero-art *::before, .js:not(.anim-go) .hero-art *::after { animation-play-state: paused !important; }
 
 /* ===== 19 Produktkarten Scan -> Fix (2026-10-07): Quick-Scan, Einzel-Fix, Fix-Paket, Monitoring; Journey; Ampel; Empfehlung nach dem Scan ===== */

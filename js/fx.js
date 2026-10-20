@@ -18,6 +18,9 @@
     var ANIM_KEY = 'yq-hero-anim';
     var setAnim = function (paused, save) {
       heroArt.classList.toggle('is-paused', paused);
+      /* Gespeicherte Pause beim Laden: ruhiger Endzustand (CSS .y3d-settled) statt eingefrorenem Anfangsbild; beim Abspielen startet der Auftritt */
+      heroArt.classList.toggle('y3d-settled', paused && !heroArt.classList.contains('y3d-played'));
+      if (!paused) heroArt.classList.add('y3d-played');
       animBtn.setAttribute('aria-pressed', paused ? 'true' : 'false');
       animBtn.textContent = paused ? 'Animation abspielen' : 'Animation pausieren';
       if (save) { try { if (paused) localStorage.setItem(ANIM_KEY, 'paused'); else localStorage.removeItem(ANIM_KEY); } catch (e) { /* Speicher gesperrt */ } }
@@ -89,13 +92,13 @@
   if (!fine) return;
 
   /* Hero (Desktop mit Maus): Das 3D-Zeichen neigt sich sanft zum Mauszeiger (ganze Seite).
-     Das räumliche Schwingen (CSS y3d-idle) läuft immer weiter, die Neigung liegt auf dem übergeordneten .y3d-tilt.
+     Das sehr ruhige Atmen (CSS y3d-idle) läuft immer weiter, die Neigung liegt auf dem übergeordneten .y3d-tilt.
      Bewegung als kritisch gedämpfte Feder mit Tempolimit: auch sehr schnelle Mausbewegungen ergeben nur eine ruhige
      Neigung, nie eine Umdrehung. Mitte aus dem unbewegten .hero-art, nur nach Scrollen/Größenänderung neu gemessen. */
   var hero = document.querySelector('.hero'), tilt = hero && hero.querySelector('.y3d-tilt'), art = hero && hero.querySelector('.hero-art');
   if (tilt && art) {
-    var DEPTH = 520, MAXY = 20, MAXX = 14;   // Maximalwinkel der Neigung in Grad
-    var K = 38, D = 2 * Math.sqrt(38), VMAX = 90; // Federsteifigkeit, kritische Dämpfung, max. Grad pro Sekunde
+    var DEPTH = 520, MAXY = 16, MAXX = 11;   // Maximalwinkel der Neigung in Grad
+    var K = 26, D = 2 * Math.sqrt(26), VMAX = 70; // Federsteifigkeit, kritische Dämpfung, max. Grad pro Sekunde
     var tx = 0, ty = 0, cx = 0, cy = 0, vx = 0, vy = 0, run = 0, last = 0, px = 0, py = 0, hasP = false, rect = null;
     function aim() {
       var r = rect || (rect = art.getBoundingClientRect());
@@ -114,6 +117,11 @@
       }
       tilt.style.setProperty('--rx', cx.toFixed(2) + 'deg');
       tilt.style.setProperty('--ry', cy.toFixed(2) + 'deg');
+      /* Licht folgt der Neigung: normierte Werte -1..1 (--lx/--ly) und Staerke 0..1 (--lm) fuer den Glanz (CSS .y3d-shine-g) */
+      var lx = cy / MAXY, ly = cx / MAXX;
+      tilt.style.setProperty('--lx', lx.toFixed(3));
+      tilt.style.setProperty('--ly', ly.toFixed(3));
+      tilt.style.setProperty('--lm', Math.min(1, Math.sqrt(lx * lx + ly * ly)).toFixed(3));
       var rest = Math.abs(tx - cx) < 0.05 && Math.abs(ty - cy) < 0.05 && Math.abs(vx) < 0.05 && Math.abs(vy) < 0.05;
       if (rest || de.classList.contains('fx-paused')) { run = 0; last = 0; return; }
       run = requestAnimationFrame(frame);
