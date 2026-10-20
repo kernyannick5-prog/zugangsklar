@@ -1263,3 +1263,17 @@ main > section:not(.hero):not(.showcase):not(:first-child), .site-footer {
 @media (prefers-reduced-motion: no-preference) {
   .js .y3d-toggle[hidden] { display: inline-flex !important; visibility: hidden; } /* !important nötig wegen [hidden] { display: none !important } oben */
 }
+
+/* ===== 18 WhatsApp-Kontakt ===== */
+/* Schwebender Button: sitzt ueber dem Chat-Ausloeser (16px Rand + 48-52px Chat + 12-16px Abstand), nutzt dessen Safe-Area-Logik.
+   Farben: Glyph weiss auf #128C7E = 4,1:1 (Nicht-Text >= 3:1); Textbutton weiss auf #075E54 = 7,9:1. */
+.wa-float { position: fixed; z-index: 890; right: max(16px, env(safe-area-inset-right)); bottom: calc(max(16px, env(safe-area-inset-bottom)) + 64px); display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; background: #128C7E; color: #fff; border: 2px solid #fff; box-shadow: var(--shadow-pop); text-decoration: none; }
+.wa-float:hover { background: #075E54; color: #fff; }
+.wa-float .wa-icon { width: 26px; height: 26px; }
+.wa-float:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; box-shadow: 0 0 0 6px #fff, 0 0 0 8px var(--primary); }
+@media (prefers-reduced-motion: no-preference) { .wa-float { transition: transform .15s ease, background-color .15s ease; } .wa-float:hover { transform: translateY(-2px); } }
+body.has-wa .site-footer { padding-bottom: calc(1.5rem + 128px); }
+.btn-whatsapp, .btn-whatsapp:not([disabled]):not(.btn-secondary):not(.btn-light) { background-color: #075E54; background-image: none; border-color: #075E54; color: #fff; }
+.btn-whatsapp:hover, .btn-whatsapp:not([disabled]):not(.btn-secondary):not(.btn-light):hover { background-color: #054D44; background-image: none; border-color: #054D44; color: #fff; }
+.btn-whatsapp .wa-icon { width: 22px; height: 22px; flex: none; }
+@media print { .wa-float { display: none !important; } }

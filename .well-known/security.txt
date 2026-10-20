@@ -1,4 +1,4 @@
 Contact: mailto:support@yanqiva.de
-Expires: 2027-10-16T00:00:00.000Z
+Expires: 2027-10-20T00:00:00.000Z
 Preferred-Languages: de, en
 Canonical: https://yanqiva.de/.well-known/security.txt
