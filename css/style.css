@@ -1083,7 +1083,7 @@ th { background: var(--tint); }
   .grid { gap: 1rem; }
 }
 /* Hero-Logo ruckelfrei starten: animierte Teile vorab als eigene Ebenen (Grafikkarte), Animation pausiert bei 0,
-   bis fx.js nach dem Laden html.anim-go setzt (ohne JS laeuft sie sofort, da .js fehlt) */
+   bis fx.js nach dem Laden html.anim-go setzt (ohne JS laeuft sie sofort, da .js fehlt; spaetestens nach 3 s setzt HEAD_SCRIPT in build.mjs es selbst) */
 .y3d-scene, .y3d-stack, .y3d-ring, .y3d-cg { will-change: transform; } /* NIE opacity hier: wuerde die preserve-3d-Ebenen flach zusammenfassen (Logo wirkt 2D) */
 .y3d-shine-s, .y3d::after { will-change: transform, opacity; }
 .js:not(.anim-go) .hero-art *, .js:not(.anim-go) .hero-art *::before, .js:not(.anim-go) .hero-art *::after { animation-play-state: paused !important; }
