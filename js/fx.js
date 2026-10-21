@@ -95,8 +95,8 @@
      Das sehr ruhige Atmen (CSS y3d-idle) läuft immer weiter, die Neigung liegt auf dem übergeordneten .y3d-tilt.
      Bewegung als kritisch gedämpfte Feder mit Tempolimit: auch sehr schnelle Mausbewegungen ergeben nur eine ruhige
      Neigung, nie eine Umdrehung. Mitte aus dem unbewegten .hero-art, nur nach Scrollen/Größenänderung neu gemessen. */
-  var hero = document.querySelector('.hero'), tilt = hero && hero.querySelector('.y3d-tilt'), art = hero && hero.querySelector('.hero-art');
-  if (tilt && art) {
+  var hero = document.querySelector('.hero'), tilt = hero && hero.querySelector('.y3d-tilt'), art = hero && hero.querySelector('.hero-art'), yroot = hero && hero.querySelector('.y3d');
+  if (tilt && art && yroot) {
     var DEPTH = 520, MAXY = 16, MAXX = 11;   // Maximalwinkel der Neigung in Grad
     var K = 26, D = 2 * Math.sqrt(26), VMAX = 70; // Federsteifigkeit, kritische Dämpfung, max. Grad pro Sekunde
     var tx = 0, ty = 0, cx = 0, cy = 0, vx = 0, vy = 0, run = 0, last = 0, px = 0, py = 0, hasP = false, rect = null;
@@ -117,11 +117,11 @@
       }
       tilt.style.setProperty('--rx', cx.toFixed(2) + 'deg');
       tilt.style.setProperty('--ry', cy.toFixed(2) + 'deg');
-      /* Licht folgt der Neigung: normierte Werte -1..1 (--lx/--ly) und Staerke 0..1 (--lm) fuer den Glanz (CSS .y3d-shine-g) */
+      /* Licht folgt der Neigung: normierte Werte -1..1 (--lx/--ly) und Staerke 0..1 (--lm) fuer Glanz und Hintergrund-Parallaxe (CSS .y3d-shine-g, .y3d-bg), auf .y3d */
       var lx = cy / MAXY, ly = cx / MAXX;
-      tilt.style.setProperty('--lx', lx.toFixed(3));
-      tilt.style.setProperty('--ly', ly.toFixed(3));
-      tilt.style.setProperty('--lm', Math.min(1, Math.sqrt(lx * lx + ly * ly)).toFixed(3));
+      yroot.style.setProperty('--lx', lx.toFixed(3));
+      yroot.style.setProperty('--ly', ly.toFixed(3));
+      yroot.style.setProperty('--lm', Math.min(1, Math.sqrt(lx * lx + ly * ly)).toFixed(3));
       var rest = Math.abs(tx - cx) < 0.05 && Math.abs(ty - cy) < 0.05 && Math.abs(vx) < 0.05 && Math.abs(vy) < 0.05;
       if (rest || de.classList.contains('fx-paused')) { run = 0; last = 0; return; }
       run = requestAnimationFrame(frame);
