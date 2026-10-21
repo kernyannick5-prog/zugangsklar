@@ -99,7 +99,7 @@
   if (tilt && art && yroot) {
     var DEPTH = 520, MAXY = 16, MAXX = 11;   // Maximalwinkel der Neigung in Grad
     var K = 26, D = 2 * Math.sqrt(26), VMAX = 70; // Federsteifigkeit, kritische Dämpfung, max. Grad pro Sekunde
-    var tx = 0, ty = 0, cx = 0, cy = 0, vx = 0, vy = 0, run = 0, last = 0, px = 0, py = 0, hasP = false, rect = null;
+    var wx = '', wy = '', tx = 0, ty = 0, cx = 0, cy = 0, vx = 0, vy = 0, run = 0, last = 0, px = 0, py = 0, hasP = false, rect = null;
     function aim() {
       var r = rect || (rect = art.getBoundingClientRect());
       if (!r.width) return;
@@ -115,18 +115,22 @@
         vx = Math.max(-VMAX, Math.min(VMAX, vx)); vy = Math.max(-VMAX, Math.min(VMAX, vy));
         cx += vx * h; cy += vy * h;
       }
-      tilt.style.setProperty('--rx', cx.toFixed(2) + 'deg');
-      tilt.style.setProperty('--ry', cy.toFixed(2) + 'deg');
+      var sx = cx.toFixed(2), sy = cy.toFixed(2);
+      if (sx !== wx || sy !== wy) { // nur schreiben, wenn sich der Wert wirklich aendert (kein unnoetiges Style-Recalc)
+        wx = sx; wy = sy;
+        tilt.style.setProperty('--rx', sx + 'deg');
+        tilt.style.setProperty('--ry', sy + 'deg');
       /* Licht folgt der Neigung: normierte Werte -1..1 (--lx/--ly) und Staerke 0..1 (--lm) fuer Glanz und Hintergrund-Parallaxe (CSS .y3d-shine-g, .y3d-bg), auf .y3d */
-      var lx = cy / MAXY, ly = cx / MAXX;
-      yroot.style.setProperty('--lx', lx.toFixed(3));
-      yroot.style.setProperty('--ly', ly.toFixed(3));
-      yroot.style.setProperty('--lm', Math.min(1, Math.sqrt(lx * lx + ly * ly)).toFixed(3));
+        var lx = cy / MAXY, ly = cx / MAXX;
+        yroot.style.setProperty('--lx', lx.toFixed(3));
+        yroot.style.setProperty('--ly', ly.toFixed(3));
+        yroot.style.setProperty('--lm', Math.min(1, Math.sqrt(lx * lx + ly * ly)).toFixed(3));
+      }
       var rest = Math.abs(tx - cx) < 0.05 && Math.abs(ty - cy) < 0.05 && Math.abs(vx) < 0.05 && Math.abs(vy) < 0.05;
       if (rest || de.classList.contains('fx-paused')) { run = 0; last = 0; return; }
       run = requestAnimationFrame(frame);
     }
-    function kick() { if (!run) run = requestAnimationFrame(frame); }
+    function kick() { if (!run && !hero.classList.contains('fx-off')) run = requestAnimationFrame(frame); } // Hero ausserhalb des Sichtfelds: keine Schleife
     document.addEventListener('pointermove', function (e) {
       if (e.pointerType && e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
       if (animPaused()) return;
