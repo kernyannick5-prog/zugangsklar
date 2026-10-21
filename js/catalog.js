@@ -171,7 +171,7 @@ window.YQ_CATALOG = {
 
 (function () {
   var S = {"id":"website-basic","until":"2026-12-31","regular":{"price":399,"priceText":"399 €","priceTextShort":"399 €","amountText":"399 €","orderLabel":"Website Basic (399 €, einmalig, unverbindliche Anfrage, Angebot vorab)"}};
-  function today() { try { return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Berlin', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()); } catch (e) { var n = new Date(); return n.getFullYear() + '-' + ('0' + (n.getMonth() + 1)).slice(-2) + '-' + ('0' + n.getDate()).slice(-2); } }
+  function today() { var u = Date.parse(S.until + 'T00:00:00Z'), t = Date.now(); if (u && t < u - 2 * 864e5) return '0000-00-00'; if (u && t > u + 3 * 864e5) return '9999-99-99'; try { return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Berlin', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()); } catch (e) { var n = new Date(); return n.getFullYear() + '-' + ('0' + (n.getMonth() + 1)).slice(-2) + '-' + ('0' + n.getDate()).slice(-2); } }
   var p = window.YQ_CATALOG.products[S.id];
   if (!p || today() <= S.until) return;
   Object.keys(S.regular).forEach(function (k) { p[k] = S.regular[k]; });

@@ -11,6 +11,11 @@
   var D = {"until":"2026-12-31","pairs":[["Basic ist ein Festpreis für ein kompaktes Projekt mit 1–3 Seiten. Wünschen Sie mehr Seiten, ein Buchungstool oder Integrationen, passt Business besser. Vorab erhalten Sie ein verbindliches Angebot; die Anfrage ist unverbindlich. Für Basic gibt es keine Live-Vorschau. Befristetes Einführungsangebot: Der Einführungspreis von 249 € gilt für Anfragen, die bis 31.12.2026 bei uns eingehen. Danach kostet Basic 399 €. Maßgeblich ist der Preis in Ihrem Angebot.","Basic ist ein Festpreis für ein kompaktes Projekt mit 1–3 Seiten. Wünschen Sie mehr Seiten, ein Buchungstool oder Integrationen, passt Business besser. Vorab erhalten Sie ein verbindliches Angebot; die Anfrage ist unverbindlich. Für Basic gibt es keine Live-Vorschau."],["Befristetes Einführungsangebot: Der Einführungspreis von 249 € gilt für Anfragen, die bis 31.12.2026 bei uns eingehen. Danach kostet Basic 399 €. Maßgeblich ist der Preis in Ihrem Angebot.",""],["Website Basic (249 €, Einführungspreis bis 31.12.2026 (danach 399 €), einmalig, unverbindliche Anfrage, Angebot vorab)","Website Basic (399 €, einmalig, unverbindliche Anfrage, Angebot vorab)"],["Einführungspreis 249 € für Anfragen bis 31.12.2026, danach 399 €",""],["249 € (Einführungspreis bis 31.12.2026, danach 399 €)","399 €"],["Einführungspreis bis 31.12.2026 · danach 399 €",""],["249 € (Einführungspreis bis 31.12.2026)","399 €"],["249 €","399 €"]]};
 
   function today() {
+    /* Schnellpfad: Berlin liegt hoechstens 2 h vor UTC, daher ist das Datum weit vor/nach dem Stichtag eindeutig. Intl.DateTimeFormat mit
+       Zeitzone kostet beim ersten Aufruf auf schwachen Geraeten ca. 100 ms Hauptthread und wird nur noch rund um den Stichtag gebraucht. */
+    var u = D.until && Date.parse(D.until + 'T00:00:00Z'), t = Date.now();
+    if (u && t < u - 2 * 864e5) return '0000-00-00';
+    if (u && t > u + 3 * 864e5) return '9999-99-99';
     try {
       return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Berlin', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
     } catch (e) {

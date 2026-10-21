@@ -253,8 +253,15 @@
 
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {
-      if (entries.some(function (en) { return en.isIntersecting; })) { visible = true; io.disconnect(); load(true); }
-    }, { rootMargin: '400px 0px' });
+      if (entries.some(function (en) { return en.isIntersecting; })) {
+        visible = true; io.disconnect();
+        /* Demo erst nach dem Laden der Seite und bei freiem Hauptthread holen (Schriften, Bilder, Skripte der Demo
+           wuerden sonst auf schwachen Geraeten mit dem Seitenaufbau konkurrieren); in Sichtnaehe aber nie spaeter als ca. 1,5 s */
+        var go = function () { load(true); };
+        var idle = function () { if ('requestIdleCallback' in window) requestIdleCallback(go, { timeout: 1500 }); else setTimeout(go, 300); };
+        if (document.readyState === 'complete') idle(); else window.addEventListener('load', idle, { once: true });
+      }
+    }, { rootMargin: '150px 0px' });
     io.observe(root);
   } else { visible = true; load(true); }
   if (initial) window.addEventListener('load', function () { scrollToShowcase(false); });
