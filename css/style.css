@@ -729,6 +729,9 @@ th { background: var(--tint); }
 .y3d-stack { position: absolute; left: 50%; top: 50%; width: var(--mark, calc(var(--art) * .5)); height: var(--mark, calc(var(--art) * .5)); margin: calc(var(--mark, var(--art) * .5) / -2) 0 0 calc(var(--mark, var(--art) * .5) / -2); transform-style: preserve-3d; }
 .y3d-l { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; overflow: visible; transform: translateZ(calc(var(--z, 0px) * var(--zs, 1))); }
 .y3d-l.f { backface-visibility: hidden; }
+/* Rueckseite (nur Mobil/Tablet, dort dreht das Zeichen): Platte mit lesbarem Y, um 180 Grad gedreht und nur von hinten sichtbar */
+.y3d-l.b { display: none; backface-visibility: hidden; transform: translateZ(calc(var(--z, 0px) * var(--zs, 1))) rotateY(180deg); }
+@media (max-width: 959px) { .y3d-l.b { display: block; } }
 /* Licht auf der Vorderseite: Fenster (.y3d-shine, schneidet auf die Form der Front zu) mit zwei Lagen: ruhiger Grundglanz, der der Maus-
    neigung folgt (--lx/--ly/--lm aus fx.js), und die Lichtkante (.y3d-shine-s), die nur per transform/opacity ueber die Front gleitet.
    Ohne Animation (reduzierte Bewegung, fx-lite, ohne JS) bleibt nur der Grundglanz als ruhiger Endzustand. */
@@ -823,6 +826,8 @@ th { background: var(--tint); }
   .js:not(.fx-lite) .y3d-l:nth-child(8) { --fd: .1s; --dd: .6s; } .js:not(.fx-lite) .y3d-l:nth-child(9) { --fd: .15s; --dd: .62s; }
   .js:not(.fx-lite) .y3d-l:nth-child(10) { --fd: .2s; --dd: .5s; } .js:not(.fx-lite) .y3d-l:nth-child(11) { --fd: .25s; --dd: .62s; }
   .js:not(.fx-lite) .y3d-l:nth-child(11) { animation-duration: 1.25s, .7s; }
+  .js:not(.fx-lite) .y3d-l.b { stroke-dasharray: none; animation: y3d-fan-b 1.25s cubic-bezier(.16, 1, .3, 1) .1s backwards; }
+  @keyframes y3d-fan-b { from { transform: translateZ(0) rotateY(180deg); } to { transform: translateZ(calc(var(--z, 0px) * var(--zs, 1))) rotateY(180deg); } }
   .js:not(.fx-lite) .y3d-shine-s { animation: y3d-sweep 1.5s cubic-bezier(.5, 0, .15, 1) .45s backwards, y3d-glint 22s ease-in-out 8s 4; }
   .js:not(.fx-lite) .y3d::after { animation: y3d-shadow-in 1.4s cubic-bezier(.16, 1, .3, 1) .05s backwards; }
   .js:not(.fx-lite) .y3d-ring { animation: y3d-ring-in 1.6s ease-out .9s backwards, y3d-orbit 48s linear infinite; }
@@ -851,6 +856,21 @@ th { background: var(--tint); }
     .js:not(.fx-lite) .y3d-au.a1 { will-change: transform, opacity; animation: y3d-au-in 2.2s ease-out backwards, y3d-au-a 31s ease-in-out -4s infinite alternate; }
     .js:not(.fx-lite) .y3d-au.a2 { will-change: transform, opacity; animation: y3d-au-in 2.2s ease-out .3s backwards, y3d-au-b 23s ease-in-out -9s infinite alternate; }
   }
+  /* Mobil/Tablet hoch: Dauerdrehung (2026-10-21, Wunsch Inhaber). Nach dem Auftritt (2,3 s) dreht das Zeichen elegant rund um die Hochachse
+     (14 s je Umdrehung, je Halbdrehung weiches Ease: es verweilt kurz in Front-/Rueckansicht, rauscht durch die Kante). Nur transform/opacity,
+     Start nahtlos aus der Endpose des Auftritts. Bodenschatten atmet im Takt (schmal bei Kantenansicht), Lichtkante laeuft bei jeder Umdrehung
+     ueber die Front. Die Rueckseite bleibt sichtbar (nur .y3d-l.f und .y3d-shine sind backface-hidden). Reduzierte Bewegung/Pause: siehe oben. */
+  @media (max-width: 959px) {
+    .js:not(.fx-lite) .y3d-scene { animation: y3d-intro 2.3s cubic-bezier(.2, 1, .3, 1.18) backwards, y3d-spin 14s linear 2.3s infinite; }
+    .js:not(.fx-lite) .y3d::after { animation: y3d-shadow-in 1.4s cubic-bezier(.16, 1, .3, 1) .05s backwards, y3d-shadow-spin 7s ease-in-out 2.3s infinite; }
+    .js:not(.fx-lite) .y3d-shine-s { animation: y3d-sweep 1.5s cubic-bezier(.5, 0, .15, 1) .45s backwards, y3d-glint 14s ease-in-out 2.3s infinite; }
+  }
+  @keyframes y3d-spin {
+    0% { transform: rotateY(calc(var(--amp, 1) * -18deg)) rotateX(calc(var(--amp, 1) * 9deg)); animation-timing-function: cubic-bezier(.45, .1, .55, .9); }
+    50% { transform: rotateY(calc(var(--amp, 1) * -18deg + 180deg)) rotateX(calc(var(--amp, 1) * 9deg)); animation-timing-function: cubic-bezier(.45, .1, .55, .9); }
+    100% { transform: rotateY(calc(var(--amp, 1) * -18deg + 360deg)) rotateX(calc(var(--amp, 1) * 9deg)); }
+  }
+  @keyframes y3d-shadow-spin { 0%, 50%, 100% { transform: scaleX(1); opacity: 1; } 25%, 75% { transform: scaleX(.62); opacity: .8; } }
   .js:not(.fx-lite) .y3d-au.a3 { animation: y3d-au-in 2.2s ease-out .15s both; } /* statische Indigo-Basis: spart eine dauerhaft bewegte Grossflaeche */
   .js:not(.fx-lite) .y3d-pulse { animation: y3d-pulse 1.7s cubic-bezier(.2, .7, .2, 1) .2s backwards; }
   .js:not(.fx-lite) .y3d-scan { animation: y3d-scan-in 1.2s cubic-bezier(.45, 0, .2, 1) 1s backwards, y3d-scan 14s ease-in-out 7s 5; }
